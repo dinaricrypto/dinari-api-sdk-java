@@ -263,7 +263,6 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import com.dinari.api.models.api.v2.V2GetHealthParams;
 import com.dinari.api.models.api.v2.V2GetHealthResponse;
 
 V2GetHealthResponse response = client.api().v2().getHealth(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
@@ -507,7 +506,6 @@ V2GetHealthResponse response = client.api().v2().getHealth(params).validate();
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
-import com.dinari.api.models.api.v2.V2GetHealthParams;
 import com.dinari.api.models.api.v2.V2GetHealthResponse;
 
 V2GetHealthResponse response = client.api().v2().getHealth(RequestOptions.builder().responseValidation(true).build());
