@@ -5,6 +5,7 @@ package com.dinari.api.services.async.api.v2.entities
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -23,6 +24,7 @@ import com.dinari.api.models.api.v2.entities.kyc.KycSubmitParams
 import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentParams
 import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentResponse
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class KycServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     KycServiceAsync {
@@ -73,6 +75,9 @@ class KycServiceAsyncImpl internal constructor(private val clientOptions: Client
             params: KycRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<KycInfo>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("entityId", params.entityId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -102,6 +107,9 @@ class KycServiceAsyncImpl internal constructor(private val clientOptions: Client
             params: KycGetUrlParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<KycGetUrlResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("entityId", params.entityId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -131,6 +139,9 @@ class KycServiceAsyncImpl internal constructor(private val clientOptions: Client
             params: KycSubmitParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<KycInfo>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("entityId", params.entityId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -162,6 +173,9 @@ class KycServiceAsyncImpl internal constructor(private val clientOptions: Client
             params: KycUploadDocumentParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<KycUploadDocumentResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("kycId", params.kycId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)

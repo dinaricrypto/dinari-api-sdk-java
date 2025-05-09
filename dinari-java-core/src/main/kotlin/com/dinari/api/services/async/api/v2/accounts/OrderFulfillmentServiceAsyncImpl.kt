@@ -5,6 +5,7 @@ package com.dinari.api.services.async.api.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -18,6 +19,7 @@ import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillment
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class OrderFulfillmentServiceAsyncImpl
 internal constructor(private val clientOptions: ClientOptions) : OrderFulfillmentServiceAsync {
@@ -54,6 +56,9 @@ internal constructor(private val clientOptions: ClientOptions) : OrderFulfillmen
             params: OrderFulfillmentRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<OrderFulfillment>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("fulfillmentId", params.fulfillmentId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -91,6 +96,9 @@ internal constructor(private val clientOptions: ClientOptions) : OrderFulfillmen
             params: OrderFulfillmentQueryParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<List<OrderFulfillment>>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

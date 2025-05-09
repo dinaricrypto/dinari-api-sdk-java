@@ -5,6 +5,7 @@ package com.dinari.api.services.blocking.api.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -17,6 +18,7 @@ import com.dinari.api.core.prepare
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillment
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
+import kotlin.jvm.optionals.getOrNull
 
 class OrderFulfillmentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     OrderFulfillmentService {
@@ -53,6 +55,9 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
             params: OrderFulfillmentRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<OrderFulfillment> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("fulfillmentId", params.fulfillmentId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -87,6 +92,9 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
             params: OrderFulfillmentQueryParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<List<OrderFulfillment>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

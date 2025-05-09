@@ -11,6 +11,8 @@ import com.dinari.api.core.http.QueryParams
 import com.dinari.api.errors.DinariInvalidDataException
 import com.fasterxml.jackson.annotation.JsonCreator
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * Returns a list of historical prices for a specified stock. Each index in the array represents a
@@ -18,13 +20,13 @@ import java.util.Objects
  */
 class StockRetrieveHistoricalPricesParams
 private constructor(
-    private val stockId: String,
+    private val stockId: String?,
     private val timespan: Timespan,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun stockId(): String = stockId
+    fun stockId(): Optional<String> = Optional.ofNullable(stockId)
 
     /** The timespan of the historical prices to query. */
     fun timespan(): Timespan = timespan
@@ -43,7 +45,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .stockId()
          * .timespan()
          * ```
          */
@@ -69,7 +70,10 @@ private constructor(
                 stockRetrieveHistoricalPricesParams.additionalQueryParams.toBuilder()
         }
 
-        fun stockId(stockId: String) = apply { this.stockId = stockId }
+        fun stockId(stockId: String?) = apply { this.stockId = stockId }
+
+        /** Alias for calling [Builder.stockId] with `stockId.orElse(null)`. */
+        fun stockId(stockId: Optional<String>) = stockId(stockId.getOrNull())
 
         /** The timespan of the historical prices to query. */
         fun timespan(timespan: Timespan) = apply { this.timespan = timespan }
@@ -179,7 +183,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .stockId()
          * .timespan()
          * ```
          *
@@ -187,7 +190,7 @@ private constructor(
          */
         fun build(): StockRetrieveHistoricalPricesParams =
             StockRetrieveHistoricalPricesParams(
-                checkRequired("stockId", stockId),
+                stockId,
                 checkRequired("timespan", timespan),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -196,7 +199,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> stockId
+            0 -> stockId ?: ""
             else -> ""
         }
 

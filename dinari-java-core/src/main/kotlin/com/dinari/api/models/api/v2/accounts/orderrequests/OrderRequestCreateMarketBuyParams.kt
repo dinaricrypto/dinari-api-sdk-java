@@ -18,17 +18,18 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Creates a managed market buy request. */
 class OrderRequestCreateMarketBuyParams
 private constructor(
-    private val accountId: String,
+    private val accountId: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun accountId(): String = accountId
+    fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /**
      * Amount of USD to pay or receive for the order. Must be a positive number with a precision of
@@ -92,7 +93,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountId()
          * .paymentAmount()
          * .stockId()
          * ```
@@ -118,7 +118,10 @@ private constructor(
                     orderRequestCreateMarketBuyParams.additionalQueryParams.toBuilder()
             }
 
-        fun accountId(accountId: String) = apply { this.accountId = accountId }
+        fun accountId(accountId: String?) = apply { this.accountId = accountId }
+
+        /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
+        fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -295,7 +298,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountId()
          * .paymentAmount()
          * .stockId()
          * ```
@@ -304,7 +306,7 @@ private constructor(
          */
         fun build(): OrderRequestCreateMarketBuyParams =
             OrderRequestCreateMarketBuyParams(
-                checkRequired("accountId", accountId),
+                accountId,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -315,7 +317,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> accountId
+            0 -> accountId ?: ""
             else -> ""
         }
 

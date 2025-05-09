@@ -3,7 +3,6 @@
 package com.dinari.api.models.api.v2.entities.accounts
 
 import com.dinari.api.core.Params
-import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
@@ -13,14 +12,14 @@ import kotlin.jvm.optionals.getOrNull
 /** Retrieves a list of Accounts that belong to a specific Entity. */
 class AccountListParams
 private constructor(
-    private val entityId: String,
+    private val entityId: String?,
     private val page: Long?,
     private val pageSize: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun entityId(): String = entityId
+    fun entityId(): Optional<String> = Optional.ofNullable(entityId)
 
     fun page(): Optional<Long> = Optional.ofNullable(page)
 
@@ -34,14 +33,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [AccountListParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .entityId()
-         * ```
-         */
+        @JvmStatic fun none(): AccountListParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [AccountListParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -63,7 +57,10 @@ private constructor(
             additionalQueryParams = accountListParams.additionalQueryParams.toBuilder()
         }
 
-        fun entityId(entityId: String) = apply { this.entityId = entityId }
+        fun entityId(entityId: String?) = apply { this.entityId = entityId }
+
+        /** Alias for calling [Builder.entityId] with `entityId.orElse(null)`. */
+        fun entityId(entityId: Optional<String>) = entityId(entityId.getOrNull())
 
         fun page(page: Long?) = apply { this.page = page }
 
@@ -191,17 +188,10 @@ private constructor(
          * Returns an immutable instance of [AccountListParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .entityId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): AccountListParams =
             AccountListParams(
-                checkRequired("entityId", entityId),
+                entityId,
                 page,
                 pageSize,
                 additionalHeaders.build(),
@@ -211,7 +201,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> entityId
+            0 -> entityId ?: ""
             else -> ""
         }
 

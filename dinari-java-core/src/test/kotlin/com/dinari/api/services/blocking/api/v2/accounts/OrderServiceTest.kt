@@ -7,7 +7,6 @@ import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.core.JsonValue
 import com.dinari.api.models.api.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveFulfillmentsParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveParams
 import org.junit.jupiter.api.Disabled
@@ -48,10 +47,7 @@ internal class OrderServiceTest {
                 .build()
         val orderService = client.api().v2().accounts().orders()
 
-        val orders =
-            orderService.list(
-                OrderListParams.builder().accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
-            )
+        val orders = orderService.list("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         orders.forEach { it.validate() }
     }

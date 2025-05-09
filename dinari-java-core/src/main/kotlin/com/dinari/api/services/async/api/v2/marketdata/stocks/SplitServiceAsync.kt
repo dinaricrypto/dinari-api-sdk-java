@@ -27,14 +27,39 @@ interface SplitServiceAsync {
      * will then be converted into 10 shares, and the split becomes `COMPLETE` as trading resumes on
      * the `ex_date` with new split-adjusted prices.
      */
-    fun retrieve(params: SplitRetrieveParams): CompletableFuture<List<StockSplit>> =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(stockId: String): CompletableFuture<List<StockSplit>> =
+        retrieve(stockId, SplitRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        stockId: String,
+        params: SplitRetrieveParams = SplitRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<List<StockSplit>> =
+        retrieve(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        stockId: String,
+        params: SplitRetrieveParams = SplitRetrieveParams.none(),
+    ): CompletableFuture<List<StockSplit>> = retrieve(stockId, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: SplitRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<StockSplit>>
+
+    /** @see [retrieve] */
+    fun retrieve(params: SplitRetrieveParams): CompletableFuture<List<StockSplit>> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        stockId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<List<StockSplit>> =
+        retrieve(stockId, SplitRetrieveParams.none(), requestOptions)
 
     /**
      * Returns a list of stock splits. The splits are ordered by the date they were created, with
@@ -71,6 +96,35 @@ interface SplitServiceAsync {
          * is otherwise the same as [SplitServiceAsync.retrieve].
          */
         @MustBeClosed
+        fun retrieve(stockId: String): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+            retrieve(stockId, SplitRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            stockId: String,
+            params: SplitRetrieveParams = SplitRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+            retrieve(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            stockId: String,
+            params: SplitRetrieveParams = SplitRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+            retrieve(stockId, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            params: SplitRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<List<StockSplit>>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
         fun retrieve(
             params: SplitRetrieveParams
         ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
@@ -79,9 +133,10 @@ interface SplitServiceAsync {
         /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
-            params: SplitRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<StockSplit>>>
+            stockId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+            retrieve(stockId, SplitRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/splits`, but is otherwise

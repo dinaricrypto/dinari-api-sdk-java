@@ -3,7 +3,6 @@
 package com.dinari.api.models.api.v2.marketdata.stocks.splits
 
 import com.dinari.api.core.Params
-import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
@@ -22,14 +21,14 @@ import kotlin.jvm.optionals.getOrNull
  */
 class SplitRetrieveParams
 private constructor(
-    private val stockId: String,
+    private val stockId: String?,
     private val page: Long?,
     private val pageSize: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun stockId(): String = stockId
+    fun stockId(): Optional<String> = Optional.ofNullable(stockId)
 
     fun page(): Optional<Long> = Optional.ofNullable(page)
 
@@ -43,14 +42,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [SplitRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .stockId()
-         * ```
-         */
+        @JvmStatic fun none(): SplitRetrieveParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [SplitRetrieveParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -72,7 +66,10 @@ private constructor(
             additionalQueryParams = splitRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun stockId(stockId: String) = apply { this.stockId = stockId }
+        fun stockId(stockId: String?) = apply { this.stockId = stockId }
+
+        /** Alias for calling [Builder.stockId] with `stockId.orElse(null)`. */
+        fun stockId(stockId: Optional<String>) = stockId(stockId.getOrNull())
 
         fun page(page: Long?) = apply { this.page = page }
 
@@ -200,17 +197,10 @@ private constructor(
          * Returns an immutable instance of [SplitRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .stockId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): SplitRetrieveParams =
             SplitRetrieveParams(
-                checkRequired("stockId", stockId),
+                stockId,
                 page,
                 pageSize,
                 additionalHeaders.build(),
@@ -220,7 +210,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> stockId
+            0 -> stockId ?: ""
             else -> ""
         }
 

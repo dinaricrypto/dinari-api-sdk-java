@@ -5,6 +5,7 @@ package com.dinari.api.services.blocking.api.v2.marketdata
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -26,6 +27,7 @@ import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveQuoteParams
 import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveQuoteResponse
 import com.dinari.api.services.blocking.api.v2.marketdata.stocks.SplitService
 import com.dinari.api.services.blocking.api.v2.marketdata.stocks.SplitServiceImpl
+import kotlin.jvm.optionals.getOrNull
 
 class StockServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     StockService {
@@ -121,6 +123,9 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
             params: StockRetrieveDividendsParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<List<StockRetrieveDividendsResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stockId", params.stockId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -156,6 +161,9 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
             params: StockRetrieveHistoricalPricesParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stockId", params.stockId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -191,6 +199,9 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
             params: StockRetrieveNewsParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<List<StockRetrieveNewsResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stockId", params.stockId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -225,6 +236,9 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
             params: StockRetrieveQuoteParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<StockRetrieveQuoteResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stockId", params.stockId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

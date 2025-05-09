@@ -4,7 +4,6 @@ package com.dinari.api.services.blocking.api.v2.entities
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
-import com.dinari.api.models.api.v2.entities.accounts.AccountCreateParams
 import com.dinari.api.models.api.v2.entities.accounts.AccountListParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -23,12 +22,7 @@ internal class AccountServiceTest {
                 .build()
         val accountService = client.api().v2().entities().accounts()
 
-        val account =
-            accountService.create(
-                AccountCreateParams.builder()
-                    .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val account = accountService.create("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         account.validate()
     }

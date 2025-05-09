@@ -17,17 +17,19 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Connects a wallet to the account using the nonce and signature */
 class ExternalConnectParams
 private constructor(
-    private val accountId: String,
+    private val accountId: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun accountId(): String = accountId
+    fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /**
      * Blockchain the wallet to link is on
@@ -104,7 +106,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountId()
          * .chainId()
          * .nonce()
          * .signature()
@@ -130,7 +131,10 @@ private constructor(
             additionalQueryParams = externalConnectParams.additionalQueryParams.toBuilder()
         }
 
-        fun accountId(accountId: String) = apply { this.accountId = accountId }
+        fun accountId(accountId: String?) = apply { this.accountId = accountId }
+
+        /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
+        fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -316,7 +320,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountId()
          * .chainId()
          * .nonce()
          * .signature()
@@ -327,7 +330,7 @@ private constructor(
          */
         fun build(): ExternalConnectParams =
             ExternalConnectParams(
-                checkRequired("accountId", accountId),
+                accountId,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -338,7 +341,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> accountId
+            0 -> accountId ?: ""
             else -> ""
         }
 
