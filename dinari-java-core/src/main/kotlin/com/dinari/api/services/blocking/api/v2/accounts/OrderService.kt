@@ -22,6 +22,17 @@ interface OrderService {
     fun withRawResponse(): WithRawResponse
 
     /** Retrieves details of a specific order by its ID. */
+    fun retrieve(orderId: String, params: OrderRetrieveParams): Order =
+        retrieve(orderId, params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        orderId: String,
+        params: OrderRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Order = retrieve(params.toBuilder().orderId(orderId).build(), requestOptions)
+
+    /** @see [retrieve] */
     fun retrieve(params: OrderRetrieveParams): Order = retrieve(params, RequestOptions.none())
 
     /** @see [retrieve] */
@@ -31,7 +42,18 @@ interface OrderService {
     ): Order
 
     /** Lists all orders under the account. */
-    fun list(params: OrderListParams): List<Order> = list(params, RequestOptions.none())
+    fun list(accountId: String): List<Order> = list(accountId, OrderListParams.none())
+
+    /** @see [list] */
+    fun list(
+        accountId: String,
+        params: OrderListParams = OrderListParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): List<Order> = list(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+    /** @see [list] */
+    fun list(accountId: String, params: OrderListParams = OrderListParams.none()): List<Order> =
+        list(accountId, params, RequestOptions.none())
 
     /** @see [list] */
     fun list(
@@ -39,9 +61,27 @@ interface OrderService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<Order>
 
+    /** @see [list] */
+    fun list(params: OrderListParams): List<Order> = list(params, RequestOptions.none())
+
+    /** @see [list] */
+    fun list(accountId: String, requestOptions: RequestOptions): List<Order> =
+        list(accountId, OrderListParams.none(), requestOptions)
+
     /**
      * Cancels an order by its ID. Note that this requires the order ID, not the order request ID.
      */
+    fun cancel(orderId: String, params: OrderCancelParams): Order =
+        cancel(orderId, params, RequestOptions.none())
+
+    /** @see [cancel] */
+    fun cancel(
+        orderId: String,
+        params: OrderCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Order = cancel(params.toBuilder().orderId(orderId).build(), requestOptions)
+
+    /** @see [cancel] */
     fun cancel(params: OrderCancelParams): Order = cancel(params, RequestOptions.none())
 
     /** @see [cancel] */
@@ -51,6 +91,20 @@ interface OrderService {
     ): Order
 
     /** Gets estimated fee data for an order to be placed directly through our contracts. */
+    fun getEstimatedFee(
+        accountId: String,
+        params: OrderGetEstimatedFeeParams,
+    ): OrderGetEstimatedFeeResponse = getEstimatedFee(accountId, params, RequestOptions.none())
+
+    /** @see [getEstimatedFee] */
+    fun getEstimatedFee(
+        accountId: String,
+        params: OrderGetEstimatedFeeParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): OrderGetEstimatedFeeResponse =
+        getEstimatedFee(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+    /** @see [getEstimatedFee] */
     fun getEstimatedFee(params: OrderGetEstimatedFeeParams): OrderGetEstimatedFeeResponse =
         getEstimatedFee(params, RequestOptions.none())
 
@@ -61,6 +115,20 @@ interface OrderService {
     ): OrderGetEstimatedFeeResponse
 
     /** Retrieves order fulfillments for a specific order. */
+    fun retrieveFulfillments(
+        orderId: String,
+        params: OrderRetrieveFulfillmentsParams,
+    ): List<OrderFulfillment> = retrieveFulfillments(orderId, params, RequestOptions.none())
+
+    /** @see [retrieveFulfillments] */
+    fun retrieveFulfillments(
+        orderId: String,
+        params: OrderRetrieveFulfillmentsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): List<OrderFulfillment> =
+        retrieveFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
+
+    /** @see [retrieveFulfillments] */
     fun retrieveFulfillments(params: OrderRetrieveFulfillmentsParams): List<OrderFulfillment> =
         retrieveFulfillments(params, RequestOptions.none())
 
@@ -78,6 +146,20 @@ interface OrderService {
          * but is otherwise the same as [OrderService.retrieve].
          */
         @MustBeClosed
+        fun retrieve(orderId: String, params: OrderRetrieveParams): HttpResponseFor<Order> =
+            retrieve(orderId, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            orderId: String,
+            params: OrderRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Order> =
+            retrieve(params.toBuilder().orderId(orderId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
         fun retrieve(params: OrderRetrieveParams): HttpResponseFor<Order> =
             retrieve(params, RequestOptions.none())
 
@@ -93,8 +175,24 @@ interface OrderService {
          * otherwise the same as [OrderService.list].
          */
         @MustBeClosed
-        fun list(params: OrderListParams): HttpResponseFor<List<Order>> =
-            list(params, RequestOptions.none())
+        fun list(accountId: String): HttpResponseFor<List<Order>> =
+            list(accountId, OrderListParams.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            accountId: String,
+            params: OrderListParams = OrderListParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<List<Order>> =
+            list(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(
+            accountId: String,
+            params: OrderListParams = OrderListParams.none(),
+        ): HttpResponseFor<List<Order>> = list(accountId, params, RequestOptions.none())
 
         /** @see [list] */
         @MustBeClosed
@@ -103,11 +201,35 @@ interface OrderService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<Order>>
 
+        /** @see [list] */
+        @MustBeClosed
+        fun list(params: OrderListParams): HttpResponseFor<List<Order>> =
+            list(params, RequestOptions.none())
+
+        /** @see [list] */
+        @MustBeClosed
+        fun list(accountId: String, requestOptions: RequestOptions): HttpResponseFor<List<Order>> =
+            list(accountId, OrderListParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `post
          * /api/v2/accounts/{account_id}/orders/{order_id}/cancel`, but is otherwise the same as
          * [OrderService.cancel].
          */
+        @MustBeClosed
+        fun cancel(orderId: String, params: OrderCancelParams): HttpResponseFor<Order> =
+            cancel(orderId, params, RequestOptions.none())
+
+        /** @see [cancel] */
+        @MustBeClosed
+        fun cancel(
+            orderId: String,
+            params: OrderCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Order> =
+            cancel(params.toBuilder().orderId(orderId).build(), requestOptions)
+
+        /** @see [cancel] */
         @MustBeClosed
         fun cancel(params: OrderCancelParams): HttpResponseFor<Order> =
             cancel(params, RequestOptions.none())
@@ -126,6 +248,23 @@ interface OrderService {
          */
         @MustBeClosed
         fun getEstimatedFee(
+            accountId: String,
+            params: OrderGetEstimatedFeeParams,
+        ): HttpResponseFor<OrderGetEstimatedFeeResponse> =
+            getEstimatedFee(accountId, params, RequestOptions.none())
+
+        /** @see [getEstimatedFee] */
+        @MustBeClosed
+        fun getEstimatedFee(
+            accountId: String,
+            params: OrderGetEstimatedFeeParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<OrderGetEstimatedFeeResponse> =
+            getEstimatedFee(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+        /** @see [getEstimatedFee] */
+        @MustBeClosed
+        fun getEstimatedFee(
             params: OrderGetEstimatedFeeParams
         ): HttpResponseFor<OrderGetEstimatedFeeResponse> =
             getEstimatedFee(params, RequestOptions.none())
@@ -142,6 +281,23 @@ interface OrderService {
          * /api/v2/accounts/{account_id}/orders/{order_id}/fulfillments`, but is otherwise the same
          * as [OrderService.retrieveFulfillments].
          */
+        @MustBeClosed
+        fun retrieveFulfillments(
+            orderId: String,
+            params: OrderRetrieveFulfillmentsParams,
+        ): HttpResponseFor<List<OrderFulfillment>> =
+            retrieveFulfillments(orderId, params, RequestOptions.none())
+
+        /** @see [retrieveFulfillments] */
+        @MustBeClosed
+        fun retrieveFulfillments(
+            orderId: String,
+            params: OrderRetrieveFulfillmentsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<List<OrderFulfillment>> =
+            retrieveFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
+
+        /** @see [retrieveFulfillments] */
         @MustBeClosed
         fun retrieveFulfillments(
             params: OrderRetrieveFulfillmentsParams

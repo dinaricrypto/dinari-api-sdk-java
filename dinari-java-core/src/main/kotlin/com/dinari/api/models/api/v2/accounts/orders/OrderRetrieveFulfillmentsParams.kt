@@ -7,19 +7,21 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Retrieves order fulfillments for a specific order. */
 class OrderRetrieveFulfillmentsParams
 private constructor(
     private val accountId: String,
-    private val orderId: String,
+    private val orderId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun accountId(): String = accountId
 
-    fun orderId(): String = orderId
+    fun orderId(): Optional<String> = Optional.ofNullable(orderId)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -36,7 +38,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .accountId()
-         * .orderId()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -62,7 +63,10 @@ private constructor(
 
         fun accountId(accountId: String) = apply { this.accountId = accountId }
 
-        fun orderId(orderId: String) = apply { this.orderId = orderId }
+        fun orderId(orderId: String?) = apply { this.orderId = orderId }
+
+        /** Alias for calling [Builder.orderId] with `orderId.orElse(null)`. */
+        fun orderId(orderId: Optional<String>) = orderId(orderId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -170,7 +174,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .accountId()
-         * .orderId()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -178,7 +181,7 @@ private constructor(
         fun build(): OrderRetrieveFulfillmentsParams =
             OrderRetrieveFulfillmentsParams(
                 checkRequired("accountId", accountId),
-                checkRequired("orderId", orderId),
+                orderId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -187,7 +190,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> accountId
-            1 -> orderId
+            1 -> orderId ?: ""
             else -> ""
         }
 

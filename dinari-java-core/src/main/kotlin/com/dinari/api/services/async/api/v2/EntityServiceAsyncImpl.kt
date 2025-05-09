@@ -5,6 +5,7 @@ package com.dinari.api.services.async.api.v2
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -25,6 +26,7 @@ import com.dinari.api.services.async.api.v2.entities.AccountServiceAsyncImpl
 import com.dinari.api.services.async.api.v2.entities.KycServiceAsync
 import com.dinari.api.services.async.api.v2.entities.KycServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class EntityServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     EntityServiceAsync {
@@ -125,6 +127,9 @@ class EntityServiceAsyncImpl internal constructor(private val clientOptions: Cli
             params: EntityRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Entity>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("entityId", params.entityId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

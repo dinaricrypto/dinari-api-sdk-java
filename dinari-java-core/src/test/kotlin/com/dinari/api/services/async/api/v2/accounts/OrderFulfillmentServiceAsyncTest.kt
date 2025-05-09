@@ -4,7 +4,6 @@ package com.dinari.api.services.async.api.v2.accounts
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
-import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -46,11 +45,7 @@ internal class OrderFulfillmentServiceAsyncTest {
         val orderFulfillmentServiceAsync = client.api().v2().accounts().orderFulfillments()
 
         val orderFulfillmentsFuture =
-            orderFulfillmentServiceAsync.query(
-                OrderFulfillmentQueryParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            orderFulfillmentServiceAsync.query("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val orderFulfillments = orderFulfillmentsFuture.get()
         orderFulfillments.forEach { it.validate() }

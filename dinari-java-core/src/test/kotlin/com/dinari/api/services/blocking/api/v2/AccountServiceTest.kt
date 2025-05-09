@@ -4,12 +4,6 @@ package com.dinari.api.services.blocking.api.v2
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
-import com.dinari.api.models.api.v2.accounts.AccountDeactivateParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrieveCashParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrieveDividendPaymentsParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrieveInterestPaymentsParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrieveParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrievePortfolioParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,12 +21,7 @@ internal class AccountServiceTest {
                 .build()
         val accountService = client.api().v2().accounts()
 
-        val account =
-            accountService.retrieve(
-                AccountRetrieveParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val account = accountService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         account.validate()
     }
@@ -47,12 +36,7 @@ internal class AccountServiceTest {
                 .build()
         val accountService = client.api().v2().accounts()
 
-        val account =
-            accountService.deactivate(
-                AccountDeactivateParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val account = accountService.deactivate("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         account.validate()
     }
@@ -67,12 +51,7 @@ internal class AccountServiceTest {
                 .build()
         val accountService = client.api().v2().accounts()
 
-        val response =
-            accountService.retrieveCash(
-                AccountRetrieveCashParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val response = accountService.retrieveCash("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.validate()
     }
@@ -88,11 +67,7 @@ internal class AccountServiceTest {
         val accountService = client.api().v2().accounts()
 
         val response =
-            accountService.retrieveDividendPayments(
-                AccountRetrieveDividendPaymentsParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            accountService.retrieveDividendPayments("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.forEach { it.validate() }
     }
@@ -108,11 +83,7 @@ internal class AccountServiceTest {
         val accountService = client.api().v2().accounts()
 
         val response =
-            accountService.retrieveInterestPayments(
-                AccountRetrieveInterestPaymentsParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            accountService.retrieveInterestPayments("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.forEach { it.validate() }
     }
@@ -127,12 +98,7 @@ internal class AccountServiceTest {
                 .build()
         val accountService = client.api().v2().accounts()
 
-        val response =
-            accountService.retrievePortfolio(
-                AccountRetrievePortfolioParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val response = accountService.retrievePortfolio("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.validate()
     }

@@ -6,8 +6,6 @@ import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.api.v2.entities.kyc.KycData
 import com.dinari.api.models.api.v2.entities.kyc.KycDocumentType
-import com.dinari.api.models.api.v2.entities.kyc.KycGetUrlParams
-import com.dinari.api.models.api.v2.entities.kyc.KycRetrieveParams
 import com.dinari.api.models.api.v2.entities.kyc.KycSubmitParams
 import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentParams
 import java.time.LocalDate
@@ -28,10 +26,7 @@ internal class KycServiceTest {
                 .build()
         val kycService = client.api().v2().entities().kyc()
 
-        val kycInfo =
-            kycService.retrieve(
-                KycRetrieveParams.builder().entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
-            )
+        val kycInfo = kycService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         kycInfo.validate()
     }
@@ -46,10 +41,7 @@ internal class KycServiceTest {
                 .build()
         val kycService = client.api().v2().entities().kyc()
 
-        val response =
-            kycService.getUrl(
-                KycGetUrlParams.builder().entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
-            )
+        val response = kycService.getUrl("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.validate()
     }

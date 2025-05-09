@@ -9,7 +9,6 @@ import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateLim
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
-import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -51,11 +50,7 @@ internal class OrderRequestServiceAsyncTest {
         val orderRequestServiceAsync = client.api().v2().accounts().orderRequests()
 
         val orderRequestsFuture =
-            orderRequestServiceAsync.list(
-                OrderRequestListParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            orderRequestServiceAsync.list("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val orderRequests = orderRequestsFuture.get()
         orderRequests.forEach { it.validate() }

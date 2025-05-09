@@ -5,6 +5,7 @@ package com.dinari.api.services.async.api.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -24,6 +25,7 @@ import com.dinari.api.models.api.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveFulfillmentsParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveParams
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class OrderServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     OrderServiceAsync {
@@ -81,6 +83,9 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
             params: OrderRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Order>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("orderId", params.orderId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -117,6 +122,9 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
             params: OrderListParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<List<Order>>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -146,6 +154,9 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
             params: OrderCancelParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Order>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("orderId", params.orderId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -185,6 +196,9 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
             params: OrderGetEstimatedFeeParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<OrderGetEstimatedFeeResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -223,6 +237,9 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
             params: OrderRetrieveFulfillmentsParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<List<OrderFulfillment>>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("orderId", params.orderId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

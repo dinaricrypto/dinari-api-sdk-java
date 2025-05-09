@@ -7,7 +7,6 @@ import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.core.JsonValue
 import com.dinari.api.models.api.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveFulfillmentsParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveParams
 import org.junit.jupiter.api.Disabled
@@ -49,10 +48,7 @@ internal class OrderServiceAsyncTest {
                 .build()
         val orderServiceAsync = client.api().v2().accounts().orders()
 
-        val ordersFuture =
-            orderServiceAsync.list(
-                OrderListParams.builder().accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
-            )
+        val ordersFuture = orderServiceAsync.list("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val orders = ordersFuture.get()
         orders.forEach { it.validate() }

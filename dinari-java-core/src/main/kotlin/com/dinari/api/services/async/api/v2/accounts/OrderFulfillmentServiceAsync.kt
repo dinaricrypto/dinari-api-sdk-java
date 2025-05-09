@@ -18,6 +18,20 @@ interface OrderFulfillmentServiceAsync {
     fun withRawResponse(): WithRawResponse
 
     /** Retrieves details of a specific order fulfillment by its ID. */
+    fun retrieve(
+        fulfillmentId: String,
+        params: OrderFulfillmentRetrieveParams,
+    ): CompletableFuture<OrderFulfillment> = retrieve(fulfillmentId, params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        fulfillmentId: String,
+        params: OrderFulfillmentRetrieveParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<OrderFulfillment> =
+        retrieve(params.toBuilder().fulfillmentId(fulfillmentId).build(), requestOptions)
+
+    /** @see [retrieve] */
     fun retrieve(params: OrderFulfillmentRetrieveParams): CompletableFuture<OrderFulfillment> =
         retrieve(params, RequestOptions.none())
 
@@ -28,14 +42,39 @@ interface OrderFulfillmentServiceAsync {
     ): CompletableFuture<OrderFulfillment>
 
     /** Queries all order fulfillments under the account. */
-    fun query(params: OrderFulfillmentQueryParams): CompletableFuture<List<OrderFulfillment>> =
-        query(params, RequestOptions.none())
+    fun query(accountId: String): CompletableFuture<List<OrderFulfillment>> =
+        query(accountId, OrderFulfillmentQueryParams.none())
+
+    /** @see [query] */
+    fun query(
+        accountId: String,
+        params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<List<OrderFulfillment>> =
+        query(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+    /** @see [query] */
+    fun query(
+        accountId: String,
+        params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
+    ): CompletableFuture<List<OrderFulfillment>> = query(accountId, params, RequestOptions.none())
 
     /** @see [query] */
     fun query(
         params: OrderFulfillmentQueryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<OrderFulfillment>>
+
+    /** @see [query] */
+    fun query(params: OrderFulfillmentQueryParams): CompletableFuture<List<OrderFulfillment>> =
+        query(params, RequestOptions.none())
+
+    /** @see [query] */
+    fun query(
+        accountId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<List<OrderFulfillment>> =
+        query(accountId, OrderFulfillmentQueryParams.none(), requestOptions)
 
     /**
      * A view of [OrderFulfillmentServiceAsync] that provides access to raw HTTP responses for each
@@ -48,6 +87,23 @@ interface OrderFulfillmentServiceAsync {
          * /api/v2/accounts/{account_id}/order_fulfillments/{fulfillment_id}`, but is otherwise the
          * same as [OrderFulfillmentServiceAsync.retrieve].
          */
+        @MustBeClosed
+        fun retrieve(
+            fulfillmentId: String,
+            params: OrderFulfillmentRetrieveParams,
+        ): CompletableFuture<HttpResponseFor<OrderFulfillment>> =
+            retrieve(fulfillmentId, params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            fulfillmentId: String,
+            params: OrderFulfillmentRetrieveParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<OrderFulfillment>> =
+            retrieve(params.toBuilder().fulfillmentId(fulfillmentId).build(), requestOptions)
+
+        /** @see [retrieve] */
         @MustBeClosed
         fun retrieve(
             params: OrderFulfillmentRetrieveParams
@@ -66,6 +122,35 @@ interface OrderFulfillmentServiceAsync {
          * but is otherwise the same as [OrderFulfillmentServiceAsync.query].
          */
         @MustBeClosed
+        fun query(accountId: String): CompletableFuture<HttpResponseFor<List<OrderFulfillment>>> =
+            query(accountId, OrderFulfillmentQueryParams.none())
+
+        /** @see [query] */
+        @MustBeClosed
+        fun query(
+            accountId: String,
+            params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<List<OrderFulfillment>>> =
+            query(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+        /** @see [query] */
+        @MustBeClosed
+        fun query(
+            accountId: String,
+            params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
+        ): CompletableFuture<HttpResponseFor<List<OrderFulfillment>>> =
+            query(accountId, params, RequestOptions.none())
+
+        /** @see [query] */
+        @MustBeClosed
+        fun query(
+            params: OrderFulfillmentQueryParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<List<OrderFulfillment>>>
+
+        /** @see [query] */
+        @MustBeClosed
         fun query(
             params: OrderFulfillmentQueryParams
         ): CompletableFuture<HttpResponseFor<List<OrderFulfillment>>> =
@@ -74,8 +159,9 @@ interface OrderFulfillmentServiceAsync {
         /** @see [query] */
         @MustBeClosed
         fun query(
-            params: OrderFulfillmentQueryParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<OrderFulfillment>>>
+            accountId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<List<OrderFulfillment>>> =
+            query(accountId, OrderFulfillmentQueryParams.none(), requestOptions)
     }
 }

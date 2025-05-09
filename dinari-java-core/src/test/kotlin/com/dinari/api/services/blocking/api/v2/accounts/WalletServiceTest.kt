@@ -4,7 +4,6 @@ package com.dinari.api.services.blocking.api.v2.accounts
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
-import com.dinari.api.models.api.v2.accounts.wallet.WalletRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -22,12 +21,7 @@ internal class WalletServiceTest {
                 .build()
         val walletService = client.api().v2().accounts().wallet()
 
-        val wallet =
-            walletService.retrieve(
-                WalletRetrieveParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val wallet = walletService.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         wallet.validate()
     }
