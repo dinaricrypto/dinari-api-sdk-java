@@ -4,23 +4,23 @@ package com.dinari.api.models.api.v2.accounts
 
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.Params
-import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import com.dinari.api.core.toImmutable
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Sets the account to be inactive. */
 class AccountDeactivateParams
 private constructor(
-    private val accountId: String,
+    private val accountId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
     private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
-    fun accountId(): String = accountId
+    fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
 
@@ -32,14 +32,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [AccountDeactivateParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .accountId()
-         * ```
-         */
+        @JvmStatic fun none(): AccountDeactivateParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [AccountDeactivateParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -60,7 +55,10 @@ private constructor(
                 accountDeactivateParams.additionalBodyProperties.toMutableMap()
         }
 
-        fun accountId(accountId: String) = apply { this.accountId = accountId }
+        fun accountId(accountId: String?) = apply { this.accountId = accountId }
+
+        /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
+        fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -186,17 +184,10 @@ private constructor(
          * Returns an immutable instance of [AccountDeactivateParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .accountId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): AccountDeactivateParams =
             AccountDeactivateParams(
-                checkRequired("accountId", accountId),
+                accountId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
                 additionalBodyProperties.toImmutable(),
@@ -208,7 +199,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> accountId
+            0 -> accountId ?: ""
             else -> ""
         }
 

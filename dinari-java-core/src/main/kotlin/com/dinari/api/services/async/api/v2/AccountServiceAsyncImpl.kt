@@ -5,6 +5,7 @@ package com.dinari.api.services.async.api.v2
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -35,6 +36,7 @@ import com.dinari.api.services.async.api.v2.accounts.OrderServiceAsyncImpl
 import com.dinari.api.services.async.api.v2.accounts.WalletServiceAsync
 import com.dinari.api.services.async.api.v2.accounts.WalletServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class AccountServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     AccountServiceAsync {
@@ -144,6 +146,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: AccountRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Account>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -173,6 +178,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: AccountDeactivateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Account>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -204,6 +212,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: AccountRetrieveCashParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<AccountRetrieveCashResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -235,6 +246,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: AccountRetrieveDividendPaymentsParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<List<AccountRetrieveDividendPaymentsResponse>>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -272,6 +286,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: AccountRetrieveInterestPaymentsParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<List<AccountRetrieveInterestPaymentsResponse>>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -308,6 +325,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: AccountRetrievePortfolioParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<AccountRetrievePortfolioResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

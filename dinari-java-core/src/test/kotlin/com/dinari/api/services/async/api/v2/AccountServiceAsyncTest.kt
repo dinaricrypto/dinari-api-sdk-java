@@ -4,12 +4,6 @@ package com.dinari.api.services.async.api.v2
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
-import com.dinari.api.models.api.v2.accounts.AccountDeactivateParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrieveCashParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrieveDividendPaymentsParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrieveInterestPaymentsParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrieveParams
-import com.dinari.api.models.api.v2.accounts.AccountRetrievePortfolioParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,12 +21,7 @@ internal class AccountServiceAsyncTest {
                 .build()
         val accountServiceAsync = client.api().v2().accounts()
 
-        val accountFuture =
-            accountServiceAsync.retrieve(
-                AccountRetrieveParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val accountFuture = accountServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val account = accountFuture.get()
         account.validate()
@@ -48,12 +37,7 @@ internal class AccountServiceAsyncTest {
                 .build()
         val accountServiceAsync = client.api().v2().accounts()
 
-        val accountFuture =
-            accountServiceAsync.deactivate(
-                AccountDeactivateParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val accountFuture = accountServiceAsync.deactivate("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val account = accountFuture.get()
         account.validate()
@@ -70,11 +54,7 @@ internal class AccountServiceAsyncTest {
         val accountServiceAsync = client.api().v2().accounts()
 
         val responseFuture =
-            accountServiceAsync.retrieveCash(
-                AccountRetrieveCashParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            accountServiceAsync.retrieveCash("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = responseFuture.get()
         response.validate()
@@ -91,11 +71,7 @@ internal class AccountServiceAsyncTest {
         val accountServiceAsync = client.api().v2().accounts()
 
         val responseFuture =
-            accountServiceAsync.retrieveDividendPayments(
-                AccountRetrieveDividendPaymentsParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            accountServiceAsync.retrieveDividendPayments("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = responseFuture.get()
         response.forEach { it.validate() }
@@ -112,11 +88,7 @@ internal class AccountServiceAsyncTest {
         val accountServiceAsync = client.api().v2().accounts()
 
         val responseFuture =
-            accountServiceAsync.retrieveInterestPayments(
-                AccountRetrieveInterestPaymentsParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            accountServiceAsync.retrieveInterestPayments("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = responseFuture.get()
         response.forEach { it.validate() }
@@ -133,11 +105,7 @@ internal class AccountServiceAsyncTest {
         val accountServiceAsync = client.api().v2().accounts()
 
         val responseFuture =
-            accountServiceAsync.retrievePortfolio(
-                AccountRetrievePortfolioParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+            accountServiceAsync.retrievePortfolio("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = responseFuture.get()
         response.validate()

@@ -4,7 +4,6 @@ package com.dinari.api.services.async.api.v2.accounts
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
-import com.dinari.api.models.api.v2.accounts.wallet.WalletRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -22,12 +21,7 @@ internal class WalletServiceAsyncTest {
                 .build()
         val walletServiceAsync = client.api().v2().accounts().wallet()
 
-        val walletFuture =
-            walletServiceAsync.retrieve(
-                WalletRetrieveParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val walletFuture = walletServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val wallet = walletFuture.get()
         wallet.validate()

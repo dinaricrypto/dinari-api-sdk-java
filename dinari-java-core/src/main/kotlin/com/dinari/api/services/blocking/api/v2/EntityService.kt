@@ -37,13 +37,33 @@ interface EntityService {
     ): Entity
 
     /** Retrieves a specific customer Entity of your organization by their ID. */
-    fun retrieve(params: EntityRetrieveParams): Entity = retrieve(params, RequestOptions.none())
+    fun retrieve(entityId: String): Entity = retrieve(entityId, EntityRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        entityId: String,
+        params: EntityRetrieveParams = EntityRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Entity = retrieve(params.toBuilder().entityId(entityId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        entityId: String,
+        params: EntityRetrieveParams = EntityRetrieveParams.none(),
+    ): Entity = retrieve(entityId, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: EntityRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Entity
+
+    /** @see [retrieve] */
+    fun retrieve(params: EntityRetrieveParams): Entity = retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(entityId: String, requestOptions: RequestOptions): Entity =
+        retrieve(entityId, EntityRetrieveParams.none(), requestOptions)
 
     /**
      * Returns a list of all direct Entities your organization manages. An Entity represents an
@@ -110,8 +130,24 @@ interface EntityService {
          * same as [EntityService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: EntityRetrieveParams): HttpResponseFor<Entity> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(entityId: String): HttpResponseFor<Entity> =
+            retrieve(entityId, EntityRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            entityId: String,
+            params: EntityRetrieveParams = EntityRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Entity> =
+            retrieve(params.toBuilder().entityId(entityId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            entityId: String,
+            params: EntityRetrieveParams = EntityRetrieveParams.none(),
+        ): HttpResponseFor<Entity> = retrieve(entityId, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -119,6 +155,16 @@ interface EntityService {
             params: EntityRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Entity>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(params: EntityRetrieveParams): HttpResponseFor<Entity> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(entityId: String, requestOptions: RequestOptions): HttpResponseFor<Entity> =
+            retrieve(entityId, EntityRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/entities/`, but is otherwise the same as

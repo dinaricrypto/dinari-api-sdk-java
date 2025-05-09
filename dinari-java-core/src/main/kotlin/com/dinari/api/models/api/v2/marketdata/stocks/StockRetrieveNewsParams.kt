@@ -3,7 +3,6 @@
 package com.dinari.api.models.api.v2.marketdata.stocks
 
 import com.dinari.api.core.Params
-import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
@@ -16,13 +15,13 @@ import kotlin.jvm.optionals.getOrNull
  */
 class StockRetrieveNewsParams
 private constructor(
-    private val stockId: String,
+    private val stockId: String?,
     private val limit: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun stockId(): String = stockId
+    fun stockId(): Optional<String> = Optional.ofNullable(stockId)
 
     /** The number of news articles to return, default is 10 max is 25 */
     fun limit(): Optional<Long> = Optional.ofNullable(limit)
@@ -35,14 +34,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [StockRetrieveNewsParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .stockId()
-         * ```
-         */
+        @JvmStatic fun none(): StockRetrieveNewsParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [StockRetrieveNewsParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -62,7 +56,10 @@ private constructor(
             additionalQueryParams = stockRetrieveNewsParams.additionalQueryParams.toBuilder()
         }
 
-        fun stockId(stockId: String) = apply { this.stockId = stockId }
+        fun stockId(stockId: String?) = apply { this.stockId = stockId }
+
+        /** Alias for calling [Builder.stockId] with `stockId.orElse(null)`. */
+        fun stockId(stockId: Optional<String>) = stockId(stockId.getOrNull())
 
         /** The number of news articles to return, default is 10 max is 25 */
         fun limit(limit: Long?) = apply { this.limit = limit }
@@ -179,17 +176,10 @@ private constructor(
          * Returns an immutable instance of [StockRetrieveNewsParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .stockId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): StockRetrieveNewsParams =
             StockRetrieveNewsParams(
-                checkRequired("stockId", stockId),
+                stockId,
                 limit,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -198,7 +188,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> stockId
+            0 -> stockId ?: ""
             else -> ""
         }
 

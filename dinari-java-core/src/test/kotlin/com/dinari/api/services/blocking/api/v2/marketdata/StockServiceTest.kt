@@ -5,10 +5,8 @@ package com.dinari.api.services.blocking.api.v2.marketdata
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.api.v2.marketdata.stocks.StockListParams
-import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveDividendsParams
 import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
 import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveNewsParams
-import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveQuoteParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -44,10 +42,7 @@ internal class StockServiceTest {
                 .build()
         val stockService = client.api().v2().marketData().stocks()
 
-        val response =
-            stockService.retrieveDividends(
-                StockRetrieveDividendsParams.builder().stockId("stock_id").build()
-            )
+        val response = stockService.retrieveDividends("stock_id")
 
         response.forEach { it.validate() }
     }
@@ -101,10 +96,7 @@ internal class StockServiceTest {
                 .build()
         val stockService = client.api().v2().marketData().stocks()
 
-        val response =
-            stockService.retrieveQuote(
-                StockRetrieveQuoteParams.builder().stockId("stock_id").build()
-            )
+        val response = stockService.retrieveQuote("stock_id")
 
         response.validate()
     }

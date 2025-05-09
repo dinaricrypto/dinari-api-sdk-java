@@ -3,20 +3,21 @@
 package com.dinari.api.models.api.v2.entities.kyc
 
 import com.dinari.api.core.Params
-import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Retrieves KYC data of the entity. */
 class KycRetrieveParams
 private constructor(
-    private val entityId: String,
+    private val entityId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun entityId(): String = entityId
+    fun entityId(): Optional<String> = Optional.ofNullable(entityId)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -26,14 +27,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [KycRetrieveParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .entityId()
-         * ```
-         */
+        @JvmStatic fun none(): KycRetrieveParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [KycRetrieveParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -51,7 +47,10 @@ private constructor(
             additionalQueryParams = kycRetrieveParams.additionalQueryParams.toBuilder()
         }
 
-        fun entityId(entityId: String) = apply { this.entityId = entityId }
+        fun entityId(entityId: String?) = apply { this.entityId = entityId }
+
+        /** Alias for calling [Builder.entityId] with `entityId.orElse(null)`. */
+        fun entityId(entityId: Optional<String>) = entityId(entityId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -155,25 +154,14 @@ private constructor(
          * Returns an immutable instance of [KycRetrieveParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .entityId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): KycRetrieveParams =
-            KycRetrieveParams(
-                checkRequired("entityId", entityId),
-                additionalHeaders.build(),
-                additionalQueryParams.build(),
-            )
+            KycRetrieveParams(entityId, additionalHeaders.build(), additionalQueryParams.build())
     }
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> entityId
+            0 -> entityId ?: ""
             else -> ""
         }
 

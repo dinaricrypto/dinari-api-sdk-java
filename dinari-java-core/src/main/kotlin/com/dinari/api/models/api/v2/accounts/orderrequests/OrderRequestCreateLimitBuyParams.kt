@@ -8,17 +8,19 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Creates a managed limit buy request. */
 class OrderRequestCreateLimitBuyParams
 private constructor(
-    private val accountId: String,
+    private val accountId: String?,
     private val limitOrderRequestInput: LimitOrderRequestInput,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun accountId(): String = accountId
+    fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /** Input parameters for placing a limit order. */
     fun limitOrderRequestInput(): LimitOrderRequestInput = limitOrderRequestInput
@@ -40,7 +42,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountId()
          * .limitOrderRequestInput()
          * ```
          */
@@ -65,7 +66,10 @@ private constructor(
                     orderRequestCreateLimitBuyParams.additionalQueryParams.toBuilder()
             }
 
-        fun accountId(accountId: String) = apply { this.accountId = accountId }
+        fun accountId(accountId: String?) = apply { this.accountId = accountId }
+
+        /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
+        fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
 
         /** Input parameters for placing a limit order. */
         fun limitOrderRequestInput(limitOrderRequestInput: LimitOrderRequestInput) = apply {
@@ -177,7 +181,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountId()
          * .limitOrderRequestInput()
          * ```
          *
@@ -185,7 +188,7 @@ private constructor(
          */
         fun build(): OrderRequestCreateLimitBuyParams =
             OrderRequestCreateLimitBuyParams(
-                checkRequired("accountId", accountId),
+                accountId,
                 checkRequired("limitOrderRequestInput", limitOrderRequestInput),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -196,7 +199,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> accountId
+            0 -> accountId ?: ""
             else -> ""
         }
 

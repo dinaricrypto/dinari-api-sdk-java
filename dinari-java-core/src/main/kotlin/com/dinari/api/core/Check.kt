@@ -5,6 +5,9 @@ package com.dinari.api.core
 import com.fasterxml.jackson.core.Version
 import com.fasterxml.jackson.core.util.VersionUtil
 
+fun checkRequired(name: String, condition: Boolean) =
+    check(condition) { "`$name` is required, but was not set" }
+
 fun <T : Any> checkRequired(name: String, value: T?): T =
     checkNotNull(value) { "`$name` is required, but was not set" }
 
@@ -74,7 +77,7 @@ This can happen if you are either:
 
 Double-check that you are depending on compatible Jackson versions.
 
-See https://www.github.com/stainless-sdks/dinari-java#jackson for more information.
+See https://www.github.com/dinaricrypto/dinari-api-sdk-java#jackson for more information.
         """
             .trimIndent()
     }

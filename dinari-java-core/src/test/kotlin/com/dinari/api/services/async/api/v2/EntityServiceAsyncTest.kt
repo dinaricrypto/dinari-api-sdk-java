@@ -5,7 +5,6 @@ package com.dinari.api.services.async.api.v2
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.api.v2.entities.EntityCreateParams
-import com.dinari.api.models.api.v2.entities.EntityRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -39,12 +38,7 @@ internal class EntityServiceAsyncTest {
                 .build()
         val entityServiceAsync = client.api().v2().entities()
 
-        val entityFuture =
-            entityServiceAsync.retrieve(
-                EntityRetrieveParams.builder()
-                    .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        val entityFuture = entityServiceAsync.retrieve("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val entity = entityFuture.get()
         entity.validate()

@@ -17,13 +17,14 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Uploads KYC-related documentation (for Partner KYC-enabled entities). */
 class KycUploadDocumentParams
 private constructor(
     private val entityId: String,
-    private val kycId: String,
+    private val kycId: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -31,7 +32,7 @@ private constructor(
 
     fun entityId(): String = entityId
 
-    fun kycId(): String = kycId
+    fun kycId(): Optional<String> = Optional.ofNullable(kycId)
 
     /**
      * Type of the document to be uploaded
@@ -64,7 +65,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .entityId()
-         * .kycId()
          * .documentType()
          * ```
          */
@@ -91,7 +91,10 @@ private constructor(
 
         fun entityId(entityId: String) = apply { this.entityId = entityId }
 
-        fun kycId(kycId: String) = apply { this.kycId = kycId }
+        fun kycId(kycId: String?) = apply { this.kycId = kycId }
+
+        /** Alias for calling [Builder.kycId] with `kycId.orElse(null)`. */
+        fun kycId(kycId: Optional<String>) = kycId(kycId.getOrNull())
 
         /**
          * Sets the entire request body.
@@ -241,7 +244,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .entityId()
-         * .kycId()
          * .documentType()
          * ```
          *
@@ -250,7 +252,7 @@ private constructor(
         fun build(): KycUploadDocumentParams =
             KycUploadDocumentParams(
                 checkRequired("entityId", entityId),
-                checkRequired("kycId", kycId),
+                kycId,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -262,7 +264,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> entityId
-            1 -> kycId
+            1 -> kycId ?: ""
             else -> ""
         }
 

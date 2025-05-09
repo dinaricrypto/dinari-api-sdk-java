@@ -5,6 +5,7 @@ package com.dinari.api.services.async.api.v2.marketdata.stocks
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -18,6 +19,7 @@ import com.dinari.api.models.api.v2.marketdata.stocks.splits.SplitListParams
 import com.dinari.api.models.api.v2.marketdata.stocks.splits.SplitRetrieveParams
 import com.dinari.api.models.api.v2.marketdata.stocks.splits.StockSplit
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class SplitServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     SplitServiceAsync {
@@ -54,6 +56,9 @@ class SplitServiceAsyncImpl internal constructor(private val clientOptions: Clie
             params: SplitRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<List<StockSplit>>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stockId", params.stockId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
