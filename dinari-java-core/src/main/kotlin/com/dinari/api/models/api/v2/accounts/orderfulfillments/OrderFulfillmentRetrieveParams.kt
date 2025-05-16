@@ -7,19 +7,21 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Retrieves details of a specific order fulfillment by its ID. */
 class OrderFulfillmentRetrieveParams
 private constructor(
     private val accountId: String,
-    private val fulfillmentId: String,
+    private val fulfillmentId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun accountId(): String = accountId
 
-    fun fulfillmentId(): String = fulfillmentId
+    fun fulfillmentId(): Optional<String> = Optional.ofNullable(fulfillmentId)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -36,7 +38,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .accountId()
-         * .fulfillmentId()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -60,7 +61,11 @@ private constructor(
 
         fun accountId(accountId: String) = apply { this.accountId = accountId }
 
-        fun fulfillmentId(fulfillmentId: String) = apply { this.fulfillmentId = fulfillmentId }
+        fun fulfillmentId(fulfillmentId: String?) = apply { this.fulfillmentId = fulfillmentId }
+
+        /** Alias for calling [Builder.fulfillmentId] with `fulfillmentId.orElse(null)`. */
+        fun fulfillmentId(fulfillmentId: Optional<String>) =
+            fulfillmentId(fulfillmentId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -168,7 +173,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .accountId()
-         * .fulfillmentId()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -176,7 +180,7 @@ private constructor(
         fun build(): OrderFulfillmentRetrieveParams =
             OrderFulfillmentRetrieveParams(
                 checkRequired("accountId", accountId),
-                checkRequired("fulfillmentId", fulfillmentId),
+                fulfillmentId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -185,7 +189,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> accountId
-            1 -> fulfillmentId
+            1 -> fulfillmentId ?: ""
             else -> ""
         }
 

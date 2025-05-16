@@ -7,17 +7,19 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Gets a nonce and message to be signed in order to verify wallet ownership. */
 class ExternalGetNonceParams
 private constructor(
-    private val accountId: String,
+    private val accountId: String?,
     private val walletAddress: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    fun accountId(): String = accountId
+    fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /** Address of the wallet to connect */
     fun walletAddress(): String = walletAddress
@@ -35,7 +37,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountId()
          * .walletAddress()
          * ```
          */
@@ -58,7 +59,10 @@ private constructor(
             additionalQueryParams = externalGetNonceParams.additionalQueryParams.toBuilder()
         }
 
-        fun accountId(accountId: String) = apply { this.accountId = accountId }
+        fun accountId(accountId: String?) = apply { this.accountId = accountId }
+
+        /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
+        fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
 
         /** Address of the wallet to connect */
         fun walletAddress(walletAddress: String) = apply { this.walletAddress = walletAddress }
@@ -168,7 +172,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .accountId()
          * .walletAddress()
          * ```
          *
@@ -176,7 +179,7 @@ private constructor(
          */
         fun build(): ExternalGetNonceParams =
             ExternalGetNonceParams(
-                checkRequired("accountId", accountId),
+                accountId,
                 checkRequired("walletAddress", walletAddress),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -185,7 +188,7 @@ private constructor(
 
     fun _pathParam(index: Int): String =
         when (index) {
-            0 -> accountId
+            0 -> accountId ?: ""
             else -> ""
         }
 

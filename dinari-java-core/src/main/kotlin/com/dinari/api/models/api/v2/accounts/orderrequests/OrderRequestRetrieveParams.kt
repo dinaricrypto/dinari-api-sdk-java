@@ -7,19 +7,21 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Retrieves details of a specific managed order request by its ID. */
 class OrderRequestRetrieveParams
 private constructor(
     private val accountId: String,
-    private val requestId: String,
+    private val requestId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun accountId(): String = accountId
 
-    fun requestId(): String = requestId
+    fun requestId(): Optional<String> = Optional.ofNullable(requestId)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -35,7 +37,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .accountId()
-         * .requestId()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -59,7 +60,10 @@ private constructor(
 
         fun accountId(accountId: String) = apply { this.accountId = accountId }
 
-        fun requestId(requestId: String) = apply { this.requestId = requestId }
+        fun requestId(requestId: String?) = apply { this.requestId = requestId }
+
+        /** Alias for calling [Builder.requestId] with `requestId.orElse(null)`. */
+        fun requestId(requestId: Optional<String>) = requestId(requestId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -167,7 +171,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .accountId()
-         * .requestId()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -175,7 +178,7 @@ private constructor(
         fun build(): OrderRequestRetrieveParams =
             OrderRequestRetrieveParams(
                 checkRequired("accountId", accountId),
-                checkRequired("requestId", requestId),
+                requestId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -184,7 +187,7 @@ private constructor(
     fun _pathParam(index: Int): String =
         when (index) {
             0 -> accountId
-            1 -> requestId
+            1 -> requestId ?: ""
             else -> ""
         }
 

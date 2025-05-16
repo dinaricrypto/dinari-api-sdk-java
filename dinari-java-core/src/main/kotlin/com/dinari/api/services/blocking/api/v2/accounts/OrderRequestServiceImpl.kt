@@ -5,6 +5,7 @@ package com.dinari.api.services.blocking.api.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -22,6 +23,7 @@ import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMar
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import kotlin.jvm.optionals.getOrNull
 
 class OrderRequestServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     OrderRequestService {
@@ -86,6 +88,9 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             params: OrderRequestRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<OrderRequest> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("requestId", params.requestId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -119,6 +124,9 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             params: OrderRequestListParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<List<OrderRequest>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -151,6 +159,9 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             params: OrderRequestCreateLimitBuyParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<OrderRequest> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -185,6 +196,9 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             params: OrderRequestCreateLimitSellParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<OrderRequest> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -219,6 +233,9 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             params: OrderRequestCreateMarketBuyParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<OrderRequest> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -253,6 +270,9 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             params: OrderRequestCreateMarketSellParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<OrderRequest> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)

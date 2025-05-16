@@ -5,6 +5,7 @@ package com.dinari.api.services.async.api.v2.entities
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -19,6 +20,7 @@ import com.dinari.api.models.api.v2.entities.accounts.Account
 import com.dinari.api.models.api.v2.entities.accounts.AccountCreateParams
 import com.dinari.api.models.api.v2.entities.accounts.AccountListParams
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class AccountServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     AccountServiceAsync {
@@ -55,6 +57,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: AccountCreateParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<Account>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("entityId", params.entityId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -85,6 +90,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             params: AccountListParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<List<Account>>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("entityId", params.entityId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

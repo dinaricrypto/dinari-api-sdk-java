@@ -39,14 +39,36 @@ interface EntityServiceAsync {
     ): CompletableFuture<Entity>
 
     /** Retrieves a specific customer Entity of your organization by their ID. */
-    fun retrieve(params: EntityRetrieveParams): CompletableFuture<Entity> =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(entityId: String): CompletableFuture<Entity> =
+        retrieve(entityId, EntityRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        entityId: String,
+        params: EntityRetrieveParams = EntityRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Entity> =
+        retrieve(params.toBuilder().entityId(entityId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        entityId: String,
+        params: EntityRetrieveParams = EntityRetrieveParams.none(),
+    ): CompletableFuture<Entity> = retrieve(entityId, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: EntityRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Entity>
+
+    /** @see [retrieve] */
+    fun retrieve(params: EntityRetrieveParams): CompletableFuture<Entity> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(entityId: String, requestOptions: RequestOptions): CompletableFuture<Entity> =
+        retrieve(entityId, EntityRetrieveParams.none(), requestOptions)
 
     /**
      * Returns a list of all direct Entities your organization manages. An Entity represents an
@@ -116,8 +138,25 @@ interface EntityServiceAsync {
          * same as [EntityServiceAsync.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: EntityRetrieveParams): CompletableFuture<HttpResponseFor<Entity>> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(entityId: String): CompletableFuture<HttpResponseFor<Entity>> =
+            retrieve(entityId, EntityRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            entityId: String,
+            params: EntityRetrieveParams = EntityRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Entity>> =
+            retrieve(params.toBuilder().entityId(entityId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            entityId: String,
+            params: EntityRetrieveParams = EntityRetrieveParams.none(),
+        ): CompletableFuture<HttpResponseFor<Entity>> =
+            retrieve(entityId, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -125,6 +164,19 @@ interface EntityServiceAsync {
             params: EntityRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Entity>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(params: EntityRetrieveParams): CompletableFuture<HttpResponseFor<Entity>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            entityId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Entity>> =
+            retrieve(entityId, EntityRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/entities/`, but is otherwise the same as

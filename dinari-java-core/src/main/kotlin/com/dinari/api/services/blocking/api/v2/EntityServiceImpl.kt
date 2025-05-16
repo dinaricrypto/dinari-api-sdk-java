@@ -5,6 +5,7 @@ package com.dinari.api.services.blocking.api.v2
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -24,6 +25,7 @@ import com.dinari.api.services.blocking.api.v2.entities.AccountService
 import com.dinari.api.services.blocking.api.v2.entities.AccountServiceImpl
 import com.dinari.api.services.blocking.api.v2.entities.KycService
 import com.dinari.api.services.blocking.api.v2.entities.KycServiceImpl
+import kotlin.jvm.optionals.getOrNull
 
 class EntityServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     EntityService {
@@ -112,6 +114,9 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
             params: EntityRetrieveParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Entity> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("entityId", params.entityId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

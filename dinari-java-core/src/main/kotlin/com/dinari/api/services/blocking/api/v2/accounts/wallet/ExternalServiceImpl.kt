@@ -5,6 +5,7 @@ package com.dinari.api.services.blocking.api.v2.accounts.wallet
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -19,6 +20,7 @@ import com.dinari.api.models.api.v2.accounts.wallet.Wallet
 import com.dinari.api.models.api.v2.accounts.wallet.external.ExternalConnectParams
 import com.dinari.api.models.api.v2.accounts.wallet.external.ExternalGetNonceParams
 import com.dinari.api.models.api.v2.accounts.wallet.external.ExternalGetNonceResponse
+import kotlin.jvm.optionals.getOrNull
 
 class ExternalServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ExternalService {
@@ -52,6 +54,9 @@ class ExternalServiceImpl internal constructor(private val clientOptions: Client
             params: ExternalConnectParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<Wallet> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -87,6 +92,9 @@ class ExternalServiceImpl internal constructor(private val clientOptions: Client
             params: ExternalGetNonceParams,
             requestOptions: RequestOptions,
         ): HttpResponseFor<ExternalGetNonceResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

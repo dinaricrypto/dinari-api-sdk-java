@@ -5,10 +5,8 @@ package com.dinari.api.services.async.api.v2.marketdata
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.api.v2.marketdata.stocks.StockListParams
-import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveDividendsParams
 import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
 import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveNewsParams
-import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveQuoteParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -45,10 +43,7 @@ internal class StockServiceAsyncTest {
                 .build()
         val stockServiceAsync = client.api().v2().marketData().stocks()
 
-        val responseFuture =
-            stockServiceAsync.retrieveDividends(
-                StockRetrieveDividendsParams.builder().stockId("stock_id").build()
-            )
+        val responseFuture = stockServiceAsync.retrieveDividends("stock_id")
 
         val response = responseFuture.get()
         response.forEach { it.validate() }
@@ -105,10 +100,7 @@ internal class StockServiceAsyncTest {
                 .build()
         val stockServiceAsync = client.api().v2().marketData().stocks()
 
-        val responseFuture =
-            stockServiceAsync.retrieveQuote(
-                StockRetrieveQuoteParams.builder().stockId("stock_id").build()
-            )
+        val responseFuture = stockServiceAsync.retrieveQuote("stock_id")
 
         val response = responseFuture.get()
         response.validate()

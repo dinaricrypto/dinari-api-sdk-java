@@ -26,14 +26,34 @@ interface SplitService {
      * will then be converted into 10 shares, and the split becomes `COMPLETE` as trading resumes on
      * the `ex_date` with new split-adjusted prices.
      */
-    fun retrieve(params: SplitRetrieveParams): List<StockSplit> =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(stockId: String): List<StockSplit> = retrieve(stockId, SplitRetrieveParams.none())
+
+    /** @see [retrieve] */
+    fun retrieve(
+        stockId: String,
+        params: SplitRetrieveParams = SplitRetrieveParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): List<StockSplit> = retrieve(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieve] */
+    fun retrieve(
+        stockId: String,
+        params: SplitRetrieveParams = SplitRetrieveParams.none(),
+    ): List<StockSplit> = retrieve(stockId, params, RequestOptions.none())
 
     /** @see [retrieve] */
     fun retrieve(
         params: SplitRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<StockSplit>
+
+    /** @see [retrieve] */
+    fun retrieve(params: SplitRetrieveParams): List<StockSplit> =
+        retrieve(params, RequestOptions.none())
+
+    /** @see [retrieve] */
+    fun retrieve(stockId: String, requestOptions: RequestOptions): List<StockSplit> =
+        retrieve(stockId, SplitRetrieveParams.none(), requestOptions)
 
     /**
      * Returns a list of stock splits. The splits are ordered by the date they were created, with
@@ -69,8 +89,24 @@ interface SplitService {
          * is otherwise the same as [SplitService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(params: SplitRetrieveParams): HttpResponseFor<List<StockSplit>> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(stockId: String): HttpResponseFor<List<StockSplit>> =
+            retrieve(stockId, SplitRetrieveParams.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            stockId: String,
+            params: SplitRetrieveParams = SplitRetrieveParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<List<StockSplit>> =
+            retrieve(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            stockId: String,
+            params: SplitRetrieveParams = SplitRetrieveParams.none(),
+        ): HttpResponseFor<List<StockSplit>> = retrieve(stockId, params, RequestOptions.none())
 
         /** @see [retrieve] */
         @MustBeClosed
@@ -78,6 +114,19 @@ interface SplitService {
             params: SplitRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<StockSplit>>
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(params: SplitRetrieveParams): HttpResponseFor<List<StockSplit>> =
+            retrieve(params, RequestOptions.none())
+
+        /** @see [retrieve] */
+        @MustBeClosed
+        fun retrieve(
+            stockId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<List<StockSplit>> =
+            retrieve(stockId, SplitRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/splits`, but is otherwise

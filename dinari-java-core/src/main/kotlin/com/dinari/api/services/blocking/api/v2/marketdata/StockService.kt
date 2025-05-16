@@ -47,9 +47,23 @@ interface StockService {
      * Returns a list of announced stock dividend details for a specified stock. Note that this data
      * applies only to actual stocks. Yield received for holding dShares may differ from this.
      */
+    fun retrieveDividends(stockId: String): List<StockRetrieveDividendsResponse> =
+        retrieveDividends(stockId, StockRetrieveDividendsParams.none())
+
+    /** @see [retrieveDividends] */
     fun retrieveDividends(
-        params: StockRetrieveDividendsParams
-    ): List<StockRetrieveDividendsResponse> = retrieveDividends(params, RequestOptions.none())
+        stockId: String,
+        params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): List<StockRetrieveDividendsResponse> =
+        retrieveDividends(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieveDividends] */
+    fun retrieveDividends(
+        stockId: String,
+        params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
+    ): List<StockRetrieveDividendsResponse> =
+        retrieveDividends(stockId, params, RequestOptions.none())
 
     /** @see [retrieveDividends] */
     fun retrieveDividends(
@@ -57,10 +71,37 @@ interface StockService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<StockRetrieveDividendsResponse>
 
+    /** @see [retrieveDividends] */
+    fun retrieveDividends(
+        params: StockRetrieveDividendsParams
+    ): List<StockRetrieveDividendsResponse> = retrieveDividends(params, RequestOptions.none())
+
+    /** @see [retrieveDividends] */
+    fun retrieveDividends(
+        stockId: String,
+        requestOptions: RequestOptions,
+    ): List<StockRetrieveDividendsResponse> =
+        retrieveDividends(stockId, StockRetrieveDividendsParams.none(), requestOptions)
+
     /**
      * Returns a list of historical prices for a specified stock. Each index in the array represents
      * a single tick in a price chart.
      */
+    fun retrieveHistoricalPrices(
+        stockId: String,
+        params: StockRetrieveHistoricalPricesParams,
+    ): List<StockRetrieveHistoricalPricesResponse> =
+        retrieveHistoricalPrices(stockId, params, RequestOptions.none())
+
+    /** @see [retrieveHistoricalPrices] */
+    fun retrieveHistoricalPrices(
+        stockId: String,
+        params: StockRetrieveHistoricalPricesParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): List<StockRetrieveHistoricalPricesResponse> =
+        retrieveHistoricalPrices(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieveHistoricalPrices] */
     fun retrieveHistoricalPrices(
         params: StockRetrieveHistoricalPricesParams
     ): List<StockRetrieveHistoricalPricesResponse> =
@@ -76,8 +117,22 @@ interface StockService {
      * Get the most recent news articles relating to a stock, including a summary of the article and
      * a link to the original source
      */
-    fun retrieveNews(params: StockRetrieveNewsParams): List<StockRetrieveNewsResponse> =
-        retrieveNews(params, RequestOptions.none())
+    fun retrieveNews(stockId: String): List<StockRetrieveNewsResponse> =
+        retrieveNews(stockId, StockRetrieveNewsParams.none())
+
+    /** @see [retrieveNews] */
+    fun retrieveNews(
+        stockId: String,
+        params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): List<StockRetrieveNewsResponse> =
+        retrieveNews(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieveNews] */
+    fun retrieveNews(
+        stockId: String,
+        params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
+    ): List<StockRetrieveNewsResponse> = retrieveNews(stockId, params, RequestOptions.none())
 
     /** @see [retrieveNews] */
     fun retrieveNews(
@@ -85,15 +140,48 @@ interface StockService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<StockRetrieveNewsResponse>
 
+    /** @see [retrieveNews] */
+    fun retrieveNews(params: StockRetrieveNewsParams): List<StockRetrieveNewsResponse> =
+        retrieveNews(params, RequestOptions.none())
+
+    /** @see [retrieveNews] */
+    fun retrieveNews(
+        stockId: String,
+        requestOptions: RequestOptions,
+    ): List<StockRetrieveNewsResponse> =
+        retrieveNews(stockId, StockRetrieveNewsParams.none(), requestOptions)
+
     /** Returns a stock quote for a specified stock. */
-    fun retrieveQuote(params: StockRetrieveQuoteParams): StockRetrieveQuoteResponse =
-        retrieveQuote(params, RequestOptions.none())
+    fun retrieveQuote(stockId: String): StockRetrieveQuoteResponse =
+        retrieveQuote(stockId, StockRetrieveQuoteParams.none())
+
+    /** @see [retrieveQuote] */
+    fun retrieveQuote(
+        stockId: String,
+        params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StockRetrieveQuoteResponse =
+        retrieveQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieveQuote] */
+    fun retrieveQuote(
+        stockId: String,
+        params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
+    ): StockRetrieveQuoteResponse = retrieveQuote(stockId, params, RequestOptions.none())
 
     /** @see [retrieveQuote] */
     fun retrieveQuote(
         params: StockRetrieveQuoteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StockRetrieveQuoteResponse
+
+    /** @see [retrieveQuote] */
+    fun retrieveQuote(params: StockRetrieveQuoteParams): StockRetrieveQuoteResponse =
+        retrieveQuote(params, RequestOptions.none())
+
+    /** @see [retrieveQuote] */
+    fun retrieveQuote(stockId: String, requestOptions: RequestOptions): StockRetrieveQuoteResponse =
+        retrieveQuote(stockId, StockRetrieveQuoteParams.none(), requestOptions)
 
     /** A view of [StockService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -131,9 +219,26 @@ interface StockService {
          */
         @MustBeClosed
         fun retrieveDividends(
-            params: StockRetrieveDividendsParams
+            stockId: String
         ): HttpResponseFor<List<StockRetrieveDividendsResponse>> =
-            retrieveDividends(params, RequestOptions.none())
+            retrieveDividends(stockId, StockRetrieveDividendsParams.none())
+
+        /** @see [retrieveDividends] */
+        @MustBeClosed
+        fun retrieveDividends(
+            stockId: String,
+            params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<List<StockRetrieveDividendsResponse>> =
+            retrieveDividends(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieveDividends] */
+        @MustBeClosed
+        fun retrieveDividends(
+            stockId: String,
+            params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
+        ): HttpResponseFor<List<StockRetrieveDividendsResponse>> =
+            retrieveDividends(stockId, params, RequestOptions.none())
 
         /** @see [retrieveDividends] */
         @MustBeClosed
@@ -142,11 +247,43 @@ interface StockService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<StockRetrieveDividendsResponse>>
 
+        /** @see [retrieveDividends] */
+        @MustBeClosed
+        fun retrieveDividends(
+            params: StockRetrieveDividendsParams
+        ): HttpResponseFor<List<StockRetrieveDividendsResponse>> =
+            retrieveDividends(params, RequestOptions.none())
+
+        /** @see [retrieveDividends] */
+        @MustBeClosed
+        fun retrieveDividends(
+            stockId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<List<StockRetrieveDividendsResponse>> =
+            retrieveDividends(stockId, StockRetrieveDividendsParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `get
          * /api/v2/market_data/stocks/{stock_id}/historical_prices/`, but is otherwise the same as
          * [StockService.retrieveHistoricalPrices].
          */
+        @MustBeClosed
+        fun retrieveHistoricalPrices(
+            stockId: String,
+            params: StockRetrieveHistoricalPricesParams,
+        ): HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>> =
+            retrieveHistoricalPrices(stockId, params, RequestOptions.none())
+
+        /** @see [retrieveHistoricalPrices] */
+        @MustBeClosed
+        fun retrieveHistoricalPrices(
+            stockId: String,
+            params: StockRetrieveHistoricalPricesParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>> =
+            retrieveHistoricalPrices(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieveHistoricalPrices] */
         @MustBeClosed
         fun retrieveHistoricalPrices(
             params: StockRetrieveHistoricalPricesParams
@@ -165,10 +302,25 @@ interface StockService {
          * otherwise the same as [StockService.retrieveNews].
          */
         @MustBeClosed
+        fun retrieveNews(stockId: String): HttpResponseFor<List<StockRetrieveNewsResponse>> =
+            retrieveNews(stockId, StockRetrieveNewsParams.none())
+
+        /** @see [retrieveNews] */
+        @MustBeClosed
         fun retrieveNews(
-            params: StockRetrieveNewsParams
+            stockId: String,
+            params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<StockRetrieveNewsResponse>> =
-            retrieveNews(params, RequestOptions.none())
+            retrieveNews(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieveNews] */
+        @MustBeClosed
+        fun retrieveNews(
+            stockId: String,
+            params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
+        ): HttpResponseFor<List<StockRetrieveNewsResponse>> =
+            retrieveNews(stockId, params, RequestOptions.none())
 
         /** @see [retrieveNews] */
         @MustBeClosed
@@ -177,10 +329,54 @@ interface StockService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<StockRetrieveNewsResponse>>
 
+        /** @see [retrieveNews] */
+        @MustBeClosed
+        fun retrieveNews(
+            params: StockRetrieveNewsParams
+        ): HttpResponseFor<List<StockRetrieveNewsResponse>> =
+            retrieveNews(params, RequestOptions.none())
+
+        /** @see [retrieveNews] */
+        @MustBeClosed
+        fun retrieveNews(
+            stockId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<List<StockRetrieveNewsResponse>> =
+            retrieveNews(stockId, StockRetrieveNewsParams.none(), requestOptions)
+
         /**
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/{stock_id}/quote`, but is
          * otherwise the same as [StockService.retrieveQuote].
          */
+        @MustBeClosed
+        fun retrieveQuote(stockId: String): HttpResponseFor<StockRetrieveQuoteResponse> =
+            retrieveQuote(stockId, StockRetrieveQuoteParams.none())
+
+        /** @see [retrieveQuote] */
+        @MustBeClosed
+        fun retrieveQuote(
+            stockId: String,
+            params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StockRetrieveQuoteResponse> =
+            retrieveQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieveQuote] */
+        @MustBeClosed
+        fun retrieveQuote(
+            stockId: String,
+            params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
+        ): HttpResponseFor<StockRetrieveQuoteResponse> =
+            retrieveQuote(stockId, params, RequestOptions.none())
+
+        /** @see [retrieveQuote] */
+        @MustBeClosed
+        fun retrieveQuote(
+            params: StockRetrieveQuoteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StockRetrieveQuoteResponse>
+
+        /** @see [retrieveQuote] */
         @MustBeClosed
         fun retrieveQuote(
             params: StockRetrieveQuoteParams
@@ -190,8 +386,9 @@ interface StockService {
         /** @see [retrieveQuote] */
         @MustBeClosed
         fun retrieveQuote(
-            params: StockRetrieveQuoteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<StockRetrieveQuoteResponse>
+            stockId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StockRetrieveQuoteResponse> =
+            retrieveQuote(stockId, StockRetrieveQuoteParams.none(), requestOptions)
     }
 }

@@ -5,6 +5,7 @@ package com.dinari.api.services.async.api.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
 import com.dinari.api.core.handlers.withErrorHandler
@@ -23,6 +24,7 @@ import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMar
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import java.util.concurrent.CompletableFuture
+import kotlin.jvm.optionals.getOrNull
 
 class OrderRequestServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     OrderRequestServiceAsync {
@@ -87,6 +89,9 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
             params: OrderRequestRetrieveParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<OrderRequest>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("requestId", params.requestId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -123,6 +128,9 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
             params: OrderRequestListParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<List<OrderRequest>>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -158,6 +166,9 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
             params: OrderRequestCreateLimitBuyParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<OrderRequest>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -195,6 +206,9 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
             params: OrderRequestCreateLimitSellParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<OrderRequest>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -232,6 +246,9 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
             params: OrderRequestCreateMarketBuyParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<OrderRequest>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -269,6 +286,9 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
             params: OrderRequestCreateMarketSellParams,
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<OrderRequest>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
