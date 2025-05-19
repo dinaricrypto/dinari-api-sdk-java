@@ -39,6 +39,8 @@ private constructor(
 
         const val PRODUCTION_URL = "https://api-enterprise.sbt.dinari.com"
 
+        const val SANDBOX_URL = "https://api-enterprise.sandbox.dinari.com"
+
         /**
          * Returns a mutable builder for constructing an instance of [ClientOptions].
          *
