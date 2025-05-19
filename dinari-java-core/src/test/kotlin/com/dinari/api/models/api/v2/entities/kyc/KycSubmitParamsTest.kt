@@ -26,11 +26,11 @@ internal class KycSubmitParamsTest {
                     .birthDate(LocalDate.parse("2019-12-27"))
                     .email("johndoe@website.com")
                     .firstName("John")
-                    .middleName("middle_name")
-                    .taxIdNumber("123456789")
+                    .middleName("x")
+                    .taxIdNumber("12-3456789")
                     .build()
             )
-            .providerName("provider_name")
+            .providerName("x")
             .build()
     }
 
@@ -41,7 +41,7 @@ internal class KycSubmitParamsTest {
             KycSubmitParams.builder()
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .data(KycData.builder().countryCode("SG").lastName("Doe").build())
-                .providerName("provider_name")
+                .providerName("x")
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -67,11 +67,11 @@ internal class KycSubmitParamsTest {
                         .birthDate(LocalDate.parse("2019-12-27"))
                         .email("johndoe@website.com")
                         .firstName("John")
-                        .middleName("middle_name")
-                        .taxIdNumber("123456789")
+                        .middleName("x")
+                        .taxIdNumber("12-3456789")
                         .build()
                 )
-                .providerName("provider_name")
+                .providerName("x")
                 .build()
 
         val body = params._body()
@@ -89,11 +89,11 @@ internal class KycSubmitParamsTest {
                     .birthDate(LocalDate.parse("2019-12-27"))
                     .email("johndoe@website.com")
                     .firstName("John")
-                    .middleName("middle_name")
-                    .taxIdNumber("123456789")
+                    .middleName("x")
+                    .taxIdNumber("12-3456789")
                     .build()
             )
-        assertThat(body.providerName()).isEqualTo("provider_name")
+        assertThat(body.providerName()).isEqualTo("x")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -103,13 +103,13 @@ internal class KycSubmitParamsTest {
             KycSubmitParams.builder()
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .data(KycData.builder().countryCode("SG").lastName("Doe").build())
-                .providerName("provider_name")
+                .providerName("x")
                 .build()
 
         val body = params._body()
 
         assertThat(body.data())
             .isEqualTo(KycData.builder().countryCode("SG").lastName("Doe").build())
-        assertThat(body.providerName()).isEqualTo("provider_name")
+        assertThat(body.providerName()).isEqualTo("x")
     }
 }

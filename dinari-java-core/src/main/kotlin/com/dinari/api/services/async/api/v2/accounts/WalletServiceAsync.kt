@@ -19,7 +19,7 @@ interface WalletServiceAsync {
 
     fun external(): ExternalServiceAsync
 
-    /** Retrieves details of the wallet connected to the account. */
+    /** Get the wallet connected to the `Account`. */
     fun retrieve(accountId: String): CompletableFuture<Wallet> =
         retrieve(accountId, WalletRetrieveParams.none())
 

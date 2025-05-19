@@ -19,14 +19,13 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** KYC information for an entity */
+/** KYC information for an `Entity`. */
 class KycInfo
 private constructor(
     private val id: JsonField<String>,
     private val status: JsonField<Status>,
     private val checkedDt: JsonField<OffsetDateTime>,
     private val data: JsonField<KycData>,
-    private val providerName: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -38,13 +37,10 @@ private constructor(
         @ExcludeMissing
         checkedDt: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("data") @ExcludeMissing data: JsonField<KycData> = JsonMissing.of(),
-        @JsonProperty("provider_name")
-        @ExcludeMissing
-        providerName: JsonField<String> = JsonMissing.of(),
-    ) : this(id, status, checkedDt, data, providerName, mutableMapOf())
+    ) : this(id, status, checkedDt, data, mutableMapOf())
 
     /**
-     * Unique identifier for the KYC check
+     * ID of the KYC check.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -52,7 +48,7 @@ private constructor(
     fun id(): String = id.getRequired("id")
 
     /**
-     * KYC status
+     * KYC check status.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -60,7 +56,7 @@ private constructor(
     fun status(): Status = status.getRequired("status")
 
     /**
-     * Timestamp when the KYC was last checked
+     * Datetime when the KYC was last checked. ISO 8601 timestamp.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -68,20 +64,12 @@ private constructor(
     fun checkedDt(): Optional<OffsetDateTime> = checkedDt.getOptional("checked_dt")
 
     /**
-     * Object consisting of KYC data for an entity
+     * KYC data for an `Entity`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun data(): Optional<KycData> = data.getOptional("data")
-
-    /**
-     * Name of the KYC provider that provided the KYC check
-     *
-     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun providerName(): Optional<String> = providerName.getOptional("provider_name")
 
     /**
      * Returns the raw JSON value of [id].
@@ -112,15 +100,6 @@ private constructor(
      * Unlike [data], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("data") @ExcludeMissing fun _data(): JsonField<KycData> = data
-
-    /**
-     * Returns the raw JSON value of [providerName].
-     *
-     * Unlike [providerName], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("provider_name")
-    @ExcludeMissing
-    fun _providerName(): JsonField<String> = providerName
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -155,7 +134,6 @@ private constructor(
         private var status: JsonField<Status>? = null
         private var checkedDt: JsonField<OffsetDateTime> = JsonMissing.of()
         private var data: JsonField<KycData> = JsonMissing.of()
-        private var providerName: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -164,11 +142,10 @@ private constructor(
             status = kycInfo.status
             checkedDt = kycInfo.checkedDt
             data = kycInfo.data
-            providerName = kycInfo.providerName
             additionalProperties = kycInfo.additionalProperties.toMutableMap()
         }
 
-        /** Unique identifier for the KYC check */
+        /** ID of the KYC check. */
         fun id(id: String) = id(JsonField.of(id))
 
         /**
@@ -179,7 +156,7 @@ private constructor(
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
 
-        /** KYC status */
+        /** KYC check status. */
         fun status(status: Status) = status(JsonField.of(status))
 
         /**
@@ -190,7 +167,7 @@ private constructor(
          */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
-        /** Timestamp when the KYC was last checked */
+        /** Datetime when the KYC was last checked. ISO 8601 timestamp. */
         fun checkedDt(checkedDt: OffsetDateTime) = checkedDt(JsonField.of(checkedDt))
 
         /**
@@ -202,7 +179,7 @@ private constructor(
          */
         fun checkedDt(checkedDt: JsonField<OffsetDateTime>) = apply { this.checkedDt = checkedDt }
 
-        /** Object consisting of KYC data for an entity */
+        /** KYC data for an `Entity`. */
         fun data(data: KycData) = data(JsonField.of(data))
 
         /**
@@ -212,20 +189,6 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun data(data: JsonField<KycData>) = apply { this.data = data }
-
-        /** Name of the KYC provider that provided the KYC check */
-        fun providerName(providerName: String) = providerName(JsonField.of(providerName))
-
-        /**
-         * Sets [Builder.providerName] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.providerName] with a well-typed [String] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun providerName(providerName: JsonField<String>) = apply {
-            this.providerName = providerName
-        }
 
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
@@ -265,7 +228,6 @@ private constructor(
                 checkRequired("status", status),
                 checkedDt,
                 data,
-                providerName,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -281,7 +243,6 @@ private constructor(
         status().validate()
         checkedDt()
         data().ifPresent { it.validate() }
-        providerName()
         validated = true
     }
 
@@ -303,10 +264,9 @@ private constructor(
         (if (id.asKnown().isPresent) 1 else 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
             (if (checkedDt.asKnown().isPresent) 1 else 0) +
-            (data.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (providerName.asKnown().isPresent) 1 else 0)
+            (data.asKnown().getOrNull()?.validity() ?: 0)
 
-    /** KYC status */
+    /** KYC check status. */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
@@ -449,15 +409,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is KycInfo && id == other.id && status == other.status && checkedDt == other.checkedDt && data == other.data && providerName == other.providerName && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is KycInfo && id == other.id && status == other.status && checkedDt == other.checkedDt && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, status, checkedDt, data, providerName, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(id, status, checkedDt, data, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "KycInfo{id=$id, status=$status, checkedDt=$checkedDt, data=$data, providerName=$providerName, additionalProperties=$additionalProperties}"
+        "KycInfo{id=$id, status=$status, checkedDt=$checkedDt, data=$data, additionalProperties=$additionalProperties}"
 }

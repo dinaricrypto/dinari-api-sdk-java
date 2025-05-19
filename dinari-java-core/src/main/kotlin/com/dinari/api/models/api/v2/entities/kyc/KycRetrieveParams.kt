@@ -9,7 +9,13 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieves KYC data of the entity. */
+/**
+ * Get most recent KYC data of the `Entity`.
+ *
+ * If there are any completed KYC checks, data from the most recent one will be returned. If there
+ * are no completed KYC checks, the most recent KYC check information, regardless of status, will be
+ * returned.
+ */
 class KycRetrieveParams
 private constructor(
     private val entityId: String?,

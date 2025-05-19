@@ -4,6 +4,9 @@ package com.dinari.api.services.async.api.v2
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
+import com.dinari.api.models.api.v2.accounts.AccountRetrieveDividendPaymentsParams
+import com.dinari.api.models.api.v2.accounts.AccountRetrieveInterestPaymentsParams
+import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -18,6 +21,7 @@ internal class AccountServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountServiceAsync = client.api().v2().accounts()
 
@@ -34,6 +38,7 @@ internal class AccountServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountServiceAsync = client.api().v2().accounts()
 
@@ -50,6 +55,7 @@ internal class AccountServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountServiceAsync = client.api().v2().accounts()
 
@@ -57,7 +63,7 @@ internal class AccountServiceAsyncTest {
             accountServiceAsync.retrieveCash("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         val response = responseFuture.get()
-        response.validate()
+        response.forEach { it.validate() }
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -67,11 +73,21 @@ internal class AccountServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountServiceAsync = client.api().v2().accounts()
 
         val responseFuture =
-            accountServiceAsync.retrieveDividendPayments("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            accountServiceAsync.retrieveDividendPayments(
+                AccountRetrieveDividendPaymentsParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .endDate(LocalDate.parse("2019-12-27"))
+                    .startDate(LocalDate.parse("2019-12-27"))
+                    .page(1L)
+                    .pageSize(1L)
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
 
         val response = responseFuture.get()
         response.forEach { it.validate() }
@@ -84,11 +100,20 @@ internal class AccountServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountServiceAsync = client.api().v2().accounts()
 
         val responseFuture =
-            accountServiceAsync.retrieveInterestPayments("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            accountServiceAsync.retrieveInterestPayments(
+                AccountRetrieveInterestPaymentsParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .endDate(LocalDate.parse("2019-12-27"))
+                    .startDate(LocalDate.parse("2019-12-27"))
+                    .page(1L)
+                    .pageSize(1L)
+                    .build()
+            )
 
         val response = responseFuture.get()
         response.forEach { it.validate() }
@@ -101,6 +126,7 @@ internal class AccountServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountServiceAsync = client.api().v2().accounts()
 

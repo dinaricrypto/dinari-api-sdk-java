@@ -18,8 +18,8 @@ import java.util.Objects
 import java.util.Optional
 
 /**
- * This represents a news article relating to a stock ticker symbol which includes a summary of the
- * article and a link to the original source.
+ * A news article relating to a `Stock` which includes a summary of the article and a link to the
+ * original source.
  */
 class StockRetrieveNewsResponse
 private constructor(
@@ -73,7 +73,7 @@ private constructor(
     fun imageUrl(): String = imageUrl.getRequired("image_url")
 
     /**
-     * Timestamp when the article was published
+     * Datetime when the article was published. ISO 8601 timestamp.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -89,7 +89,7 @@ private constructor(
     fun publisher(): String = publisher.getRequired("publisher")
 
     /**
-     * The mobile friendly Accelerated Mobile Page (AMP) URL of the news article if available
+     * Mobile-friendly Accelerated Mobile Page (AMP) URL of the news article, if available
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -226,7 +226,7 @@ private constructor(
          */
         fun imageUrl(imageUrl: JsonField<String>) = apply { this.imageUrl = imageUrl }
 
-        /** Timestamp when the article was published */
+        /** Datetime when the article was published. ISO 8601 timestamp. */
         fun publishedDt(publishedDt: OffsetDateTime) = publishedDt(JsonField.of(publishedDt))
 
         /**
@@ -252,9 +252,7 @@ private constructor(
          */
         fun publisher(publisher: JsonField<String>) = apply { this.publisher = publisher }
 
-        /**
-         * The mobile friendly Accelerated Mobile Page (AMP) URL of the news article if available
-         */
+        /** Mobile-friendly Accelerated Mobile Page (AMP) URL of the news article, if available */
         fun ampUrl(ampUrl: String) = ampUrl(JsonField.of(ampUrl))
 
         /**

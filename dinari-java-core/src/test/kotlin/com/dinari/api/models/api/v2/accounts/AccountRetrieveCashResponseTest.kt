@@ -14,10 +14,18 @@ internal class AccountRetrieveCashResponseTest {
     @Test
     fun create() {
         val accountRetrieveCashResponse =
-            AccountRetrieveCashResponse.builder().amount(0.0).currency("currency").build()
+            AccountRetrieveCashResponse.builder()
+                .amount(0.0)
+                .chainId(AccountRetrieveCashResponse.ChainId.EIP155_1)
+                .symbol("symbol")
+                .tokenAddress("token_address")
+                .build()
 
         assertThat(accountRetrieveCashResponse.amount()).isEqualTo(0.0)
-        assertThat(accountRetrieveCashResponse.currency()).isEqualTo("currency")
+        assertThat(accountRetrieveCashResponse.chainId())
+            .isEqualTo(AccountRetrieveCashResponse.ChainId.EIP155_1)
+        assertThat(accountRetrieveCashResponse.symbol()).isEqualTo("symbol")
+        assertThat(accountRetrieveCashResponse.tokenAddress()).isEqualTo("token_address")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -25,7 +33,12 @@ internal class AccountRetrieveCashResponseTest {
     fun roundtrip() {
         val jsonMapper = jsonMapper()
         val accountRetrieveCashResponse =
-            AccountRetrieveCashResponse.builder().amount(0.0).currency("currency").build()
+            AccountRetrieveCashResponse.builder()
+                .amount(0.0)
+                .chainId(AccountRetrieveCashResponse.ChainId.EIP155_1)
+                .symbol("symbol")
+                .tokenAddress("token_address")
+                .build()
 
         val roundtrippedAccountRetrieveCashResponse =
             jsonMapper.readValue(

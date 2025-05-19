@@ -11,7 +11,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Sets the account to be inactive. */
+/** Set the `Account` to be inactive. Inactive accounts cannot be used for trading. */
 class AccountDeactivateParams
 private constructor(
     private val accountId: String?,

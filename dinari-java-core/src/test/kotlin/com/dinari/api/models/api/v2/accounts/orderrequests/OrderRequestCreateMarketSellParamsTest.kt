@@ -2,6 +2,7 @@
 
 package com.dinari.api.models.api.v2.accounts.orderrequests
 
+import com.dinari.api.core.JsonValue
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -13,8 +14,8 @@ internal class OrderRequestCreateMarketSellParamsTest {
     fun create() {
         OrderRequestCreateMarketSellParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .assetQuantity(0.0)
-            .stockId("stock_id")
+            .assetQuantity(JsonValue.from("0"))
+            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -24,8 +25,8 @@ internal class OrderRequestCreateMarketSellParamsTest {
         val params =
             OrderRequestCreateMarketSellParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .assetQuantity(0.0)
-                .stockId("stock_id")
+                .assetQuantity(JsonValue.from("0"))
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -39,13 +40,13 @@ internal class OrderRequestCreateMarketSellParamsTest {
         val params =
             OrderRequestCreateMarketSellParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .assetQuantity(0.0)
-                .stockId("stock_id")
+                .assetQuantity(JsonValue.from("0"))
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val body = params._body()
 
-        assertThat(body.assetQuantity()).isEqualTo(0.0)
-        assertThat(body.stockId()).isEqualTo("stock_id")
+        assertThat(body.assetQuantity()).isEqualTo(JsonValue.from("0"))
+        assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

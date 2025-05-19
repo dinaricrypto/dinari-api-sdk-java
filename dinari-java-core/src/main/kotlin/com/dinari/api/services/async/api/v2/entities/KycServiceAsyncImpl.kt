@@ -14,10 +14,9 @@ import com.dinari.api.core.http.HttpRequest
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
+import com.dinari.api.core.http.multipartFormData
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepareAsync
-import com.dinari.api.models.api.v2.entities.kyc.KycGetUrlParams
-import com.dinari.api.models.api.v2.entities.kyc.KycGetUrlResponse
 import com.dinari.api.models.api.v2.entities.kyc.KycInfo
 import com.dinari.api.models.api.v2.entities.kyc.KycRetrieveParams
 import com.dinari.api.models.api.v2.entities.kyc.KycSubmitParams
@@ -41,13 +40,6 @@ class KycServiceAsyncImpl internal constructor(private val clientOptions: Client
     ): CompletableFuture<KycInfo> =
         // get /api/v2/entities/{entity_id}/kyc
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
-
-    override fun getUrl(
-        params: KycGetUrlParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<KycGetUrlResponse> =
-        // get /api/v2/entities/{entity_id}/kyc/url
-        withRawResponse().getUrl(params, requestOptions).thenApply { it.parse() }
 
     override fun submit(
         params: KycSubmitParams,
@@ -91,38 +83,6 @@ class KycServiceAsyncImpl internal constructor(private val clientOptions: Client
                     response.parseable {
                         response
                             .use { retrieveHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.validate()
-                                }
-                            }
-                    }
-                }
-        }
-
-        private val getUrlHandler: Handler<KycGetUrlResponse> =
-            jsonHandler<KycGetUrlResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
-
-        override fun getUrl(
-            params: KycGetUrlParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<KycGetUrlResponse>> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("entityId", params.entityId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .addPathSegments("api", "v2", "entities", params._pathParam(0), "kyc", "url")
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    response.parseable {
-                        response
-                            .use { getUrlHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
@@ -188,7 +148,7 @@ class KycServiceAsyncImpl internal constructor(private val clientOptions: Client
                         params._pathParam(1),
                         "document",
                     )
-                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .body(multipartFormData(clientOptions.jsonMapper, params._body()))
                     .build()
                     .prepareAsync(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))

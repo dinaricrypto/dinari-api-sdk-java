@@ -10,8 +10,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Get the most recent news articles relating to a stock, including a summary of the article and a
- * link to the original source
+ * Get the most recent news articles relating to a `Stock`, including a summary of the article and a
+ * link to the original source.
  */
 class StockRetrieveNewsParams
 private constructor(
@@ -23,7 +23,7 @@ private constructor(
 
     fun stockId(): Optional<String> = Optional.ofNullable(stockId)
 
-    /** The number of news articles to return, default is 10 max is 25 */
+    /** The number of articles to return. */
     fun limit(): Optional<Long> = Optional.ofNullable(limit)
 
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -61,7 +61,7 @@ private constructor(
         /** Alias for calling [Builder.stockId] with `stockId.orElse(null)`. */
         fun stockId(stockId: Optional<String>) = stockId(stockId.getOrNull())
 
-        /** The number of news articles to return, default is 10 max is 25 */
+        /** The number of articles to return. */
         fun limit(limit: Long?) = apply { this.limit = limit }
 
         /**

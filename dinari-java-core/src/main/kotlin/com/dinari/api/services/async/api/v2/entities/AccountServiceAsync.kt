@@ -17,7 +17,10 @@ interface AccountServiceAsync {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Creates a new Account for the given Entity. */
+    /**
+     * Create a new `Account` for a specific `Entity`. This `Entity` represents your organization
+     * itself, or an individual customer of your organization.
+     */
     fun create(entityId: String): CompletableFuture<Account> =
         create(entityId, AccountCreateParams.none())
 
@@ -49,7 +52,10 @@ interface AccountServiceAsync {
     fun create(entityId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
         create(entityId, AccountCreateParams.none(), requestOptions)
 
-    /** Retrieves a list of Accounts that belong to a specific Entity. */
+    /**
+     * Get a list of all `Accounts` that belong to a specific `Entity`. This `Entity` represents
+     * your organization itself, or an individual customer of your organization.
+     */
     fun list(entityId: String): CompletableFuture<List<Account>> =
         list(entityId, AccountListParams.none())
 

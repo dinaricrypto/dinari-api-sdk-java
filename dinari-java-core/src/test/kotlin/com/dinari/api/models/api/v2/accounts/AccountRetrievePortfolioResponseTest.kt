@@ -18,8 +18,10 @@ internal class AccountRetrievePortfolioResponseTest {
                 .addAsset(
                     AccountRetrievePortfolioResponse.Asset.builder()
                         .amount(0.0)
-                        .marketValue(0.0)
-                        .stockId("stock_id")
+                        .chainId(AccountRetrievePortfolioResponse.Asset.ChainId.EIP155_1)
+                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .symbol("symbol")
+                        .tokenAddress("token_address")
                         .build()
                 )
                 .build()
@@ -28,8 +30,10 @@ internal class AccountRetrievePortfolioResponseTest {
             .containsExactly(
                 AccountRetrievePortfolioResponse.Asset.builder()
                     .amount(0.0)
-                    .marketValue(0.0)
-                    .stockId("stock_id")
+                    .chainId(AccountRetrievePortfolioResponse.Asset.ChainId.EIP155_1)
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .symbol("symbol")
+                    .tokenAddress("token_address")
                     .build()
             )
     }
@@ -43,8 +47,10 @@ internal class AccountRetrievePortfolioResponseTest {
                 .addAsset(
                     AccountRetrievePortfolioResponse.Asset.builder()
                         .amount(0.0)
-                        .marketValue(0.0)
-                        .stockId("stock_id")
+                        .chainId(AccountRetrievePortfolioResponse.Asset.ChainId.EIP155_1)
+                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .symbol("symbol")
+                        .tokenAddress("token_address")
                         .build()
                 )
                 .build()

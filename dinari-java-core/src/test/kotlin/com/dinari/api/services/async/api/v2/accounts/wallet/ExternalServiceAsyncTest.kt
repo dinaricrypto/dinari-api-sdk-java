@@ -20,6 +20,7 @@ internal class ExternalServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val externalServiceAsync = client.api().v2().accounts().wallet().external()
 
@@ -27,7 +28,7 @@ internal class ExternalServiceAsyncTest {
             externalServiceAsync.connect(
                 ExternalConnectParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .chainId(0L)
+                    .chainId(ExternalConnectParams.ChainId.EIP155_1)
                     .nonce("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .signature("0xeaF12bD1DfFd")
                     .walletAddress("wallet_address")
@@ -45,6 +46,7 @@ internal class ExternalServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val externalServiceAsync = client.api().v2().accounts().wallet().external()
 

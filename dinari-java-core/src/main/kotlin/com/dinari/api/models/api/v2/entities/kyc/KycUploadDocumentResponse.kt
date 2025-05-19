@@ -16,7 +16,7 @@ import java.util.Collections
 import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
-/** Document associated with KYC for an entity */
+/** A document associated with KYC for an `Entity`. */
 class KycUploadDocumentResponse
 private constructor(
     private val id: JsonField<String>,
@@ -37,7 +37,7 @@ private constructor(
     ) : this(id, documentType, filename, url, mutableMapOf())
 
     /**
-     * ID of the document
+     * ID of the document.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -45,7 +45,7 @@ private constructor(
     fun id(): String = id.getRequired("id")
 
     /**
-     * Type of the document
+     * Type of document.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -53,7 +53,7 @@ private constructor(
     fun documentType(): KycDocumentType = documentType.getRequired("document_type")
 
     /**
-     * Filename of the document
+     * Filename of document.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -61,7 +61,7 @@ private constructor(
     fun filename(): String = filename.getRequired("filename")
 
     /**
-     * URL to access the document. Expires in 1 hour
+     * Temporary URL to access the document. Expires in 1 hour.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -144,7 +144,7 @@ private constructor(
             additionalProperties = kycUploadDocumentResponse.additionalProperties.toMutableMap()
         }
 
-        /** ID of the document */
+        /** ID of the document. */
         fun id(id: String) = id(JsonField.of(id))
 
         /**
@@ -155,7 +155,7 @@ private constructor(
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
 
-        /** Type of the document */
+        /** Type of document. */
         fun documentType(documentType: KycDocumentType) = documentType(JsonField.of(documentType))
 
         /**
@@ -169,7 +169,7 @@ private constructor(
             this.documentType = documentType
         }
 
-        /** Filename of the document */
+        /** Filename of document. */
         fun filename(filename: String) = filename(JsonField.of(filename))
 
         /**
@@ -180,7 +180,7 @@ private constructor(
          */
         fun filename(filename: JsonField<String>) = apply { this.filename = filename }
 
-        /** URL to access the document. Expires in 1 hour */
+        /** Temporary URL to access the document. Expires in 1 hour. */
         fun url(url: String) = url(JsonField.of(url))
 
         /**

@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieves details of a specific order by its ID. */
+/** Get a specific `Order` by its ID. */
 class OrderRetrieveParams
 private constructor(
     private val accountId: String,

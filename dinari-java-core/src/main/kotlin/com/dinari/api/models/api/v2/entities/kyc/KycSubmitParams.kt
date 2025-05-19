@@ -20,7 +20,12 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Submits KYC data manually (for Partner KYC-enabled entities). */
+/**
+ * Submit KYC data directly, for partners that are provisioned to provide their own KYC data.
+ *
+ * This feature is available for everyone in sandbox mode, and for specifically provisioned partners
+ * in production.
+ */
 class KycSubmitParams
 private constructor(
     private val entityId: String?,
@@ -32,7 +37,7 @@ private constructor(
     fun entityId(): Optional<String> = Optional.ofNullable(entityId)
 
     /**
-     * Object consisting of KYC data for an entity
+     * KYC data for an `Entity`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -40,7 +45,7 @@ private constructor(
     fun data(): KycData = body.data()
 
     /**
-     * Name of the KYC provider that provided the KYC information
+     * Name of the KYC provider that provided the KYC information.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -114,7 +119,7 @@ private constructor(
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
-        /** Object consisting of KYC data for an entity */
+        /** KYC data for an `Entity`. */
         fun data(data: KycData) = apply { body.data(data) }
 
         /**
@@ -125,7 +130,7 @@ private constructor(
          */
         fun data(data: JsonField<KycData>) = apply { body.data(data) }
 
-        /** Name of the KYC provider that provided the KYC information */
+        /** Name of the KYC provider that provided the KYC information. */
         fun providerName(providerName: String) = apply { body.providerName(providerName) }
 
         /**
@@ -290,7 +295,7 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    /** Input parameters for providing KYC information for an entity */
+    /** Input parameters for providing KYC information for an `Entity`. */
     class Body
     private constructor(
         private val data: JsonField<KycData>,
@@ -307,7 +312,7 @@ private constructor(
         ) : this(data, providerName, mutableMapOf())
 
         /**
-         * Object consisting of KYC data for an entity
+         * KYC data for an `Entity`.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -315,7 +320,7 @@ private constructor(
         fun data(): KycData = data.getRequired("data")
 
         /**
-         * Name of the KYC provider that provided the KYC information
+         * Name of the KYC provider that provided the KYC information.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -379,7 +384,7 @@ private constructor(
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
-            /** Object consisting of KYC data for an entity */
+            /** KYC data for an `Entity`. */
             fun data(data: KycData) = data(JsonField.of(data))
 
             /**
@@ -391,7 +396,7 @@ private constructor(
              */
             fun data(data: JsonField<KycData>) = apply { this.data = data }
 
-            /** Name of the KYC provider that provided the KYC information */
+            /** Name of the KYC provider that provided the KYC information. */
             fun providerName(providerName: String) = providerName(JsonField.of(providerName))
 
             /**

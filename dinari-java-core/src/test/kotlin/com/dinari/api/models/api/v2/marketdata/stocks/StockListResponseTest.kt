@@ -15,8 +15,9 @@ internal class StockListResponseTest {
     fun create() {
         val stockListResponse =
             StockListResponse.builder()
-                .id("id")
+                .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .isFractionable(true)
+                .isTradable(true)
                 .name("name")
                 .symbol("symbol")
                 .cik("cik")
@@ -27,8 +28,9 @@ internal class StockListResponseTest {
                 .logoUrl("logo_url")
                 .build()
 
-        assertThat(stockListResponse.id()).isEqualTo("id")
+        assertThat(stockListResponse.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(stockListResponse.isFractionable()).isEqualTo(true)
+        assertThat(stockListResponse.isTradable()).isEqualTo(true)
         assertThat(stockListResponse.name()).isEqualTo("name")
         assertThat(stockListResponse.symbol()).isEqualTo("symbol")
         assertThat(stockListResponse.cik()).contains("cik")
@@ -45,8 +47,9 @@ internal class StockListResponseTest {
         val jsonMapper = jsonMapper()
         val stockListResponse =
             StockListResponse.builder()
-                .id("id")
+                .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .isFractionable(true)
+                .isTradable(true)
                 .name("name")
                 .symbol("symbol")
                 .cik("cik")

@@ -16,7 +16,7 @@ import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 
-/** AccountDividendPayment represents a stock dividend payment event for an account. */
+/** Represents a dividend payment event for an `Account`. */
 class AccountRetrieveDividendPaymentsResponse
 private constructor(
     private val amount: JsonField<Double>,
@@ -53,7 +53,7 @@ private constructor(
     fun currency(): String = currency.getRequired("currency")
 
     /**
-     * Date the dividend was distributed to the account.
+     * Date the dividend was distributed to the account. ISO 8601 format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -61,7 +61,7 @@ private constructor(
     fun paymentDate(): LocalDate = paymentDate.getRequired("payment_date")
 
     /**
-     * ID of the stock for which the dividend was paid.
+     * ID of the `Stock` for which the dividend was paid.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -170,7 +170,7 @@ private constructor(
          */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
-        /** Date the dividend was distributed to the account. */
+        /** Date the dividend was distributed to the account. ISO 8601 format, YYYY-MM-DD. */
         fun paymentDate(paymentDate: LocalDate) = paymentDate(JsonField.of(paymentDate))
 
         /**
@@ -184,7 +184,7 @@ private constructor(
             this.paymentDate = paymentDate
         }
 
-        /** ID of the stock for which the dividend was paid. */
+        /** ID of the `Stock` for which the dividend was paid. */
         fun stockId(stockId: String) = stockId(JsonField.of(stockId))
 
         /**

@@ -9,8 +9,8 @@ configure<PublishingExtension> {
             from(components["java"])
 
             pom {
-                name.set("Dinari API [Enterprise]")
-                description.set("An SDK library for dinari")
+                name.set("Dinari Enterprise API")
+                description.set("**Dinari API for enterprise usage.**\n\nDinari's dShares let businesses offer tokenized access to stocks to their\ncustomers through an easy-to-use API. Integrate Dinari's API and offer over a\nhundred stocks and ETFs to your customers.")
 
                 licenses {
                     license {

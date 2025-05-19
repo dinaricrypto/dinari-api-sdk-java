@@ -4,9 +4,8 @@ package com.dinari.api.services.async.api.v2.accounts
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
-import com.dinari.api.core.JsonValue
 import com.dinari.api.models.api.v2.accounts.orders.OrderCancelParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeParams
+import com.dinari.api.models.api.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveFulfillmentsParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveParams
 import org.junit.jupiter.api.Disabled
@@ -23,6 +22,7 @@ internal class OrderServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderServiceAsync = client.api().v2().accounts().orders()
 
@@ -45,10 +45,18 @@ internal class OrderServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderServiceAsync = client.api().v2().accounts().orders()
 
-        val ordersFuture = orderServiceAsync.list("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val ordersFuture =
+            orderServiceAsync.list(
+                OrderListParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .page(1L)
+                    .pageSize(1L)
+                    .build()
+            )
 
         val orders = ordersFuture.get()
         orders.forEach { it.validate() }
@@ -61,6 +69,7 @@ internal class OrderServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderServiceAsync = client.api().v2().accounts().orders()
 
@@ -78,39 +87,12 @@ internal class OrderServiceAsyncTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun getEstimatedFee() {
-        val client =
-            DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val orderServiceAsync = client.api().v2().accounts().orders()
-
-        val responseFuture =
-            orderServiceAsync.getEstimatedFee(
-                OrderGetEstimatedFeeParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .chainId(0L)
-                    .contractAddress("contract_address")
-                    .orderData(
-                        OrderGetEstimatedFeeParams.OrderData.builder()
-                            .putAdditionalProperty("foo", JsonValue.from("string"))
-                            .build()
-                    )
-                    .build()
-            )
-
-        val response = responseFuture.get()
-        response.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
     fun retrieveFulfillments() {
         val client =
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderServiceAsync = client.api().v2().accounts().orders()
 
@@ -119,6 +101,8 @@ internal class OrderServiceAsyncTest {
                 OrderRetrieveFulfillmentsParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .page(1L)
+                    .pageSize(1L)
                     .build()
             )
 

@@ -17,7 +17,7 @@ internal class KycInfoTest {
     fun create() {
         val kycInfo =
             KycInfo.builder()
-                .id("id")
+                .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .status(KycInfo.Status.PASS)
                 .checkedDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .data(
@@ -32,14 +32,13 @@ internal class KycInfoTest {
                         .birthDate(LocalDate.parse("2019-12-27"))
                         .email("johndoe@website.com")
                         .firstName("John")
-                        .middleName("middle_name")
-                        .taxIdNumber("123456789")
+                        .middleName("x")
+                        .taxIdNumber("12-3456789")
                         .build()
                 )
-                .providerName("provider_name")
                 .build()
 
-        assertThat(kycInfo.id()).isEqualTo("id")
+        assertThat(kycInfo.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(kycInfo.status()).isEqualTo(KycInfo.Status.PASS)
         assertThat(kycInfo.checkedDt()).contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(kycInfo.data())
@@ -55,11 +54,10 @@ internal class KycInfoTest {
                     .birthDate(LocalDate.parse("2019-12-27"))
                     .email("johndoe@website.com")
                     .firstName("John")
-                    .middleName("middle_name")
-                    .taxIdNumber("123456789")
+                    .middleName("x")
+                    .taxIdNumber("12-3456789")
                     .build()
             )
-        assertThat(kycInfo.providerName()).contains("provider_name")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -68,7 +66,7 @@ internal class KycInfoTest {
         val jsonMapper = jsonMapper()
         val kycInfo =
             KycInfo.builder()
-                .id("id")
+                .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .status(KycInfo.Status.PASS)
                 .checkedDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .data(
@@ -83,11 +81,10 @@ internal class KycInfoTest {
                         .birthDate(LocalDate.parse("2019-12-27"))
                         .email("johndoe@website.com")
                         .firstName("John")
-                        .middleName("middle_name")
-                        .taxIdNumber("123456789")
+                        .middleName("x")
+                        .taxIdNumber("12-3456789")
                         .build()
                 )
-                .providerName("provider_name")
                 .build()
 
         val roundtrippedKycInfo =

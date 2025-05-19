@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
 
-/** Datapoint of historical price data for a stock. */
+/** Datapoint of historical price data for a `Stock`. */
 class StockRetrieveHistoricalPricesResponse
 private constructor(
     private val close: JsonField<Double>,
@@ -36,7 +36,7 @@ private constructor(
     ) : this(close, high, low, open, timestamp, mutableMapOf())
 
     /**
-     * Close price of the stock in the given time period.
+     * Close price from the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -44,7 +44,7 @@ private constructor(
     fun close(): Double = close.getRequired("close")
 
     /**
-     * Highest price of the stock in the given time period.
+     * Highest price from the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -52,7 +52,7 @@ private constructor(
     fun high(): Double = high.getRequired("high")
 
     /**
-     * Lowest price of the stock in the given time period.
+     * Lowest price from the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -60,7 +60,7 @@ private constructor(
     fun low(): Double = low.getRequired("low")
 
     /**
-     * Open price of the stock in the given time period.
+     * Open price from the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -68,7 +68,7 @@ private constructor(
     fun open(): Double = open.getRequired("open")
 
     /**
-     * The Unix timestamp in seconds for the start of the aggregate window.
+     * The UNIX timestamp in seconds for the start of the aggregate window.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -163,7 +163,7 @@ private constructor(
                 stockRetrieveHistoricalPricesResponse.additionalProperties.toMutableMap()
         }
 
-        /** Close price of the stock in the given time period. */
+        /** Close price from the given time period. */
         fun close(close: Double) = close(JsonField.of(close))
 
         /**
@@ -174,7 +174,7 @@ private constructor(
          */
         fun close(close: JsonField<Double>) = apply { this.close = close }
 
-        /** Highest price of the stock in the given time period. */
+        /** Highest price from the given time period. */
         fun high(high: Double) = high(JsonField.of(high))
 
         /**
@@ -185,7 +185,7 @@ private constructor(
          */
         fun high(high: JsonField<Double>) = apply { this.high = high }
 
-        /** Lowest price of the stock in the given time period. */
+        /** Lowest price from the given time period. */
         fun low(low: Double) = low(JsonField.of(low))
 
         /**
@@ -196,7 +196,7 @@ private constructor(
          */
         fun low(low: JsonField<Double>) = apply { this.low = low }
 
-        /** Open price of the stock in the given time period. */
+        /** Open price from the given time period. */
         fun open(open: Double) = open(JsonField.of(open))
 
         /**
@@ -207,7 +207,7 @@ private constructor(
          */
         fun open(open: JsonField<Double>) = apply { this.open = open }
 
-        /** The Unix timestamp in seconds for the start of the aggregate window. */
+        /** The UNIX timestamp in seconds for the start of the aggregate window. */
         fun timestamp(timestamp: Long) = timestamp(JsonField.of(timestamp))
 
         /**

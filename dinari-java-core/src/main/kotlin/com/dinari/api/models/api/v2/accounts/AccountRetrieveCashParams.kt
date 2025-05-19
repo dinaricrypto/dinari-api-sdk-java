@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieves the cash amount in the account. */
+/** Get the cash balances of the `Account`, including stablecoins and other cash equivalents. */
 class AccountRetrieveCashParams
 private constructor(
     private val accountId: String?,

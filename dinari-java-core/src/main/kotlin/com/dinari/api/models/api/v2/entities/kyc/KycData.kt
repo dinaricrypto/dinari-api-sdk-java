@@ -16,9 +16,8 @@ import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
-import kotlin.jvm.optionals.getOrNull
 
-/** Object consisting of KYC data for an entity */
+/** KYC data for an `Entity`. */
 class KycData
 private constructor(
     private val countryCode: JsonField<String>,
@@ -85,8 +84,7 @@ private constructor(
     )
 
     /**
-     * ISO 3166-1 alpha 2 country code of citizenship or the country the organization is based out
-     * of.
+     * Country of citizenship or home country of the organization. ISO 3166-1 alpha 2 country code.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -94,7 +92,7 @@ private constructor(
     fun countryCode(): String = countryCode.getRequired("country_code")
 
     /**
-     * Last name of the person
+     * Last name of the person.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -110,7 +108,7 @@ private constructor(
     fun addressCity(): Optional<String> = addressCity.getOptional("address_city")
 
     /**
-     * ZIP or postal code of residence address. Not all international addresses use this attribute.
+     * Postal code of residence address. Not all international addresses use this attribute.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -118,7 +116,7 @@ private constructor(
     fun addressPostalCode(): Optional<String> = addressPostalCode.getOptional("address_postal_code")
 
     /**
-     * Street name of address.
+     * Street address of address.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -134,8 +132,8 @@ private constructor(
     fun addressStreet2(): Optional<String> = addressStreet2.getOptional("address_street_2")
 
     /**
-     * State or subdivision of address. In the US, this should be the unabbreviated name. Not all
-     * international addresses use this attribute.
+     * State or subdivision of address. In the US, this should be the unabbreviated name of the
+     * state. Not all international addresses use this attribute.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -144,7 +142,7 @@ private constructor(
         addressSubdivision.getOptional("address_subdivision")
 
     /**
-     * Birth date of the individual
+     * Birth date of the individual. In ISO 8601 format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -152,7 +150,7 @@ private constructor(
     fun birthDate(): Optional<LocalDate> = birthDate.getOptional("birth_date")
 
     /**
-     * Email address
+     * Email address.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -160,7 +158,7 @@ private constructor(
     fun email(): Optional<String> = email.getOptional("email")
 
     /**
-     * First name of the person, or name of the organization
+     * First name of the person.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -176,7 +174,7 @@ private constructor(
     fun middleName(): Optional<String> = middleName.getOptional("middle_name")
 
     /**
-     * ID number of the official tax document of the country the entity belongs to
+     * ID number of the official tax document of the country the entity belongs to.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -344,8 +342,8 @@ private constructor(
         }
 
         /**
-         * ISO 3166-1 alpha 2 country code of citizenship or the country the organization is based
-         * out of.
+         * Country of citizenship or home country of the organization. ISO 3166-1 alpha 2 country
+         * code.
          */
         fun countryCode(countryCode: String) = countryCode(JsonField.of(countryCode))
 
@@ -358,7 +356,7 @@ private constructor(
          */
         fun countryCode(countryCode: JsonField<String>) = apply { this.countryCode = countryCode }
 
-        /** Last name of the person */
+        /** Last name of the person. */
         fun lastName(lastName: String) = lastName(JsonField.of(lastName))
 
         /**
@@ -381,10 +379,7 @@ private constructor(
          */
         fun addressCity(addressCity: JsonField<String>) = apply { this.addressCity = addressCity }
 
-        /**
-         * ZIP or postal code of residence address. Not all international addresses use this
-         * attribute.
-         */
+        /** Postal code of residence address. Not all international addresses use this attribute. */
         fun addressPostalCode(addressPostalCode: String) =
             addressPostalCode(JsonField.of(addressPostalCode))
 
@@ -399,7 +394,7 @@ private constructor(
             this.addressPostalCode = addressPostalCode
         }
 
-        /** Street name of address. */
+        /** Street address of address. */
         fun addressStreet1(addressStreet1: String) = addressStreet1(JsonField.of(addressStreet1))
 
         /**
@@ -428,8 +423,8 @@ private constructor(
         }
 
         /**
-         * State or subdivision of address. In the US, this should be the unabbreviated name. Not
-         * all international addresses use this attribute.
+         * State or subdivision of address. In the US, this should be the unabbreviated name of the
+         * state. Not all international addresses use this attribute.
          */
         fun addressSubdivision(addressSubdivision: String) =
             addressSubdivision(JsonField.of(addressSubdivision))
@@ -445,7 +440,7 @@ private constructor(
             this.addressSubdivision = addressSubdivision
         }
 
-        /** Birth date of the individual */
+        /** Birth date of the individual. In ISO 8601 format, YYYY-MM-DD. */
         fun birthDate(birthDate: LocalDate) = birthDate(JsonField.of(birthDate))
 
         /**
@@ -457,11 +452,8 @@ private constructor(
          */
         fun birthDate(birthDate: JsonField<LocalDate>) = apply { this.birthDate = birthDate }
 
-        /** Email address */
-        fun email(email: String?) = email(JsonField.ofNullable(email))
-
-        /** Alias for calling [Builder.email] with `email.orElse(null)`. */
-        fun email(email: Optional<String>) = email(email.getOrNull())
+        /** Email address. */
+        fun email(email: String) = email(JsonField.of(email))
 
         /**
          * Sets [Builder.email] to an arbitrary JSON value.
@@ -471,11 +463,8 @@ private constructor(
          */
         fun email(email: JsonField<String>) = apply { this.email = email }
 
-        /** First name of the person, or name of the organization */
-        fun firstName(firstName: String?) = firstName(JsonField.ofNullable(firstName))
-
-        /** Alias for calling [Builder.firstName] with `firstName.orElse(null)`. */
-        fun firstName(firstName: Optional<String>) = firstName(firstName.getOrNull())
+        /** First name of the person. */
+        fun firstName(firstName: String) = firstName(JsonField.of(firstName))
 
         /**
          * Sets [Builder.firstName] to an arbitrary JSON value.
@@ -487,10 +476,7 @@ private constructor(
         fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
         /** Middle name of the user */
-        fun middleName(middleName: String?) = middleName(JsonField.ofNullable(middleName))
-
-        /** Alias for calling [Builder.middleName] with `middleName.orElse(null)`. */
-        fun middleName(middleName: Optional<String>) = middleName(middleName.getOrNull())
+        fun middleName(middleName: String) = middleName(JsonField.of(middleName))
 
         /**
          * Sets [Builder.middleName] to an arbitrary JSON value.
@@ -501,7 +487,7 @@ private constructor(
          */
         fun middleName(middleName: JsonField<String>) = apply { this.middleName = middleName }
 
-        /** ID number of the official tax document of the country the entity belongs to */
+        /** ID number of the official tax document of the country the entity belongs to. */
         fun taxIdNumber(taxIdNumber: String) = taxIdNumber(JsonField.of(taxIdNumber))
 
         /**

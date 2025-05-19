@@ -19,7 +19,7 @@ import java.util.Collections
 import java.util.Objects
 
 /**
- * Creates a new Entity to be managed by your organization. The Entity represents an individual
+ * Create a new `Entity` to be managed by your organization. This `Entity` represents an individual
  * customer of your organization.
  */
 class EntityCreateParams
@@ -30,7 +30,7 @@ private constructor(
 ) : Params {
 
     /**
-     * Name of the entity
+     * Name of the `Entity`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -88,7 +88,7 @@ private constructor(
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
-        /** Name of the entity */
+        /** Name of the `Entity`. */
         fun name(name: String) = apply { body.name(name) }
 
         /**
@@ -242,7 +242,7 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    /** Input parameters for creating an entity */
+    /** Input parameters for creating an `Entity`. */
     class Body
     private constructor(
         private val name: JsonField<String>,
@@ -255,7 +255,7 @@ private constructor(
         ) : this(name, mutableMapOf())
 
         /**
-         * Name of the entity
+         * Name of the `Entity`.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -306,7 +306,7 @@ private constructor(
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
-            /** Name of the entity */
+            /** Name of the `Entity`. */
             fun name(name: String) = name(JsonField.of(name))
 
             /**

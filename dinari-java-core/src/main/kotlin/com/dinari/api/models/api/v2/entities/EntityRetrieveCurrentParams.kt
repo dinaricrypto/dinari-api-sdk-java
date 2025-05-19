@@ -7,7 +7,7 @@ import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
 
-/** Returns the current authenticated Entity. */
+/** Get the current authenticated `Entity`, which represents your organization. */
 class EntityRetrieveCurrentParams
 private constructor(
     private val additionalHeaders: Headers,

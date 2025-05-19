@@ -16,7 +16,7 @@ import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 
-/** Information about an account owned by an entity */
+/** Information about an `Account` owned by an `Entity`. */
 class Account
 private constructor(
     private val id: JsonField<String>,
@@ -37,7 +37,7 @@ private constructor(
     ) : this(id, createdDt, entityId, isActive, mutableMapOf())
 
     /**
-     * Unique identifier for the account
+     * Unique ID for the `Account`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -45,7 +45,7 @@ private constructor(
     fun id(): String = id.getRequired("id")
 
     /**
-     * Timestamp when the account was created
+     * Datetime when the `Account` was created. ISO 8601 timestamp.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -53,7 +53,7 @@ private constructor(
     fun createdDt(): OffsetDateTime = createdDt.getRequired("created_dt")
 
     /**
-     * Identifier for the Entity that owns the account
+     * ID for the `Entity` that owns the `Account`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -61,7 +61,7 @@ private constructor(
     fun entityId(): String = entityId.getRequired("entity_id")
 
     /**
-     * Indicates whether the account is active
+     * Indicates whether the `Account` is active.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -144,7 +144,7 @@ private constructor(
             additionalProperties = account.additionalProperties.toMutableMap()
         }
 
-        /** Unique identifier for the account */
+        /** Unique ID for the `Account`. */
         fun id(id: String) = id(JsonField.of(id))
 
         /**
@@ -155,7 +155,7 @@ private constructor(
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
 
-        /** Timestamp when the account was created */
+        /** Datetime when the `Account` was created. ISO 8601 timestamp. */
         fun createdDt(createdDt: OffsetDateTime) = createdDt(JsonField.of(createdDt))
 
         /**
@@ -167,7 +167,7 @@ private constructor(
          */
         fun createdDt(createdDt: JsonField<OffsetDateTime>) = apply { this.createdDt = createdDt }
 
-        /** Identifier for the Entity that owns the account */
+        /** ID for the `Entity` that owns the `Account`. */
         fun entityId(entityId: String) = entityId(JsonField.of(entityId))
 
         /**
@@ -178,7 +178,7 @@ private constructor(
          */
         fun entityId(entityId: JsonField<String>) = apply { this.entityId = entityId }
 
-        /** Indicates whether the account is active */
+        /** Indicates whether the `Account` is active. */
         fun isActive(isActive: Boolean) = isActive(JsonField.of(isActive))
 
         /**

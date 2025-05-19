@@ -19,8 +19,6 @@ import com.dinari.api.core.prepare
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillment
 import com.dinari.api.models.api.v2.accounts.orders.Order
 import com.dinari.api.models.api.v2.accounts.orders.OrderCancelParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeResponse
 import com.dinari.api.models.api.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveFulfillmentsParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveParams
@@ -46,13 +44,6 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
     override fun cancel(params: OrderCancelParams, requestOptions: RequestOptions): Order =
         // post /api/v2/accounts/{account_id}/orders/{order_id}/cancel
         withRawResponse().cancel(params, requestOptions).parse()
-
-    override fun getEstimatedFee(
-        params: OrderGetEstimatedFeeParams,
-        requestOptions: RequestOptions,
-    ): OrderGetEstimatedFeeResponse =
-        // post /api/v2/accounts/{account_id}/orders/estimated_fee
-        withRawResponse().getEstimatedFee(params, requestOptions).parse()
 
     override fun retrieveFulfillments(
         params: OrderRetrieveFulfillmentsParams,
@@ -161,44 +152,6 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
             return response.parseable {
                 response
                     .use { cancelHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
-                        }
-                    }
-            }
-        }
-
-        private val getEstimatedFeeHandler: Handler<OrderGetEstimatedFeeResponse> =
-            jsonHandler<OrderGetEstimatedFeeResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
-
-        override fun getEstimatedFee(
-            params: OrderGetEstimatedFeeParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<OrderGetEstimatedFeeResponse> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("accountId", params.accountId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.POST)
-                    .addPathSegments(
-                        "api",
-                        "v2",
-                        "accounts",
-                        params._pathParam(0),
-                        "orders",
-                        "estimated_fee",
-                    )
-                    .body(json(clientOptions.jsonMapper, params._body()))
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { getEstimatedFeeHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

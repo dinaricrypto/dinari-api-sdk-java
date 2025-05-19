@@ -4,7 +4,7 @@ package com.dinari.api.services
 
 import com.dinari.api.client.DinariClient
 import com.dinari.api.client.okhttp.DinariOkHttpClient
-import com.dinari.api.models.api.v2.V2GetHealthParams
+import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursParams
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
 import com.github.tomakehurst.wiremock.client.WireMock.equalTo
 import com.github.tomakehurst.wiremock.client.WireMock.get
@@ -31,17 +31,18 @@ internal class ServiceParamsTest {
             DinariOkHttpClient.builder()
                 .baseUrl(wmRuntimeInfo.httpBaseUrl)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun getHealth() {
-        val v2Service = client.api().v2()
+    fun getMarketHours() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(get(anyUrl()).willReturn(ok("{}")))
 
-        v2Service.getHealth(
-            V2GetHealthParams.builder()
+        marketDataService.getMarketHours(
+            MarketDataGetMarketHoursParams.builder()
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")
                 .build()

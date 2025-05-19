@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Returns a list of stocks available for trading. */
+/** Get a list of `Stocks`. */
 class StockListParams
 private constructor(
     private val page: Long?,
@@ -24,7 +24,7 @@ private constructor(
 
     fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
-    /** List of stock symbols to query. If not provided, all stocks are returned. */
+    /** List of `Stock` symbols to query. If not provided, all `Stocks` are returned. */
     fun symbols(): Optional<List<String>> = Optional.ofNullable(symbols)
 
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -83,7 +83,7 @@ private constructor(
         /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
         fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
-        /** List of stock symbols to query. If not provided, all stocks are returned. */
+        /** List of `Stock` symbols to query. If not provided, all `Stocks` are returned. */
         fun symbols(symbols: List<String>?) = apply { this.symbols = symbols?.toMutableList() }
 
         /** Alias for calling [Builder.symbols] with `symbols.orElse(null)`. */

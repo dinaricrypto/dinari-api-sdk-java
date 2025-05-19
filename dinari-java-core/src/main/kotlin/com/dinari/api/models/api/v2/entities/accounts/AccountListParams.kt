@@ -9,7 +9,10 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieves a list of Accounts that belong to a specific Entity. */
+/**
+ * Get a list of all `Accounts` that belong to a specific `Entity`. This `Entity` represents your
+ * organization itself, or an individual customer of your organization.
+ */
 class AccountListParams
 private constructor(
     private val entityId: String?,

@@ -19,14 +19,15 @@ internal class AccountRetrieveDividendPaymentsResponseTest {
                 .amount(0.0)
                 .currency("currency")
                 .paymentDate(LocalDate.parse("2019-12-27"))
-                .stockId("stock_id")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(accountRetrieveDividendPaymentsResponse.amount()).isEqualTo(0.0)
         assertThat(accountRetrieveDividendPaymentsResponse.currency()).isEqualTo("currency")
         assertThat(accountRetrieveDividendPaymentsResponse.paymentDate())
             .isEqualTo(LocalDate.parse("2019-12-27"))
-        assertThat(accountRetrieveDividendPaymentsResponse.stockId()).isEqualTo("stock_id")
+        assertThat(accountRetrieveDividendPaymentsResponse.stockId())
+            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -38,7 +39,7 @@ internal class AccountRetrieveDividendPaymentsResponseTest {
                 .amount(0.0)
                 .currency("currency")
                 .paymentDate(LocalDate.parse("2019-12-27"))
-                .stockId("stock_id")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val roundtrippedAccountRetrieveDividendPaymentsResponse =

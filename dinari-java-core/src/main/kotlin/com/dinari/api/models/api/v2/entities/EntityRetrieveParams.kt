@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieves a specific customer Entity of your organization by their ID. */
+/** Get a specific customer `Entity` of your organization by their ID. */
 class EntityRetrieveParams
 private constructor(
     private val entityId: String?,

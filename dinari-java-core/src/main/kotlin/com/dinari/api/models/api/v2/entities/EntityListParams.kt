@@ -8,8 +8,8 @@ import com.dinari.api.core.http.QueryParams
 import java.util.Objects
 
 /**
- * Returns a list of all direct Entities your organization manages. An Entity represents an
- * individual customer of your organization.
+ * Get a list of all direct `Entities` your organization manages. These `Entities` represent
+ * individual customers of your organization.
  */
 class EntityListParams
 private constructor(

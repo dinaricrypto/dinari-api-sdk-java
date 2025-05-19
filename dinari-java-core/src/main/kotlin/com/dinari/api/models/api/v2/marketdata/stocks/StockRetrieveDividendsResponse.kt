@@ -11,21 +11,22 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-/** Details of a dividend announcement for a stock. */
+/** Information about a dividend announcement for a `Stock`. */
 class StockRetrieveDividendsResponse
 private constructor(
     private val cashAmount: JsonField<Double>,
     private val currency: JsonField<String>,
-    private val declarationDate: JsonField<String>,
+    private val declarationDate: JsonField<LocalDate>,
     private val dividendType: JsonField<String>,
-    private val exDividendDate: JsonField<String>,
+    private val exDividendDate: JsonField<LocalDate>,
     private val frequency: JsonField<Long>,
-    private val payDate: JsonField<String>,
-    private val recordDate: JsonField<String>,
+    private val payDate: JsonField<LocalDate>,
+    private val recordDate: JsonField<LocalDate>,
     private val ticker: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -38,18 +39,18 @@ private constructor(
         @JsonProperty("currency") @ExcludeMissing currency: JsonField<String> = JsonMissing.of(),
         @JsonProperty("declaration_date")
         @ExcludeMissing
-        declarationDate: JsonField<String> = JsonMissing.of(),
+        declarationDate: JsonField<LocalDate> = JsonMissing.of(),
         @JsonProperty("dividend_type")
         @ExcludeMissing
         dividendType: JsonField<String> = JsonMissing.of(),
         @JsonProperty("ex_dividend_date")
         @ExcludeMissing
-        exDividendDate: JsonField<String> = JsonMissing.of(),
+        exDividendDate: JsonField<LocalDate> = JsonMissing.of(),
         @JsonProperty("frequency") @ExcludeMissing frequency: JsonField<Long> = JsonMissing.of(),
-        @JsonProperty("pay_date") @ExcludeMissing payDate: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("pay_date") @ExcludeMissing payDate: JsonField<LocalDate> = JsonMissing.of(),
         @JsonProperty("record_date")
         @ExcludeMissing
-        recordDate: JsonField<String> = JsonMissing.of(),
+        recordDate: JsonField<LocalDate> = JsonMissing.of(),
         @JsonProperty("ticker") @ExcludeMissing ticker: JsonField<String> = JsonMissing.of(),
     ) : this(
         cashAmount,
@@ -81,18 +82,18 @@ private constructor(
     fun currency(): Optional<String> = currency.getOptional("currency")
 
     /**
-     * Date on which the dividend was announced.
+     * Date on which the dividend was announced. In ISO 8601 format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun declarationDate(): Optional<String> = declarationDate.getOptional("declaration_date")
+    fun declarationDate(): Optional<LocalDate> = declarationDate.getOptional("declaration_date")
 
     /**
      * Type of dividend. Dividends that have been paid and/or are expected to be paid on consistent
-     * schedules are denoted as CD. Special Cash dividends that have been paid that are infrequent
-     * or unusual, and/or can not be expected to occur in the future are denoted as SC. Long-Term
-     * and Short-Term capital gain distributions are denoted as LT and ST, respectively.
+     * schedules are denoted as `CD`. Special Cash dividends that have been paid that are infrequent
+     * or unusual, and/or can not be expected to occur in the future are denoted as `SC`. Long-term
+     * and short-term capital gain distributions are denoted as `LT` and `ST`, respectively.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -100,24 +101,23 @@ private constructor(
     fun dividendType(): Optional<String> = dividendType.getOptional("dividend_type")
 
     /**
-     * Date on or after which a stock is traded without the right to receive the next dividend
-     * payment. (If you purchase a stock on or after the ex-dividend date, you will not receive the
-     * upcoming dividend.)
+     * Date on or after which a `Stock` is traded without the right to receive the next dividend
+     * payment. If you purchase a `Stock` on or after the ex-dividend date, you will not receive the
+     * upcoming dividend. In ISO 8601 format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun exDividendDate(): Optional<String> = exDividendDate.getOptional("ex_dividend_date")
+    fun exDividendDate(): Optional<LocalDate> = exDividendDate.getOptional("ex_dividend_date")
 
     /**
      * Frequency of the dividend. The following values are possible:
-     *
-     *                     1 - Annual
-     *                     2 - Semi-Annual
-     *                     4 - Quarterly
-     *                     12 - Monthly
-     *                     52 - Weekly
-     *                     365 - Daily
+     * - `1` - Annual
+     * - `2` - Semi-Annual
+     * - `4` - Quarterly
+     * - `12` - Monthly
+     * - `52` - Weekly
+     * - `365` - Daily
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -125,23 +125,24 @@ private constructor(
     fun frequency(): Optional<Long> = frequency.getOptional("frequency")
 
     /**
-     * Date that the dividend is paid out.
+     * Date on which the dividend is paid out. In ISO 8601 format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun payDate(): Optional<String> = payDate.getOptional("pay_date")
+    fun payDate(): Optional<LocalDate> = payDate.getOptional("pay_date")
 
     /**
-     * Date that the stock must be held to receive the dividend; set by the company.
+     * Date that the shares must be held to receive the dividend; set by the company. In ISO 8601
+     * format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun recordDate(): Optional<String> = recordDate.getOptional("record_date")
+    fun recordDate(): Optional<LocalDate> = recordDate.getOptional("record_date")
 
     /**
-     * Ticker symbol of the stock.
+     * Ticker symbol of the `Stock`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -169,7 +170,7 @@ private constructor(
      */
     @JsonProperty("declaration_date")
     @ExcludeMissing
-    fun _declarationDate(): JsonField<String> = declarationDate
+    fun _declarationDate(): JsonField<LocalDate> = declarationDate
 
     /**
      * Returns the raw JSON value of [dividendType].
@@ -187,7 +188,7 @@ private constructor(
      */
     @JsonProperty("ex_dividend_date")
     @ExcludeMissing
-    fun _exDividendDate(): JsonField<String> = exDividendDate
+    fun _exDividendDate(): JsonField<LocalDate> = exDividendDate
 
     /**
      * Returns the raw JSON value of [frequency].
@@ -201,14 +202,16 @@ private constructor(
      *
      * Unlike [payDate], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("pay_date") @ExcludeMissing fun _payDate(): JsonField<String> = payDate
+    @JsonProperty("pay_date") @ExcludeMissing fun _payDate(): JsonField<LocalDate> = payDate
 
     /**
      * Returns the raw JSON value of [recordDate].
      *
      * Unlike [recordDate], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("record_date") @ExcludeMissing fun _recordDate(): JsonField<String> = recordDate
+    @JsonProperty("record_date")
+    @ExcludeMissing
+    fun _recordDate(): JsonField<LocalDate> = recordDate
 
     /**
      * Returns the raw JSON value of [ticker].
@@ -243,12 +246,12 @@ private constructor(
 
         private var cashAmount: JsonField<Double> = JsonMissing.of()
         private var currency: JsonField<String> = JsonMissing.of()
-        private var declarationDate: JsonField<String> = JsonMissing.of()
+        private var declarationDate: JsonField<LocalDate> = JsonMissing.of()
         private var dividendType: JsonField<String> = JsonMissing.of()
-        private var exDividendDate: JsonField<String> = JsonMissing.of()
+        private var exDividendDate: JsonField<LocalDate> = JsonMissing.of()
         private var frequency: JsonField<Long> = JsonMissing.of()
-        private var payDate: JsonField<String> = JsonMissing.of()
-        private var recordDate: JsonField<String> = JsonMissing.of()
+        private var payDate: JsonField<LocalDate> = JsonMissing.of()
+        private var recordDate: JsonField<LocalDate> = JsonMissing.of()
         private var ticker: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -290,27 +293,27 @@ private constructor(
          */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
-        /** Date on which the dividend was announced. */
-        fun declarationDate(declarationDate: String) =
+        /** Date on which the dividend was announced. In ISO 8601 format, YYYY-MM-DD. */
+        fun declarationDate(declarationDate: LocalDate) =
             declarationDate(JsonField.of(declarationDate))
 
         /**
          * Sets [Builder.declarationDate] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.declarationDate] with a well-typed [String] value
+         * You should usually call [Builder.declarationDate] with a well-typed [LocalDate] value
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun declarationDate(declarationDate: JsonField<String>) = apply {
+        fun declarationDate(declarationDate: JsonField<LocalDate>) = apply {
             this.declarationDate = declarationDate
         }
 
         /**
          * Type of dividend. Dividends that have been paid and/or are expected to be paid on
-         * consistent schedules are denoted as CD. Special Cash dividends that have been paid that
+         * consistent schedules are denoted as `CD`. Special Cash dividends that have been paid that
          * are infrequent or unusual, and/or can not be expected to occur in the future are denoted
-         * as SC. Long-Term and Short-Term capital gain distributions are denoted as LT and ST,
-         * respectively.
+         * as `SC`. Long-term and short-term capital gain distributions are denoted as `LT` and
+         * `ST`, respectively.
          */
         fun dividendType(dividendType: String) = dividendType(JsonField.of(dividendType))
 
@@ -326,32 +329,31 @@ private constructor(
         }
 
         /**
-         * Date on or after which a stock is traded without the right to receive the next dividend
-         * payment. (If you purchase a stock on or after the ex-dividend date, you will not receive
-         * the upcoming dividend.)
+         * Date on or after which a `Stock` is traded without the right to receive the next dividend
+         * payment. If you purchase a `Stock` on or after the ex-dividend date, you will not receive
+         * the upcoming dividend. In ISO 8601 format, YYYY-MM-DD.
          */
-        fun exDividendDate(exDividendDate: String) = exDividendDate(JsonField.of(exDividendDate))
+        fun exDividendDate(exDividendDate: LocalDate) = exDividendDate(JsonField.of(exDividendDate))
 
         /**
          * Sets [Builder.exDividendDate] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.exDividendDate] with a well-typed [String] value
+         * You should usually call [Builder.exDividendDate] with a well-typed [LocalDate] value
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun exDividendDate(exDividendDate: JsonField<String>) = apply {
+        fun exDividendDate(exDividendDate: JsonField<LocalDate>) = apply {
             this.exDividendDate = exDividendDate
         }
 
         /**
          * Frequency of the dividend. The following values are possible:
-         *
-         *                     1 - Annual
-         *                     2 - Semi-Annual
-         *                     4 - Quarterly
-         *                     12 - Monthly
-         *                     52 - Weekly
-         *                     365 - Daily
+         * - `1` - Annual
+         * - `2` - Semi-Annual
+         * - `4` - Quarterly
+         * - `12` - Monthly
+         * - `52` - Weekly
+         * - `365` - Daily
          */
         fun frequency(frequency: Long) = frequency(JsonField.of(frequency))
 
@@ -363,30 +365,34 @@ private constructor(
          */
         fun frequency(frequency: JsonField<Long>) = apply { this.frequency = frequency }
 
-        /** Date that the dividend is paid out. */
-        fun payDate(payDate: String) = payDate(JsonField.of(payDate))
+        /** Date on which the dividend is paid out. In ISO 8601 format, YYYY-MM-DD. */
+        fun payDate(payDate: LocalDate) = payDate(JsonField.of(payDate))
 
         /**
          * Sets [Builder.payDate] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.payDate] with a well-typed [String] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.payDate] with a well-typed [LocalDate] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun payDate(payDate: JsonField<String>) = apply { this.payDate = payDate }
+        fun payDate(payDate: JsonField<LocalDate>) = apply { this.payDate = payDate }
 
-        /** Date that the stock must be held to receive the dividend; set by the company. */
-        fun recordDate(recordDate: String) = recordDate(JsonField.of(recordDate))
+        /**
+         * Date that the shares must be held to receive the dividend; set by the company. In ISO
+         * 8601 format, YYYY-MM-DD.
+         */
+        fun recordDate(recordDate: LocalDate) = recordDate(JsonField.of(recordDate))
 
         /**
          * Sets [Builder.recordDate] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.recordDate] with a well-typed [String] value instead.
+         * You should usually call [Builder.recordDate] with a well-typed [LocalDate] value instead.
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun recordDate(recordDate: JsonField<String>) = apply { this.recordDate = recordDate }
+        fun recordDate(recordDate: JsonField<LocalDate>) = apply { this.recordDate = recordDate }
 
-        /** Ticker symbol of the stock. */
+        /** Ticker symbol of the `Stock`. */
         fun ticker(ticker: String) = ticker(JsonField.of(ticker))
 
         /**

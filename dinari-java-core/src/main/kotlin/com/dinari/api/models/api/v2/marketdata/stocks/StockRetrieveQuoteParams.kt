@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Returns a stock quote for a specified stock. */
+/** Get quote for a specified `Stock`. */
 class StockRetrieveQuoteParams
 private constructor(
     private val stockId: String?,

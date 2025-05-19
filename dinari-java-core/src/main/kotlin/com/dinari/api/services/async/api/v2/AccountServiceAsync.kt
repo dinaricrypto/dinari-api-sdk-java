@@ -37,7 +37,7 @@ interface AccountServiceAsync {
 
     fun orderRequests(): OrderRequestServiceAsync
 
-    /** Retrieves a specific account by its ID. */
+    /** Get a specific `Account` by its ID. */
     fun retrieve(accountId: String): CompletableFuture<Account> =
         retrieve(accountId, AccountRetrieveParams.none())
 
@@ -69,7 +69,7 @@ interface AccountServiceAsync {
     fun retrieve(accountId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
         retrieve(accountId, AccountRetrieveParams.none(), requestOptions)
 
-    /** Sets the account to be inactive. */
+    /** Set the `Account` to be inactive. Inactive accounts cannot be used for trading. */
     fun deactivate(accountId: String): CompletableFuture<Account> =
         deactivate(accountId, AccountDeactivateParams.none())
 
@@ -101,8 +101,8 @@ interface AccountServiceAsync {
     fun deactivate(accountId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
         deactivate(accountId, AccountDeactivateParams.none(), requestOptions)
 
-    /** Retrieves the cash amount in the account. */
-    fun retrieveCash(accountId: String): CompletableFuture<AccountRetrieveCashResponse> =
+    /** Get the cash balances of the `Account`, including stablecoins and other cash equivalents. */
+    fun retrieveCash(accountId: String): CompletableFuture<List<AccountRetrieveCashResponse>> =
         retrieveCash(accountId, AccountRetrieveCashParams.none())
 
     /** @see [retrieveCash] */
@@ -110,61 +110,49 @@ interface AccountServiceAsync {
         accountId: String,
         params: AccountRetrieveCashParams = AccountRetrieveCashParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AccountRetrieveCashResponse> =
+    ): CompletableFuture<List<AccountRetrieveCashResponse>> =
         retrieveCash(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see [retrieveCash] */
     fun retrieveCash(
         accountId: String,
         params: AccountRetrieveCashParams = AccountRetrieveCashParams.none(),
-    ): CompletableFuture<AccountRetrieveCashResponse> =
+    ): CompletableFuture<List<AccountRetrieveCashResponse>> =
         retrieveCash(accountId, params, RequestOptions.none())
 
     /** @see [retrieveCash] */
     fun retrieveCash(
         params: AccountRetrieveCashParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AccountRetrieveCashResponse>
+    ): CompletableFuture<List<AccountRetrieveCashResponse>>
 
     /** @see [retrieveCash] */
     fun retrieveCash(
         params: AccountRetrieveCashParams
-    ): CompletableFuture<AccountRetrieveCashResponse> = retrieveCash(params, RequestOptions.none())
+    ): CompletableFuture<List<AccountRetrieveCashResponse>> =
+        retrieveCash(params, RequestOptions.none())
 
     /** @see [retrieveCash] */
     fun retrieveCash(
         accountId: String,
         requestOptions: RequestOptions,
-    ): CompletableFuture<AccountRetrieveCashResponse> =
+    ): CompletableFuture<List<AccountRetrieveCashResponse>> =
         retrieveCash(accountId, AccountRetrieveCashParams.none(), requestOptions)
 
-    /** Retrieves dividend payments made to the account. */
-    fun retrieveDividendPayments(
-        accountId: String
-    ): CompletableFuture<List<AccountRetrieveDividendPaymentsResponse>> =
-        retrieveDividendPayments(accountId, AccountRetrieveDividendPaymentsParams.none())
-
-    /** @see [retrieveDividendPayments] */
+    /** Get dividend payments made to the `Account` from dividend-bearing stock holdings. */
     fun retrieveDividendPayments(
         accountId: String,
-        params: AccountRetrieveDividendPaymentsParams =
-            AccountRetrieveDividendPaymentsParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<AccountRetrieveDividendPaymentsResponse>> =
-        retrieveDividendPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-    /** @see [retrieveDividendPayments] */
-    fun retrieveDividendPayments(
-        accountId: String,
-        params: AccountRetrieveDividendPaymentsParams = AccountRetrieveDividendPaymentsParams.none(),
+        params: AccountRetrieveDividendPaymentsParams,
     ): CompletableFuture<List<AccountRetrieveDividendPaymentsResponse>> =
         retrieveDividendPayments(accountId, params, RequestOptions.none())
 
     /** @see [retrieveDividendPayments] */
     fun retrieveDividendPayments(
+        accountId: String,
         params: AccountRetrieveDividendPaymentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<AccountRetrieveDividendPaymentsResponse>>
+    ): CompletableFuture<List<AccountRetrieveDividendPaymentsResponse>> =
+        retrieveDividendPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see [retrieveDividendPayments] */
     fun retrieveDividendPayments(
@@ -174,42 +162,29 @@ interface AccountServiceAsync {
 
     /** @see [retrieveDividendPayments] */
     fun retrieveDividendPayments(
-        accountId: String,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<List<AccountRetrieveDividendPaymentsResponse>> =
-        retrieveDividendPayments(
-            accountId,
-            AccountRetrieveDividendPaymentsParams.none(),
-            requestOptions,
-        )
-
-    /** Retrieves interest payments made to the account. */
-    fun retrieveInterestPayments(
-        accountId: String
-    ): CompletableFuture<List<AccountRetrieveInterestPaymentsResponse>> =
-        retrieveInterestPayments(accountId, AccountRetrieveInterestPaymentsParams.none())
-
-    /** @see [retrieveInterestPayments] */
-    fun retrieveInterestPayments(
-        accountId: String,
-        params: AccountRetrieveInterestPaymentsParams =
-            AccountRetrieveInterestPaymentsParams.none(),
+        params: AccountRetrieveDividendPaymentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<AccountRetrieveInterestPaymentsResponse>> =
-        retrieveInterestPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
+    ): CompletableFuture<List<AccountRetrieveDividendPaymentsResponse>>
 
-    /** @see [retrieveInterestPayments] */
+    /**
+     * Get interest payments made to the `Account` from yield-bearing cash holdings.
+     *
+     * Currently, the only yield-bearing stablecoin accepted by Dinari is
+     * [USD+](https://usd.dinari.com/).
+     */
     fun retrieveInterestPayments(
         accountId: String,
-        params: AccountRetrieveInterestPaymentsParams = AccountRetrieveInterestPaymentsParams.none(),
+        params: AccountRetrieveInterestPaymentsParams,
     ): CompletableFuture<List<AccountRetrieveInterestPaymentsResponse>> =
         retrieveInterestPayments(accountId, params, RequestOptions.none())
 
     /** @see [retrieveInterestPayments] */
     fun retrieveInterestPayments(
+        accountId: String,
         params: AccountRetrieveInterestPaymentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<AccountRetrieveInterestPaymentsResponse>>
+    ): CompletableFuture<List<AccountRetrieveInterestPaymentsResponse>> =
+        retrieveInterestPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see [retrieveInterestPayments] */
     fun retrieveInterestPayments(
@@ -219,16 +194,11 @@ interface AccountServiceAsync {
 
     /** @see [retrieveInterestPayments] */
     fun retrieveInterestPayments(
-        accountId: String,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<List<AccountRetrieveInterestPaymentsResponse>> =
-        retrieveInterestPayments(
-            accountId,
-            AccountRetrieveInterestPaymentsParams.none(),
-            requestOptions,
-        )
+        params: AccountRetrieveInterestPaymentsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<List<AccountRetrieveInterestPaymentsResponse>>
 
-    /** Retrieves the portfolio of the account, sans cash equivalents. */
+    /** Get the portfolio of the `Account`, excluding cash equivalents such as stablecoins. */
     fun retrievePortfolio(accountId: String): CompletableFuture<AccountRetrievePortfolioResponse> =
         retrievePortfolio(accountId, AccountRetrievePortfolioParams.none())
 
@@ -377,7 +347,7 @@ interface AccountServiceAsync {
         @MustBeClosed
         fun retrieveCash(
             accountId: String
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveCashResponse>> =
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveCashResponse>>> =
             retrieveCash(accountId, AccountRetrieveCashParams.none())
 
         /** @see [retrieveCash] */
@@ -386,7 +356,7 @@ interface AccountServiceAsync {
             accountId: String,
             params: AccountRetrieveCashParams = AccountRetrieveCashParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveCashResponse>> =
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveCashResponse>>> =
             retrieveCash(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [retrieveCash] */
@@ -394,7 +364,7 @@ interface AccountServiceAsync {
         fun retrieveCash(
             accountId: String,
             params: AccountRetrieveCashParams = AccountRetrieveCashParams.none(),
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveCashResponse>> =
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveCashResponse>>> =
             retrieveCash(accountId, params, RequestOptions.none())
 
         /** @see [retrieveCash] */
@@ -402,13 +372,13 @@ interface AccountServiceAsync {
         fun retrieveCash(
             params: AccountRetrieveCashParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveCashResponse>>
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveCashResponse>>>
 
         /** @see [retrieveCash] */
         @MustBeClosed
         fun retrieveCash(
             params: AccountRetrieveCashParams
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveCashResponse>> =
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveCashResponse>>> =
             retrieveCash(params, RequestOptions.none())
 
         /** @see [retrieveCash] */
@@ -416,7 +386,7 @@ interface AccountServiceAsync {
         fun retrieveCash(
             accountId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveCashResponse>> =
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveCashResponse>>> =
             retrieveCash(accountId, AccountRetrieveCashParams.none(), requestOptions)
 
         /**
@@ -425,38 +395,22 @@ interface AccountServiceAsync {
          */
         @MustBeClosed
         fun retrieveDividendPayments(
-            accountId: String
-        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveDividendPaymentsResponse>>> =
-            retrieveDividendPayments(accountId, AccountRetrieveDividendPaymentsParams.none())
-
-        /** @see [retrieveDividendPayments] */
-        @MustBeClosed
-        fun retrieveDividendPayments(
             accountId: String,
-            params: AccountRetrieveDividendPaymentsParams =
-                AccountRetrieveDividendPaymentsParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveDividendPaymentsResponse>>> =
-            retrieveDividendPayments(
-                params.toBuilder().accountId(accountId).build(),
-                requestOptions,
-            )
-
-        /** @see [retrieveDividendPayments] */
-        @MustBeClosed
-        fun retrieveDividendPayments(
-            accountId: String,
-            params: AccountRetrieveDividendPaymentsParams =
-                AccountRetrieveDividendPaymentsParams.none(),
+            params: AccountRetrieveDividendPaymentsParams,
         ): CompletableFuture<HttpResponseFor<List<AccountRetrieveDividendPaymentsResponse>>> =
             retrieveDividendPayments(accountId, params, RequestOptions.none())
 
         /** @see [retrieveDividendPayments] */
         @MustBeClosed
         fun retrieveDividendPayments(
+            accountId: String,
             params: AccountRetrieveDividendPaymentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveDividendPaymentsResponse>>>
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveDividendPaymentsResponse>>> =
+            retrieveDividendPayments(
+                params.toBuilder().accountId(accountId).build(),
+                requestOptions,
+            )
 
         /** @see [retrieveDividendPayments] */
         @MustBeClosed
@@ -468,14 +422,9 @@ interface AccountServiceAsync {
         /** @see [retrieveDividendPayments] */
         @MustBeClosed
         fun retrieveDividendPayments(
-            accountId: String,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveDividendPaymentsResponse>>> =
-            retrieveDividendPayments(
-                accountId,
-                AccountRetrieveDividendPaymentsParams.none(),
-                requestOptions,
-            )
+            params: AccountRetrieveDividendPaymentsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveDividendPaymentsResponse>>>
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/interest_payments`,
@@ -483,38 +432,22 @@ interface AccountServiceAsync {
          */
         @MustBeClosed
         fun retrieveInterestPayments(
-            accountId: String
-        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveInterestPaymentsResponse>>> =
-            retrieveInterestPayments(accountId, AccountRetrieveInterestPaymentsParams.none())
-
-        /** @see [retrieveInterestPayments] */
-        @MustBeClosed
-        fun retrieveInterestPayments(
             accountId: String,
-            params: AccountRetrieveInterestPaymentsParams =
-                AccountRetrieveInterestPaymentsParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveInterestPaymentsResponse>>> =
-            retrieveInterestPayments(
-                params.toBuilder().accountId(accountId).build(),
-                requestOptions,
-            )
-
-        /** @see [retrieveInterestPayments] */
-        @MustBeClosed
-        fun retrieveInterestPayments(
-            accountId: String,
-            params: AccountRetrieveInterestPaymentsParams =
-                AccountRetrieveInterestPaymentsParams.none(),
+            params: AccountRetrieveInterestPaymentsParams,
         ): CompletableFuture<HttpResponseFor<List<AccountRetrieveInterestPaymentsResponse>>> =
             retrieveInterestPayments(accountId, params, RequestOptions.none())
 
         /** @see [retrieveInterestPayments] */
         @MustBeClosed
         fun retrieveInterestPayments(
+            accountId: String,
             params: AccountRetrieveInterestPaymentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveInterestPaymentsResponse>>>
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveInterestPaymentsResponse>>> =
+            retrieveInterestPayments(
+                params.toBuilder().accountId(accountId).build(),
+                requestOptions,
+            )
 
         /** @see [retrieveInterestPayments] */
         @MustBeClosed
@@ -526,14 +459,9 @@ interface AccountServiceAsync {
         /** @see [retrieveInterestPayments] */
         @MustBeClosed
         fun retrieveInterestPayments(
-            accountId: String,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveInterestPaymentsResponse>>> =
-            retrieveInterestPayments(
-                accountId,
-                AccountRetrieveInterestPaymentsParams.none(),
-                requestOptions,
-            )
+            params: AccountRetrieveInterestPaymentsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<List<AccountRetrieveInterestPaymentsResponse>>>
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/portfolio`, but is

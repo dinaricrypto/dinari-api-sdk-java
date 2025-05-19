@@ -15,8 +15,8 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Returns a list of historical prices for a specified stock. Each index in the array represents a
- * single tick in a price chart.
+ * Get historical price data for a specified `Stock`. Each index in the array represents a single
+ * tick in a price chart.
  */
 class StockRetrieveHistoricalPricesParams
 private constructor(

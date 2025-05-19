@@ -20,7 +20,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Creates a managed market buy request. */
+/** Create a managed market buy `OrderRequest`. */
 class OrderRequestCreateMarketBuyParams
 private constructor(
     private val accountId: String?,
@@ -32,8 +32,8 @@ private constructor(
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /**
-     * Amount of USD to pay or receive for the order. Must be a positive number with a precision of
-     * up to 2 decimal places.
+     * Amount of currency (USD for US equities and ETFS) to pay or receive for the order. Must be a
+     * positive number with a precision of up to 2 decimal places.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -41,20 +41,12 @@ private constructor(
     fun paymentAmount(): Double = body.paymentAmount()
 
     /**
-     * ID of stock, as returned by the `/stocks` endpoint, e.g. 1
+     * ID of `Stock`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun stockId(): String = body.stockId()
-
-    /**
-     * Whether to include fees in the `payment_amount` input field.
-     *
-     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun includeFees(): Optional<Boolean> = body.includeFees()
 
     /**
      * Returns the raw JSON value of [paymentAmount].
@@ -69,13 +61,6 @@ private constructor(
      * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _stockId(): JsonField<String> = body._stockId()
-
-    /**
-     * Returns the raw JSON value of [includeFees].
-     *
-     * Unlike [includeFees], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    fun _includeFees(): JsonField<Boolean> = body._includeFees()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -130,13 +115,12 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [paymentAmount]
          * - [stockId]
-         * - [includeFees]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /**
-         * Amount of USD to pay or receive for the order. Must be a positive number with a precision
-         * of up to 2 decimal places.
+         * Amount of currency (USD for US equities and ETFS) to pay or receive for the order. Must
+         * be a positive number with a precision of up to 2 decimal places.
          */
         fun paymentAmount(paymentAmount: Double) = apply { body.paymentAmount(paymentAmount) }
 
@@ -151,7 +135,7 @@ private constructor(
             body.paymentAmount(paymentAmount)
         }
 
-        /** ID of stock, as returned by the `/stocks` endpoint, e.g. 1 */
+        /** ID of `Stock`. */
         fun stockId(stockId: String) = apply { body.stockId(stockId) }
 
         /**
@@ -161,18 +145,6 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun stockId(stockId: JsonField<String>) = apply { body.stockId(stockId) }
-
-        /** Whether to include fees in the `payment_amount` input field. */
-        fun includeFees(includeFees: Boolean) = apply { body.includeFees(includeFees) }
-
-        /**
-         * Sets [Builder.includeFees] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.includeFees] with a well-typed [Boolean] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun includeFees(includeFees: JsonField<Boolean>) = apply { body.includeFees(includeFees) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -325,12 +297,11 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    /** Input parameters for creating a market buy order request. */
+    /** Input parameters for creating a market buy `OrderRequest`. */
     class Body
     private constructor(
         private val paymentAmount: JsonField<Double>,
         private val stockId: JsonField<String>,
-        private val includeFees: JsonField<Boolean>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -340,14 +311,11 @@ private constructor(
             @ExcludeMissing
             paymentAmount: JsonField<Double> = JsonMissing.of(),
             @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("include_fees")
-            @ExcludeMissing
-            includeFees: JsonField<Boolean> = JsonMissing.of(),
-        ) : this(paymentAmount, stockId, includeFees, mutableMapOf())
+        ) : this(paymentAmount, stockId, mutableMapOf())
 
         /**
-         * Amount of USD to pay or receive for the order. Must be a positive number with a precision
-         * of up to 2 decimal places.
+         * Amount of currency (USD for US equities and ETFS) to pay or receive for the order. Must
+         * be a positive number with a precision of up to 2 decimal places.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -355,20 +323,12 @@ private constructor(
         fun paymentAmount(): Double = paymentAmount.getRequired("payment_amount")
 
         /**
-         * ID of stock, as returned by the `/stocks` endpoint, e.g. 1
+         * ID of `Stock`.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun stockId(): String = stockId.getRequired("stock_id")
-
-        /**
-         * Whether to include fees in the `payment_amount` input field.
-         *
-         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
-         *   server responded with an unexpected value).
-         */
-        fun includeFees(): Optional<Boolean> = includeFees.getOptional("include_fees")
 
         /**
          * Returns the raw JSON value of [paymentAmount].
@@ -386,15 +346,6 @@ private constructor(
          * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
-
-        /**
-         * Returns the raw JSON value of [includeFees].
-         *
-         * Unlike [includeFees], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("include_fees")
-        @ExcludeMissing
-        fun _includeFees(): JsonField<Boolean> = includeFees
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -427,20 +378,18 @@ private constructor(
 
             private var paymentAmount: JsonField<Double>? = null
             private var stockId: JsonField<String>? = null
-            private var includeFees: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 paymentAmount = body.paymentAmount
                 stockId = body.stockId
-                includeFees = body.includeFees
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /**
-             * Amount of USD to pay or receive for the order. Must be a positive number with a
-             * precision of up to 2 decimal places.
+             * Amount of currency (USD for US equities and ETFS) to pay or receive for the order.
+             * Must be a positive number with a precision of up to 2 decimal places.
              */
             fun paymentAmount(paymentAmount: Double) = paymentAmount(JsonField.of(paymentAmount))
 
@@ -455,7 +404,7 @@ private constructor(
                 this.paymentAmount = paymentAmount
             }
 
-            /** ID of stock, as returned by the `/stocks` endpoint, e.g. 1 */
+            /** ID of `Stock`. */
             fun stockId(stockId: String) = stockId(JsonField.of(stockId))
 
             /**
@@ -466,20 +415,6 @@ private constructor(
              * supported value.
              */
             fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
-
-            /** Whether to include fees in the `payment_amount` input field. */
-            fun includeFees(includeFees: Boolean) = includeFees(JsonField.of(includeFees))
-
-            /**
-             * Sets [Builder.includeFees] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.includeFees] with a well-typed [Boolean] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun includeFees(includeFees: JsonField<Boolean>) = apply {
-                this.includeFees = includeFees
-            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -517,7 +452,6 @@ private constructor(
                 Body(
                     checkRequired("paymentAmount", paymentAmount),
                     checkRequired("stockId", stockId),
-                    includeFees,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -531,7 +465,6 @@ private constructor(
 
             paymentAmount()
             stockId()
-            includeFees()
             validated = true
         }
 
@@ -552,25 +485,24 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (if (paymentAmount.asKnown().isPresent) 1 else 0) +
-                (if (stockId.asKnown().isPresent) 1 else 0) +
-                (if (includeFees.asKnown().isPresent) 1 else 0)
+                (if (stockId.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is Body && paymentAmount == other.paymentAmount && stockId == other.stockId && includeFees == other.includeFees && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && paymentAmount == other.paymentAmount && stockId == other.stockId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(paymentAmount, stockId, includeFees, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(paymentAmount, stockId, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{paymentAmount=$paymentAmount, stockId=$stockId, includeFees=$includeFees, additionalProperties=$additionalProperties}"
+            "Body{paymentAmount=$paymentAmount, stockId=$stockId, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

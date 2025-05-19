@@ -11,7 +11,10 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Creates a new Account for the given Entity. */
+/**
+ * Create a new `Account` for a specific `Entity`. This `Entity` represents your organization
+ * itself, or an individual customer of your organization.
+ */
 class AccountCreateParams
 private constructor(
     private val entityId: String?,

@@ -22,6 +22,7 @@ class StockListResponse
 private constructor(
     private val id: JsonField<String>,
     private val isFractionable: JsonField<Boolean>,
+    private val isTradable: JsonField<Boolean>,
     private val name: JsonField<String>,
     private val symbol: JsonField<String>,
     private val cik: JsonField<String>,
@@ -39,6 +40,9 @@ private constructor(
         @JsonProperty("is_fractionable")
         @ExcludeMissing
         isFractionable: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("is_tradable")
+        @ExcludeMissing
+        isTradable: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
         @JsonProperty("symbol") @ExcludeMissing symbol: JsonField<String> = JsonMissing.of(),
         @JsonProperty("cik") @ExcludeMissing cik: JsonField<String> = JsonMissing.of(),
@@ -56,6 +60,7 @@ private constructor(
     ) : this(
         id,
         isFractionable,
+        isTradable,
         name,
         symbol,
         cik,
@@ -68,7 +73,7 @@ private constructor(
     )
 
     /**
-     * Unique identifier for the stock
+     * ID of the `Stock`
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -76,8 +81,8 @@ private constructor(
     fun id(): String = id.getRequired("id")
 
     /**
-     * Whether the stock allows for fractional trading. If it is not fractionable, Dinari only
-     * supports limit orders for the stock.
+     * Whether the `Stock` allows for fractional trading. If it is not fractionable, Dinari only
+     * supports limit orders for the `Stock`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -85,7 +90,15 @@ private constructor(
     fun isFractionable(): Boolean = isFractionable.getRequired("is_fractionable")
 
     /**
-     * Stock Name
+     * Whether the `Stock` is available for trading.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun isTradable(): Boolean = isTradable.getRequired("is_tradable")
+
+    /**
+     * Company name
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -93,7 +106,7 @@ private constructor(
     fun name(): String = name.getRequired("name")
 
     /**
-     * Ticker symbol of the stock
+     * Ticker symbol
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -103,6 +116,7 @@ private constructor(
     /**
      * SEC Central Index Key. Refer to
      * [this link](https://www.sec.gov/submit-filings/filer-support-resources/how-do-i-guides/understand-utilize-edgar-ciks-passphrases-access-codes)
+     * for more information.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -110,7 +124,8 @@ private constructor(
     fun cik(): Optional<String> = cik.getOptional("cik")
 
     /**
-     * Composite FIGI ID. Refer to [this link](https://www.openfigi.com/about/figi)
+     * Composite FIGI ID. Refer to [this link](https://www.openfigi.com/about/figi) for more
+     * information.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -118,7 +133,7 @@ private constructor(
     fun compositeFigi(): Optional<String> = compositeFigi.getOptional("composite_figi")
 
     /**
-     * CUSIP ID. Refer to [this link](https://www.cusip.com/identifiers.html)
+     * CUSIP ID. Refer to [this link](https://www.cusip.com/identifiers.html) for more information.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -126,7 +141,7 @@ private constructor(
     fun cusip(): Optional<String> = cusip.getOptional("cusip")
 
     /**
-     * Description of the company and what they do/offer.
+     * Description of the company and their services.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -134,7 +149,8 @@ private constructor(
     fun description(): Optional<String> = description.getOptional("description")
 
     /**
-     * Name of Stock for application display
+     * Name of `Stock` for application display. If defined, this supercedes the `name` field for
+     * displaying the name.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -142,7 +158,7 @@ private constructor(
     fun displayName(): Optional<String> = displayName.getOptional("display_name")
 
     /**
-     * The URL of the logo of the stock. The preferred format is svg.
+     * URL of the company's logo. Supported formats are SVG and PNG.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -164,6 +180,13 @@ private constructor(
     @JsonProperty("is_fractionable")
     @ExcludeMissing
     fun _isFractionable(): JsonField<Boolean> = isFractionable
+
+    /**
+     * Returns the raw JSON value of [isTradable].
+     *
+     * Unlike [isTradable], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("is_tradable") @ExcludeMissing fun _isTradable(): JsonField<Boolean> = isTradable
 
     /**
      * Returns the raw JSON value of [name].
@@ -246,6 +269,7 @@ private constructor(
          * ```java
          * .id()
          * .isFractionable()
+         * .isTradable()
          * .name()
          * .symbol()
          * ```
@@ -258,6 +282,7 @@ private constructor(
 
         private var id: JsonField<String>? = null
         private var isFractionable: JsonField<Boolean>? = null
+        private var isTradable: JsonField<Boolean>? = null
         private var name: JsonField<String>? = null
         private var symbol: JsonField<String>? = null
         private var cik: JsonField<String> = JsonMissing.of()
@@ -272,6 +297,7 @@ private constructor(
         internal fun from(stockListResponse: StockListResponse) = apply {
             id = stockListResponse.id
             isFractionable = stockListResponse.isFractionable
+            isTradable = stockListResponse.isTradable
             name = stockListResponse.name
             symbol = stockListResponse.symbol
             cik = stockListResponse.cik
@@ -283,7 +309,7 @@ private constructor(
             additionalProperties = stockListResponse.additionalProperties.toMutableMap()
         }
 
-        /** Unique identifier for the stock */
+        /** ID of the `Stock` */
         fun id(id: String) = id(JsonField.of(id))
 
         /**
@@ -295,8 +321,8 @@ private constructor(
         fun id(id: JsonField<String>) = apply { this.id = id }
 
         /**
-         * Whether the stock allows for fractional trading. If it is not fractionable, Dinari only
-         * supports limit orders for the stock.
+         * Whether the `Stock` allows for fractional trading. If it is not fractionable, Dinari only
+         * supports limit orders for the `Stock`.
          */
         fun isFractionable(isFractionable: Boolean) = isFractionable(JsonField.of(isFractionable))
 
@@ -311,7 +337,19 @@ private constructor(
             this.isFractionable = isFractionable
         }
 
-        /** Stock Name */
+        /** Whether the `Stock` is available for trading. */
+        fun isTradable(isTradable: Boolean) = isTradable(JsonField.of(isTradable))
+
+        /**
+         * Sets [Builder.isTradable] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.isTradable] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun isTradable(isTradable: JsonField<Boolean>) = apply { this.isTradable = isTradable }
+
+        /** Company name */
         fun name(name: String) = name(JsonField.of(name))
 
         /**
@@ -322,7 +360,7 @@ private constructor(
          */
         fun name(name: JsonField<String>) = apply { this.name = name }
 
-        /** Ticker symbol of the stock */
+        /** Ticker symbol */
         fun symbol(symbol: String) = symbol(JsonField.of(symbol))
 
         /**
@@ -336,6 +374,7 @@ private constructor(
         /**
          * SEC Central Index Key. Refer to
          * [this link](https://www.sec.gov/submit-filings/filer-support-resources/how-do-i-guides/understand-utilize-edgar-ciks-passphrases-access-codes)
+         * for more information.
          */
         fun cik(cik: String?) = cik(JsonField.ofNullable(cik))
 
@@ -350,7 +389,10 @@ private constructor(
          */
         fun cik(cik: JsonField<String>) = apply { this.cik = cik }
 
-        /** Composite FIGI ID. Refer to [this link](https://www.openfigi.com/about/figi) */
+        /**
+         * Composite FIGI ID. Refer to [this link](https://www.openfigi.com/about/figi) for more
+         * information.
+         */
         fun compositeFigi(compositeFigi: String?) =
             compositeFigi(JsonField.ofNullable(compositeFigi))
 
@@ -369,7 +411,10 @@ private constructor(
             this.compositeFigi = compositeFigi
         }
 
-        /** CUSIP ID. Refer to [this link](https://www.cusip.com/identifiers.html) */
+        /**
+         * CUSIP ID. Refer to [this link](https://www.cusip.com/identifiers.html) for more
+         * information.
+         */
         fun cusip(cusip: String?) = cusip(JsonField.ofNullable(cusip))
 
         /** Alias for calling [Builder.cusip] with `cusip.orElse(null)`. */
@@ -383,7 +428,7 @@ private constructor(
          */
         fun cusip(cusip: JsonField<String>) = apply { this.cusip = cusip }
 
-        /** Description of the company and what they do/offer. */
+        /** Description of the company and their services. */
         fun description(description: String?) = description(JsonField.ofNullable(description))
 
         /** Alias for calling [Builder.description] with `description.orElse(null)`. */
@@ -398,7 +443,10 @@ private constructor(
          */
         fun description(description: JsonField<String>) = apply { this.description = description }
 
-        /** Name of Stock for application display */
+        /**
+         * Name of `Stock` for application display. If defined, this supercedes the `name` field for
+         * displaying the name.
+         */
         fun displayName(displayName: String?) = displayName(JsonField.ofNullable(displayName))
 
         /** Alias for calling [Builder.displayName] with `displayName.orElse(null)`. */
@@ -413,7 +461,7 @@ private constructor(
          */
         fun displayName(displayName: JsonField<String>) = apply { this.displayName = displayName }
 
-        /** The URL of the logo of the stock. The preferred format is svg. */
+        /** URL of the company's logo. Supported formats are SVG and PNG. */
         fun logoUrl(logoUrl: String?) = logoUrl(JsonField.ofNullable(logoUrl))
 
         /** Alias for calling [Builder.logoUrl] with `logoUrl.orElse(null)`. */
@@ -455,6 +503,7 @@ private constructor(
          * ```java
          * .id()
          * .isFractionable()
+         * .isTradable()
          * .name()
          * .symbol()
          * ```
@@ -465,6 +514,7 @@ private constructor(
             StockListResponse(
                 checkRequired("id", id),
                 checkRequired("isFractionable", isFractionable),
+                checkRequired("isTradable", isTradable),
                 checkRequired("name", name),
                 checkRequired("symbol", symbol),
                 cik,
@@ -486,6 +536,7 @@ private constructor(
 
         id()
         isFractionable()
+        isTradable()
         name()
         symbol()
         cik()
@@ -514,6 +565,7 @@ private constructor(
     internal fun validity(): Int =
         (if (id.asKnown().isPresent) 1 else 0) +
             (if (isFractionable.asKnown().isPresent) 1 else 0) +
+            (if (isTradable.asKnown().isPresent) 1 else 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
             (if (symbol.asKnown().isPresent) 1 else 0) +
             (if (cik.asKnown().isPresent) 1 else 0) +
@@ -528,15 +580,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockListResponse && id == other.id && isFractionable == other.isFractionable && name == other.name && symbol == other.symbol && cik == other.cik && compositeFigi == other.compositeFigi && cusip == other.cusip && description == other.description && displayName == other.displayName && logoUrl == other.logoUrl && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is StockListResponse && id == other.id && isFractionable == other.isFractionable && isTradable == other.isTradable && name == other.name && symbol == other.symbol && cik == other.cik && compositeFigi == other.compositeFigi && cusip == other.cusip && description == other.description && displayName == other.displayName && logoUrl == other.logoUrl && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, isFractionable, name, symbol, cik, compositeFigi, cusip, description, displayName, logoUrl, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(id, isFractionable, isTradable, name, symbol, cik, compositeFigi, cusip, description, displayName, logoUrl, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "StockListResponse{id=$id, isFractionable=$isFractionable, name=$name, symbol=$symbol, cik=$cik, compositeFigi=$compositeFigi, cusip=$cusip, description=$description, displayName=$displayName, logoUrl=$logoUrl, additionalProperties=$additionalProperties}"
+        "StockListResponse{id=$id, isFractionable=$isFractionable, isTradable=$isTradable, name=$name, symbol=$symbol, cik=$cik, compositeFigi=$compositeFigi, cusip=$cusip, description=$description, displayName=$displayName, logoUrl=$logoUrl, additionalProperties=$additionalProperties}"
 }

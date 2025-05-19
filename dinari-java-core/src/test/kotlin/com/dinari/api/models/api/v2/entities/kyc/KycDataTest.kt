@@ -26,8 +26,8 @@ internal class KycDataTest {
                 .birthDate(LocalDate.parse("2019-12-27"))
                 .email("johndoe@website.com")
                 .firstName("John")
-                .middleName("middle_name")
-                .taxIdNumber("123456789")
+                .middleName("x")
+                .taxIdNumber("12-3456789")
                 .build()
 
         assertThat(kycData.countryCode()).isEqualTo("SG")
@@ -40,8 +40,8 @@ internal class KycDataTest {
         assertThat(kycData.birthDate()).contains(LocalDate.parse("2019-12-27"))
         assertThat(kycData.email()).contains("johndoe@website.com")
         assertThat(kycData.firstName()).contains("John")
-        assertThat(kycData.middleName()).contains("middle_name")
-        assertThat(kycData.taxIdNumber()).contains("123456789")
+        assertThat(kycData.middleName()).contains("x")
+        assertThat(kycData.taxIdNumber()).contains("12-3456789")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -60,8 +60,8 @@ internal class KycDataTest {
                 .birthDate(LocalDate.parse("2019-12-27"))
                 .email("johndoe@website.com")
                 .firstName("John")
-                .middleName("middle_name")
-                .taxIdNumber("123456789")
+                .middleName("x")
+                .taxIdNumber("12-3456789")
                 .build()
 
         val roundtrippedKycData =

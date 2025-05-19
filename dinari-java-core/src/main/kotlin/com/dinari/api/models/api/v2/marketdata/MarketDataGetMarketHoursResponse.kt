@@ -62,7 +62,7 @@ private constructor(
     fun isMarketOpen(): Boolean = isMarketOpen.getRequired("is_market_open")
 
     /**
-     * Timestamp in ISO 8601 format at which the next session closes
+     * Datetime at which the next session closes. ISO 8601 timestamp.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -71,7 +71,7 @@ private constructor(
         nextSessionCloseDt.getRequired("next_session_close_dt")
 
     /**
-     * Timestamp in ISO 8601 format at which the next session opens
+     * Datetime at which the next session opens. ISO 8601 timestamp.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -79,8 +79,8 @@ private constructor(
     fun nextSessionOpenDt(): OffsetDateTime = nextSessionOpenDt.getRequired("next_session_open_dt")
 
     /**
-     * Timestamp in ISO 8601 format at which the current session closes or null if the market is
-     * currently closed
+     * Datetime at which the current session closes. `null` if the market is currently closed. ISO
+     * 8601 timestamp.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -89,8 +89,8 @@ private constructor(
         currentSessionCloseDt.getOptional("current_session_close_dt")
 
     /**
-     * Timestamp in ISO 8601 format at which the current session opened or null if the market is
-     * currently closed
+     * Datetime at which the current session opened. `null` if the market is currently closed. ISO
+     * 8601 timestamp.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -211,7 +211,7 @@ private constructor(
             this.isMarketOpen = isMarketOpen
         }
 
-        /** Timestamp in ISO 8601 format at which the next session closes */
+        /** Datetime at which the next session closes. ISO 8601 timestamp. */
         fun nextSessionCloseDt(nextSessionCloseDt: OffsetDateTime) =
             nextSessionCloseDt(JsonField.of(nextSessionCloseDt))
 
@@ -226,7 +226,7 @@ private constructor(
             this.nextSessionCloseDt = nextSessionCloseDt
         }
 
-        /** Timestamp in ISO 8601 format at which the next session opens */
+        /** Datetime at which the next session opens. ISO 8601 timestamp. */
         fun nextSessionOpenDt(nextSessionOpenDt: OffsetDateTime) =
             nextSessionOpenDt(JsonField.of(nextSessionOpenDt))
 
@@ -242,8 +242,8 @@ private constructor(
         }
 
         /**
-         * Timestamp in ISO 8601 format at which the current session closes or null if the market is
-         * currently closed
+         * Datetime at which the current session closes. `null` if the market is currently closed.
+         * ISO 8601 timestamp.
          */
         fun currentSessionCloseDt(currentSessionCloseDt: OffsetDateTime) =
             currentSessionCloseDt(JsonField.of(currentSessionCloseDt))
@@ -260,8 +260,8 @@ private constructor(
         }
 
         /**
-         * Timestamp in ISO 8601 format at which the current session opened or null if the market is
-         * currently closed
+         * Datetime at which the current session opened. `null` if the market is currently closed.
+         * ISO 8601 timestamp.
          */
         fun currentSessionOpenDt(currentSessionOpenDt: OffsetDateTime) =
             currentSessionOpenDt(JsonField.of(currentSessionOpenDt))
