@@ -23,8 +23,8 @@ private constructor(
     @get:JvmName("responseValidation") val responseValidation: Boolean,
     @get:JvmName("timeout") val timeout: Timeout,
     @get:JvmName("maxRetries") val maxRetries: Int,
-    @get:JvmName("apiKey") val apiKey: String,
-    @get:JvmName("secret") val secret: String,
+    @get:JvmName("apiKeyId") val apiKeyId: String,
+    @get:JvmName("apiSecretKey") val apiSecretKey: String,
 ) {
 
     init {
@@ -45,8 +45,8 @@ private constructor(
          * The following fields are required:
          * ```java
          * .httpClient()
-         * .apiKey()
-         * .secret()
+         * .apiKeyId()
+         * .apiSecretKey()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -67,8 +67,8 @@ private constructor(
         private var responseValidation: Boolean = false
         private var timeout: Timeout = Timeout.default()
         private var maxRetries: Int = 2
-        private var apiKey: String? = null
-        private var secret: String? = null
+        private var apiKeyId: String? = null
+        private var apiSecretKey: String? = null
 
         @JvmSynthetic
         internal fun from(clientOptions: ClientOptions) = apply {
@@ -82,8 +82,8 @@ private constructor(
             responseValidation = clientOptions.responseValidation
             timeout = clientOptions.timeout
             maxRetries = clientOptions.maxRetries
-            apiKey = clientOptions.apiKey
-            secret = clientOptions.secret
+            apiKeyId = clientOptions.apiKeyId
+            apiSecretKey = clientOptions.apiSecretKey
         }
 
         fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
@@ -106,9 +106,9 @@ private constructor(
 
         fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
 
-        fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
+        fun apiKeyId(apiKeyId: String) = apply { this.apiKeyId = apiKeyId }
 
-        fun secret(secret: String) = apply { this.secret = secret }
+        fun apiSecretKey(apiSecretKey: String) = apply { this.apiSecretKey = apiSecretKey }
 
         fun headers(headers: Headers) = apply {
             this.headers.clear()
@@ -194,8 +194,8 @@ private constructor(
 
         fun fromEnv() = apply {
             System.getenv("DINARI_BASE_URL")?.let { baseUrl(it) }
-            System.getenv("DINARI_API_KEY")?.let { apiKey(it) }
-            System.getenv("DINARI_SECRET")?.let { secret(it) }
+            System.getenv("DINARI_API_KEY_ID")?.let { apiKeyId(it) }
+            System.getenv("DINARI_API_SECRET_KEY")?.let { apiSecretKey(it) }
         }
 
         /**
@@ -206,16 +206,16 @@ private constructor(
          * The following fields are required:
          * ```java
          * .httpClient()
-         * .apiKey()
-         * .secret()
+         * .apiKeyId()
+         * .apiSecretKey()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ClientOptions {
             val httpClient = checkRequired("httpClient", httpClient)
-            val apiKey = checkRequired("apiKey", apiKey)
-            val secret = checkRequired("secret", secret)
+            val apiKeyId = checkRequired("apiKeyId", apiKeyId)
+            val apiSecretKey = checkRequired("apiSecretKey", apiSecretKey)
 
             val headers = Headers.builder()
             val queryParams = QueryParams.builder()
@@ -226,12 +226,12 @@ private constructor(
             headers.put("X-Stainless-Package-Version", getPackageVersion())
             headers.put("X-Stainless-Runtime", "JRE")
             headers.put("X-Stainless-Runtime-Version", getJavaVersion())
-            apiKey.let {
+            apiKeyId.let {
                 if (!it.isEmpty()) {
                     headers.put("X-API-Key-Id", it)
                 }
             }
-            secret.let {
+            apiSecretKey.let {
                 if (!it.isEmpty()) {
                     headers.put("X-API-Secret-Key", it)
                 }
@@ -257,8 +257,8 @@ private constructor(
                 responseValidation,
                 timeout,
                 maxRetries,
-                apiKey,
-                secret,
+                apiKeyId,
+                apiSecretKey,
             )
         }
     }

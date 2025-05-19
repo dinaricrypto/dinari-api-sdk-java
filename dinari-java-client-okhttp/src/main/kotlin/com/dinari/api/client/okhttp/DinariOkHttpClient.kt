@@ -149,9 +149,9 @@ class DinariOkHttpClient private constructor() {
             clientOptions.responseValidation(responseValidation)
         }
 
-        fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
+        fun apiKeyId(apiKeyId: String) = apply { clientOptions.apiKeyId(apiKeyId) }
 
-        fun secret(secret: String) = apply { clientOptions.secret(secret) }
+        fun apiSecretKey(apiSecretKey: String) = apply { clientOptions.apiSecretKey(apiSecretKey) }
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 

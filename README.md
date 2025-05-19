@@ -1,25 +1,15 @@
 # Dinari Java API Library
 
-<!-- x-release-please-start-version -->
-
 [![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java/0.0.1-alpha.0)
 [![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/0.0.1-alpha.0/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.0.1-alpha.0)
-
-<!-- x-release-please-end -->
 
 The Dinari Java SDK provides convenient access to the Dinari REST API from applications written in Java.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
-<!-- x-release-please-start-version -->
-
 Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.0.1-alpha.0).
 
-<!-- x-release-please-end -->
-
 ## Installation
-
-<!-- x-release-please-start-version -->
 
 ### Gradle
 
@@ -37,8 +27,6 @@ implementation("com.dinari.api:dinari-java:0.0.1-alpha.0")
 </dependency>
 ```
 
-<!-- x-release-please-end -->
-
 ## Requirements
 
 This library requires Java 8 or later.
@@ -48,13 +36,13 @@ This library requires Java 8 or later.
 ```java
 import com.dinari.api.client.DinariClient;
 import com.dinari.api.client.okhttp.DinariOkHttpClient;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursParams;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-// Configures using the `DINARI_API_KEY`, `DINARI_SECRET` and `DINARI_BASE_URL` environment variables
+// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 
-MarketDataGetMarketHoursResponse response = client.api().v2().marketData().getMarketHours();
+List<StockListResponse> stocks = client.v2().marketData().stocks().list();
 ```
 
 ## Client configuration
@@ -65,7 +53,7 @@ Configure the client using environment variables:
 import com.dinari.api.client.DinariClient;
 import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
-// Configures using the `DINARI_API_KEY`, `DINARI_SECRET` and `DINARI_BASE_URL` environment variables
+// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 ```
 
@@ -76,8 +64,8 @@ import com.dinari.api.client.DinariClient;
 import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
-    .apiKey("My API Key")
-    .secret("My Secret")
+    .apiKeyId("My API Key ID")
+    .apiSecretKey("My API Secret Key")
     .build();
 ```
 
@@ -88,19 +76,19 @@ import com.dinari.api.client.DinariClient;
 import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
-    // Configures using the `DINARI_API_KEY`, `DINARI_SECRET` and `DINARI_BASE_URL` environment variables
+    // Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
     .fromEnv()
-    .apiKey("My API Key")
+    .apiKeyId("My API Key ID")
     .build();
 ```
 
 See this table for the available options:
 
-| Setter    | Environment variable | Required | Default value                             |
-| --------- | -------------------- | -------- | ----------------------------------------- |
-| `apiKey`  | `DINARI_API_KEY`     | true     | -                                         |
-| `secret`  | `DINARI_SECRET`      | true     | -                                         |
-| `baseUrl` | `DINARI_BASE_URL`    | true     | `"https://api-enterprise.sbt.dinari.com"` |
+| Setter         | Environment variable    | Required | Default value                             |
+| -------------- | ----------------------- | -------- | ----------------------------------------- |
+| `apiKeyId`     | `DINARI_API_KEY_ID`     | true     | -                                         |
+| `apiSecretKey` | `DINARI_API_SECRET_KEY` | true     | -                                         |
+| `baseUrl`      | `DINARI_BASE_URL`       | true     | `"https://api-enterprise.sbt.dinari.com"` |
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -110,7 +98,7 @@ See this table for the available options:
 
 To send a request to the Dinari API, build an instance of some `Params` class and pass it to the corresponding client method. When the response is received, it will be deserialized into an instance of a Java class.
 
-For example, `client.api().v2().marketData().getMarketHours(...)` should be called with an instance of `MarketDataGetMarketHoursParams`, and it will return an instance of `MarketDataGetMarketHoursResponse`.
+For example, `client.v2().marketData().stocks().list(...)` should be called with an instance of `StockListParams`, and it will return an instance of `List<StockListResponse>`.
 
 ## Immutability
 
@@ -127,14 +115,14 @@ The default client is synchronous. To switch to asynchronous execution, call the
 ```java
 import com.dinari.api.client.DinariClient;
 import com.dinari.api.client.okhttp.DinariOkHttpClient;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursParams;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `DINARI_API_KEY`, `DINARI_SECRET` and `DINARI_BASE_URL` environment variables
+// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 
-CompletableFuture<MarketDataGetMarketHoursResponse> response = client.async().api().v2().marketData().getMarketHours();
+CompletableFuture<List<StockListResponse>> stocks = client.async().v2().marketData().stocks().list();
 ```
 
 Or create an asynchronous client from the beginning:
@@ -142,14 +130,14 @@ Or create an asynchronous client from the beginning:
 ```java
 import com.dinari.api.client.DinariClientAsync;
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursParams;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `DINARI_API_KEY`, `DINARI_SECRET` and `DINARI_BASE_URL` environment variables
+// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClientAsync client = DinariOkHttpClientAsync.fromEnv();
 
-CompletableFuture<MarketDataGetMarketHoursResponse> response = client.api().v2().marketData().getMarketHours();
+CompletableFuture<List<StockListResponse>> stocks = client.v2().marketData().stocks().list();
 ```
 
 The asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.
@@ -161,64 +149,64 @@ The SDK defines methods that accept files.
 To upload a file, pass a [`Path`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html):
 
 ```java
-import com.dinari.api.models.api.v2.entities.kyc.KycDocumentType;
-import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentParams;
-import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentResponse;
+import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocument;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType;
 import java.nio.file.Paths;
 
-KycUploadDocumentParams params = KycUploadDocumentParams.builder()
+DocumentUploadParams params = DocumentUploadParams.builder()
     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .documentType(KycDocumentType.GOVERNMENT_ID)
     .file(Paths.get("/path/to/file"))
     .build();
-KycUploadDocumentResponse response = client.api().v2().entities().kyc().uploadDocument(params);
+KycDocument kycDocument = client.v2().entities().kyc().document().upload(params);
 ```
 
 Or an arbitrary [`InputStream`](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
 
 ```java
-import com.dinari.api.models.api.v2.entities.kyc.KycDocumentType;
-import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentParams;
-import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentResponse;
+import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocument;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType;
 import java.net.URL;
 
-KycUploadDocumentParams params = KycUploadDocumentParams.builder()
+DocumentUploadParams params = DocumentUploadParams.builder()
     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .documentType(KycDocumentType.GOVERNMENT_ID)
     .file(new URL("https://example.com//path/to/file").openStream())
     .build();
-KycUploadDocumentResponse response = client.api().v2().entities().kyc().uploadDocument(params);
+KycDocument kycDocument = client.v2().entities().kyc().document().upload(params);
 ```
 
 Or a `byte[]` array:
 
 ```java
-import com.dinari.api.models.api.v2.entities.kyc.KycDocumentType;
-import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentParams;
-import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentResponse;
+import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocument;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType;
 
-KycUploadDocumentParams params = KycUploadDocumentParams.builder()
+DocumentUploadParams params = DocumentUploadParams.builder()
     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .documentType(KycDocumentType.GOVERNMENT_ID)
     .file("content".getBytes())
     .build();
-KycUploadDocumentResponse response = client.api().v2().entities().kyc().uploadDocument(params);
+KycDocument kycDocument = client.v2().entities().kyc().document().upload(params);
 ```
 
 Note that when passing a non-`Path` its filename is unknown so it will not be included in the request. To manually set a filename, pass a [`MultipartField`](dinari-java-core/src/main/kotlin/com/dinari/api/core/Values.kt):
 
 ```java
 import com.dinari.api.core.MultipartField;
-import com.dinari.api.models.api.v2.entities.kyc.KycDocumentType;
-import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentParams;
-import com.dinari.api.models.api.v2.entities.kyc.KycUploadDocumentResponse;
+import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocument;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType;
 import java.io.InputStream;
 import java.net.URL;
 
-KycUploadDocumentParams params = KycUploadDocumentParams.builder()
+DocumentUploadParams params = DocumentUploadParams.builder()
     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     .documentType(KycDocumentType.GOVERNMENT_ID)
@@ -227,7 +215,7 @@ KycUploadDocumentParams params = KycUploadDocumentParams.builder()
         .filename("/path/to/file")
         .build())
     .build();
-KycUploadDocumentResponse response = client.api().v2().entities().kyc().uploadDocument(params);
+KycDocument kycDocument = client.v2().entities().kyc().document().upload(params);
 ```
 
 ## Raw responses
@@ -239,21 +227,21 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 ```java
 import com.dinari.api.core.http.Headers;
 import com.dinari.api.core.http.HttpResponseFor;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursParams;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-HttpResponseFor<MarketDataGetMarketHoursResponse> response = client.api().v2().marketData().withRawResponse().getMarketHours();
+HttpResponseFor<List<StockListResponse>> stocks = client.v2().marketData().stocks().withRawResponse().list();
 
-int statusCode = response.statusCode();
-Headers headers = response.headers();
+int statusCode = stocks.statusCode();
+Headers headers = stocks.headers();
 ```
 
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-MarketDataGetMarketHoursResponse parsedResponse = response.parse();
+List<StockListResponse> parsedStocks = stocks.parse();
 ```
 
 ## Error handling
@@ -341,9 +329,9 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-MarketDataGetMarketHoursResponse response = client.api().v2().marketData().getMarketHours(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
+List<StockListResponse> stocks = client.v2().marketData().stocks().list(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
 
 Or configure the default for all method calls at the client level:
@@ -425,9 +413,9 @@ To set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQu
 
 ```java
 import com.dinari.api.core.JsonValue;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 
-MarketDataGetMarketHoursParams params = MarketDataGetMarketHoursParams.builder()
+StockListParams params = StockListParams.builder()
     .putAdditionalHeader("Secret-Header", "42")
     .putAdditionalQueryParam("secret_query_param", "42")
     .putAdditionalBodyProperty("secretProperty", JsonValue.from("42"))
@@ -440,8 +428,8 @@ To set undocumented parameters on _nested_ headers, query params, or body classe
 
 ```java
 import com.dinari.api.core.JsonValue;
-import com.dinari.api.models.api.v2.entities.kyc.KycData;
-import com.dinari.api.models.api.v2.entities.kyc.KycSubmitParams;
+import com.dinari.api.models.v2.entities.kyc.KycData;
+import com.dinari.api.models.v2.entities.kyc.KycSubmitParams;
 
 KycSubmitParams params = KycSubmitParams.builder()
     .data(KycData.builder()
@@ -455,9 +443,9 @@ These properties can be accessed on the nested built object later using the `_ad
 To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](dinari-java-core/src/main/kotlin/com/dinari/api/core/Values.kt) object to its setter:
 
 ```java
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 
-MarketDataGetMarketHoursParams params = MarketDataGetMarketHoursParams.builder().build();
+StockListParams params = StockListParams.builder().build();
 ```
 
 The most straightforward way to create a [`JsonValue`](dinari-java-core/src/main/kotlin/com/dinari/api/core/Values.kt) is using its `from(...)` method:
@@ -505,10 +493,10 @@ To forcibly omit a required parameter or property, pass [`JsonMissing`](dinari-j
 
 ```java
 import com.dinari.api.core.JsonMissing;
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursParams;
-import com.dinari.api.models.api.v2.marketdata.stocks.StockRetrieveDividendsParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsParams;
 
-MarketDataGetMarketHoursParams params = StockRetrieveDividendsParams.builder()
+StockListParams params = StockRetrieveDividendsParams.builder()
     .stockId(JsonMissing.of())
     .build();
 ```
@@ -521,7 +509,7 @@ To access undocumented response properties, call the `_additionalProperties()` m
 import com.dinari.api.core.JsonValue;
 import java.util.Map;
 
-Map<String, JsonValue> additionalProperties = client.api().v2().marketData().getMarketHours(params)._additionalProperties();
+Map<String, JsonValue> additionalProperties = client.v2().marketData().retrieveMarketHours(params)._additionalProperties();
 JsonValue secretPropertyValue = additionalProperties.get("secretProperty");
 
 String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
@@ -551,7 +539,7 @@ To access a property's raw JSON value, which may be undocumented, call its `_` p
 import com.dinari.api.core.JsonField;
 import java.util.Optional;
 
-JsonField<Object> field = client.api().v2().marketData().getMarketHours(params)._field();
+JsonField<Object> field = client.v2().marketData().retrieveMarketHours(params)._field();
 
 if (field.isMissing()) {
   // The property is absent from the JSON response
@@ -576,17 +564,17 @@ By default, the SDK will not throw an exception in this case. It will throw [`Di
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursResponse;
+import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse;
 
-MarketDataGetMarketHoursResponse response = client.api().v2().marketData().getMarketHours(params).validate();
+MarketDataRetrieveMarketHoursResponse response = client.v2().marketData().retrieveMarketHours(params).validate();
 ```
 
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
-import com.dinari.api.models.api.v2.marketdata.MarketDataGetMarketHoursResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-MarketDataGetMarketHoursResponse response = client.api().v2().marketData().getMarketHours(RequestOptions.builder().responseValidation(true).build());
+List<StockListResponse> stocks = client.v2().marketData().stocks().list(RequestOptions.builder().responseValidation(true).build());
 ```
 
 Or configure the default for all method calls at the client level:
@@ -639,4 +627,4 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/dinaricrypto/dinari-api-sdk-java/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/dinari-java/issues) with questions, bugs, or suggestions.

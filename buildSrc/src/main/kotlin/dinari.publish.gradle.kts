@@ -26,9 +26,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/dinaricrypto/dinari-api-sdk-java.git")
-                    developerConnection.set("scm:git:git://github.com/dinaricrypto/dinari-api-sdk-java.git")
-                    url.set("https://github.com/dinaricrypto/dinari-api-sdk-java")
+                    connection.set("scm:git:git://github.com/stainless-sdks/dinari-java.git")
+                    developerConnection.set("scm:git:git://github.com/stainless-sdks/dinari-java.git")
+                    url.set("https://github.com/stainless-sdks/dinari-java")
                 }
 
                 versionMapping {
