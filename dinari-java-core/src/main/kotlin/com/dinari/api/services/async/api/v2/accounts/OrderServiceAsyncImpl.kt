@@ -19,8 +19,6 @@ import com.dinari.api.core.prepareAsync
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillment
 import com.dinari.api.models.api.v2.accounts.orders.Order
 import com.dinari.api.models.api.v2.accounts.orders.OrderCancelParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeResponse
 import com.dinari.api.models.api.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveFulfillmentsParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveParams
@@ -56,13 +54,6 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<Order> =
         // post /api/v2/accounts/{account_id}/orders/{order_id}/cancel
         withRawResponse().cancel(params, requestOptions).thenApply { it.parse() }
-
-    override fun getEstimatedFee(
-        params: OrderGetEstimatedFeeParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<OrderGetEstimatedFeeResponse> =
-        // post /api/v2/accounts/{account_id}/orders/estimated_fee
-        withRawResponse().getEstimatedFee(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieveFulfillments(
         params: OrderRetrieveFulfillmentsParams,
@@ -179,47 +170,6 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
                     response.parseable {
                         response
                             .use { cancelHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.validate()
-                                }
-                            }
-                    }
-                }
-        }
-
-        private val getEstimatedFeeHandler: Handler<OrderGetEstimatedFeeResponse> =
-            jsonHandler<OrderGetEstimatedFeeResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
-
-        override fun getEstimatedFee(
-            params: OrderGetEstimatedFeeParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<OrderGetEstimatedFeeResponse>> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("accountId", params.accountId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.POST)
-                    .addPathSegments(
-                        "api",
-                        "v2",
-                        "accounts",
-                        params._pathParam(0),
-                        "orders",
-                        "estimated_fee",
-                    )
-                    .body(json(clientOptions.jsonMapper, params._body()))
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    response.parseable {
-                        response
-                            .use { getEstimatedFeeHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

@@ -78,6 +78,8 @@ private constructor(
     fun price(): Double = price.getRequired("price")
 
     /**
+     * ID of the `Stock`
+     *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
@@ -100,7 +102,7 @@ private constructor(
     fun changePercent(): Optional<Double> = changePercent.getOptional("change_percent")
 
     /**
-     * The close price for the stock in the given time period.
+     * The close price from the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -108,7 +110,7 @@ private constructor(
     fun close(): Optional<Double> = close.getOptional("close")
 
     /**
-     * The highest price for the stock in the given time period
+     * The highest price from the given time period
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -116,7 +118,7 @@ private constructor(
     fun high(): Optional<Double> = high.getOptional("high")
 
     /**
-     * The lowest price for the stock in the given time period.
+     * The lowest price from the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -124,7 +126,7 @@ private constructor(
     fun low(): Optional<Double> = low.getOptional("low")
 
     /**
-     * The most recent close price of the ticker multiplied by weighted outstanding shares
+     * The most recent close price of the ticker multiplied by weighted outstanding shares.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -132,7 +134,7 @@ private constructor(
     fun marketCap(): Optional<Long> = marketCap.getOptional("market_cap")
 
     /**
-     * The open price for the stock in the given time period.
+     * The open price from the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -140,7 +142,7 @@ private constructor(
     fun open(): Optional<Double> = open.getOptional("open")
 
     /**
-     * The close price for the stock for the previous trading day.
+     * The close price for the `Stock` from the previous trading session.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -148,7 +150,7 @@ private constructor(
     fun previousClose(): Optional<Double> = previousClose.getOptional("previous_close")
 
     /**
-     * The trading volume of the stock in the given time period.
+     * The trading volume from the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -156,7 +158,7 @@ private constructor(
     fun volume(): Optional<Double> = volume.getOptional("volume")
 
     /**
-     * The number of shares outstanding in the given time period
+     * The number of shares outstanding in the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -326,6 +328,7 @@ private constructor(
          */
         fun price(price: JsonField<Double>) = apply { this.price = price }
 
+        /** ID of the `Stock` */
         fun stockId(stockId: String) = stockId(JsonField.of(stockId))
 
         /**
@@ -361,7 +364,7 @@ private constructor(
             this.changePercent = changePercent
         }
 
-        /** The close price for the stock in the given time period. */
+        /** The close price from the given time period. */
         fun close(close: Double) = close(JsonField.of(close))
 
         /**
@@ -372,7 +375,7 @@ private constructor(
          */
         fun close(close: JsonField<Double>) = apply { this.close = close }
 
-        /** The highest price for the stock in the given time period */
+        /** The highest price from the given time period */
         fun high(high: Double) = high(JsonField.of(high))
 
         /**
@@ -383,7 +386,7 @@ private constructor(
          */
         fun high(high: JsonField<Double>) = apply { this.high = high }
 
-        /** The lowest price for the stock in the given time period. */
+        /** The lowest price from the given time period. */
         fun low(low: Double) = low(JsonField.of(low))
 
         /**
@@ -394,7 +397,7 @@ private constructor(
          */
         fun low(low: JsonField<Double>) = apply { this.low = low }
 
-        /** The most recent close price of the ticker multiplied by weighted outstanding shares */
+        /** The most recent close price of the ticker multiplied by weighted outstanding shares. */
         fun marketCap(marketCap: Long) = marketCap(JsonField.of(marketCap))
 
         /**
@@ -405,7 +408,7 @@ private constructor(
          */
         fun marketCap(marketCap: JsonField<Long>) = apply { this.marketCap = marketCap }
 
-        /** The open price for the stock in the given time period. */
+        /** The open price from the given time period. */
         fun open(open: Double) = open(JsonField.of(open))
 
         /**
@@ -416,7 +419,7 @@ private constructor(
          */
         fun open(open: JsonField<Double>) = apply { this.open = open }
 
-        /** The close price for the stock for the previous trading day. */
+        /** The close price for the `Stock` from the previous trading session. */
         fun previousClose(previousClose: Double) = previousClose(JsonField.of(previousClose))
 
         /**
@@ -430,7 +433,7 @@ private constructor(
             this.previousClose = previousClose
         }
 
-        /** The trading volume of the stock in the given time period. */
+        /** The trading volume from the given time period. */
         fun volume(volume: Double) = volume(JsonField.of(volume))
 
         /**
@@ -441,7 +444,7 @@ private constructor(
          */
         fun volume(volume: JsonField<Double>) = apply { this.volume = volume }
 
-        /** The number of shares outstanding in the given time period */
+        /** The number of shares outstanding in the given time period. */
         fun weightedSharesOutstanding(weightedSharesOutstanding: Long) =
             weightedSharesOutstanding(JsonField.of(weightedSharesOutstanding))
 

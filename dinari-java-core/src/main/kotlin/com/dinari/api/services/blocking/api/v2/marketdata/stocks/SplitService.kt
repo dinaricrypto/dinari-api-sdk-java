@@ -17,7 +17,7 @@ interface SplitService {
     fun withRawResponse(): WithRawResponse
 
     /**
-     * Returns a list of stock splits for a given stock id. The splits are ordered by the date they
+     * Get a list of stock splits for a specific `Stock`. The splits are ordered by the date they
      * were created, with the most recent split first.
      *
      * In an example 10-for-1 stock split, trading will be halted for the stock at the end of the
@@ -56,8 +56,8 @@ interface SplitService {
         retrieve(stockId, SplitRetrieveParams.none(), requestOptions)
 
     /**
-     * Returns a list of stock splits. The splits are ordered by the date they were created, with
-     * the most recent split first.
+     * Get a list of stock splits for `Stocks` available for trade via Dinari. The splits are
+     * ordered by the date they were created, with the most recent split first.
      *
      * In an example 10-for-1 stock split, trading will be halted for the stock at the end of the
      * `payable_date`, as the split transitions from `PENDING` to `IN_PROGRESS`. This usually occurs

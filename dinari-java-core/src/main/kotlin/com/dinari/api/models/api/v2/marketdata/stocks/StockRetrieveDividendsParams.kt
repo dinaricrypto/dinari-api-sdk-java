@@ -10,8 +10,10 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Returns a list of announced stock dividend details for a specified stock. Note that this data
- * applies only to actual stocks. Yield received for holding dShares may differ from this.
+ * Get a list of announced stock dividend details for a specified `Stock`.
+ *
+ * Note that this data applies only to actual stocks. Yield received for holding tokenized shares
+ * may differ from this.
  */
 class StockRetrieveDividendsParams
 private constructor(

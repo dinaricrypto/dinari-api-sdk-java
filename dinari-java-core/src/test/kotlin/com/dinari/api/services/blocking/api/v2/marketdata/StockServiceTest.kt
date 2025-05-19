@@ -21,6 +21,7 @@ internal class StockServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val stockService = client.api().v2().marketData().stocks()
 
@@ -39,10 +40,11 @@ internal class StockServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val stockService = client.api().v2().marketData().stocks()
 
-        val response = stockService.retrieveDividends("stock_id")
+        val response = stockService.retrieveDividends("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.forEach { it.validate() }
     }
@@ -54,13 +56,14 @@ internal class StockServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val stockService = client.api().v2().marketData().stocks()
 
         val response =
             stockService.retrieveHistoricalPrices(
                 StockRetrieveHistoricalPricesParams.builder()
-                    .stockId("stock_id")
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .timespan(StockRetrieveHistoricalPricesParams.Timespan.DAY)
                     .build()
             )
@@ -75,12 +78,16 @@ internal class StockServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val stockService = client.api().v2().marketData().stocks()
 
         val response =
             stockService.retrieveNews(
-                StockRetrieveNewsParams.builder().stockId("stock_id").limit(1L).build()
+                StockRetrieveNewsParams.builder()
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .limit(1L)
+                    .build()
             )
 
         response.forEach { it.validate() }
@@ -93,10 +100,11 @@ internal class StockServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val stockService = client.api().v2().marketData().stocks()
 
-        val response = stockService.retrieveQuote("stock_id")
+        val response = stockService.retrieveQuote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
         response.validate()
     }

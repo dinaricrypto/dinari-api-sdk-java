@@ -4,9 +4,8 @@ package com.dinari.api.services.blocking.api.v2.accounts
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
-import com.dinari.api.core.JsonValue
 import com.dinari.api.models.api.v2.accounts.orders.OrderCancelParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeParams
+import com.dinari.api.models.api.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveFulfillmentsParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveParams
 import org.junit.jupiter.api.Disabled
@@ -23,6 +22,7 @@ internal class OrderServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderService = client.api().v2().accounts().orders()
 
@@ -44,10 +44,18 @@ internal class OrderServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderService = client.api().v2().accounts().orders()
 
-        val orders = orderService.list("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val orders =
+            orderService.list(
+                OrderListParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .page(1L)
+                    .pageSize(1L)
+                    .build()
+            )
 
         orders.forEach { it.validate() }
     }
@@ -59,6 +67,7 @@ internal class OrderServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderService = client.api().v2().accounts().orders()
 
@@ -75,38 +84,12 @@ internal class OrderServiceTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun getEstimatedFee() {
-        val client =
-            DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val orderService = client.api().v2().accounts().orders()
-
-        val response =
-            orderService.getEstimatedFee(
-                OrderGetEstimatedFeeParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .chainId(0L)
-                    .contractAddress("contract_address")
-                    .orderData(
-                        OrderGetEstimatedFeeParams.OrderData.builder()
-                            .putAdditionalProperty("foo", JsonValue.from("string"))
-                            .build()
-                    )
-                    .build()
-            )
-
-        response.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
     fun retrieveFulfillments() {
         val client =
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderService = client.api().v2().accounts().orders()
 
@@ -115,6 +98,8 @@ internal class OrderServiceTest {
                 OrderRetrieveFulfillmentsParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .page(1L)
+                    .pageSize(1L)
                     .build()
             )
 

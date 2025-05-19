@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Gets a nonce and message to be signed in order to verify wallet ownership. */
+/** Get a nonce and message to be signed in order to verify `Wallet` ownership. */
 class ExternalGetNonceParams
 private constructor(
     private val accountId: String?,
@@ -21,7 +21,7 @@ private constructor(
 
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
-    /** Address of the wallet to connect */
+    /** Address of the `Wallet` to connect. */
     fun walletAddress(): String = walletAddress
 
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -64,7 +64,7 @@ private constructor(
         /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
         fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
 
-        /** Address of the wallet to connect */
+        /** Address of the `Wallet` to connect. */
         fun walletAddress(walletAddress: String) = apply { this.walletAddress = walletAddress }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {

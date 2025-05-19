@@ -18,6 +18,7 @@ internal class WalletServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val walletService = client.api().v2().accounts().wallet()
 

@@ -19,8 +19,8 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * StockSplit contains data for a stock split, including the stock id, the number of shares before
- * and after the split, the record date, payable date, ex-date, and the status of the split.
+ * Information about a stock split, including the `Stock` ID, the number of shares before and after
+ * the split, the record date, payable date, ex-date, and the status of the split.
  */
 class StockSplit
 private constructor(
@@ -62,7 +62,7 @@ private constructor(
     )
 
     /**
-     * Unique identifier for the stock split
+     * ID of the `StockSplit`
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -70,8 +70,9 @@ private constructor(
     fun id(): String = id.getRequired("id")
 
     /**
-     * Ex-date of the split (Eastern Time Zone). First day the stock trades at post-split prices.
-     * Typically is last in the process, and the main important date for investors.
+     * Ex-date of the split in Eastern Time Zone. First day the stock trades at post-split prices.
+     * Typically is last date in the process, and the main important date for investors. In ISO 8601
+     * format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -79,9 +80,9 @@ private constructor(
     fun exDate(): LocalDate = exDate.getRequired("ex_date")
 
     /**
-     * Payable date (Eastern Time Zone) of the split. Date when company will send out the new
-     * shares. Mainly for record keeping by brokerages, who forward the shares to eventual owners.
-     * Typically is second in the process.
+     * Payable date of the split in Eastern Time Zone. This is the date when company will send out
+     * the new shares. Mainly for record keeping by brokerages, who forward the shares to eventual
+     * owners. Typically is the second date in the process. In ISO 8601 format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -89,9 +90,9 @@ private constructor(
     fun payableDate(): LocalDate = payableDate.getRequired("payable_date")
 
     /**
-     * Record date (Eastern Time Zone) of the split, for company to determine where to send their
+     * Record date of the split in Eastern Time Zone, for company to determine where to send their
      * new shares. Mainly for record keeping by brokerages, who forward the shares to eventual
-     * owners. Typically is first in the process.
+     * owners. Typically is the first date in the process. In ISO 8601 format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -115,8 +116,8 @@ private constructor(
     fun splitTo(): Double = splitTo.getRequired("split_to")
 
     /**
-     * The status of Dinari's processing of the split. Stocks for which a split is `IN_PROGRESS`
-     * will not be available for trading.
+     * The status of Dinari's processing of the `StockSplit`. `Stocks` for which this status is
+     * `IN_PROGRESS` will not be available for trading.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -124,7 +125,7 @@ private constructor(
     fun status(): Status = status.getRequired("status")
 
     /**
-     * Reference to the id of the stock for this split
+     * ID of the `Stock` whose shares are being split.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -249,7 +250,7 @@ private constructor(
             additionalProperties = stockSplit.additionalProperties.toMutableMap()
         }
 
-        /** Unique identifier for the stock split */
+        /** ID of the `StockSplit` */
         fun id(id: String) = id(JsonField.of(id))
 
         /**
@@ -261,8 +262,9 @@ private constructor(
         fun id(id: JsonField<String>) = apply { this.id = id }
 
         /**
-         * Ex-date of the split (Eastern Time Zone). First day the stock trades at post-split
-         * prices. Typically is last in the process, and the main important date for investors.
+         * Ex-date of the split in Eastern Time Zone. First day the stock trades at post-split
+         * prices. Typically is last date in the process, and the main important date for investors.
+         * In ISO 8601 format, YYYY-MM-DD.
          */
         fun exDate(exDate: LocalDate) = exDate(JsonField.of(exDate))
 
@@ -276,9 +278,10 @@ private constructor(
         fun exDate(exDate: JsonField<LocalDate>) = apply { this.exDate = exDate }
 
         /**
-         * Payable date (Eastern Time Zone) of the split. Date when company will send out the new
-         * shares. Mainly for record keeping by brokerages, who forward the shares to eventual
-         * owners. Typically is second in the process.
+         * Payable date of the split in Eastern Time Zone. This is the date when company will send
+         * out the new shares. Mainly for record keeping by brokerages, who forward the shares to
+         * eventual owners. Typically is the second date in the process. In ISO 8601 format,
+         * YYYY-MM-DD.
          */
         fun payableDate(payableDate: LocalDate) = payableDate(JsonField.of(payableDate))
 
@@ -294,9 +297,10 @@ private constructor(
         }
 
         /**
-         * Record date (Eastern Time Zone) of the split, for company to determine where to send
+         * Record date of the split in Eastern Time Zone, for company to determine where to send
          * their new shares. Mainly for record keeping by brokerages, who forward the shares to
-         * eventual owners. Typically is first in the process.
+         * eventual owners. Typically is the first date in the process. In ISO 8601 format,
+         * YYYY-MM-DD.
          */
         fun recordDate(recordDate: LocalDate) = recordDate(JsonField.of(recordDate))
 
@@ -333,8 +337,8 @@ private constructor(
         fun splitTo(splitTo: JsonField<Double>) = apply { this.splitTo = splitTo }
 
         /**
-         * The status of Dinari's processing of the split. Stocks for which a split is `IN_PROGRESS`
-         * will not be available for trading.
+         * The status of Dinari's processing of the `StockSplit`. `Stocks` for which this status is
+         * `IN_PROGRESS` will not be available for trading.
          */
         fun status(status: Status) = status(JsonField.of(status))
 
@@ -346,7 +350,7 @@ private constructor(
          */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
-        /** Reference to the id of the stock for this split */
+        /** ID of the `Stock` whose shares are being split. */
         fun stockId(stockId: String) = stockId(JsonField.of(stockId))
 
         /**
@@ -452,8 +456,8 @@ private constructor(
             (if (stockId.asKnown().isPresent) 1 else 0)
 
     /**
-     * The status of Dinari's processing of the split. Stocks for which a split is `IN_PROGRESS`
-     * will not be available for trading.
+     * The status of Dinari's processing of the `StockSplit`. `Stocks` for which this status is
+     * `IN_PROGRESS` will not be available for trading.
      */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 

@@ -16,7 +16,7 @@ import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 
-/** An object representing interest payment details. */
+/** An object representing an interest payment from stablecoin holdings. */
 class AccountRetrieveInterestPaymentsResponse
 private constructor(
     private val amount: JsonField<Double>,
@@ -35,7 +35,7 @@ private constructor(
     ) : this(amount, currency, paymentDate, mutableMapOf())
 
     /**
-     * Amount of interest paid
+     * Amount of interest paid.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -43,7 +43,7 @@ private constructor(
     fun amount(): Double = amount.getRequired("amount")
 
     /**
-     * Type of currency (e.g. USD)
+     * Currency in which the interest was paid (e.g. USD).
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -51,7 +51,7 @@ private constructor(
     fun currency(): String = currency.getRequired("currency")
 
     /**
-     * Date of interest payment. In US Eastern time zone
+     * Date of interest payment in US Eastern time zone. ISO 8601 format, YYYY-MM-DD.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -128,7 +128,7 @@ private constructor(
                 accountRetrieveInterestPaymentsResponse.additionalProperties.toMutableMap()
         }
 
-        /** Amount of interest paid */
+        /** Amount of interest paid. */
         fun amount(amount: Double) = amount(JsonField.of(amount))
 
         /**
@@ -139,7 +139,7 @@ private constructor(
          */
         fun amount(amount: JsonField<Double>) = apply { this.amount = amount }
 
-        /** Type of currency (e.g. USD) */
+        /** Currency in which the interest was paid (e.g. USD). */
         fun currency(currency: String) = currency(JsonField.of(currency))
 
         /**
@@ -150,7 +150,7 @@ private constructor(
          */
         fun currency(currency: JsonField<String>) = apply { this.currency = currency }
 
-        /** Date of interest payment. In US Eastern time zone */
+        /** Date of interest payment in US Eastern time zone. ISO 8601 format, YYYY-MM-DD. */
         fun paymentDate(paymentDate: LocalDate) = paymentDate(JsonField.of(paymentDate))
 
         /**

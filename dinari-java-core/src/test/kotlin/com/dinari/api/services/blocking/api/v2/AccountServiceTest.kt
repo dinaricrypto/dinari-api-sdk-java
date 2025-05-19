@@ -4,6 +4,9 @@ package com.dinari.api.services.blocking.api.v2
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
+import com.dinari.api.models.api.v2.accounts.AccountRetrieveDividendPaymentsParams
+import com.dinari.api.models.api.v2.accounts.AccountRetrieveInterestPaymentsParams
+import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -18,6 +21,7 @@ internal class AccountServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountService = client.api().v2().accounts()
 
@@ -33,6 +37,7 @@ internal class AccountServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountService = client.api().v2().accounts()
 
@@ -48,12 +53,13 @@ internal class AccountServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountService = client.api().v2().accounts()
 
         val response = accountService.retrieveCash("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        response.validate()
+        response.forEach { it.validate() }
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -63,11 +69,21 @@ internal class AccountServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountService = client.api().v2().accounts()
 
         val response =
-            accountService.retrieveDividendPayments("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            accountService.retrieveDividendPayments(
+                AccountRetrieveDividendPaymentsParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .endDate(LocalDate.parse("2019-12-27"))
+                    .startDate(LocalDate.parse("2019-12-27"))
+                    .page(1L)
+                    .pageSize(1L)
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
 
         response.forEach { it.validate() }
     }
@@ -79,11 +95,20 @@ internal class AccountServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountService = client.api().v2().accounts()
 
         val response =
-            accountService.retrieveInterestPayments("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            accountService.retrieveInterestPayments(
+                AccountRetrieveInterestPaymentsParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .endDate(LocalDate.parse("2019-12-27"))
+                    .startDate(LocalDate.parse("2019-12-27"))
+                    .page(1L)
+                    .pageSize(1L)
+                    .build()
+            )
 
         response.forEach { it.validate() }
     }
@@ -95,6 +120,7 @@ internal class AccountServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountService = client.api().v2().accounts()
 

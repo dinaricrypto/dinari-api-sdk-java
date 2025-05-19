@@ -20,12 +20,17 @@ internal class SplitServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val splitService = client.api().v2().marketData().stocks().splits()
 
         val stockSplits =
             splitService.retrieve(
-                SplitRetrieveParams.builder().stockId("stock_id").page(1L).pageSize(1L).build()
+                SplitRetrieveParams.builder()
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .page(1L)
+                    .pageSize(1L)
+                    .build()
             )
 
         stockSplits.forEach { it.validate() }
@@ -38,6 +43,7 @@ internal class SplitServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val splitService = client.api().v2().marketData().stocks().splits()
 

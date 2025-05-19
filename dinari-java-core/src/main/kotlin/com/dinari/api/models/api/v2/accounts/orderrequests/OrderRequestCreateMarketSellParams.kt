@@ -20,7 +20,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Creates a managed market sell request. */
+/** Create a managed market sell `OrderRequest`. */
 class OrderRequestCreateMarketSellParams
 private constructor(
     private val accountId: String?,
@@ -32,7 +32,7 @@ private constructor(
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /**
-     * Quantity of stock to trade. Must be a positive number with a precision of up to 9 decimal
+     * Quantity of shares to trade. Must be a positive number with a precision of up to 9 decimal
      * places.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
@@ -41,7 +41,7 @@ private constructor(
     fun assetQuantity(): Double = body.assetQuantity()
 
     /**
-     * ID of stock, as returned by the `/stocks` endpoint, e.g. 1
+     * ID of `Stock`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -119,8 +119,8 @@ private constructor(
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /**
-         * Quantity of stock to trade. Must be a positive number with a precision of up to 9 decimal
-         * places.
+         * Quantity of shares to trade. Must be a positive number with a precision of up to 9
+         * decimal places.
          */
         fun assetQuantity(assetQuantity: Double) = apply { body.assetQuantity(assetQuantity) }
 
@@ -135,7 +135,7 @@ private constructor(
             body.assetQuantity(assetQuantity)
         }
 
-        /** ID of stock, as returned by the `/stocks` endpoint, e.g. 1 */
+        /** ID of `Stock`. */
         fun stockId(stockId: String) = apply { body.stockId(stockId) }
 
         /**
@@ -297,7 +297,7 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    /** Input parameters for placing a market order sell. */
+    /** Input parameters for creating a market sell `OrderRequest`. */
     class Body
     private constructor(
         private val assetQuantity: JsonField<Double>,
@@ -314,8 +314,8 @@ private constructor(
         ) : this(assetQuantity, stockId, mutableMapOf())
 
         /**
-         * Quantity of stock to trade. Must be a positive number with a precision of up to 9 decimal
-         * places.
+         * Quantity of shares to trade. Must be a positive number with a precision of up to 9
+         * decimal places.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -323,7 +323,7 @@ private constructor(
         fun assetQuantity(): Double = assetQuantity.getRequired("asset_quantity")
 
         /**
-         * ID of stock, as returned by the `/stocks` endpoint, e.g. 1
+         * ID of `Stock`.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -388,7 +388,7 @@ private constructor(
             }
 
             /**
-             * Quantity of stock to trade. Must be a positive number with a precision of up to 9
+             * Quantity of shares to trade. Must be a positive number with a precision of up to 9
              * decimal places.
              */
             fun assetQuantity(assetQuantity: Double) = assetQuantity(JsonField.of(assetQuantity))
@@ -404,7 +404,7 @@ private constructor(
                 this.assetQuantity = assetQuantity
             }
 
-            /** ID of stock, as returned by the `/stocks` endpoint, e.g. 1 */
+            /** ID of `Stock`. */
             fun stockId(stockId: String) = stockId(JsonField.of(stockId))
 
             /**

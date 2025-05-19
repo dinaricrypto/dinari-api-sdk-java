@@ -11,7 +11,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Creates a managed limit buy request. */
+/** Create a managed limit buy `OrderRequest`. */
 class OrderRequestCreateLimitBuyParams
 private constructor(
     private val accountId: String?,
@@ -22,7 +22,7 @@ private constructor(
 
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
-    /** Input parameters for placing a limit order. */
+    /** Input parameters for creating a limit `OrderRequest`. */
     fun limitOrderRequestInput(): LimitOrderRequestInput = limitOrderRequestInput
 
     fun _additionalBodyProperties(): Map<String, JsonValue> =
@@ -71,7 +71,7 @@ private constructor(
         /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
         fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
 
-        /** Input parameters for placing a limit order. */
+        /** Input parameters for creating a limit `OrderRequest`. */
         fun limitOrderRequestInput(limitOrderRequestInput: LimitOrderRequestInput) = apply {
             this.limitOrderRequestInput = limitOrderRequestInput
         }

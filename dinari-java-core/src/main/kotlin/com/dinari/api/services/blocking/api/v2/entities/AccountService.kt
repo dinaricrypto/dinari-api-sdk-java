@@ -16,7 +16,10 @@ interface AccountService {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Creates a new Account for the given Entity. */
+    /**
+     * Create a new `Account` for a specific `Entity`. This `Entity` represents your organization
+     * itself, or an individual customer of your organization.
+     */
     fun create(entityId: String): Account = create(entityId, AccountCreateParams.none())
 
     /** @see [create] */
@@ -45,7 +48,10 @@ interface AccountService {
     fun create(entityId: String, requestOptions: RequestOptions): Account =
         create(entityId, AccountCreateParams.none(), requestOptions)
 
-    /** Retrieves a list of Accounts that belong to a specific Entity. */
+    /**
+     * Get a list of all `Accounts` that belong to a specific `Entity`. This `Entity` represents
+     * your organization itself, or an individual customer of your organization.
+     */
     fun list(entityId: String): List<Account> = list(entityId, AccountListParams.none())
 
     /** @see [list] */

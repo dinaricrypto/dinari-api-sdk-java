@@ -10,7 +10,6 @@ import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateLim
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestListParams
-import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.google.errorprone.annotations.MustBeClosed
 
 interface OrderRequestService {
@@ -20,28 +19,7 @@ interface OrderRequestService {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Retrieves details of a specific managed order request by its ID. */
-    fun retrieve(requestId: String, params: OrderRequestRetrieveParams): OrderRequest =
-        retrieve(requestId, params, RequestOptions.none())
-
-    /** @see [retrieve] */
-    fun retrieve(
-        requestId: String,
-        params: OrderRequestRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderRequest = retrieve(params.toBuilder().requestId(requestId).build(), requestOptions)
-
-    /** @see [retrieve] */
-    fun retrieve(params: OrderRequestRetrieveParams): OrderRequest =
-        retrieve(params, RequestOptions.none())
-
-    /** @see [retrieve] */
-    fun retrieve(
-        params: OrderRequestRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderRequest
-
-    /** Lists managed order requests. */
+    /** Lists managed `OrderRequests`. */
     fun list(accountId: String): List<OrderRequest> = list(accountId, OrderRequestListParams.none())
 
     /** @see [list] */
@@ -71,7 +49,7 @@ interface OrderRequestService {
     fun list(accountId: String, requestOptions: RequestOptions): List<OrderRequest> =
         list(accountId, OrderRequestListParams.none(), requestOptions)
 
-    /** Creates a managed limit buy request. */
+    /** Create a managed limit buy `OrderRequest`. */
     fun createLimitBuy(accountId: String, params: OrderRequestCreateLimitBuyParams): OrderRequest =
         createLimitBuy(accountId, params, RequestOptions.none())
 
@@ -93,7 +71,7 @@ interface OrderRequestService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
 
-    /** Creates a managed limit sell request. */
+    /** Create a managed limit sell `OrderRequest`. */
     fun createLimitSell(
         accountId: String,
         params: OrderRequestCreateLimitSellParams,
@@ -117,7 +95,7 @@ interface OrderRequestService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
 
-    /** Creates a managed market buy request. */
+    /** Create a managed market buy `OrderRequest`. */
     fun createMarketBuy(
         accountId: String,
         params: OrderRequestCreateMarketBuyParams,
@@ -141,7 +119,7 @@ interface OrderRequestService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
 
-    /** Creates a managed market sell request. */
+    /** Create a managed market sell `OrderRequest`. */
     fun createMarketSell(
         accountId: String,
         params: OrderRequestCreateMarketSellParams,
@@ -169,38 +147,6 @@ interface OrderRequestService {
      * A view of [OrderRequestService] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
-
-        /**
-         * Returns a raw HTTP response for `get
-         * /api/v2/accounts/{account_id}/order_requests/{request_id}`, but is otherwise the same as
-         * [OrderRequestService.retrieve].
-         */
-        @MustBeClosed
-        fun retrieve(
-            requestId: String,
-            params: OrderRequestRetrieveParams,
-        ): HttpResponseFor<OrderRequest> = retrieve(requestId, params, RequestOptions.none())
-
-        /** @see [retrieve] */
-        @MustBeClosed
-        fun retrieve(
-            requestId: String,
-            params: OrderRequestRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderRequest> =
-            retrieve(params.toBuilder().requestId(requestId).build(), requestOptions)
-
-        /** @see [retrieve] */
-        @MustBeClosed
-        fun retrieve(params: OrderRequestRetrieveParams): HttpResponseFor<OrderRequest> =
-            retrieve(params, RequestOptions.none())
-
-        /** @see [retrieve] */
-        @MustBeClosed
-        fun retrieve(
-            params: OrderRequestRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderRequest>
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/order_requests`, but

@@ -16,7 +16,7 @@ internal class StockRetrieveQuoteResponseTest {
         val stockRetrieveQuoteResponse =
             StockRetrieveQuoteResponse.builder()
                 .price(0.0)
-                .stockId("stock_id")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .change(0.0)
                 .changePercent(0.0)
                 .close(0.0)
@@ -30,7 +30,8 @@ internal class StockRetrieveQuoteResponseTest {
                 .build()
 
         assertThat(stockRetrieveQuoteResponse.price()).isEqualTo(0.0)
-        assertThat(stockRetrieveQuoteResponse.stockId()).isEqualTo("stock_id")
+        assertThat(stockRetrieveQuoteResponse.stockId())
+            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(stockRetrieveQuoteResponse.change()).contains(0.0)
         assertThat(stockRetrieveQuoteResponse.changePercent()).contains(0.0)
         assertThat(stockRetrieveQuoteResponse.close()).contains(0.0)
@@ -50,7 +51,7 @@ internal class StockRetrieveQuoteResponseTest {
         val stockRetrieveQuoteResponse =
             StockRetrieveQuoteResponse.builder()
                 .price(0.0)
-                .stockId("stock_id")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .change(0.0)
                 .changePercent(0.0)
                 .close(0.0)

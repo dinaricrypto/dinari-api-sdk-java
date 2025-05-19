@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
 
-/** Wallet connection message for Dinari-managed wallets */
+/** Connection message to sign to prove ownership of the `Wallet`. */
 class ExternalGetNonceResponse
 private constructor(
     private val message: JsonField<String>,
@@ -30,7 +30,7 @@ private constructor(
     ) : this(message, nonce, mutableMapOf())
 
     /**
-     * Message to be signed by the wallet
+     * Message to be signed by the `Wallet`
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -99,7 +99,7 @@ private constructor(
             additionalProperties = externalGetNonceResponse.additionalProperties.toMutableMap()
         }
 
-        /** Message to be signed by the wallet */
+        /** Message to be signed by the `Wallet` */
         fun message(message: String) = message(JsonField.of(message))
 
         /**

@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
 
-/** Information about a digital wallet */
+/** Information about a blockchain `Wallet`. */
 class Wallet
 private constructor(
     private val address: JsonField<String>,
@@ -36,7 +36,7 @@ private constructor(
     ) : this(address, isAmlFlagged, isManagedWallet, mutableMapOf())
 
     /**
-     * Address of the wallet
+     * Address of the `Wallet`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -44,7 +44,7 @@ private constructor(
     fun address(): String = address.getRequired("address")
 
     /**
-     * Indicates whether the wallet is flagged for AML violations
+     * Indicates whether the `Wallet` is flagged for AML violation.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -52,7 +52,7 @@ private constructor(
     fun isAmlFlagged(): Boolean = isAmlFlagged.getRequired("is_aml_flagged")
 
     /**
-     * Indicates whether the wallet is a Dinari-managed wallet
+     * Indicates whether the `Wallet` is a Dinari-managed wallet.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -127,7 +127,7 @@ private constructor(
             additionalProperties = wallet.additionalProperties.toMutableMap()
         }
 
-        /** Address of the wallet */
+        /** Address of the `Wallet`. */
         fun address(address: String) = address(JsonField.of(address))
 
         /**
@@ -138,7 +138,7 @@ private constructor(
          */
         fun address(address: JsonField<String>) = apply { this.address = address }
 
-        /** Indicates whether the wallet is flagged for AML violations */
+        /** Indicates whether the `Wallet` is flagged for AML violation. */
         fun isAmlFlagged(isAmlFlagged: Boolean) = isAmlFlagged(JsonField.of(isAmlFlagged))
 
         /**
@@ -152,7 +152,7 @@ private constructor(
             this.isAmlFlagged = isAmlFlagged
         }
 
-        /** Indicates whether the wallet is a Dinari-managed wallet */
+        /** Indicates whether the `Wallet` is a Dinari-managed wallet. */
         fun isManagedWallet(isManagedWallet: Boolean) =
             isManagedWallet(JsonField.of(isManagedWallet))
 

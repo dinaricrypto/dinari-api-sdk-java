@@ -9,15 +9,21 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Lists managed order requests. */
+/** Lists managed `OrderRequests`. */
 class OrderRequestListParams
 private constructor(
     private val accountId: String?,
+    private val page: Long?,
+    private val pageSize: Long?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
+
+    fun page(): Optional<Long> = Optional.ofNullable(page)
+
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -37,12 +43,16 @@ private constructor(
     class Builder internal constructor() {
 
         private var accountId: String? = null
+        private var page: Long? = null
+        private var pageSize: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(orderRequestListParams: OrderRequestListParams) = apply {
             accountId = orderRequestListParams.accountId
+            page = orderRequestListParams.page
+            pageSize = orderRequestListParams.pageSize
             additionalHeaders = orderRequestListParams.additionalHeaders.toBuilder()
             additionalQueryParams = orderRequestListParams.additionalQueryParams.toBuilder()
         }
@@ -51,6 +61,30 @@ private constructor(
 
         /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
         fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
+
+        fun page(page: Long?) = apply { this.page = page }
+
+        /**
+         * Alias for [Builder.page].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun page(page: Long) = page(page as Long?)
+
+        /** Alias for calling [Builder.page] with `page.orElse(null)`. */
+        fun page(page: Optional<Long>) = page(page.getOrNull())
+
+        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
+
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
+
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -158,6 +192,8 @@ private constructor(
         fun build(): OrderRequestListParams =
             OrderRequestListParams(
                 accountId,
+                page,
+                pageSize,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
@@ -171,18 +207,25 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                page?.let { put("page", it.toString()) }
+                pageSize?.let { put("page_size", it.toString()) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is OrderRequestListParams && accountId == other.accountId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is OrderRequestListParams && accountId == other.accountId && page == other.page && pageSize == other.pageSize && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, page, pageSize, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "OrderRequestListParams{accountId=$accountId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "OrderRequestListParams{accountId=$accountId, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

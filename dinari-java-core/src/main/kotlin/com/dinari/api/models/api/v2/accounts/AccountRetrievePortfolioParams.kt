@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieves the portfolio of the account, sans cash equivalents. */
+/** Get the portfolio of the `Account`, excluding cash equivalents such as stablecoins. */
 class AccountRetrievePortfolioParams
 private constructor(
     private val accountId: String?,

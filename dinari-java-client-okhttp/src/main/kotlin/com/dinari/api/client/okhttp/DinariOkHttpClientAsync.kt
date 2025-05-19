@@ -151,6 +151,8 @@ class DinariOkHttpClientAsync private constructor() {
 
         fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
 
+        fun secret(secret: String) = apply { clientOptions.secret(secret) }
+
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
         /**

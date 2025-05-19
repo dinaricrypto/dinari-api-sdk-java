@@ -55,13 +55,14 @@ internal class ErrorHandlingTest {
             DinariOkHttpClient.builder()
                 .baseUrl(wmRuntimeInfo.httpBaseUrl)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth400() {
-        val v2Service = client.api().v2()
+    fun marketDataGetMarketHours400() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -69,7 +70,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<BadRequestException> { v2Service.getHealth() }
+        val e = assertThrows<BadRequestException> { marketDataService.getMarketHours() }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -78,8 +79,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth401() {
-        val v2Service = client.api().v2()
+    fun marketDataGetMarketHours401() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -87,7 +88,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnauthorizedException> { v2Service.getHealth() }
+        val e = assertThrows<UnauthorizedException> { marketDataService.getMarketHours() }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -96,8 +97,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth403() {
-        val v2Service = client.api().v2()
+    fun marketDataGetMarketHours403() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -105,7 +106,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<PermissionDeniedException> { v2Service.getHealth() }
+        val e = assertThrows<PermissionDeniedException> { marketDataService.getMarketHours() }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -114,8 +115,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth404() {
-        val v2Service = client.api().v2()
+    fun marketDataGetMarketHours404() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -123,7 +124,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<NotFoundException> { v2Service.getHealth() }
+        val e = assertThrows<NotFoundException> { marketDataService.getMarketHours() }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -132,8 +133,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth422() {
-        val v2Service = client.api().v2()
+    fun marketDataGetMarketHours422() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -141,7 +142,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnprocessableEntityException> { v2Service.getHealth() }
+        val e = assertThrows<UnprocessableEntityException> { marketDataService.getMarketHours() }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -150,8 +151,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth429() {
-        val v2Service = client.api().v2()
+    fun marketDataGetMarketHours429() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -159,7 +160,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<RateLimitException> { v2Service.getHealth() }
+        val e = assertThrows<RateLimitException> { marketDataService.getMarketHours() }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -168,8 +169,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth500() {
-        val v2Service = client.api().v2()
+    fun marketDataGetMarketHours500() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -177,7 +178,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<InternalServerException> { v2Service.getHealth() }
+        val e = assertThrows<InternalServerException> { marketDataService.getMarketHours() }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -186,8 +187,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth999() {
-        val v2Service = client.api().v2()
+    fun marketDataGetMarketHours999() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -195,7 +196,7 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnexpectedStatusCodeException> { v2Service.getHealth() }
+        val e = assertThrows<UnexpectedStatusCodeException> { marketDataService.getMarketHours() }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -204,14 +205,14 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealthInvalidJsonBody() {
-        val v2Service = client.api().v2()
+    fun marketDataGetMarketHoursInvalidJsonBody() {
+        val marketDataService = client.api().v2().marketData()
         stubFor(
             get(anyUrl())
                 .willReturn(status(200).withHeader(HEADER_NAME, HEADER_VALUE).withBody(NOT_JSON))
         )
 
-        val e = assertThrows<DinariException> { v2Service.getHealth() }
+        val e = assertThrows<DinariException> { marketDataService.getMarketHours() }
 
         assertThat(e).hasMessage("Error reading response")
     }

@@ -6,7 +6,6 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillment
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
-import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
 import com.google.errorprone.annotations.MustBeClosed
 
 interface OrderFulfillmentService {
@@ -16,29 +15,7 @@ interface OrderFulfillmentService {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Retrieves details of a specific order fulfillment by its ID. */
-    fun retrieve(fulfillmentId: String, params: OrderFulfillmentRetrieveParams): OrderFulfillment =
-        retrieve(fulfillmentId, params, RequestOptions.none())
-
-    /** @see [retrieve] */
-    fun retrieve(
-        fulfillmentId: String,
-        params: OrderFulfillmentRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderFulfillment =
-        retrieve(params.toBuilder().fulfillmentId(fulfillmentId).build(), requestOptions)
-
-    /** @see [retrieve] */
-    fun retrieve(params: OrderFulfillmentRetrieveParams): OrderFulfillment =
-        retrieve(params, RequestOptions.none())
-
-    /** @see [retrieve] */
-    fun retrieve(
-        params: OrderFulfillmentRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderFulfillment
-
-    /** Queries all order fulfillments under the account. */
+    /** Query `OrderFulfillments` under the `Account`. */
     fun query(accountId: String): List<OrderFulfillment> =
         query(accountId, OrderFulfillmentQueryParams.none())
 
@@ -75,39 +52,6 @@ interface OrderFulfillmentService {
      * method.
      */
     interface WithRawResponse {
-
-        /**
-         * Returns a raw HTTP response for `get
-         * /api/v2/accounts/{account_id}/order_fulfillments/{fulfillment_id}`, but is otherwise the
-         * same as [OrderFulfillmentService.retrieve].
-         */
-        @MustBeClosed
-        fun retrieve(
-            fulfillmentId: String,
-            params: OrderFulfillmentRetrieveParams,
-        ): HttpResponseFor<OrderFulfillment> =
-            retrieve(fulfillmentId, params, RequestOptions.none())
-
-        /** @see [retrieve] */
-        @MustBeClosed
-        fun retrieve(
-            fulfillmentId: String,
-            params: OrderFulfillmentRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderFulfillment> =
-            retrieve(params.toBuilder().fulfillmentId(fulfillmentId).build(), requestOptions)
-
-        /** @see [retrieve] */
-        @MustBeClosed
-        fun retrieve(params: OrderFulfillmentRetrieveParams): HttpResponseFor<OrderFulfillment> =
-            retrieve(params, RequestOptions.none())
-
-        /** @see [retrieve] */
-        @MustBeClosed
-        fun retrieve(
-            params: OrderFulfillmentRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderFulfillment>
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/order_fulfillments`,

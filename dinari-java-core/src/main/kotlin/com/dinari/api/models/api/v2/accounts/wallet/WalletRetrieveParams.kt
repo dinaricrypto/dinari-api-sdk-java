@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieves details of the wallet connected to the account. */
+/** Get the wallet connected to the `Account`. */
 class WalletRetrieveParams
 private constructor(
     private val accountId: String?,

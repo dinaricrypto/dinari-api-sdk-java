@@ -13,7 +13,7 @@ internal class StockRetrieveHistoricalPricesParamsTest {
     @Test
     fun create() {
         StockRetrieveHistoricalPricesParams.builder()
-            .stockId("stock_id")
+            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .timespan(StockRetrieveHistoricalPricesParams.Timespan.DAY)
             .build()
     }
@@ -23,11 +23,11 @@ internal class StockRetrieveHistoricalPricesParamsTest {
     fun pathParams() {
         val params =
             StockRetrieveHistoricalPricesParams.builder()
-                .stockId("stock_id")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .timespan(StockRetrieveHistoricalPricesParams.Timespan.DAY)
                 .build()
 
-        assertThat(params._pathParam(0)).isEqualTo("stock_id")
+        assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         // out-of-bound path param
         assertThat(params._pathParam(1)).isEqualTo("")
     }
@@ -37,7 +37,7 @@ internal class StockRetrieveHistoricalPricesParamsTest {
     fun queryParams() {
         val params =
             StockRetrieveHistoricalPricesParams.builder()
-                .stockId("stock_id")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .timespan(StockRetrieveHistoricalPricesParams.Timespan.DAY)
                 .build()
 

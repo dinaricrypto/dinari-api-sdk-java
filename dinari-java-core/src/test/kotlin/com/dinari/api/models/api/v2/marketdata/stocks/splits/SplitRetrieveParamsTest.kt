@@ -12,15 +12,20 @@ internal class SplitRetrieveParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        SplitRetrieveParams.builder().stockId("stock_id").page(1L).pageSize(1L).build()
+        SplitRetrieveParams.builder()
+            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .page(1L)
+            .pageSize(1L)
+            .build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
-        val params = SplitRetrieveParams.builder().stockId("stock_id").build()
+        val params =
+            SplitRetrieveParams.builder().stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
 
-        assertThat(params._pathParam(0)).isEqualTo("stock_id")
+        assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         // out-of-bound path param
         assertThat(params._pathParam(1)).isEqualTo("")
     }
@@ -28,7 +33,12 @@ internal class SplitRetrieveParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
-        val params = SplitRetrieveParams.builder().stockId("stock_id").page(1L).pageSize(1L).build()
+        val params =
+            SplitRetrieveParams.builder()
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .page(1L)
+                .pageSize(1L)
+                .build()
 
         val queryParams = params._queryParams()
 
@@ -39,7 +49,8 @@ internal class SplitRetrieveParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = SplitRetrieveParams.builder().stockId("stock_id").build()
+        val params =
+            SplitRetrieveParams.builder().stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
 
         val queryParams = params._queryParams()
 

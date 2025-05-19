@@ -4,8 +4,6 @@ package com.dinari.api.services.blocking.api.v2.entities
 
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
-import com.dinari.api.models.api.v2.entities.kyc.KycGetUrlParams
-import com.dinari.api.models.api.v2.entities.kyc.KycGetUrlResponse
 import com.dinari.api.models.api.v2.entities.kyc.KycInfo
 import com.dinari.api.models.api.v2.entities.kyc.KycRetrieveParams
 import com.dinari.api.models.api.v2.entities.kyc.KycSubmitParams
@@ -20,7 +18,13 @@ interface KycService {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Retrieves KYC data of the entity. */
+    /**
+     * Get most recent KYC data of the `Entity`.
+     *
+     * If there are any completed KYC checks, data from the most recent one will be returned. If
+     * there are no completed KYC checks, the most recent KYC check information, regardless of
+     * status, will be returned.
+     */
     fun retrieve(entityId: String): KycInfo = retrieve(entityId, KycRetrieveParams.none())
 
     /** @see [retrieve] */
@@ -47,36 +51,12 @@ interface KycService {
     fun retrieve(entityId: String, requestOptions: RequestOptions): KycInfo =
         retrieve(entityId, KycRetrieveParams.none(), requestOptions)
 
-    /** Gets an iframe URL for managed (self-service) KYC. */
-    fun getUrl(entityId: String): KycGetUrlResponse = getUrl(entityId, KycGetUrlParams.none())
-
-    /** @see [getUrl] */
-    fun getUrl(
-        entityId: String,
-        params: KycGetUrlParams = KycGetUrlParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): KycGetUrlResponse = getUrl(params.toBuilder().entityId(entityId).build(), requestOptions)
-
-    /** @see [getUrl] */
-    fun getUrl(
-        entityId: String,
-        params: KycGetUrlParams = KycGetUrlParams.none(),
-    ): KycGetUrlResponse = getUrl(entityId, params, RequestOptions.none())
-
-    /** @see [getUrl] */
-    fun getUrl(
-        params: KycGetUrlParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): KycGetUrlResponse
-
-    /** @see [getUrl] */
-    fun getUrl(params: KycGetUrlParams): KycGetUrlResponse = getUrl(params, RequestOptions.none())
-
-    /** @see [getUrl] */
-    fun getUrl(entityId: String, requestOptions: RequestOptions): KycGetUrlResponse =
-        getUrl(entityId, KycGetUrlParams.none(), requestOptions)
-
-    /** Submits KYC data manually (for Partner KYC-enabled entities). */
+    /**
+     * Submit KYC data directly, for partners that are provisioned to provide their own KYC data.
+     *
+     * This feature is available for everyone in sandbox mode, and for specifically provisioned
+     * partners in production.
+     */
     fun submit(entityId: String, params: KycSubmitParams): KycInfo =
         submit(entityId, params, RequestOptions.none())
 
@@ -96,7 +76,10 @@ interface KycService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): KycInfo
 
-    /** Uploads KYC-related documentation (for Partner KYC-enabled entities). */
+    /**
+     * Upload KYC-related documentation for partners that are provisioned to provide their own KYC
+     * data.
+     */
     fun uploadDocument(kycId: String, params: KycUploadDocumentParams): KycUploadDocumentResponse =
         uploadDocument(kycId, params, RequestOptions.none())
 
@@ -161,50 +144,6 @@ interface KycService {
         @MustBeClosed
         fun retrieve(entityId: String, requestOptions: RequestOptions): HttpResponseFor<KycInfo> =
             retrieve(entityId, KycRetrieveParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `get /api/v2/entities/{entity_id}/kyc/url`, but is
-         * otherwise the same as [KycService.getUrl].
-         */
-        @MustBeClosed
-        fun getUrl(entityId: String): HttpResponseFor<KycGetUrlResponse> =
-            getUrl(entityId, KycGetUrlParams.none())
-
-        /** @see [getUrl] */
-        @MustBeClosed
-        fun getUrl(
-            entityId: String,
-            params: KycGetUrlParams = KycGetUrlParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<KycGetUrlResponse> =
-            getUrl(params.toBuilder().entityId(entityId).build(), requestOptions)
-
-        /** @see [getUrl] */
-        @MustBeClosed
-        fun getUrl(
-            entityId: String,
-            params: KycGetUrlParams = KycGetUrlParams.none(),
-        ): HttpResponseFor<KycGetUrlResponse> = getUrl(entityId, params, RequestOptions.none())
-
-        /** @see [getUrl] */
-        @MustBeClosed
-        fun getUrl(
-            params: KycGetUrlParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<KycGetUrlResponse>
-
-        /** @see [getUrl] */
-        @MustBeClosed
-        fun getUrl(params: KycGetUrlParams): HttpResponseFor<KycGetUrlResponse> =
-            getUrl(params, RequestOptions.none())
-
-        /** @see [getUrl] */
-        @MustBeClosed
-        fun getUrl(
-            entityId: String,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<KycGetUrlResponse> =
-            getUrl(entityId, KycGetUrlParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v2/entities/{entity_id}/kyc`, but is otherwise

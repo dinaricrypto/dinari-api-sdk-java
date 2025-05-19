@@ -4,12 +4,13 @@ package com.dinari.api.services.blocking.api.v2.accounts
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
+import com.dinari.api.core.JsonValue
 import com.dinari.api.models.api.v2.accounts.orderrequests.LimitOrderRequestInput
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateLimitBuyParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
-import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestListParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,36 +20,23 @@ internal class OrderRequestServiceTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun retrieve() {
-        val client =
-            DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val orderRequestService = client.api().v2().accounts().orderRequests()
-
-        val orderRequest =
-            orderRequestService.retrieve(
-                OrderRequestRetrieveParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .requestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
-
-        orderRequest.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
     fun list() {
         val client =
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderRequestService = client.api().v2().accounts().orderRequests()
 
-        val orderRequests = orderRequestService.list("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val orderRequests =
+            orderRequestService.list(
+                OrderRequestListParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .page(1L)
+                    .pageSize(1L)
+                    .build()
+            )
 
         orderRequests.forEach { it.validate() }
     }
@@ -60,6 +48,7 @@ internal class OrderRequestServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderRequestService = client.api().v2().accounts().orderRequests()
 
@@ -71,7 +60,7 @@ internal class OrderRequestServiceTest {
                         LimitOrderRequestInput.builder()
                             .assetQuantity(0L)
                             .limitPrice(0.0)
-                            .stockId("stock_id")
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .build()
@@ -87,6 +76,7 @@ internal class OrderRequestServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderRequestService = client.api().v2().accounts().orderRequests()
 
@@ -98,7 +88,7 @@ internal class OrderRequestServiceTest {
                         LimitOrderRequestInput.builder()
                             .assetQuantity(0L)
                             .limitPrice(0.0)
-                            .stockId("stock_id")
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .build()
@@ -114,6 +104,7 @@ internal class OrderRequestServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderRequestService = client.api().v2().accounts().orderRequests()
 
@@ -121,9 +112,8 @@ internal class OrderRequestServiceTest {
             orderRequestService.createMarketBuy(
                 OrderRequestCreateMarketBuyParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .paymentAmount(0.0)
-                    .stockId("stock_id")
-                    .includeFees(true)
+                    .paymentAmount(JsonValue.from("0"))
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -137,6 +127,7 @@ internal class OrderRequestServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val orderRequestService = client.api().v2().accounts().orderRequests()
 
@@ -144,8 +135,8 @@ internal class OrderRequestServiceTest {
             orderRequestService.createMarketSell(
                 OrderRequestCreateMarketSellParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .assetQuantity(0.0)
-                    .stockId("stock_id")
+                    .assetQuantity(JsonValue.from("0"))
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 

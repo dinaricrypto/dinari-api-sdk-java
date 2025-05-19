@@ -19,6 +19,7 @@ internal class EntityServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val entityServiceAsync = client.api().v2().entities()
 
@@ -35,6 +36,7 @@ internal class EntityServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val entityServiceAsync = client.api().v2().entities()
 
@@ -51,6 +53,7 @@ internal class EntityServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val entityServiceAsync = client.api().v2().entities()
 
@@ -67,6 +70,7 @@ internal class EntityServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val entityServiceAsync = client.api().v2().entities()
 

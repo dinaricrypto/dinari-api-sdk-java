@@ -18,9 +18,7 @@ interface MarketDataService {
 
     fun stocks(): StockService
 
-    /**
-     * Returns an object containing the market hours for the current day and next open trading day.
-     */
+    /** Get the market hours for the current trading session and next open trading session. */
     fun getMarketHours(): MarketDataGetMarketHoursResponse =
         getMarketHours(MarketDataGetMarketHoursParams.none())
 

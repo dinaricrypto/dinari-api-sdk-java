@@ -18,6 +18,7 @@ internal class MarketDataServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val marketDataServiceAsync = client.api().v2().marketData()
 

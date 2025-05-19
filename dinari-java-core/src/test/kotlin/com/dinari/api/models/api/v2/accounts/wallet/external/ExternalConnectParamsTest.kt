@@ -13,7 +13,7 @@ internal class ExternalConnectParamsTest {
     fun create() {
         ExternalConnectParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .chainId(0L)
+            .chainId(ExternalConnectParams.ChainId.EIP155_1)
             .nonce("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .signature("0xeaF12bD1DfFd")
             .walletAddress("wallet_address")
@@ -26,7 +26,7 @@ internal class ExternalConnectParamsTest {
         val params =
             ExternalConnectParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .chainId(0L)
+                .chainId(ExternalConnectParams.ChainId.EIP155_1)
                 .nonce("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .signature("0xeaF12bD1DfFd")
                 .walletAddress("wallet_address")
@@ -43,7 +43,7 @@ internal class ExternalConnectParamsTest {
         val params =
             ExternalConnectParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .chainId(0L)
+                .chainId(ExternalConnectParams.ChainId.EIP155_1)
                 .nonce("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .signature("0xeaF12bD1DfFd")
                 .walletAddress("wallet_address")
@@ -51,7 +51,7 @@ internal class ExternalConnectParamsTest {
 
         val body = params._body()
 
-        assertThat(body.chainId()).isEqualTo(0L)
+        assertThat(body.chainId()).isEqualTo(ExternalConnectParams.ChainId.EIP155_1)
         assertThat(body.nonce()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.signature()).isEqualTo("0xeaF12bD1DfFd")
         assertThat(body.walletAddress()).isEqualTo("wallet_address")

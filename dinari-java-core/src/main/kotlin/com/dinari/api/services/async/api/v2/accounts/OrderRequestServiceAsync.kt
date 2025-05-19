@@ -10,7 +10,6 @@ import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateLim
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
 import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestListParams
-import com.dinari.api.models.api.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
@@ -21,31 +20,7 @@ interface OrderRequestServiceAsync {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Retrieves details of a specific managed order request by its ID. */
-    fun retrieve(
-        requestId: String,
-        params: OrderRequestRetrieveParams,
-    ): CompletableFuture<OrderRequest> = retrieve(requestId, params, RequestOptions.none())
-
-    /** @see [retrieve] */
-    fun retrieve(
-        requestId: String,
-        params: OrderRequestRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderRequest> =
-        retrieve(params.toBuilder().requestId(requestId).build(), requestOptions)
-
-    /** @see [retrieve] */
-    fun retrieve(params: OrderRequestRetrieveParams): CompletableFuture<OrderRequest> =
-        retrieve(params, RequestOptions.none())
-
-    /** @see [retrieve] */
-    fun retrieve(
-        params: OrderRequestRetrieveParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderRequest>
-
-    /** Lists managed order requests. */
+    /** Lists managed `OrderRequests`. */
     fun list(accountId: String): CompletableFuture<List<OrderRequest>> =
         list(accountId, OrderRequestListParams.none())
 
@@ -80,7 +55,7 @@ interface OrderRequestServiceAsync {
     ): CompletableFuture<List<OrderRequest>> =
         list(accountId, OrderRequestListParams.none(), requestOptions)
 
-    /** Creates a managed limit buy request. */
+    /** Create a managed limit buy `OrderRequest`. */
     fun createLimitBuy(
         accountId: String,
         params: OrderRequestCreateLimitBuyParams,
@@ -104,7 +79,7 @@ interface OrderRequestServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OrderRequest>
 
-    /** Creates a managed limit sell request. */
+    /** Create a managed limit sell `OrderRequest`. */
     fun createLimitSell(
         accountId: String,
         params: OrderRequestCreateLimitSellParams,
@@ -129,7 +104,7 @@ interface OrderRequestServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OrderRequest>
 
-    /** Creates a managed market buy request. */
+    /** Create a managed market buy `OrderRequest`. */
     fun createMarketBuy(
         accountId: String,
         params: OrderRequestCreateMarketBuyParams,
@@ -154,7 +129,7 @@ interface OrderRequestServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OrderRequest>
 
-    /** Creates a managed market sell request. */
+    /** Create a managed market sell `OrderRequest`. */
     fun createMarketSell(
         accountId: String,
         params: OrderRequestCreateMarketSellParams,
@@ -184,41 +159,6 @@ interface OrderRequestServiceAsync {
      * method.
      */
     interface WithRawResponse {
-
-        /**
-         * Returns a raw HTTP response for `get
-         * /api/v2/accounts/{account_id}/order_requests/{request_id}`, but is otherwise the same as
-         * [OrderRequestServiceAsync.retrieve].
-         */
-        @MustBeClosed
-        fun retrieve(
-            requestId: String,
-            params: OrderRequestRetrieveParams,
-        ): CompletableFuture<HttpResponseFor<OrderRequest>> =
-            retrieve(requestId, params, RequestOptions.none())
-
-        /** @see [retrieve] */
-        @MustBeClosed
-        fun retrieve(
-            requestId: String,
-            params: OrderRequestRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderRequest>> =
-            retrieve(params.toBuilder().requestId(requestId).build(), requestOptions)
-
-        /** @see [retrieve] */
-        @MustBeClosed
-        fun retrieve(
-            params: OrderRequestRetrieveParams
-        ): CompletableFuture<HttpResponseFor<OrderRequest>> =
-            retrieve(params, RequestOptions.none())
-
-        /** @see [retrieve] */
-        @MustBeClosed
-        fun retrieve(
-            params: OrderRequestRetrieveParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderRequest>>
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/order_requests`, but

@@ -2,6 +2,9 @@
 
 package com.dinari.api.models.api.v2.entities.kyc
 
+import com.dinari.api.core.MultipartField
+import com.dinari.api.core.http.QueryParams
+import java.io.InputStream
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -13,8 +16,9 @@ internal class KycUploadDocumentParamsTest {
     fun create() {
         KycUploadDocumentParams.builder()
             .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .kycId("kyc_id")
+            .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .documentType(KycDocumentType.GOVERNMENT_ID)
+            .file("some content".byteInputStream())
             .build()
     }
 
@@ -24,14 +28,32 @@ internal class KycUploadDocumentParamsTest {
         val params =
             KycUploadDocumentParams.builder()
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .kycId("kyc_id")
+                .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentType(KycDocumentType.GOVERNMENT_ID)
+                .file("some content".byteInputStream())
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(params._pathParam(1)).isEqualTo("kyc_id")
+        assertThat(params._pathParam(1)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         // out-of-bound path param
         assertThat(params._pathParam(2)).isEqualTo("")
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun queryParams() {
+        val params =
+            KycUploadDocumentParams.builder()
+                .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .documentType(KycDocumentType.GOVERNMENT_ID)
+                .file("some content".byteInputStream())
+                .build()
+
+        val queryParams = params._queryParams()
+
+        assertThat(queryParams)
+            .isEqualTo(QueryParams.builder().put("document_type", "GOVERNMENT_ID").build())
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -40,12 +62,26 @@ internal class KycUploadDocumentParamsTest {
         val params =
             KycUploadDocumentParams.builder()
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .kycId("kyc_id")
+                .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentType(KycDocumentType.GOVERNMENT_ID)
+                .file("some content".byteInputStream())
                 .build()
 
         val body = params._body()
 
-        assertThat(body.documentType()).isEqualTo(KycDocumentType.GOVERNMENT_ID)
+        assertThat(body.filterValues { !it.value.isNull() })
+            .usingRecursiveComparison()
+            // TODO(AssertJ): Replace this and the `mapValues` below with:
+            // https://github.com/assertj/assertj/issues/3165
+            .withEqualsForType(
+                { a, b -> a.readBytes() contentEquals b.readBytes() },
+                InputStream::class.java,
+            )
+            .isEqualTo(
+                mapOf("file" to MultipartField.of("some content".byteInputStream())).mapValues {
+                    (_, field) ->
+                    field.map { (it as? ByteArray)?.inputStream() ?: it }
+                }
+            )
     }
 }

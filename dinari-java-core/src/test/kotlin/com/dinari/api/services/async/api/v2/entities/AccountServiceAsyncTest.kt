@@ -19,6 +19,7 @@ internal class AccountServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountServiceAsync = client.api().v2().entities().accounts()
 
@@ -35,6 +36,7 @@ internal class AccountServiceAsyncTest {
             DinariOkHttpClientAsync.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val accountServiceAsync = client.api().v2().entities().accounts()
 

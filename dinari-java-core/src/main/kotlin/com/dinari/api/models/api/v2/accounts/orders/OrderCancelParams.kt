@@ -12,7 +12,17 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Cancels an order by its ID. Note that this requires the order ID, not the order request ID. */
+/**
+ * Cancel an `Order` by its ID. Note that this requires the `Order` ID, not the `OrderRequest` ID.
+ * Once you submit a cancellation request, it cannot be undone. Be advised that orders with a status
+ * of PENDING_FILL, PENDING_ESCROW, FILLED, REJECTED, or CANCELLED cannot be cancelled.
+ *
+ * `Order` cancellation is not guaranteed nor is it immediate. The `Order` may still be executed if
+ * the cancellation request is not received in time.
+ *
+ * Check the status using the "Get Order by ID" endpoint to confirm whether the `Order` has been
+ * cancelled.
+ */
 class OrderCancelParams
 private constructor(
     private val accountId: String,

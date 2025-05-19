@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieves a specific account by its ID. */
+/** Get a specific `Account` by its ID. */
 class AccountRetrieveParams
 private constructor(
     private val accountId: String?,

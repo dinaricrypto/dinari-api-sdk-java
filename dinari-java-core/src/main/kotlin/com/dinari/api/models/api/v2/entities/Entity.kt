@@ -18,7 +18,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Information about an entity, which can be either an individual or an organization. */
+/** Information about an `Entity`, which can be either an individual or an organization. */
 class Entity
 private constructor(
     private val id: JsonField<String>,
@@ -45,7 +45,7 @@ private constructor(
     ) : this(id, entityType, isKycComplete, name, nationality, mutableMapOf())
 
     /**
-     * Unique identifier for the entity
+     * Unique ID of the `Entity`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -53,7 +53,8 @@ private constructor(
     fun id(): String = id.getRequired("id")
 
     /**
-     * Type of entity
+     * Type of `Entity`. `ORGANIZATION` for Dinari Partners and `INDIVIDUAL` for their individual
+     * customers.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -61,7 +62,7 @@ private constructor(
     fun entityType(): EntityType = entityType.getRequired("entity_type")
 
     /**
-     * Indicates if Entity completed KYC
+     * Indicates if `Entity` completed KYC.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -69,7 +70,7 @@ private constructor(
     fun isKycComplete(): Boolean = isKycComplete.getRequired("is_kyc_complete")
 
     /**
-     * Name of Entity
+     * Name of `Entity`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -77,7 +78,7 @@ private constructor(
     fun name(): Optional<String> = name.getOptional("name")
 
     /**
-     * Nationality of the entity
+     * Nationality or home country of the `Entity`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -170,7 +171,7 @@ private constructor(
             additionalProperties = entity.additionalProperties.toMutableMap()
         }
 
-        /** Unique identifier for the entity */
+        /** Unique ID of the `Entity`. */
         fun id(id: String) = id(JsonField.of(id))
 
         /**
@@ -181,7 +182,10 @@ private constructor(
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
 
-        /** Type of entity */
+        /**
+         * Type of `Entity`. `ORGANIZATION` for Dinari Partners and `INDIVIDUAL` for their
+         * individual customers.
+         */
         fun entityType(entityType: EntityType) = entityType(JsonField.of(entityType))
 
         /**
@@ -193,7 +197,7 @@ private constructor(
          */
         fun entityType(entityType: JsonField<EntityType>) = apply { this.entityType = entityType }
 
-        /** Indicates if Entity completed KYC */
+        /** Indicates if `Entity` completed KYC. */
         fun isKycComplete(isKycComplete: Boolean) = isKycComplete(JsonField.of(isKycComplete))
 
         /**
@@ -207,7 +211,7 @@ private constructor(
             this.isKycComplete = isKycComplete
         }
 
-        /** Name of Entity */
+        /** Name of `Entity`. */
         fun name(name: String) = name(JsonField.of(name))
 
         /**
@@ -218,7 +222,7 @@ private constructor(
          */
         fun name(name: JsonField<String>) = apply { this.name = name }
 
-        /** Nationality of the entity */
+        /** Nationality or home country of the `Entity`. */
         fun nationality(nationality: String) = nationality(JsonField.of(nationality))
 
         /**
@@ -310,7 +314,10 @@ private constructor(
             (if (name.asKnown().isPresent) 1 else 0) +
             (if (nationality.asKnown().isPresent) 1 else 0)
 
-    /** Type of entity */
+    /**
+     * Type of `Entity`. `ORGANIZATION` for Dinari Partners and `INDIVIDUAL` for their individual
+     * customers.
+     */
     class EntityType @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**

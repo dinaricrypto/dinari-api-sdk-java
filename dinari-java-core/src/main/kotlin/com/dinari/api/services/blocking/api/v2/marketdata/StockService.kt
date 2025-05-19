@@ -26,7 +26,7 @@ interface StockService {
 
     fun splits(): SplitService
 
-    /** Returns a list of stocks available for trading. */
+    /** Get a list of `Stocks`. */
     fun list(): List<StockListResponse> = list(StockListParams.none())
 
     /** @see [list] */
@@ -44,8 +44,10 @@ interface StockService {
         list(StockListParams.none(), requestOptions)
 
     /**
-     * Returns a list of announced stock dividend details for a specified stock. Note that this data
-     * applies only to actual stocks. Yield received for holding dShares may differ from this.
+     * Get a list of announced stock dividend details for a specified `Stock`.
+     *
+     * Note that this data applies only to actual stocks. Yield received for holding tokenized
+     * shares may differ from this.
      */
     fun retrieveDividends(stockId: String): List<StockRetrieveDividendsResponse> =
         retrieveDividends(stockId, StockRetrieveDividendsParams.none())
@@ -84,8 +86,8 @@ interface StockService {
         retrieveDividends(stockId, StockRetrieveDividendsParams.none(), requestOptions)
 
     /**
-     * Returns a list of historical prices for a specified stock. Each index in the array represents
-     * a single tick in a price chart.
+     * Get historical price data for a specified `Stock`. Each index in the array represents a
+     * single tick in a price chart.
      */
     fun retrieveHistoricalPrices(
         stockId: String,
@@ -114,8 +116,8 @@ interface StockService {
     ): List<StockRetrieveHistoricalPricesResponse>
 
     /**
-     * Get the most recent news articles relating to a stock, including a summary of the article and
-     * a link to the original source
+     * Get the most recent news articles relating to a `Stock`, including a summary of the article
+     * and a link to the original source.
      */
     fun retrieveNews(stockId: String): List<StockRetrieveNewsResponse> =
         retrieveNews(stockId, StockRetrieveNewsParams.none())
@@ -151,7 +153,7 @@ interface StockService {
     ): List<StockRetrieveNewsResponse> =
         retrieveNews(stockId, StockRetrieveNewsParams.none(), requestOptions)
 
-    /** Returns a stock quote for a specified stock. */
+    /** Get quote for a specified `Stock`. */
     fun retrieveQuote(stockId: String): StockRetrieveQuoteResponse =
         retrieveQuote(stockId, StockRetrieveQuoteParams.none())
 

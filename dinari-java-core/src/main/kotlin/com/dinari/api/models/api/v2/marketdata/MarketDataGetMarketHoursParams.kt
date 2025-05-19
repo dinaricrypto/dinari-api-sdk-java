@@ -7,7 +7,7 @@ import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
 
-/** Returns an object containing the market hours for the current day and next open trading day. */
+/** Get the market hours for the current trading session and next open trading session. */
 class MarketDataGetMarketHoursParams
 private constructor(
     private val additionalHeaders: Headers,

@@ -80,7 +80,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
     override fun retrieveCash(
         params: AccountRetrieveCashParams,
         requestOptions: RequestOptions,
-    ): AccountRetrieveCashResponse =
+    ): List<AccountRetrieveCashResponse> =
         // get /api/v2/accounts/{account_id}/cash
         withRawResponse().retrieveCash(params, requestOptions).parse()
 
@@ -194,14 +194,14 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val retrieveCashHandler: Handler<AccountRetrieveCashResponse> =
-            jsonHandler<AccountRetrieveCashResponse>(clientOptions.jsonMapper)
+        private val retrieveCashHandler: Handler<List<AccountRetrieveCashResponse>> =
+            jsonHandler<List<AccountRetrieveCashResponse>>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
 
         override fun retrieveCash(
             params: AccountRetrieveCashParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<AccountRetrieveCashResponse> {
+        ): HttpResponseFor<List<AccountRetrieveCashResponse>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -218,7 +218,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
                     .use { retrieveCashHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.validate()
+                            it.forEach { it.validate() }
                         }
                     }
             }

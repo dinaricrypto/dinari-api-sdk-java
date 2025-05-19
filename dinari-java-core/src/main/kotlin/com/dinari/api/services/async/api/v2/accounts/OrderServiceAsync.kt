@@ -7,8 +7,6 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.api.v2.accounts.orderfulfillments.OrderFulfillment
 import com.dinari.api.models.api.v2.accounts.orders.Order
 import com.dinari.api.models.api.v2.accounts.orders.OrderCancelParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeParams
-import com.dinari.api.models.api.v2.accounts.orders.OrderGetEstimatedFeeResponse
 import com.dinari.api.models.api.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveFulfillmentsParams
 import com.dinari.api.models.api.v2.accounts.orders.OrderRetrieveParams
@@ -22,7 +20,7 @@ interface OrderServiceAsync {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Retrieves details of a specific order by its ID. */
+    /** Get a specific `Order` by its ID. */
     fun retrieve(orderId: String, params: OrderRetrieveParams): CompletableFuture<Order> =
         retrieve(orderId, params, RequestOptions.none())
 
@@ -44,7 +42,7 @@ interface OrderServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Order>
 
-    /** Lists all orders under the account. */
+    /** Get a list of all `Orders` under the `Account`. */
     fun list(accountId: String): CompletableFuture<List<Order>> =
         list(accountId, OrderListParams.none())
 
@@ -77,7 +75,15 @@ interface OrderServiceAsync {
         list(accountId, OrderListParams.none(), requestOptions)
 
     /**
-     * Cancels an order by its ID. Note that this requires the order ID, not the order request ID.
+     * Cancel an `Order` by its ID. Note that this requires the `Order` ID, not the `OrderRequest`
+     * ID. Once you submit a cancellation request, it cannot be undone. Be advised that orders with
+     * a status of PENDING_FILL, PENDING_ESCROW, FILLED, REJECTED, or CANCELLED cannot be cancelled.
+     *
+     * `Order` cancellation is not guaranteed nor is it immediate. The `Order` may still be executed
+     * if the cancellation request is not received in time.
+     *
+     * Check the status using the "Get Order by ID" endpoint to confirm whether the `Order` has been
+     * cancelled.
      */
     fun cancel(orderId: String, params: OrderCancelParams): CompletableFuture<Order> =
         cancel(orderId, params, RequestOptions.none())
@@ -100,34 +106,7 @@ interface OrderServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Order>
 
-    /** Gets estimated fee data for an order to be placed directly through our contracts. */
-    fun getEstimatedFee(
-        accountId: String,
-        params: OrderGetEstimatedFeeParams,
-    ): CompletableFuture<OrderGetEstimatedFeeResponse> =
-        getEstimatedFee(accountId, params, RequestOptions.none())
-
-    /** @see [getEstimatedFee] */
-    fun getEstimatedFee(
-        accountId: String,
-        params: OrderGetEstimatedFeeParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderGetEstimatedFeeResponse> =
-        getEstimatedFee(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-    /** @see [getEstimatedFee] */
-    fun getEstimatedFee(
-        params: OrderGetEstimatedFeeParams
-    ): CompletableFuture<OrderGetEstimatedFeeResponse> =
-        getEstimatedFee(params, RequestOptions.none())
-
-    /** @see [getEstimatedFee] */
-    fun getEstimatedFee(
-        params: OrderGetEstimatedFeeParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderGetEstimatedFeeResponse>
-
-    /** Retrieves order fulfillments for a specific order. */
+    /** Get `OrderFulfillments` for a specific `Order`. */
     fun retrieveFulfillments(
         orderId: String,
         params: OrderRetrieveFulfillmentsParams,
@@ -266,41 +245,6 @@ interface OrderServiceAsync {
             params: OrderCancelParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Order>>
-
-        /**
-         * Returns a raw HTTP response for `post
-         * /api/v2/accounts/{account_id}/orders/estimated_fee`, but is otherwise the same as
-         * [OrderServiceAsync.getEstimatedFee].
-         */
-        @MustBeClosed
-        fun getEstimatedFee(
-            accountId: String,
-            params: OrderGetEstimatedFeeParams,
-        ): CompletableFuture<HttpResponseFor<OrderGetEstimatedFeeResponse>> =
-            getEstimatedFee(accountId, params, RequestOptions.none())
-
-        /** @see [getEstimatedFee] */
-        @MustBeClosed
-        fun getEstimatedFee(
-            accountId: String,
-            params: OrderGetEstimatedFeeParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderGetEstimatedFeeResponse>> =
-            getEstimatedFee(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-        /** @see [getEstimatedFee] */
-        @MustBeClosed
-        fun getEstimatedFee(
-            params: OrderGetEstimatedFeeParams
-        ): CompletableFuture<HttpResponseFor<OrderGetEstimatedFeeResponse>> =
-            getEstimatedFee(params, RequestOptions.none())
-
-        /** @see [getEstimatedFee] */
-        @MustBeClosed
-        fun getEstimatedFee(
-            params: OrderGetEstimatedFeeParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderGetEstimatedFeeResponse>>
 
         /**
          * Returns a raw HTTP response for `get

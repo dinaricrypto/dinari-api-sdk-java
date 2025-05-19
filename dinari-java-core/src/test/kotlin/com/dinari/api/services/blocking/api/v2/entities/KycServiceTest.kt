@@ -23,6 +23,7 @@ internal class KycServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val kycService = client.api().v2().entities().kyc()
 
@@ -33,26 +34,12 @@ internal class KycServiceTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun getUrl() {
-        val client =
-            DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
-        val kycService = client.api().v2().entities().kyc()
-
-        val response = kycService.getUrl("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-
-        response.validate()
-    }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
     fun submit() {
         val client =
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val kycService = client.api().v2().entities().kyc()
 
@@ -72,11 +59,11 @@ internal class KycServiceTest {
                             .birthDate(LocalDate.parse("2019-12-27"))
                             .email("johndoe@website.com")
                             .firstName("John")
-                            .middleName("middle_name")
-                            .taxIdNumber("123456789")
+                            .middleName("x")
+                            .taxIdNumber("12-3456789")
                             .build()
                     )
-                    .providerName("provider_name")
+                    .providerName("x")
                     .build()
             )
 
@@ -90,6 +77,7 @@ internal class KycServiceTest {
             DinariOkHttpClient.builder()
                 .baseUrl(TestServerExtension.BASE_URL)
                 .apiKey("My API Key")
+                .secret("My Secret")
                 .build()
         val kycService = client.api().v2().entities().kyc()
 
@@ -97,8 +85,9 @@ internal class KycServiceTest {
             kycService.uploadDocument(
                 KycUploadDocumentParams.builder()
                     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .kycId("kyc_id")
+                    .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .documentType(KycDocumentType.GOVERNMENT_ID)
+                    .file("some content".byteInputStream())
                     .build()
             )
 

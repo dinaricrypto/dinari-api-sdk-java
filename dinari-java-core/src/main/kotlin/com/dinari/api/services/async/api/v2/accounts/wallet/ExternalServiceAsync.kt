@@ -18,7 +18,7 @@ interface ExternalServiceAsync {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Connects a wallet to the account using the nonce and signature */
+    /** Connect a `Wallet` to the `Account` after verifying the signature. */
     fun connect(accountId: String, params: ExternalConnectParams): CompletableFuture<Wallet> =
         connect(accountId, params, RequestOptions.none())
 
@@ -40,7 +40,7 @@ interface ExternalServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Wallet>
 
-    /** Gets a nonce and message to be signed in order to verify wallet ownership. */
+    /** Get a nonce and message to be signed in order to verify `Wallet` ownership. */
     fun getNonce(
         accountId: String,
         params: ExternalGetNonceParams,

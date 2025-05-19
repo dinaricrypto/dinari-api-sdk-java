@@ -24,6 +24,7 @@ private constructor(
     @get:JvmName("timeout") val timeout: Timeout,
     @get:JvmName("maxRetries") val maxRetries: Int,
     @get:JvmName("apiKey") val apiKey: String,
+    @get:JvmName("secret") val secret: String,
 ) {
 
     init {
@@ -45,6 +46,7 @@ private constructor(
          * ```java
          * .httpClient()
          * .apiKey()
+         * .secret()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -66,6 +68,7 @@ private constructor(
         private var timeout: Timeout = Timeout.default()
         private var maxRetries: Int = 2
         private var apiKey: String? = null
+        private var secret: String? = null
 
         @JvmSynthetic
         internal fun from(clientOptions: ClientOptions) = apply {
@@ -80,6 +83,7 @@ private constructor(
             timeout = clientOptions.timeout
             maxRetries = clientOptions.maxRetries
             apiKey = clientOptions.apiKey
+            secret = clientOptions.secret
         }
 
         fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
@@ -103,6 +107,8 @@ private constructor(
         fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
 
         fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
+
+        fun secret(secret: String) = apply { this.secret = secret }
 
         fun headers(headers: Headers) = apply {
             this.headers.clear()
@@ -189,6 +195,7 @@ private constructor(
         fun fromEnv() = apply {
             System.getenv("DINARI_BASE_URL")?.let { baseUrl(it) }
             System.getenv("DINARI_API_KEY")?.let { apiKey(it) }
+            System.getenv("DINARI_SECRET")?.let { secret(it) }
         }
 
         /**
@@ -200,6 +207,7 @@ private constructor(
          * ```java
          * .httpClient()
          * .apiKey()
+         * .secret()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -207,6 +215,7 @@ private constructor(
         fun build(): ClientOptions {
             val httpClient = checkRequired("httpClient", httpClient)
             val apiKey = checkRequired("apiKey", apiKey)
+            val secret = checkRequired("secret", secret)
 
             val headers = Headers.builder()
             val queryParams = QueryParams.builder()
@@ -219,7 +228,12 @@ private constructor(
             headers.put("X-Stainless-Runtime-Version", getJavaVersion())
             apiKey.let {
                 if (!it.isEmpty()) {
-                    headers.put("Authorization", "Bearer $it")
+                    headers.put("X-API-Key-Id", it)
+                }
+            }
+            secret.let {
+                if (!it.isEmpty()) {
+                    headers.put("X-API-Secret-Key", it)
                 }
             }
             headers.replaceAll(this.headers.build())
@@ -244,6 +258,7 @@ private constructor(
                 timeout,
                 maxRetries,
                 apiKey,
+                secret,
             )
         }
     }

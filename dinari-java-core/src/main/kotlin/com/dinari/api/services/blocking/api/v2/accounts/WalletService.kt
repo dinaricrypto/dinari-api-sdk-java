@@ -18,7 +18,7 @@ interface WalletService {
 
     fun external(): ExternalService
 
-    /** Retrieves details of the wallet connected to the account. */
+    /** Get the wallet connected to the `Account`. */
     fun retrieve(accountId: String): Wallet = retrieve(accountId, WalletRetrieveParams.none())
 
     /** @see [retrieve] */

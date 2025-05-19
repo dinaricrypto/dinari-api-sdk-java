@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
 
-/** Input parameters for placing a limit order. */
+/** Input parameters for creating a limit `OrderRequest`. */
 class LimitOrderRequestInput
 private constructor(
     private val assetQuantity: JsonField<Long>,
@@ -36,7 +36,7 @@ private constructor(
     ) : this(assetQuantity, limitPrice, stockId, mutableMapOf())
 
     /**
-     * Quantity of stock to trade. Must be a positive integer.
+     * Quantity of shares to trade. Must be a positive integer.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -53,7 +53,7 @@ private constructor(
     fun limitPrice(): Double = limitPrice.getRequired("limit_price")
 
     /**
-     * ID of stock, as returned by the `/stocks` endpoint, e.g. 1
+     * ID of `Stock`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -126,7 +126,7 @@ private constructor(
             additionalProperties = limitOrderRequestInput.additionalProperties.toMutableMap()
         }
 
-        /** Quantity of stock to trade. Must be a positive integer. */
+        /** Quantity of shares to trade. Must be a positive integer. */
         fun assetQuantity(assetQuantity: Long) = assetQuantity(JsonField.of(assetQuantity))
 
         /**
@@ -155,7 +155,7 @@ private constructor(
          */
         fun limitPrice(limitPrice: JsonField<Double>) = apply { this.limitPrice = limitPrice }
 
-        /** ID of stock, as returned by the `/stocks` endpoint, e.g. 1 */
+        /** ID of `Stock`. */
         fun stockId(stockId: String) = stockId(JsonField.of(stockId))
 
         /**

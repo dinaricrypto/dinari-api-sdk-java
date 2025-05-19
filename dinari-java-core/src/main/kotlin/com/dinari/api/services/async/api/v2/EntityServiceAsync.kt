@@ -26,8 +26,8 @@ interface EntityServiceAsync {
     fun kyc(): KycServiceAsync
 
     /**
-     * Creates a new Entity to be managed by your organization. The Entity represents an individual
-     * customer of your organization.
+     * Create a new `Entity` to be managed by your organization. This `Entity` represents an
+     * individual customer of your organization.
      */
     fun create(params: EntityCreateParams): CompletableFuture<Entity> =
         create(params, RequestOptions.none())
@@ -38,7 +38,7 @@ interface EntityServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Entity>
 
-    /** Retrieves a specific customer Entity of your organization by their ID. */
+    /** Get a specific customer `Entity` of your organization by their ID. */
     fun retrieve(entityId: String): CompletableFuture<Entity> =
         retrieve(entityId, EntityRetrieveParams.none())
 
@@ -71,8 +71,8 @@ interface EntityServiceAsync {
         retrieve(entityId, EntityRetrieveParams.none(), requestOptions)
 
     /**
-     * Returns a list of all direct Entities your organization manages. An Entity represents an
-     * individual customer of your organization.
+     * Get a list of all direct `Entities` your organization manages. These `Entities` represent
+     * individual customers of your organization.
      */
     fun list(): CompletableFuture<List<Entity>> = list(EntityListParams.none())
 
@@ -90,7 +90,7 @@ interface EntityServiceAsync {
     fun list(requestOptions: RequestOptions): CompletableFuture<List<Entity>> =
         list(EntityListParams.none(), requestOptions)
 
-    /** Returns the current authenticated Entity. */
+    /** Get the current authenticated `Entity`, which represents your organization. */
     fun retrieveCurrent(): CompletableFuture<Entity> =
         retrieveCurrent(EntityRetrieveCurrentParams.none())
 
