@@ -367,6 +367,20 @@ DinariClient client = DinariOkHttpClient.builder()
     .build();
 ```
 
+### Environments
+
+The SDK sends requests to the production by default. To send requests to a different environment, configure the client like so:
+
+```java
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
+
+DinariClient client = DinariOkHttpClient.builder()
+    .fromEnv()
+    .sandbox()
+    .build();
+```
+
 ### Custom HTTP client
 
 The SDK consists of three artifacts:
