@@ -2,7 +2,7 @@
 
 package com.dinari.api.client
 
-import com.dinari.api.services.async.ApiServiceAsync
+import com.dinari.api.services.async.V2ServiceAsync
 
 /**
  * A client for interacting with the Dinari REST API asynchronously. You can also switch to
@@ -33,7 +33,7 @@ interface DinariClientAsync {
      */
     fun withRawResponse(): WithRawResponse
 
-    fun api(): ApiServiceAsync
+    fun v2(): V2ServiceAsync
 
     /**
      * Closes this client, relinquishing any underlying resources.
@@ -51,6 +51,6 @@ interface DinariClientAsync {
     /** A view of [DinariClientAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
-        fun api(): ApiServiceAsync.WithRawResponse
+        fun v2(): V2ServiceAsync.WithRawResponse
     }
 }

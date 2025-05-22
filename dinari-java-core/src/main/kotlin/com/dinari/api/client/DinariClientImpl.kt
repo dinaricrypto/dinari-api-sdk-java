@@ -4,8 +4,8 @@ package com.dinari.api.client
 
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.getPackageVersion
-import com.dinari.api.services.blocking.ApiService
-import com.dinari.api.services.blocking.ApiServiceImpl
+import com.dinari.api.services.blocking.V2Service
+import com.dinari.api.services.blocking.V2ServiceImpl
 
 class DinariClientImpl(private val clientOptions: ClientOptions) : DinariClient {
 
@@ -24,23 +24,23 @@ class DinariClientImpl(private val clientOptions: ClientOptions) : DinariClient 
         WithRawResponseImpl(clientOptions)
     }
 
-    private val api: ApiService by lazy { ApiServiceImpl(clientOptionsWithUserAgent) }
+    private val v2: V2Service by lazy { V2ServiceImpl(clientOptionsWithUserAgent) }
 
     override fun async(): DinariClientAsync = async
 
     override fun withRawResponse(): DinariClient.WithRawResponse = withRawResponse
 
-    override fun api(): ApiService = api
+    override fun v2(): V2Service = v2
 
     override fun close() = clientOptions.httpClient.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DinariClient.WithRawResponse {
 
-        private val api: ApiService.WithRawResponse by lazy {
-            ApiServiceImpl.WithRawResponseImpl(clientOptions)
+        private val v2: V2Service.WithRawResponse by lazy {
+            V2ServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
-        override fun api(): ApiService.WithRawResponse = api
+        override fun v2(): V2Service.WithRawResponse = v2
     }
 }

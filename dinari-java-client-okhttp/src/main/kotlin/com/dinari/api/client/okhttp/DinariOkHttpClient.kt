@@ -30,6 +30,8 @@ class DinariOkHttpClient private constructor() {
         private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
 
+        fun sandbox() = apply { baseUrl(ClientOptions.SANDBOX_URL) }
+
         fun baseUrl(baseUrl: String) = apply { clientOptions.baseUrl(baseUrl) }
 
         /**
@@ -149,7 +151,9 @@ class DinariOkHttpClient private constructor() {
             clientOptions.responseValidation(responseValidation)
         }
 
-        fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
+        fun apiKeyId(apiKeyId: String) = apply { clientOptions.apiKeyId(apiKeyId) }
+
+        fun apiSecretKey(apiSecretKey: String) = apply { clientOptions.apiSecretKey(apiSecretKey) }
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 

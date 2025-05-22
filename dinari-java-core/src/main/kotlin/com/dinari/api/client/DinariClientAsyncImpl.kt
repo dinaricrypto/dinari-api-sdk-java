@@ -4,8 +4,8 @@ package com.dinari.api.client
 
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.getPackageVersion
-import com.dinari.api.services.async.ApiServiceAsync
-import com.dinari.api.services.async.ApiServiceAsyncImpl
+import com.dinari.api.services.async.V2ServiceAsync
+import com.dinari.api.services.async.V2ServiceAsyncImpl
 
 class DinariClientAsyncImpl(private val clientOptions: ClientOptions) : DinariClientAsync {
 
@@ -24,23 +24,23 @@ class DinariClientAsyncImpl(private val clientOptions: ClientOptions) : DinariCl
         WithRawResponseImpl(clientOptions)
     }
 
-    private val api: ApiServiceAsync by lazy { ApiServiceAsyncImpl(clientOptionsWithUserAgent) }
+    private val v2: V2ServiceAsync by lazy { V2ServiceAsyncImpl(clientOptionsWithUserAgent) }
 
     override fun sync(): DinariClient = sync
 
     override fun withRawResponse(): DinariClientAsync.WithRawResponse = withRawResponse
 
-    override fun api(): ApiServiceAsync = api
+    override fun v2(): V2ServiceAsync = v2
 
     override fun close() = clientOptions.httpClient.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DinariClientAsync.WithRawResponse {
 
-        private val api: ApiServiceAsync.WithRawResponse by lazy {
-            ApiServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        private val v2: V2ServiceAsync.WithRawResponse by lazy {
+            V2ServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
-        override fun api(): ApiServiceAsync.WithRawResponse = api
+        override fun v2(): V2ServiceAsync.WithRawResponse = v2
     }
 }

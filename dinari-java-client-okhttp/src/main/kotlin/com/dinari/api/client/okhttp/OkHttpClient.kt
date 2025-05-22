@@ -85,7 +85,10 @@ private constructor(private val okHttpClient: okhttp3.OkHttpClient, private val 
             }
         if (logLevel != null) {
             clientBuilder.addNetworkInterceptor(
-                HttpLoggingInterceptor().setLevel(logLevel).apply { redactHeader("Authorization") }
+                HttpLoggingInterceptor().setLevel(logLevel).apply {
+                    redactHeader("X-API-Key-Id")
+                    redactHeader("X-API-Secret-Key")
+                }
             )
         }
 
