@@ -7,7 +7,6 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.models.v2.entities.accounts.AccountCreateParams
 import com.dinari.api.models.v2.entities.accounts.AccountListParams
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface AccountServiceAsync {
@@ -96,12 +95,10 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/entities/{entity_id}/accounts`, but is
          * otherwise the same as [AccountServiceAsync.create].
          */
-        @MustBeClosed
         fun create(entityId: String): CompletableFuture<HttpResponseFor<Account>> =
             create(entityId, AccountCreateParams.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
@@ -110,7 +107,6 @@ interface AccountServiceAsync {
             create(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
@@ -118,19 +114,16 @@ interface AccountServiceAsync {
             create(entityId, params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: AccountCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Account>>
 
         /** @see [create] */
-        @MustBeClosed
         fun create(params: AccountCreateParams): CompletableFuture<HttpResponseFor<Account>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             entityId: String,
             requestOptions: RequestOptions,
@@ -141,12 +134,10 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/entities/{entity_id}/accounts`, but is
          * otherwise the same as [AccountServiceAsync.list].
          */
-        @MustBeClosed
         fun list(entityId: String): CompletableFuture<HttpResponseFor<List<Account>>> =
             list(entityId, AccountListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             entityId: String,
             params: AccountListParams = AccountListParams.none(),
@@ -155,7 +146,6 @@ interface AccountServiceAsync {
             list(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             entityId: String,
             params: AccountListParams = AccountListParams.none(),
@@ -163,19 +153,16 @@ interface AccountServiceAsync {
             list(entityId, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: AccountListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<Account>>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(params: AccountListParams): CompletableFuture<HttpResponseFor<List<Account>>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             entityId: String,
             requestOptions: RequestOptions,

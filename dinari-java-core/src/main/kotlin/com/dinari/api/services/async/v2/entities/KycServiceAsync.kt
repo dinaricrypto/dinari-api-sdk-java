@@ -10,7 +10,6 @@ import com.dinari.api.models.v2.entities.kyc.KycInfo
 import com.dinari.api.models.v2.entities.kyc.KycRetrieveParams
 import com.dinari.api.models.v2.entities.kyc.KycSubmitParams
 import com.dinari.api.services.async.v2.entities.kyc.DocumentServiceAsync
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface KycServiceAsync {
@@ -140,12 +139,10 @@ interface KycServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/entities/{entity_id}/kyc`, but is otherwise
          * the same as [KycServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(entityId: String): CompletableFuture<HttpResponseFor<KycInfo>> =
             retrieve(entityId, KycRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             entityId: String,
             params: KycRetrieveParams = KycRetrieveParams.none(),
@@ -154,7 +151,6 @@ interface KycServiceAsync {
             retrieve(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             entityId: String,
             params: KycRetrieveParams = KycRetrieveParams.none(),
@@ -162,19 +158,16 @@ interface KycServiceAsync {
             retrieve(entityId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: KycRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<KycInfo>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(params: KycRetrieveParams): CompletableFuture<HttpResponseFor<KycInfo>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             entityId: String,
             requestOptions: RequestOptions,
@@ -185,14 +178,12 @@ interface KycServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/entities/{entity_id}/kyc/url`, but is
          * otherwise the same as [KycServiceAsync.createManagedCheck].
          */
-        @MustBeClosed
         fun createManagedCheck(
             entityId: String
         ): CompletableFuture<HttpResponseFor<KycCreateManagedCheckResponse>> =
             createManagedCheck(entityId, KycCreateManagedCheckParams.none())
 
         /** @see [createManagedCheck] */
-        @MustBeClosed
         fun createManagedCheck(
             entityId: String,
             params: KycCreateManagedCheckParams = KycCreateManagedCheckParams.none(),
@@ -201,7 +192,6 @@ interface KycServiceAsync {
             createManagedCheck(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see [createManagedCheck] */
-        @MustBeClosed
         fun createManagedCheck(
             entityId: String,
             params: KycCreateManagedCheckParams = KycCreateManagedCheckParams.none(),
@@ -209,21 +199,18 @@ interface KycServiceAsync {
             createManagedCheck(entityId, params, RequestOptions.none())
 
         /** @see [createManagedCheck] */
-        @MustBeClosed
         fun createManagedCheck(
             params: KycCreateManagedCheckParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<KycCreateManagedCheckResponse>>
 
         /** @see [createManagedCheck] */
-        @MustBeClosed
         fun createManagedCheck(
             params: KycCreateManagedCheckParams
         ): CompletableFuture<HttpResponseFor<KycCreateManagedCheckResponse>> =
             createManagedCheck(params, RequestOptions.none())
 
         /** @see [createManagedCheck] */
-        @MustBeClosed
         fun createManagedCheck(
             entityId: String,
             requestOptions: RequestOptions,
@@ -234,7 +221,6 @@ interface KycServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/entities/{entity_id}/kyc`, but is otherwise
          * the same as [KycServiceAsync.submit].
          */
-        @MustBeClosed
         fun submit(
             entityId: String,
             params: KycSubmitParams,
@@ -242,7 +228,6 @@ interface KycServiceAsync {
             submit(entityId, params, RequestOptions.none())
 
         /** @see [submit] */
-        @MustBeClosed
         fun submit(
             entityId: String,
             params: KycSubmitParams,
@@ -251,12 +236,10 @@ interface KycServiceAsync {
             submit(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see [submit] */
-        @MustBeClosed
         fun submit(params: KycSubmitParams): CompletableFuture<HttpResponseFor<KycInfo>> =
             submit(params, RequestOptions.none())
 
         /** @see [submit] */
-        @MustBeClosed
         fun submit(
             params: KycSubmitParams,
             requestOptions: RequestOptions = RequestOptions.none(),

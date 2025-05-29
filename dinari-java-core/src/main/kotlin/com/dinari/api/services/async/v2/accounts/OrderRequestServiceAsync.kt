@@ -11,7 +11,6 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketB
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface OrderRequestServiceAsync {
@@ -190,7 +189,6 @@ interface OrderRequestServiceAsync {
          * /api/v2/accounts/{account_id}/order_requests/{order_request_id}`, but is otherwise the
          * same as [OrderRequestServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             orderRequestId: String,
             params: OrderRequestRetrieveParams,
@@ -198,7 +196,6 @@ interface OrderRequestServiceAsync {
             retrieve(orderRequestId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             orderRequestId: String,
             params: OrderRequestRetrieveParams,
@@ -207,14 +204,12 @@ interface OrderRequestServiceAsync {
             retrieve(params.toBuilder().orderRequestId(orderRequestId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: OrderRequestRetrieveParams
         ): CompletableFuture<HttpResponseFor<OrderRequest>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: OrderRequestRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -224,12 +219,10 @@ interface OrderRequestServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/order_requests`, but
          * is otherwise the same as [OrderRequestServiceAsync.list].
          */
-        @MustBeClosed
         fun list(accountId: String): CompletableFuture<HttpResponseFor<List<OrderRequest>>> =
             list(accountId, OrderRequestListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             accountId: String,
             params: OrderRequestListParams = OrderRequestListParams.none(),
@@ -238,7 +231,6 @@ interface OrderRequestServiceAsync {
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             accountId: String,
             params: OrderRequestListParams = OrderRequestListParams.none(),
@@ -246,21 +238,18 @@ interface OrderRequestServiceAsync {
             list(accountId, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: OrderRequestListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<OrderRequest>>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: OrderRequestListParams
         ): CompletableFuture<HttpResponseFor<List<OrderRequest>>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             accountId: String,
             requestOptions: RequestOptions,
@@ -272,7 +261,6 @@ interface OrderRequestServiceAsync {
          * /api/v2/accounts/{account_id}/order_requests/limit_buy`, but is otherwise the same as
          * [OrderRequestServiceAsync.createLimitBuy].
          */
-        @MustBeClosed
         fun createLimitBuy(
             accountId: String,
             params: OrderRequestCreateLimitBuyParams,
@@ -280,7 +268,6 @@ interface OrderRequestServiceAsync {
             createLimitBuy(accountId, params, RequestOptions.none())
 
         /** @see [createLimitBuy] */
-        @MustBeClosed
         fun createLimitBuy(
             accountId: String,
             params: OrderRequestCreateLimitBuyParams,
@@ -289,14 +276,12 @@ interface OrderRequestServiceAsync {
             createLimitBuy(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [createLimitBuy] */
-        @MustBeClosed
         fun createLimitBuy(
             params: OrderRequestCreateLimitBuyParams
         ): CompletableFuture<HttpResponseFor<OrderRequest>> =
             createLimitBuy(params, RequestOptions.none())
 
         /** @see [createLimitBuy] */
-        @MustBeClosed
         fun createLimitBuy(
             params: OrderRequestCreateLimitBuyParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -307,7 +292,6 @@ interface OrderRequestServiceAsync {
          * /api/v2/accounts/{account_id}/order_requests/limit_sell`, but is otherwise the same as
          * [OrderRequestServiceAsync.createLimitSell].
          */
-        @MustBeClosed
         fun createLimitSell(
             accountId: String,
             params: OrderRequestCreateLimitSellParams,
@@ -315,7 +299,6 @@ interface OrderRequestServiceAsync {
             createLimitSell(accountId, params, RequestOptions.none())
 
         /** @see [createLimitSell] */
-        @MustBeClosed
         fun createLimitSell(
             accountId: String,
             params: OrderRequestCreateLimitSellParams,
@@ -324,14 +307,12 @@ interface OrderRequestServiceAsync {
             createLimitSell(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [createLimitSell] */
-        @MustBeClosed
         fun createLimitSell(
             params: OrderRequestCreateLimitSellParams
         ): CompletableFuture<HttpResponseFor<OrderRequest>> =
             createLimitSell(params, RequestOptions.none())
 
         /** @see [createLimitSell] */
-        @MustBeClosed
         fun createLimitSell(
             params: OrderRequestCreateLimitSellParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -342,7 +323,6 @@ interface OrderRequestServiceAsync {
          * /api/v2/accounts/{account_id}/order_requests/market_buy`, but is otherwise the same as
          * [OrderRequestServiceAsync.createMarketBuy].
          */
-        @MustBeClosed
         fun createMarketBuy(
             accountId: String,
             params: OrderRequestCreateMarketBuyParams,
@@ -350,7 +330,6 @@ interface OrderRequestServiceAsync {
             createMarketBuy(accountId, params, RequestOptions.none())
 
         /** @see [createMarketBuy] */
-        @MustBeClosed
         fun createMarketBuy(
             accountId: String,
             params: OrderRequestCreateMarketBuyParams,
@@ -359,14 +338,12 @@ interface OrderRequestServiceAsync {
             createMarketBuy(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [createMarketBuy] */
-        @MustBeClosed
         fun createMarketBuy(
             params: OrderRequestCreateMarketBuyParams
         ): CompletableFuture<HttpResponseFor<OrderRequest>> =
             createMarketBuy(params, RequestOptions.none())
 
         /** @see [createMarketBuy] */
-        @MustBeClosed
         fun createMarketBuy(
             params: OrderRequestCreateMarketBuyParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -377,7 +354,6 @@ interface OrderRequestServiceAsync {
          * /api/v2/accounts/{account_id}/order_requests/market_sell`, but is otherwise the same as
          * [OrderRequestServiceAsync.createMarketSell].
          */
-        @MustBeClosed
         fun createMarketSell(
             accountId: String,
             params: OrderRequestCreateMarketSellParams,
@@ -385,7 +361,6 @@ interface OrderRequestServiceAsync {
             createMarketSell(accountId, params, RequestOptions.none())
 
         /** @see [createMarketSell] */
-        @MustBeClosed
         fun createMarketSell(
             accountId: String,
             params: OrderRequestCreateMarketSellParams,
@@ -394,14 +369,12 @@ interface OrderRequestServiceAsync {
             createMarketSell(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [createMarketSell] */
-        @MustBeClosed
         fun createMarketSell(
             params: OrderRequestCreateMarketSellParams
         ): CompletableFuture<HttpResponseFor<OrderRequest>> =
             createMarketSell(params, RequestOptions.none())
 
         /** @see [createMarketSell] */
-        @MustBeClosed
         fun createMarketSell(
             params: OrderRequestCreateMarketSellParams,
             requestOptions: RequestOptions = RequestOptions.none(),

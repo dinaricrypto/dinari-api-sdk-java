@@ -7,7 +7,6 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursParams
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse
 import com.dinari.api.services.async.v2.marketdata.StockServiceAsync
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface MarketDataServiceAsync {
@@ -53,13 +52,11 @@ interface MarketDataServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/market_data/market_hours/`, but is otherwise
          * the same as [MarketDataServiceAsync.retrieveMarketHours].
          */
-        @MustBeClosed
         fun retrieveMarketHours():
             CompletableFuture<HttpResponseFor<MarketDataRetrieveMarketHoursResponse>> =
             retrieveMarketHours(MarketDataRetrieveMarketHoursParams.none())
 
         /** @see [retrieveMarketHours] */
-        @MustBeClosed
         fun retrieveMarketHours(
             params: MarketDataRetrieveMarketHoursParams =
                 MarketDataRetrieveMarketHoursParams.none(),
@@ -67,14 +64,12 @@ interface MarketDataServiceAsync {
         ): CompletableFuture<HttpResponseFor<MarketDataRetrieveMarketHoursResponse>>
 
         /** @see [retrieveMarketHours] */
-        @MustBeClosed
         fun retrieveMarketHours(
             params: MarketDataRetrieveMarketHoursParams = MarketDataRetrieveMarketHoursParams.none()
         ): CompletableFuture<HttpResponseFor<MarketDataRetrieveMarketHoursResponse>> =
             retrieveMarketHours(params, RequestOptions.none())
 
         /** @see [retrieveMarketHours] */
-        @MustBeClosed
         fun retrieveMarketHours(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<MarketDataRetrieveMarketHoursResponse>> =
