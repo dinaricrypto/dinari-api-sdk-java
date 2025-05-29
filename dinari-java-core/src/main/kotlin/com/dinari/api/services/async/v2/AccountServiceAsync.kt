@@ -23,7 +23,6 @@ import com.dinari.api.services.async.v2.accounts.OrderServiceAsync
 import com.dinari.api.services.async.v2.accounts.WalletServiceAsync
 import com.dinari.api.services.async.v2.accounts.WithdrawalRequestServiceAsync
 import com.dinari.api.services.async.v2.accounts.WithdrawalServiceAsync
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface AccountServiceAsync {
@@ -305,12 +304,10 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}`, but is otherwise the
          * same as [AccountServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(accountId: String): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(accountId, AccountRetrieveParams.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             accountId: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
@@ -319,7 +316,6 @@ interface AccountServiceAsync {
             retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             accountId: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
@@ -327,19 +323,16 @@ interface AccountServiceAsync {
             retrieve(accountId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: AccountRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Account>>
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(params: AccountRetrieveParams): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             accountId: String,
             requestOptions: RequestOptions,
@@ -350,12 +343,10 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/deactivate`, but is
          * otherwise the same as [AccountServiceAsync.deactivate].
          */
-        @MustBeClosed
         fun deactivate(accountId: String): CompletableFuture<HttpResponseFor<Account>> =
             deactivate(accountId, AccountDeactivateParams.none())
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(
             accountId: String,
             params: AccountDeactivateParams = AccountDeactivateParams.none(),
@@ -364,7 +355,6 @@ interface AccountServiceAsync {
             deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(
             accountId: String,
             params: AccountDeactivateParams = AccountDeactivateParams.none(),
@@ -372,20 +362,17 @@ interface AccountServiceAsync {
             deactivate(accountId, params, RequestOptions.none())
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(
             params: AccountDeactivateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Account>>
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(
             params: AccountDeactivateParams
         ): CompletableFuture<HttpResponseFor<Account>> = deactivate(params, RequestOptions.none())
 
         /** @see [deactivate] */
-        @MustBeClosed
         fun deactivate(
             accountId: String,
             requestOptions: RequestOptions,
@@ -396,14 +383,12 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/cash`, but is
          * otherwise the same as [AccountServiceAsync.getCashBalances].
          */
-        @MustBeClosed
         fun getCashBalances(
             accountId: String
         ): CompletableFuture<HttpResponseFor<List<AccountGetCashBalancesResponse>>> =
             getCashBalances(accountId, AccountGetCashBalancesParams.none())
 
         /** @see [getCashBalances] */
-        @MustBeClosed
         fun getCashBalances(
             accountId: String,
             params: AccountGetCashBalancesParams = AccountGetCashBalancesParams.none(),
@@ -412,7 +397,6 @@ interface AccountServiceAsync {
             getCashBalances(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [getCashBalances] */
-        @MustBeClosed
         fun getCashBalances(
             accountId: String,
             params: AccountGetCashBalancesParams = AccountGetCashBalancesParams.none(),
@@ -420,21 +404,18 @@ interface AccountServiceAsync {
             getCashBalances(accountId, params, RequestOptions.none())
 
         /** @see [getCashBalances] */
-        @MustBeClosed
         fun getCashBalances(
             params: AccountGetCashBalancesParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<AccountGetCashBalancesResponse>>>
 
         /** @see [getCashBalances] */
-        @MustBeClosed
         fun getCashBalances(
             params: AccountGetCashBalancesParams
         ): CompletableFuture<HttpResponseFor<List<AccountGetCashBalancesResponse>>> =
             getCashBalances(params, RequestOptions.none())
 
         /** @see [getCashBalances] */
-        @MustBeClosed
         fun getCashBalances(
             accountId: String,
             requestOptions: RequestOptions,
@@ -445,7 +426,6 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/dividend_payments`,
          * but is otherwise the same as [AccountServiceAsync.getDividendPayments].
          */
-        @MustBeClosed
         fun getDividendPayments(
             accountId: String,
             params: AccountGetDividendPaymentsParams,
@@ -453,7 +433,6 @@ interface AccountServiceAsync {
             getDividendPayments(accountId, params, RequestOptions.none())
 
         /** @see [getDividendPayments] */
-        @MustBeClosed
         fun getDividendPayments(
             accountId: String,
             params: AccountGetDividendPaymentsParams,
@@ -462,14 +441,12 @@ interface AccountServiceAsync {
             getDividendPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [getDividendPayments] */
-        @MustBeClosed
         fun getDividendPayments(
             params: AccountGetDividendPaymentsParams
         ): CompletableFuture<HttpResponseFor<List<AccountGetDividendPaymentsResponse>>> =
             getDividendPayments(params, RequestOptions.none())
 
         /** @see [getDividendPayments] */
-        @MustBeClosed
         fun getDividendPayments(
             params: AccountGetDividendPaymentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -479,7 +456,6 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/interest_payments`,
          * but is otherwise the same as [AccountServiceAsync.getInterestPayments].
          */
-        @MustBeClosed
         fun getInterestPayments(
             accountId: String,
             params: AccountGetInterestPaymentsParams,
@@ -487,7 +463,6 @@ interface AccountServiceAsync {
             getInterestPayments(accountId, params, RequestOptions.none())
 
         /** @see [getInterestPayments] */
-        @MustBeClosed
         fun getInterestPayments(
             accountId: String,
             params: AccountGetInterestPaymentsParams,
@@ -496,14 +471,12 @@ interface AccountServiceAsync {
             getInterestPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [getInterestPayments] */
-        @MustBeClosed
         fun getInterestPayments(
             params: AccountGetInterestPaymentsParams
         ): CompletableFuture<HttpResponseFor<List<AccountGetInterestPaymentsResponse>>> =
             getInterestPayments(params, RequestOptions.none())
 
         /** @see [getInterestPayments] */
-        @MustBeClosed
         fun getInterestPayments(
             params: AccountGetInterestPaymentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -513,14 +486,12 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/portfolio`, but is
          * otherwise the same as [AccountServiceAsync.getPortfolio].
          */
-        @MustBeClosed
         fun getPortfolio(
             accountId: String
         ): CompletableFuture<HttpResponseFor<AccountGetPortfolioResponse>> =
             getPortfolio(accountId, AccountGetPortfolioParams.none())
 
         /** @see [getPortfolio] */
-        @MustBeClosed
         fun getPortfolio(
             accountId: String,
             params: AccountGetPortfolioParams = AccountGetPortfolioParams.none(),
@@ -529,7 +500,6 @@ interface AccountServiceAsync {
             getPortfolio(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [getPortfolio] */
-        @MustBeClosed
         fun getPortfolio(
             accountId: String,
             params: AccountGetPortfolioParams = AccountGetPortfolioParams.none(),
@@ -537,21 +507,18 @@ interface AccountServiceAsync {
             getPortfolio(accountId, params, RequestOptions.none())
 
         /** @see [getPortfolio] */
-        @MustBeClosed
         fun getPortfolio(
             params: AccountGetPortfolioParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountGetPortfolioResponse>>
 
         /** @see [getPortfolio] */
-        @MustBeClosed
         fun getPortfolio(
             params: AccountGetPortfolioParams
         ): CompletableFuture<HttpResponseFor<AccountGetPortfolioResponse>> =
             getPortfolio(params, RequestOptions.none())
 
         /** @see [getPortfolio] */
-        @MustBeClosed
         fun getPortfolio(
             accountId: String,
             requestOptions: RequestOptions,
@@ -562,12 +529,10 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/faucet`, but is
          * otherwise the same as [AccountServiceAsync.mintSandboxTokens].
          */
-        @MustBeClosed
         fun mintSandboxTokens(accountId: String): CompletableFuture<HttpResponse> =
             mintSandboxTokens(accountId, AccountMintSandboxTokensParams.none())
 
         /** @see [mintSandboxTokens] */
-        @MustBeClosed
         fun mintSandboxTokens(
             accountId: String,
             params: AccountMintSandboxTokensParams = AccountMintSandboxTokensParams.none(),
@@ -576,7 +541,6 @@ interface AccountServiceAsync {
             mintSandboxTokens(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [mintSandboxTokens] */
-        @MustBeClosed
         fun mintSandboxTokens(
             accountId: String,
             params: AccountMintSandboxTokensParams = AccountMintSandboxTokensParams.none(),
@@ -584,20 +548,17 @@ interface AccountServiceAsync {
             mintSandboxTokens(accountId, params, RequestOptions.none())
 
         /** @see [mintSandboxTokens] */
-        @MustBeClosed
         fun mintSandboxTokens(
             params: AccountMintSandboxTokensParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
         /** @see [mintSandboxTokens] */
-        @MustBeClosed
         fun mintSandboxTokens(
             params: AccountMintSandboxTokensParams
         ): CompletableFuture<HttpResponse> = mintSandboxTokens(params, RequestOptions.none())
 
         /** @see [mintSandboxTokens] */
-        @MustBeClosed
         fun mintSandboxTokens(
             accountId: String,
             requestOptions: RequestOptions,

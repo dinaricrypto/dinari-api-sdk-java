@@ -7,7 +7,6 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.wallet.Wallet
 import com.dinari.api.models.v2.accounts.wallet.WalletGetParams
 import com.dinari.api.services.async.v2.accounts.wallet.ExternalServiceAsync
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface WalletServiceAsync {
@@ -60,12 +59,10 @@ interface WalletServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/wallet`, but is
          * otherwise the same as [WalletServiceAsync.get].
          */
-        @MustBeClosed
         fun get(accountId: String): CompletableFuture<HttpResponseFor<Wallet>> =
             get(accountId, WalletGetParams.none())
 
         /** @see [get] */
-        @MustBeClosed
         fun get(
             accountId: String,
             params: WalletGetParams = WalletGetParams.none(),
@@ -74,7 +71,6 @@ interface WalletServiceAsync {
             get(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [get] */
-        @MustBeClosed
         fun get(
             accountId: String,
             params: WalletGetParams = WalletGetParams.none(),
@@ -82,19 +78,16 @@ interface WalletServiceAsync {
             get(accountId, params, RequestOptions.none())
 
         /** @see [get] */
-        @MustBeClosed
         fun get(
             params: WalletGetParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Wallet>>
 
         /** @see [get] */
-        @MustBeClosed
         fun get(params: WalletGetParams): CompletableFuture<HttpResponseFor<Wallet>> =
             get(params, RequestOptions.none())
 
         /** @see [get] */
-        @MustBeClosed
         fun get(
             accountId: String,
             requestOptions: RequestOptions,

@@ -7,7 +7,6 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.withdrawals.Withdrawal
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalListParams
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveParams
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface WithdrawalServiceAsync {
@@ -87,7 +86,6 @@ interface WithdrawalServiceAsync {
          * /api/v2/accounts/{account_id}/withdrawals/{withdrawal_id}`, but is otherwise the same as
          * [WithdrawalServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             withdrawalId: String,
             params: WithdrawalRetrieveParams,
@@ -95,7 +93,6 @@ interface WithdrawalServiceAsync {
             retrieve(withdrawalId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             withdrawalId: String,
             params: WithdrawalRetrieveParams,
@@ -104,13 +101,11 @@ interface WithdrawalServiceAsync {
             retrieve(params.toBuilder().withdrawalId(withdrawalId).build(), requestOptions)
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: WithdrawalRetrieveParams
         ): CompletableFuture<HttpResponseFor<Withdrawal>> = retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: WithdrawalRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -120,12 +115,10 @@ interface WithdrawalServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/withdrawals`, but is
          * otherwise the same as [WithdrawalServiceAsync.list].
          */
-        @MustBeClosed
         fun list(accountId: String): CompletableFuture<HttpResponseFor<List<Withdrawal>>> =
             list(accountId, WithdrawalListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             accountId: String,
             params: WithdrawalListParams = WithdrawalListParams.none(),
@@ -134,7 +127,6 @@ interface WithdrawalServiceAsync {
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             accountId: String,
             params: WithdrawalListParams = WithdrawalListParams.none(),
@@ -142,21 +134,18 @@ interface WithdrawalServiceAsync {
             list(accountId, params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: WithdrawalListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<Withdrawal>>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: WithdrawalListParams
         ): CompletableFuture<HttpResponseFor<List<Withdrawal>>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             accountId: String,
             requestOptions: RequestOptions,

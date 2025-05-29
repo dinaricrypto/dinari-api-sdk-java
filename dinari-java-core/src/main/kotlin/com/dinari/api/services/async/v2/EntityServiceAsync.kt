@@ -11,7 +11,6 @@ import com.dinari.api.models.v2.entities.EntityRetrieveByIdParams
 import com.dinari.api.models.v2.entities.EntityRetrieveCurrentParams
 import com.dinari.api.services.async.v2.entities.AccountServiceAsync
 import com.dinari.api.services.async.v2.entities.KycServiceAsync
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface EntityServiceAsync {
@@ -122,12 +121,10 @@ interface EntityServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/entities/`, but is otherwise the same as
          * [EntityServiceAsync.create].
          */
-        @MustBeClosed
         fun create(params: EntityCreateParams): CompletableFuture<HttpResponseFor<Entity>> =
             create(params, RequestOptions.none())
 
         /** @see [create] */
-        @MustBeClosed
         fun create(
             params: EntityCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -137,24 +134,20 @@ interface EntityServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/entities/`, but is otherwise the same as
          * [EntityServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<List<Entity>>> = list(EntityListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: EntityListParams = EntityListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<Entity>>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: EntityListParams = EntityListParams.none()
         ): CompletableFuture<HttpResponseFor<List<Entity>>> = list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(requestOptions: RequestOptions): CompletableFuture<HttpResponseFor<List<Entity>>> =
             list(EntityListParams.none(), requestOptions)
 
@@ -162,12 +155,10 @@ interface EntityServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/entities/{entity_id}`, but is otherwise the
          * same as [EntityServiceAsync.retrieveById].
          */
-        @MustBeClosed
         fun retrieveById(entityId: String): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveById(entityId, EntityRetrieveByIdParams.none())
 
         /** @see [retrieveById] */
-        @MustBeClosed
         fun retrieveById(
             entityId: String,
             params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
@@ -176,7 +167,6 @@ interface EntityServiceAsync {
             retrieveById(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see [retrieveById] */
-        @MustBeClosed
         fun retrieveById(
             entityId: String,
             params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
@@ -184,20 +174,17 @@ interface EntityServiceAsync {
             retrieveById(entityId, params, RequestOptions.none())
 
         /** @see [retrieveById] */
-        @MustBeClosed
         fun retrieveById(
             params: EntityRetrieveByIdParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Entity>>
 
         /** @see [retrieveById] */
-        @MustBeClosed
         fun retrieveById(
             params: EntityRetrieveByIdParams
         ): CompletableFuture<HttpResponseFor<Entity>> = retrieveById(params, RequestOptions.none())
 
         /** @see [retrieveById] */
-        @MustBeClosed
         fun retrieveById(
             entityId: String,
             requestOptions: RequestOptions,
@@ -208,26 +195,22 @@ interface EntityServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/entities/me`, but is otherwise the same as
          * [EntityServiceAsync.retrieveCurrent].
          */
-        @MustBeClosed
         fun retrieveCurrent(): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveCurrent(EntityRetrieveCurrentParams.none())
 
         /** @see [retrieveCurrent] */
-        @MustBeClosed
         fun retrieveCurrent(
             params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Entity>>
 
         /** @see [retrieveCurrent] */
-        @MustBeClosed
         fun retrieveCurrent(
             params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none()
         ): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveCurrent(params, RequestOptions.none())
 
         /** @see [retrieveCurrent] */
-        @MustBeClosed
         fun retrieveCurrent(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<Entity>> =

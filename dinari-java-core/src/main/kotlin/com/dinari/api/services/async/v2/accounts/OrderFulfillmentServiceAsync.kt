@@ -7,7 +7,6 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface OrderFulfillmentServiceAsync {
@@ -87,7 +86,6 @@ interface OrderFulfillmentServiceAsync {
          * /api/v2/accounts/{account_id}/order_fulfillments/{order_fulfillment_id}`, but is
          * otherwise the same as [OrderFulfillmentServiceAsync.retrieve].
          */
-        @MustBeClosed
         fun retrieve(
             orderFulfillmentId: String,
             params: OrderFulfillmentRetrieveParams,
@@ -95,7 +93,6 @@ interface OrderFulfillmentServiceAsync {
             retrieve(orderFulfillmentId, params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             orderFulfillmentId: String,
             params: OrderFulfillmentRetrieveParams,
@@ -107,13 +104,11 @@ interface OrderFulfillmentServiceAsync {
             )
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: OrderFulfillmentRetrieveParams
         ): CompletableFuture<HttpResponseFor<Fulfillment>> = retrieve(params, RequestOptions.none())
 
         /** @see [retrieve] */
-        @MustBeClosed
         fun retrieve(
             params: OrderFulfillmentRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -123,12 +118,10 @@ interface OrderFulfillmentServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/order_fulfillments`,
          * but is otherwise the same as [OrderFulfillmentServiceAsync.query].
          */
-        @MustBeClosed
         fun query(accountId: String): CompletableFuture<HttpResponseFor<List<Fulfillment>>> =
             query(accountId, OrderFulfillmentQueryParams.none())
 
         /** @see [query] */
-        @MustBeClosed
         fun query(
             accountId: String,
             params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
@@ -137,7 +130,6 @@ interface OrderFulfillmentServiceAsync {
             query(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [query] */
-        @MustBeClosed
         fun query(
             accountId: String,
             params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
@@ -145,21 +137,18 @@ interface OrderFulfillmentServiceAsync {
             query(accountId, params, RequestOptions.none())
 
         /** @see [query] */
-        @MustBeClosed
         fun query(
             params: OrderFulfillmentQueryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<Fulfillment>>>
 
         /** @see [query] */
-        @MustBeClosed
         fun query(
             params: OrderFulfillmentQueryParams
         ): CompletableFuture<HttpResponseFor<List<Fulfillment>>> =
             query(params, RequestOptions.none())
 
         /** @see [query] */
-        @MustBeClosed
         fun query(
             accountId: String,
             requestOptions: RequestOptions,

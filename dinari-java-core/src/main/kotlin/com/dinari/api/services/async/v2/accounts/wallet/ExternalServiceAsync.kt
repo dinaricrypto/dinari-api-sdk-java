@@ -8,7 +8,6 @@ import com.dinari.api.models.v2.accounts.wallet.Wallet
 import com.dinari.api.models.v2.accounts.wallet.external.ExternalConnectParams
 import com.dinari.api.models.v2.accounts.wallet.external.ExternalGetNonceParams
 import com.dinari.api.models.v2.accounts.wallet.external.ExternalGetNonceResponse
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface ExternalServiceAsync {
@@ -74,7 +73,6 @@ interface ExternalServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/wallet/external`, but
          * is otherwise the same as [ExternalServiceAsync.connect].
          */
-        @MustBeClosed
         fun connect(
             accountId: String,
             params: ExternalConnectParams,
@@ -82,7 +80,6 @@ interface ExternalServiceAsync {
             connect(accountId, params, RequestOptions.none())
 
         /** @see [connect] */
-        @MustBeClosed
         fun connect(
             accountId: String,
             params: ExternalConnectParams,
@@ -91,12 +88,10 @@ interface ExternalServiceAsync {
             connect(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [connect] */
-        @MustBeClosed
         fun connect(params: ExternalConnectParams): CompletableFuture<HttpResponseFor<Wallet>> =
             connect(params, RequestOptions.none())
 
         /** @see [connect] */
-        @MustBeClosed
         fun connect(
             params: ExternalConnectParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -107,7 +102,6 @@ interface ExternalServiceAsync {
          * /api/v2/accounts/{account_id}/wallet/external/nonce`, but is otherwise the same as
          * [ExternalServiceAsync.getNonce].
          */
-        @MustBeClosed
         fun getNonce(
             accountId: String,
             params: ExternalGetNonceParams,
@@ -115,7 +109,6 @@ interface ExternalServiceAsync {
             getNonce(accountId, params, RequestOptions.none())
 
         /** @see [getNonce] */
-        @MustBeClosed
         fun getNonce(
             accountId: String,
             params: ExternalGetNonceParams,
@@ -124,14 +117,12 @@ interface ExternalServiceAsync {
             getNonce(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see [getNonce] */
-        @MustBeClosed
         fun getNonce(
             params: ExternalGetNonceParams
         ): CompletableFuture<HttpResponseFor<ExternalGetNonceResponse>> =
             getNonce(params, RequestOptions.none())
 
         /** @see [getNonce] */
-        @MustBeClosed
         fun getNonce(
             params: ExternalGetNonceParams,
             requestOptions: RequestOptions = RequestOptions.none(),

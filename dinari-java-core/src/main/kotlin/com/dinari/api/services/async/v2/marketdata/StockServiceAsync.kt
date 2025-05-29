@@ -15,7 +15,6 @@ import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteResponse
 import com.dinari.api.services.async.v2.marketdata.stocks.SplitServiceAsync
-import com.google.errorprone.annotations.MustBeClosed
 import java.util.concurrent.CompletableFuture
 
 interface StockServiceAsync {
@@ -207,26 +206,22 @@ interface StockServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/`, but is otherwise the
          * same as [StockServiceAsync.list].
          */
-        @MustBeClosed
         fun list(): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
             list(StockListParams.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: StockListParams = StockListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<StockListResponse>>>
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             params: StockListParams = StockListParams.none()
         ): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
             list(params, RequestOptions.none())
 
         /** @see [list] */
-        @MustBeClosed
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
@@ -236,14 +231,12 @@ interface StockServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/{stock_id}/dividends`,
          * but is otherwise the same as [StockServiceAsync.retrieveDividends].
          */
-        @MustBeClosed
         fun retrieveDividends(
             stockId: String
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveDividendsResponse>>> =
             retrieveDividends(stockId, StockRetrieveDividendsParams.none())
 
         /** @see [retrieveDividends] */
-        @MustBeClosed
         fun retrieveDividends(
             stockId: String,
             params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
@@ -252,7 +245,6 @@ interface StockServiceAsync {
             retrieveDividends(params.toBuilder().stockId(stockId).build(), requestOptions)
 
         /** @see [retrieveDividends] */
-        @MustBeClosed
         fun retrieveDividends(
             stockId: String,
             params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
@@ -260,21 +252,18 @@ interface StockServiceAsync {
             retrieveDividends(stockId, params, RequestOptions.none())
 
         /** @see [retrieveDividends] */
-        @MustBeClosed
         fun retrieveDividends(
             params: StockRetrieveDividendsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveDividendsResponse>>>
 
         /** @see [retrieveDividends] */
-        @MustBeClosed
         fun retrieveDividends(
             params: StockRetrieveDividendsParams
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveDividendsResponse>>> =
             retrieveDividends(params, RequestOptions.none())
 
         /** @see [retrieveDividends] */
-        @MustBeClosed
         fun retrieveDividends(
             stockId: String,
             requestOptions: RequestOptions,
@@ -286,7 +275,6 @@ interface StockServiceAsync {
          * /api/v2/market_data/stocks/{stock_id}/historical_prices/`, but is otherwise the same as
          * [StockServiceAsync.retrieveHistoricalPrices].
          */
-        @MustBeClosed
         fun retrieveHistoricalPrices(
             stockId: String,
             params: StockRetrieveHistoricalPricesParams,
@@ -294,7 +282,6 @@ interface StockServiceAsync {
             retrieveHistoricalPrices(stockId, params, RequestOptions.none())
 
         /** @see [retrieveHistoricalPrices] */
-        @MustBeClosed
         fun retrieveHistoricalPrices(
             stockId: String,
             params: StockRetrieveHistoricalPricesParams,
@@ -303,14 +290,12 @@ interface StockServiceAsync {
             retrieveHistoricalPrices(params.toBuilder().stockId(stockId).build(), requestOptions)
 
         /** @see [retrieveHistoricalPrices] */
-        @MustBeClosed
         fun retrieveHistoricalPrices(
             params: StockRetrieveHistoricalPricesParams
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>>> =
             retrieveHistoricalPrices(params, RequestOptions.none())
 
         /** @see [retrieveHistoricalPrices] */
-        @MustBeClosed
         fun retrieveHistoricalPrices(
             params: StockRetrieveHistoricalPricesParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -320,14 +305,12 @@ interface StockServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/{stock_id}/news`, but is
          * otherwise the same as [StockServiceAsync.retrieveNews].
          */
-        @MustBeClosed
         fun retrieveNews(
             stockId: String
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveNewsResponse>>> =
             retrieveNews(stockId, StockRetrieveNewsParams.none())
 
         /** @see [retrieveNews] */
-        @MustBeClosed
         fun retrieveNews(
             stockId: String,
             params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
@@ -336,7 +319,6 @@ interface StockServiceAsync {
             retrieveNews(params.toBuilder().stockId(stockId).build(), requestOptions)
 
         /** @see [retrieveNews] */
-        @MustBeClosed
         fun retrieveNews(
             stockId: String,
             params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
@@ -344,21 +326,18 @@ interface StockServiceAsync {
             retrieveNews(stockId, params, RequestOptions.none())
 
         /** @see [retrieveNews] */
-        @MustBeClosed
         fun retrieveNews(
             params: StockRetrieveNewsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveNewsResponse>>>
 
         /** @see [retrieveNews] */
-        @MustBeClosed
         fun retrieveNews(
             params: StockRetrieveNewsParams
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveNewsResponse>>> =
             retrieveNews(params, RequestOptions.none())
 
         /** @see [retrieveNews] */
-        @MustBeClosed
         fun retrieveNews(
             stockId: String,
             requestOptions: RequestOptions,
@@ -369,14 +348,12 @@ interface StockServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/{stock_id}/quote`, but is
          * otherwise the same as [StockServiceAsync.retrieveQuote].
          */
-        @MustBeClosed
         fun retrieveQuote(
             stockId: String
         ): CompletableFuture<HttpResponseFor<StockRetrieveQuoteResponse>> =
             retrieveQuote(stockId, StockRetrieveQuoteParams.none())
 
         /** @see [retrieveQuote] */
-        @MustBeClosed
         fun retrieveQuote(
             stockId: String,
             params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
@@ -385,7 +362,6 @@ interface StockServiceAsync {
             retrieveQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
 
         /** @see [retrieveQuote] */
-        @MustBeClosed
         fun retrieveQuote(
             stockId: String,
             params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
@@ -393,21 +369,18 @@ interface StockServiceAsync {
             retrieveQuote(stockId, params, RequestOptions.none())
 
         /** @see [retrieveQuote] */
-        @MustBeClosed
         fun retrieveQuote(
             params: StockRetrieveQuoteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StockRetrieveQuoteResponse>>
 
         /** @see [retrieveQuote] */
-        @MustBeClosed
         fun retrieveQuote(
             params: StockRetrieveQuoteParams
         ): CompletableFuture<HttpResponseFor<StockRetrieveQuoteResponse>> =
             retrieveQuote(params, RequestOptions.none())
 
         /** @see [retrieveQuote] */
-        @MustBeClosed
         fun retrieveQuote(
             stockId: String,
             requestOptions: RequestOptions,
