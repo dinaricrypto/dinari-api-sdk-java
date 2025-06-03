@@ -46,7 +46,7 @@ internal class WithdrawalRequestCreateParamsTest {
 
         val body = params._body()
 
-        assertThat(body._paymentTokenQuantity()).isEqualTo(JsonValue.from("0"))
+        assertThat(body.paymentTokenQuantity()).isEqualTo(JsonValue.from("0"))
         assertThat(body.recipientAccountId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

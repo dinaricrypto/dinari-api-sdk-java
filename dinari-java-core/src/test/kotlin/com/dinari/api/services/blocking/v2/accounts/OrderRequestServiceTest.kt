@@ -10,8 +10,11 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBu
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import com.dinari.api.models.v2.accounts.orders.OrderSide
+import com.dinari.api.models.v2.accounts.orders.OrderType
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -164,5 +167,32 @@ internal class OrderRequestServiceTest {
             )
 
         orderRequest.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun getFeeQuote() {
+        val client =
+            DinariOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val orderRequestService = client.v2().accounts().orderRequests()
+
+        val response =
+            orderRequestService.getFeeQuote(
+                OrderRequestGetFeeQuoteParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .orderSide(OrderSide.BUY)
+                    .orderType(OrderType.MARKET)
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .assetTokenQuantity(JsonValue.from("0"))
+                    .limitPrice(JsonValue.from("0"))
+                    .paymentTokenQuantity(JsonValue.from("0"))
+                    .build()
+            )
+
+        response.validate()
     }
 }

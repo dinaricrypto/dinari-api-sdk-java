@@ -9,6 +9,8 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBu
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.google.errorprone.annotations.MustBeClosed
@@ -165,6 +167,30 @@ interface OrderRequestService {
         params: OrderRequestCreateMarketSellParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
+
+    /** Get fee quote data for an `Order Request`. */
+    fun getFeeQuote(
+        accountId: String,
+        params: OrderRequestGetFeeQuoteParams,
+    ): OrderRequestGetFeeQuoteResponse = getFeeQuote(accountId, params, RequestOptions.none())
+
+    /** @see [getFeeQuote] */
+    fun getFeeQuote(
+        accountId: String,
+        params: OrderRequestGetFeeQuoteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): OrderRequestGetFeeQuoteResponse =
+        getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+    /** @see [getFeeQuote] */
+    fun getFeeQuote(params: OrderRequestGetFeeQuoteParams): OrderRequestGetFeeQuoteResponse =
+        getFeeQuote(params, RequestOptions.none())
+
+    /** @see [getFeeQuote] */
+    fun getFeeQuote(
+        params: OrderRequestGetFeeQuoteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): OrderRequestGetFeeQuoteResponse
 
     /**
      * A view of [OrderRequestService] that provides access to raw HTTP responses for each method.
@@ -379,5 +405,40 @@ interface OrderRequestService {
             params: OrderRequestCreateMarketSellParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<OrderRequest>
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /api/v2/accounts/{account_id}/order_requests/fee_quote`, but is otherwise the same as
+         * [OrderRequestService.getFeeQuote].
+         */
+        @MustBeClosed
+        fun getFeeQuote(
+            accountId: String,
+            params: OrderRequestGetFeeQuoteParams,
+        ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> =
+            getFeeQuote(accountId, params, RequestOptions.none())
+
+        /** @see [getFeeQuote] */
+        @MustBeClosed
+        fun getFeeQuote(
+            accountId: String,
+            params: OrderRequestGetFeeQuoteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> =
+            getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+        /** @see [getFeeQuote] */
+        @MustBeClosed
+        fun getFeeQuote(
+            params: OrderRequestGetFeeQuoteParams
+        ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> =
+            getFeeQuote(params, RequestOptions.none())
+
+        /** @see [getFeeQuote] */
+        @MustBeClosed
+        fun getFeeQuote(
+            params: OrderRequestGetFeeQuoteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<OrderRequestGetFeeQuoteResponse>
     }
 }

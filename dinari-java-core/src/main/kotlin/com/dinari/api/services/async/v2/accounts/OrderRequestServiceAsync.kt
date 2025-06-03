@@ -9,6 +9,8 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBu
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import java.util.concurrent.CompletableFuture
@@ -177,6 +179,33 @@ interface OrderRequestServiceAsync {
         params: OrderRequestCreateMarketSellParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OrderRequest>
+
+    /** Get fee quote data for an `Order Request`. */
+    fun getFeeQuote(
+        accountId: String,
+        params: OrderRequestGetFeeQuoteParams,
+    ): CompletableFuture<OrderRequestGetFeeQuoteResponse> =
+        getFeeQuote(accountId, params, RequestOptions.none())
+
+    /** @see [getFeeQuote] */
+    fun getFeeQuote(
+        accountId: String,
+        params: OrderRequestGetFeeQuoteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<OrderRequestGetFeeQuoteResponse> =
+        getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+    /** @see [getFeeQuote] */
+    fun getFeeQuote(
+        params: OrderRequestGetFeeQuoteParams
+    ): CompletableFuture<OrderRequestGetFeeQuoteResponse> =
+        getFeeQuote(params, RequestOptions.none())
+
+    /** @see [getFeeQuote] */
+    fun getFeeQuote(
+        params: OrderRequestGetFeeQuoteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<OrderRequestGetFeeQuoteResponse>
 
     /**
      * A view of [OrderRequestServiceAsync] that provides access to raw HTTP responses for each
@@ -379,5 +408,36 @@ interface OrderRequestServiceAsync {
             params: OrderRequestCreateMarketSellParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<OrderRequest>>
+
+        /**
+         * Returns a raw HTTP response for `post
+         * /api/v2/accounts/{account_id}/order_requests/fee_quote`, but is otherwise the same as
+         * [OrderRequestServiceAsync.getFeeQuote].
+         */
+        fun getFeeQuote(
+            accountId: String,
+            params: OrderRequestGetFeeQuoteParams,
+        ): CompletableFuture<HttpResponseFor<OrderRequestGetFeeQuoteResponse>> =
+            getFeeQuote(accountId, params, RequestOptions.none())
+
+        /** @see [getFeeQuote] */
+        fun getFeeQuote(
+            accountId: String,
+            params: OrderRequestGetFeeQuoteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<OrderRequestGetFeeQuoteResponse>> =
+            getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+        /** @see [getFeeQuote] */
+        fun getFeeQuote(
+            params: OrderRequestGetFeeQuoteParams
+        ): CompletableFuture<HttpResponseFor<OrderRequestGetFeeQuoteResponse>> =
+            getFeeQuote(params, RequestOptions.none())
+
+        /** @see [getFeeQuote] */
+        fun getFeeQuote(
+            params: OrderRequestGetFeeQuoteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<OrderRequestGetFeeQuoteResponse>>
     }
 }

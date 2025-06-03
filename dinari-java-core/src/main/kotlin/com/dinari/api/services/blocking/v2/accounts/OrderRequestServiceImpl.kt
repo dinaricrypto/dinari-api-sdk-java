@@ -21,6 +21,8 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBu
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import kotlin.jvm.optionals.getOrNull
@@ -75,6 +77,13 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
     ): OrderRequest =
         // post /api/v2/accounts/{account_id}/order_requests/market_sell
         withRawResponse().createMarketSell(params, requestOptions).parse()
+
+    override fun getFeeQuote(
+        params: OrderRequestGetFeeQuoteParams,
+        requestOptions: RequestOptions,
+    ): OrderRequestGetFeeQuoteResponse =
+        // post /api/v2/accounts/{account_id}/order_requests/fee_quote
+        withRawResponse().getFeeQuote(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         OrderRequestService.WithRawResponse {
@@ -292,6 +301,44 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             return response.parseable {
                 response
                     .use { createMarketSellHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val getFeeQuoteHandler: Handler<OrderRequestGetFeeQuoteResponse> =
+            jsonHandler<OrderRequestGetFeeQuoteResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun getFeeQuote(
+            params: OrderRequestGetFeeQuoteParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .addPathSegments(
+                        "api",
+                        "v2",
+                        "accounts",
+                        params._pathParam(0),
+                        "order_requests",
+                        "fee_quote",
+                    )
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { getFeeQuoteHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
