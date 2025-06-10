@@ -9,7 +9,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Lists managed `OrderRequests`. */
+/** Lists `OrderRequests`. */
 class OrderRequestListParams
 private constructor(
     private val accountId: String?,

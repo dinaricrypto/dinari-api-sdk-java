@@ -22,7 +22,7 @@ interface OrderRequestService {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Get a specific managed `OrderRequest` by its ID. */
+    /** Get a specific `OrderRequest` by its ID. */
     fun retrieve(orderRequestId: String, params: OrderRequestRetrieveParams): OrderRequest =
         retrieve(orderRequestId, params, RequestOptions.none())
 
@@ -44,7 +44,7 @@ interface OrderRequestService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
 
-    /** Lists managed `OrderRequests`. */
+    /** Lists `OrderRequests`. */
     fun list(accountId: String): List<OrderRequest> = list(accountId, OrderRequestListParams.none())
 
     /** @see [list] */
@@ -74,7 +74,7 @@ interface OrderRequestService {
     fun list(accountId: String, requestOptions: RequestOptions): List<OrderRequest> =
         list(accountId, OrderRequestListParams.none(), requestOptions)
 
-    /** Create a managed limit buy `OrderRequest`. */
+    /** Create a managed `OrderRequest` to place a limit buy `Order`. */
     fun createLimitBuy(accountId: String, params: OrderRequestCreateLimitBuyParams): OrderRequest =
         createLimitBuy(accountId, params, RequestOptions.none())
 
@@ -96,7 +96,7 @@ interface OrderRequestService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
 
-    /** Create a managed limit sell `OrderRequest`. */
+    /** Create a managed `OrderRequest` to place a limit sell `Order`. */
     fun createLimitSell(
         accountId: String,
         params: OrderRequestCreateLimitSellParams,
@@ -120,7 +120,7 @@ interface OrderRequestService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
 
-    /** Create a managed market buy `OrderRequest`. */
+    /** Create a managed `OrderRequest` to place a market buy `Order`. */
     fun createMarketBuy(
         accountId: String,
         params: OrderRequestCreateMarketBuyParams,
@@ -144,7 +144,7 @@ interface OrderRequestService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
 
-    /** Create a managed market sell `OrderRequest`. */
+    /** Create a managed `OrderRequest` to place a market sell `Order`. */
     fun createMarketSell(
         accountId: String,
         params: OrderRequestCreateMarketSellParams,
@@ -168,7 +168,10 @@ interface OrderRequestService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
 
-    /** Get fee quote data for an `Order Request`. */
+    /**
+     * Get fee quote data for an `Order Request`. This is provided primarily for informational
+     * purposes.
+     */
     fun getFeeQuote(
         accountId: String,
         params: OrderRequestGetFeeQuoteParams,

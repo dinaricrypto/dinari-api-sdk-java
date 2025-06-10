@@ -11,7 +11,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Create a managed limit sell `OrderRequest`. */
+/** Create a managed `OrderRequest` to place a limit sell `Order`. */
 class OrderRequestCreateLimitSellParams
 private constructor(
     private val accountId: String?,

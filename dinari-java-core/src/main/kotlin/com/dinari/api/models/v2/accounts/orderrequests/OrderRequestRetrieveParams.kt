@@ -10,7 +10,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Get a specific managed `OrderRequest` by its ID. */
+/** Get a specific `OrderRequest` by its ID. */
 class OrderRequestRetrieveParams
 private constructor(
     private val accountId: String,
