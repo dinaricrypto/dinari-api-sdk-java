@@ -22,7 +22,7 @@ interface OrderRequestServiceAsync {
      */
     fun withRawResponse(): WithRawResponse
 
-    /** Get a specific managed `OrderRequest` by its ID. */
+    /** Get a specific `OrderRequest` by its ID. */
     fun retrieve(
         orderRequestId: String,
         params: OrderRequestRetrieveParams,
@@ -46,7 +46,7 @@ interface OrderRequestServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OrderRequest>
 
-    /** Lists managed `OrderRequests`. */
+    /** Lists `OrderRequests`. */
     fun list(accountId: String): CompletableFuture<List<OrderRequest>> =
         list(accountId, OrderRequestListParams.none())
 
@@ -81,7 +81,7 @@ interface OrderRequestServiceAsync {
     ): CompletableFuture<List<OrderRequest>> =
         list(accountId, OrderRequestListParams.none(), requestOptions)
 
-    /** Create a managed limit buy `OrderRequest`. */
+    /** Create a managed `OrderRequest` to place a limit buy `Order`. */
     fun createLimitBuy(
         accountId: String,
         params: OrderRequestCreateLimitBuyParams,
@@ -105,7 +105,7 @@ interface OrderRequestServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OrderRequest>
 
-    /** Create a managed limit sell `OrderRequest`. */
+    /** Create a managed `OrderRequest` to place a limit sell `Order`. */
     fun createLimitSell(
         accountId: String,
         params: OrderRequestCreateLimitSellParams,
@@ -130,7 +130,7 @@ interface OrderRequestServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OrderRequest>
 
-    /** Create a managed market buy `OrderRequest`. */
+    /** Create a managed `OrderRequest` to place a market buy `Order`. */
     fun createMarketBuy(
         accountId: String,
         params: OrderRequestCreateMarketBuyParams,
@@ -155,7 +155,7 @@ interface OrderRequestServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OrderRequest>
 
-    /** Create a managed market sell `OrderRequest`. */
+    /** Create a managed `OrderRequest` to place a market sell `Order`. */
     fun createMarketSell(
         accountId: String,
         params: OrderRequestCreateMarketSellParams,
@@ -180,7 +180,10 @@ interface OrderRequestServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OrderRequest>
 
-    /** Get fee quote data for an `Order Request`. */
+    /**
+     * Get fee quote data for an `Order Request`. This is provided primarily for informational
+     * purposes.
+     */
     fun getFeeQuote(
         accountId: String,
         params: OrderRequestGetFeeQuoteParams,

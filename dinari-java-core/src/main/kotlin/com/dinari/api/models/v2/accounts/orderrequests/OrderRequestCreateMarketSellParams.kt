@@ -20,7 +20,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Create a managed market sell `OrderRequest`. */
+/** Create a managed `OrderRequest` to place a market sell `Order`. */
 class OrderRequestCreateMarketSellParams
 private constructor(
     private val accountId: String?,

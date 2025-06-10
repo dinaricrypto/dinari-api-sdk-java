@@ -7,8 +7,6 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orders.Order
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
-import com.dinari.api.models.v2.accounts.orders.OrderGetFeeQuoteParams
-import com.dinari.api.models.v2.accounts.orders.OrderGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
@@ -106,36 +104,6 @@ interface OrderServiceAsync {
         params: OrderCancelParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Order>
-
-    /**
-     * Get fee quote data for an `Order`.
-     *
-     * The `order_fee_contract_object` property contains the fee quote structure to be used verbatim
-     * when placing an `Order` directly through our Contracts.
-     */
-    fun getFeeQuote(
-        accountId: String,
-        params: OrderGetFeeQuoteParams,
-    ): CompletableFuture<OrderGetFeeQuoteResponse> =
-        getFeeQuote(accountId, params, RequestOptions.none())
-
-    /** @see [getFeeQuote] */
-    fun getFeeQuote(
-        accountId: String,
-        params: OrderGetFeeQuoteParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderGetFeeQuoteResponse> =
-        getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-    /** @see [getFeeQuote] */
-    fun getFeeQuote(params: OrderGetFeeQuoteParams): CompletableFuture<OrderGetFeeQuoteResponse> =
-        getFeeQuote(params, RequestOptions.none())
-
-    /** @see [getFeeQuote] */
-    fun getFeeQuote(
-        params: OrderGetFeeQuoteParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderGetFeeQuoteResponse>
 
     /** Get `OrderFulfillments` for a specific `Order`. */
     fun getFulfillments(
@@ -260,36 +228,6 @@ interface OrderServiceAsync {
             params: OrderCancelParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Order>>
-
-        /**
-         * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/orders/fee_quote`,
-         * but is otherwise the same as [OrderServiceAsync.getFeeQuote].
-         */
-        fun getFeeQuote(
-            accountId: String,
-            params: OrderGetFeeQuoteParams,
-        ): CompletableFuture<HttpResponseFor<OrderGetFeeQuoteResponse>> =
-            getFeeQuote(accountId, params, RequestOptions.none())
-
-        /** @see [getFeeQuote] */
-        fun getFeeQuote(
-            accountId: String,
-            params: OrderGetFeeQuoteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderGetFeeQuoteResponse>> =
-            getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-        /** @see [getFeeQuote] */
-        fun getFeeQuote(
-            params: OrderGetFeeQuoteParams
-        ): CompletableFuture<HttpResponseFor<OrderGetFeeQuoteResponse>> =
-            getFeeQuote(params, RequestOptions.none())
-
-        /** @see [getFeeQuote] */
-        fun getFeeQuote(
-            params: OrderGetFeeQuoteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderGetFeeQuoteResponse>>
 
         /**
          * Returns a raw HTTP response for `get

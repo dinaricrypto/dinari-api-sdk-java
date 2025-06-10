@@ -22,7 +22,9 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Get fee quote data for an `Order Request`. */
+/**
+ * Get fee quote data for an `Order Request`. This is provided primarily for informational purposes.
+ */
 class OrderRequestGetFeeQuoteParams
 private constructor(
     private val accountId: String?,
