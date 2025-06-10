@@ -13,6 +13,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuotePa
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import com.dinari.api.services.blocking.v2.accounts.orderrequests.StockService
 import com.google.errorprone.annotations.MustBeClosed
 
 interface OrderRequestService {
@@ -21,6 +22,8 @@ interface OrderRequestService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    fun stocks(): StockService
 
     /** Get a specific `OrderRequest` by its ID. */
     fun retrieve(orderRequestId: String, params: OrderRequestRetrieveParams): OrderRequest =
@@ -199,6 +202,8 @@ interface OrderRequestService {
      * A view of [OrderRequestService] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        fun stocks(): StockService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

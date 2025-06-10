@@ -10,6 +10,7 @@ import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
+import com.dinari.api.services.blocking.v2.accounts.orders.StockService
 import com.google.errorprone.annotations.MustBeClosed
 
 interface OrderService {
@@ -18,6 +19,8 @@ interface OrderService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    fun stocks(): StockService
 
     /** Get a specific `Order` by its ID. */
     fun retrieve(orderId: String, params: OrderRetrieveParams): Order =
@@ -120,6 +123,8 @@ interface OrderService {
 
     /** A view of [OrderService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        fun stocks(): StockService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/orders/{order_id}`,

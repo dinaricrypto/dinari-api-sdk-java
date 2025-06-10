@@ -10,6 +10,7 @@ import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
+import com.dinari.api.services.async.v2.accounts.orders.StockServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface OrderServiceAsync {
@@ -18,6 +19,8 @@ interface OrderServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    fun stocks(): StockServiceAsync
 
     /** Get a specific `Order` by its ID. */
     fun retrieve(orderId: String, params: OrderRetrieveParams): CompletableFuture<Order> =
@@ -132,6 +135,8 @@ interface OrderServiceAsync {
 
     /** A view of [OrderServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        fun stocks(): StockServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/orders/{order_id}`,
