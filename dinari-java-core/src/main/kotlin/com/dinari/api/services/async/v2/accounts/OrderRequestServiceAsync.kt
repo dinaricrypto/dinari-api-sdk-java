@@ -13,6 +13,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuotePa
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsync
 import java.util.concurrent.CompletableFuture
 
 interface OrderRequestServiceAsync {
@@ -21,6 +22,8 @@ interface OrderRequestServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    fun stocks(): StockServiceAsync
 
     /** Get a specific `OrderRequest` by its ID. */
     fun retrieve(
@@ -215,6 +218,8 @@ interface OrderRequestServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        fun stocks(): StockServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

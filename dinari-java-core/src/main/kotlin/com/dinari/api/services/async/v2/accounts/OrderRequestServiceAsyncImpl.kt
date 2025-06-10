@@ -25,6 +25,8 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuotePa
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsync
+import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 import kotlin.jvm.optionals.getOrNull
 
@@ -35,7 +37,11 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
         WithRawResponseImpl(clientOptions)
     }
 
+    private val stocks: StockServiceAsync by lazy { StockServiceAsyncImpl(clientOptions) }
+
     override fun withRawResponse(): OrderRequestServiceAsync.WithRawResponse = withRawResponse
+
+    override fun stocks(): StockServiceAsync = stocks
 
     override fun retrieve(
         params: OrderRequestRetrieveParams,
@@ -90,6 +96,12 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
         OrderRequestServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        private val stocks: StockServiceAsync.WithRawResponse by lazy {
+            StockServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        override fun stocks(): StockServiceAsync.WithRawResponse = stocks
 
         private val retrieveHandler: Handler<OrderRequest> =
             jsonHandler<OrderRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
