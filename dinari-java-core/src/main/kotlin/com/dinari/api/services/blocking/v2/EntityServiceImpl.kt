@@ -93,6 +93,7 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "entities", "")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -120,6 +121,7 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "entities", "")
                     .build()
                     .prepare(clientOptions, params)
@@ -149,6 +151,7 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "entities", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -175,6 +178,7 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "entities", "me")
                     .build()
                     .prepare(clientOptions, params)

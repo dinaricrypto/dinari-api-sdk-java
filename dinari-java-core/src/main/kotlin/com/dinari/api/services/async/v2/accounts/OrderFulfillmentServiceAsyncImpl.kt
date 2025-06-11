@@ -62,6 +62,7 @@ internal constructor(private val clientOptions: ClientOptions) : OrderFulfillmen
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "v2",
@@ -101,6 +102,7 @@ internal constructor(private val clientOptions: ClientOptions) : OrderFulfillmen
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "v2",

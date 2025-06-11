@@ -66,6 +66,7 @@ class WalletServiceAsyncImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "accounts", params._pathParam(0), "wallet")
                     .build()
                     .prepareAsync(clientOptions, params)
