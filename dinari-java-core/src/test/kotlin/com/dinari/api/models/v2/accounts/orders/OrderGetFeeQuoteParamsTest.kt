@@ -73,12 +73,10 @@ internal class OrderGetFeeQuoteParamsTest {
         assertThat(body.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(body.orderType()).isEqualTo(OrderType.MARKET)
         assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        // TODO(SDK-2638)
-        // assertThat(body.assetTokenQuantity()).contains(JsonValue.from("0"))
-        // assertThat(body.limitPrice()).contains(JsonValue.from("0"))
+        assertThat(body._assetTokenQuantity()).isEqualTo(JsonValue.from("0"))
+        assertThat(body._limitPrice()).isEqualTo(JsonValue.from("0"))
         assertThat(body.paymentToken()).contains("payment_token")
-        // TODO(SDK-2638)
-        // assertThat(body.paymentTokenQuantity()).contains(JsonValue.from("0"))
+        assertThat(body._paymentTokenQuantity()).isEqualTo(JsonValue.from("0"))
     }
 
     @Disabled("skipped: tests are disabled for the time being")
