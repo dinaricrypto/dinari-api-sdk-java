@@ -186,6 +186,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "accounts", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -215,6 +216,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "accounts", params._pathParam(0), "deactivate")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
@@ -246,6 +248,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "accounts", params._pathParam(0), "cash")
                     .build()
                     .prepare(clientOptions, params)
@@ -276,6 +279,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "v2",
@@ -312,6 +316,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "v2",
@@ -348,6 +353,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "accounts", params._pathParam(0), "portfolio")
                     .build()
                     .prepare(clientOptions, params)
@@ -377,6 +383,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "accounts", params._pathParam(0), "faucet")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()

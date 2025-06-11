@@ -61,6 +61,7 @@ class MarketDataServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "market_data", "market_hours", "")
                     .build()
                     .prepare(clientOptions, params)

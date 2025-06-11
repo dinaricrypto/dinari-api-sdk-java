@@ -62,6 +62,7 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "v2", "accounts", params._pathParam(0), "wallet")
                     .build()
                     .prepare(clientOptions, params)
