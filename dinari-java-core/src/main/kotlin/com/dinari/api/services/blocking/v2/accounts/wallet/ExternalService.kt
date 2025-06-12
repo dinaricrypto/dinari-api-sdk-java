@@ -2,6 +2,7 @@
 
 package com.dinari.api.services.blocking.v2.accounts.wallet
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.wallet.Wallet
@@ -9,6 +10,7 @@ import com.dinari.api.models.v2.accounts.wallet.external.ExternalConnectParams
 import com.dinari.api.models.v2.accounts.wallet.external.ExternalGetNonceParams
 import com.dinari.api.models.v2.accounts.wallet.external.ExternalGetNonceResponse
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface ExternalService {
 
@@ -16,6 +18,13 @@ interface ExternalService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExternalService
 
     /** Connect a `Wallet` to the `Account` after verifying the signature. */
     fun connect(accountId: String, params: ExternalConnectParams): Wallet =
@@ -61,6 +70,13 @@ interface ExternalService {
 
     /** A view of [ExternalService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExternalService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/wallet/external`, but

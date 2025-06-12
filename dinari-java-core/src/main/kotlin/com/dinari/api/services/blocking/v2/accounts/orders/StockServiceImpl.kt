@@ -5,6 +5,7 @@ package com.dinari.api.services.blocking.v2.accounts.orders
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.services.blocking.v2.accounts.orders.stocks.Eip155Service
 import com.dinari.api.services.blocking.v2.accounts.orders.stocks.Eip155ServiceImpl
+import java.util.function.Consumer
 
 class StockServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     StockService {
@@ -17,6 +18,9 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
 
     override fun withRawResponse(): StockService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockService =
+        StockServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun eip155(): Eip155Service = eip155
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -25,6 +29,13 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val eip155: Eip155Service.WithRawResponse by lazy {
             Eip155ServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StockService.WithRawResponse =
+            StockServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun eip155(): Eip155Service.WithRawResponse = eip155
     }

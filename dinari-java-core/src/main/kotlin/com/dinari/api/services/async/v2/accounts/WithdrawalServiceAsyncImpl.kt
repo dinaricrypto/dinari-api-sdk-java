@@ -19,6 +19,7 @@ import com.dinari.api.models.v2.accounts.withdrawals.Withdrawal
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalListParams
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -29,6 +30,9 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
     }
 
     override fun withRawResponse(): WithdrawalServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): WithdrawalServiceAsync =
+        WithdrawalServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: WithdrawalRetrieveParams,
@@ -48,6 +52,13 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
         WithdrawalServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): WithdrawalServiceAsync.WithRawResponse =
+            WithdrawalServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<Withdrawal> =
             jsonHandler<Withdrawal>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

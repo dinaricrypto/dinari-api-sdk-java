@@ -18,6 +18,7 @@ import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListForStockParams
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListParams
 import com.dinari.api.models.v2.marketdata.stocks.splits.StockSplit
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class SplitServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -28,6 +29,9 @@ class SplitServiceImpl internal constructor(private val clientOptions: ClientOpt
     }
 
     override fun withRawResponse(): SplitService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SplitService =
+        SplitServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(params: SplitListParams, requestOptions: RequestOptions): List<StockSplit> =
         // get /api/v2/market_data/stocks/splits
@@ -44,6 +48,13 @@ class SplitServiceImpl internal constructor(private val clientOptions: ClientOpt
         SplitService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SplitService.WithRawResponse =
+            SplitServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listHandler: Handler<List<StockSplit>> =
             jsonHandler<List<StockSplit>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

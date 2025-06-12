@@ -2,12 +2,14 @@
 
 package com.dinari.api.services.async.v2.marketdata.stocks
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListForStockParams
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListParams
 import com.dinari.api.models.v2.marketdata.stocks.splits.StockSplit
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface SplitServiceAsync {
 
@@ -15,6 +17,13 @@ interface SplitServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): SplitServiceAsync
 
     /**
      * Get a list of stock splits for `Stocks` available for trade via Dinari. The splits are
@@ -89,6 +98,15 @@ interface SplitServiceAsync {
 
     /** A view of [SplitServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SplitServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/splits`, but is otherwise

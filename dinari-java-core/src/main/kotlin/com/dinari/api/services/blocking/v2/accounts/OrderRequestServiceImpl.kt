@@ -27,6 +27,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.StockService
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.StockServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class OrderRequestServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -39,6 +40,9 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
     private val stocks: StockService by lazy { StockServiceImpl(clientOptions) }
 
     override fun withRawResponse(): OrderRequestService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestService =
+        OrderRequestServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun stocks(): StockService = stocks
 
@@ -99,6 +103,13 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
         private val stocks: StockService.WithRawResponse by lazy {
             StockServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): OrderRequestService.WithRawResponse =
+            OrderRequestServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun stocks(): StockService.WithRawResponse = stocks
 

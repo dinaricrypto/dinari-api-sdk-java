@@ -21,6 +21,7 @@ import com.dinari.api.models.v2.accounts.wallet.external.ExternalConnectParams
 import com.dinari.api.models.v2.accounts.wallet.external.ExternalGetNonceParams
 import com.dinari.api.models.v2.accounts.wallet.external.ExternalGetNonceResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class ExternalServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -31,6 +32,9 @@ class ExternalServiceAsyncImpl internal constructor(private val clientOptions: C
     }
 
     override fun withRawResponse(): ExternalServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ExternalServiceAsync =
+        ExternalServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun connect(
         params: ExternalConnectParams,
@@ -50,6 +54,13 @@ class ExternalServiceAsyncImpl internal constructor(private val clientOptions: C
         ExternalServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ExternalServiceAsync.WithRawResponse =
+            ExternalServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val connectHandler: Handler<Wallet> =
             jsonHandler<Wallet>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

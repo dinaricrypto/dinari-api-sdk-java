@@ -2,12 +2,14 @@
 
 package com.dinari.api.services.blocking.v2
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursParams
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse
 import com.dinari.api.services.blocking.v2.marketdata.StockService
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface MarketDataService {
 
@@ -15,6 +17,13 @@ interface MarketDataService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): MarketDataService
 
     fun stocks(): StockService
 
@@ -39,6 +48,15 @@ interface MarketDataService {
 
     /** A view of [MarketDataService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): MarketDataService.WithRawResponse
 
         fun stocks(): StockService.WithRawResponse
 

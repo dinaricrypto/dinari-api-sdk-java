@@ -19,6 +19,7 @@ import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListForStockParams
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListParams
 import com.dinari.api.models.v2.marketdata.stocks.splits.StockSplit
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class SplitServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -29,6 +30,9 @@ class SplitServiceAsyncImpl internal constructor(private val clientOptions: Clie
     }
 
     override fun withRawResponse(): SplitServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SplitServiceAsync =
+        SplitServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
         params: SplitListParams,
@@ -48,6 +52,13 @@ class SplitServiceAsyncImpl internal constructor(private val clientOptions: Clie
         SplitServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): SplitServiceAsync.WithRawResponse =
+            SplitServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listHandler: Handler<List<StockSplit>> =
             jsonHandler<List<StockSplit>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

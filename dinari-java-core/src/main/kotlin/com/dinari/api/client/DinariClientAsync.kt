@@ -2,7 +2,9 @@
 
 package com.dinari.api.client
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.services.async.V2ServiceAsync
+import java.util.function.Consumer
 
 /**
  * A client for interacting with the Dinari REST API asynchronously. You can also switch to
@@ -33,6 +35,13 @@ interface DinariClientAsync {
      */
     fun withRawResponse(): WithRawResponse
 
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): DinariClientAsync
+
     fun v2(): V2ServiceAsync
 
     /**
@@ -50,6 +59,15 @@ interface DinariClientAsync {
 
     /** A view of [DinariClientAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DinariClientAsync.WithRawResponse
 
         fun v2(): V2ServiceAsync.WithRawResponse
     }

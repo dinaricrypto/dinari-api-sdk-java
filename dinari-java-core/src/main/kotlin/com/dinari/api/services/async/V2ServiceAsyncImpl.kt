@@ -9,6 +9,7 @@ import com.dinari.api.services.async.v2.EntityServiceAsync
 import com.dinari.api.services.async.v2.EntityServiceAsyncImpl
 import com.dinari.api.services.async.v2.MarketDataServiceAsync
 import com.dinari.api.services.async.v2.MarketDataServiceAsyncImpl
+import java.util.function.Consumer
 
 class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     V2ServiceAsync {
@@ -26,6 +27,9 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     private val accounts: AccountServiceAsync by lazy { AccountServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): V2ServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2ServiceAsync =
+        V2ServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun marketData(): MarketDataServiceAsync = marketData
 
@@ -47,6 +51,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
         private val accounts: AccountServiceAsync.WithRawResponse by lazy {
             AccountServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): V2ServiceAsync.WithRawResponse =
+            V2ServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun marketData(): MarketDataServiceAsync.WithRawResponse = marketData
 

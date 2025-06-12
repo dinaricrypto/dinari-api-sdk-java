@@ -2,6 +2,7 @@
 
 package com.dinari.api.services.blocking.v2.entities
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.entities.kyc.KycCreateManagedCheckParams
@@ -11,6 +12,7 @@ import com.dinari.api.models.v2.entities.kyc.KycRetrieveParams
 import com.dinari.api.models.v2.entities.kyc.KycSubmitParams
 import com.dinari.api.services.blocking.v2.entities.kyc.DocumentService
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface KycService {
 
@@ -18,6 +20,13 @@ interface KycService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): KycService
 
     fun document(): DocumentService
 
@@ -122,6 +131,13 @@ interface KycService {
 
     /** A view of [KycService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): KycService.WithRawResponse
 
         fun document(): DocumentService.WithRawResponse
 

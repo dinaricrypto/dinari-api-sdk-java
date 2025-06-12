@@ -2,6 +2,7 @@
 
 package com.dinari.api.services.blocking.v2.accounts
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
@@ -12,6 +13,7 @@ import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
 import com.dinari.api.services.blocking.v2.accounts.orders.StockService
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface OrderService {
 
@@ -19,6 +21,13 @@ interface OrderService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderService
 
     fun stocks(): StockService
 
@@ -123,6 +132,13 @@ interface OrderService {
 
     /** A view of [OrderService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderService.WithRawResponse
 
         fun stocks(): StockService.WithRawResponse
 

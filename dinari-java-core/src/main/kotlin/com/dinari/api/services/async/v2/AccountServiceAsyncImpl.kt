@@ -43,6 +43,7 @@ import com.dinari.api.services.async.v2.accounts.WithdrawalRequestServiceAsyncIm
 import com.dinari.api.services.async.v2.accounts.WithdrawalServiceAsync
 import com.dinari.api.services.async.v2.accounts.WithdrawalServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AccountServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -73,6 +74,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): AccountServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountServiceAsync =
+        AccountServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun wallet(): WalletServiceAsync = wallet
 
@@ -163,6 +167,13 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
         private val withdrawals: WithdrawalServiceAsync.WithRawResponse by lazy {
             WithdrawalServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AccountServiceAsync.WithRawResponse =
+            AccountServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun wallet(): WalletServiceAsync.WithRawResponse = wallet
 

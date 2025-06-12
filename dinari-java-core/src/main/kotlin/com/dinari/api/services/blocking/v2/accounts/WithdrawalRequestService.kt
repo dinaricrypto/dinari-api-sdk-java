@@ -2,6 +2,7 @@
 
 package com.dinari.api.services.blocking.v2.accounts
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequest
@@ -9,6 +10,7 @@ import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestCre
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestListParams
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestRetrieveParams
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface WithdrawalRequestService {
 
@@ -16,6 +18,13 @@ interface WithdrawalRequestService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): WithdrawalRequestService
 
     /**
      * Request to withdraw USD+ payment tokens from a managed `Account` and send the equivalent
@@ -107,6 +116,15 @@ interface WithdrawalRequestService {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): WithdrawalRequestService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/withdrawal_requests`,

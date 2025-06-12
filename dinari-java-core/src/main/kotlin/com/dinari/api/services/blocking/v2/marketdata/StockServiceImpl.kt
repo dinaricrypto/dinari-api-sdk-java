@@ -27,6 +27,7 @@ import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteResponse
 import com.dinari.api.services.blocking.v2.marketdata.stocks.SplitService
 import com.dinari.api.services.blocking.v2.marketdata.stocks.SplitServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class StockServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -39,6 +40,9 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
     private val splits: SplitService by lazy { SplitServiceImpl(clientOptions) }
 
     override fun withRawResponse(): StockService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockService =
+        StockServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun splits(): SplitService = splits
 
@@ -85,6 +89,13 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val splits: SplitService.WithRawResponse by lazy {
             SplitServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StockService.WithRawResponse =
+            StockServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun splits(): SplitService.WithRawResponse = splits
 

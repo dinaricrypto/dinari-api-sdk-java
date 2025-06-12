@@ -2,6 +2,7 @@
 
 package com.dinari.api.services.async.v2.accounts.orders.stocks
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.orders.stocks.eip155.Eip155GetFeeQuoteParams
@@ -9,6 +10,7 @@ import com.dinari.api.models.v2.accounts.orders.stocks.eip155.Eip155GetFeeQuoteR
 import com.dinari.api.models.v2.accounts.orders.stocks.eip155.Eip155PrepareOrderParams
 import com.dinari.api.models.v2.accounts.orders.stocks.eip155.Eip155PrepareOrderResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface Eip155ServiceAsync {
 
@@ -16,6 +18,13 @@ interface Eip155ServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): Eip155ServiceAsync
 
     /**
      * Get fee quote data for an `Order` to be placed on Dinari's EVM smart contracts.
@@ -86,6 +95,15 @@ interface Eip155ServiceAsync {
      * A view of [Eip155ServiceAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): Eip155ServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `post

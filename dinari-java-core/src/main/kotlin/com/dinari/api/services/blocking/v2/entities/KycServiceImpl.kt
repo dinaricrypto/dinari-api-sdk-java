@@ -23,6 +23,7 @@ import com.dinari.api.models.v2.entities.kyc.KycRetrieveParams
 import com.dinari.api.models.v2.entities.kyc.KycSubmitParams
 import com.dinari.api.services.blocking.v2.entities.kyc.DocumentService
 import com.dinari.api.services.blocking.v2.entities.kyc.DocumentServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class KycServiceImpl internal constructor(private val clientOptions: ClientOptions) : KycService {
@@ -34,6 +35,9 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
     private val document: DocumentService by lazy { DocumentServiceImpl(clientOptions) }
 
     override fun withRawResponse(): KycService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): KycService =
+        KycServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun document(): DocumentService = document
 
@@ -60,6 +64,13 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
         private val document: DocumentService.WithRawResponse by lazy {
             DocumentServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): KycService.WithRawResponse =
+            KycServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun document(): DocumentService.WithRawResponse = document
 

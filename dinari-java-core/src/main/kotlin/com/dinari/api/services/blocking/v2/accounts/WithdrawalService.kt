@@ -2,12 +2,14 @@
 
 package com.dinari.api.services.blocking.v2.accounts
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.withdrawals.Withdrawal
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalListParams
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveParams
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface WithdrawalService {
 
@@ -15,6 +17,13 @@ interface WithdrawalService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): WithdrawalService
 
     /** Get a specific `Withdrawal` by its ID. */
     fun retrieve(withdrawalId: String, params: WithdrawalRetrieveParams): Withdrawal =
@@ -68,6 +77,15 @@ interface WithdrawalService {
 
     /** A view of [WithdrawalService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): WithdrawalService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

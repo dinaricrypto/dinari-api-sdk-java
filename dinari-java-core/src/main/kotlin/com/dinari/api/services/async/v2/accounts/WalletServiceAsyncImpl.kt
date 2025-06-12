@@ -20,6 +20,7 @@ import com.dinari.api.models.v2.accounts.wallet.WalletGetParams
 import com.dinari.api.services.async.v2.accounts.wallet.ExternalServiceAsync
 import com.dinari.api.services.async.v2.accounts.wallet.ExternalServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class WalletServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -32,6 +33,9 @@ class WalletServiceAsyncImpl internal constructor(private val clientOptions: Cli
     private val external: ExternalServiceAsync by lazy { ExternalServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): WalletServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): WalletServiceAsync =
+        WalletServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun external(): ExternalServiceAsync = external
 
@@ -50,6 +54,13 @@ class WalletServiceAsyncImpl internal constructor(private val clientOptions: Cli
         private val external: ExternalServiceAsync.WithRawResponse by lazy {
             ExternalServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): WalletServiceAsync.WithRawResponse =
+            WalletServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun external(): ExternalServiceAsync.WithRawResponse = external
 

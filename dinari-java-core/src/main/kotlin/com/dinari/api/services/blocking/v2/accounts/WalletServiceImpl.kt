@@ -19,6 +19,7 @@ import com.dinari.api.models.v2.accounts.wallet.Wallet
 import com.dinari.api.models.v2.accounts.wallet.WalletGetParams
 import com.dinari.api.services.blocking.v2.accounts.wallet.ExternalService
 import com.dinari.api.services.blocking.v2.accounts.wallet.ExternalServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class WalletServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -31,6 +32,9 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
     private val external: ExternalService by lazy { ExternalServiceImpl(clientOptions) }
 
     override fun withRawResponse(): WalletService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): WalletService =
+        WalletServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun external(): ExternalService = external
 
@@ -46,6 +50,13 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
         private val external: ExternalService.WithRawResponse by lazy {
             ExternalServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): WalletService.WithRawResponse =
+            WalletServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun external(): ExternalService.WithRawResponse = external
 
