@@ -20,6 +20,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequest
 import com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155.Eip155CreateProxiedOrderParams
 import com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155.Eip155PrepareProxiedOrderParams
 import com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155.Eip155PrepareProxiedOrderResponse
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class Eip155ServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -30,6 +31,9 @@ class Eip155ServiceImpl internal constructor(private val clientOptions: ClientOp
     }
 
     override fun withRawResponse(): Eip155Service.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): Eip155Service =
+        Eip155ServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun createProxiedOrder(
         params: Eip155CreateProxiedOrderParams,
@@ -49,6 +53,13 @@ class Eip155ServiceImpl internal constructor(private val clientOptions: ClientOp
         Eip155Service.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): Eip155Service.WithRawResponse =
+            Eip155ServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createProxiedOrderHandler: Handler<OrderRequest> =
             jsonHandler<OrderRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

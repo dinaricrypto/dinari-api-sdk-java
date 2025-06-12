@@ -42,6 +42,7 @@ import com.dinari.api.services.blocking.v2.accounts.WithdrawalRequestService
 import com.dinari.api.services.blocking.v2.accounts.WithdrawalRequestServiceImpl
 import com.dinari.api.services.blocking.v2.accounts.WithdrawalService
 import com.dinari.api.services.blocking.v2.accounts.WithdrawalServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AccountServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -70,6 +71,9 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
     private val withdrawals: WithdrawalService by lazy { WithdrawalServiceImpl(clientOptions) }
 
     override fun withRawResponse(): AccountService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountService =
+        AccountServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun wallet(): WalletService = wallet
 
@@ -158,6 +162,13 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
         private val withdrawals: WithdrawalService.WithRawResponse by lazy {
             WithdrawalServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AccountService.WithRawResponse =
+            AccountServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun wallet(): WalletService.WithRawResponse = wallet
 

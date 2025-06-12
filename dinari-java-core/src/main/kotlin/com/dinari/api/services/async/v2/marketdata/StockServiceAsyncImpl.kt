@@ -28,6 +28,7 @@ import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteResponse
 import com.dinari.api.services.async.v2.marketdata.stocks.SplitServiceAsync
 import com.dinari.api.services.async.v2.marketdata.stocks.SplitServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class StockServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -40,6 +41,9 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
     private val splits: SplitServiceAsync by lazy { SplitServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): StockServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockServiceAsync =
+        StockServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun splits(): SplitServiceAsync = splits
 
@@ -86,6 +90,13 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
         private val splits: SplitServiceAsync.WithRawResponse by lazy {
             SplitServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StockServiceAsync.WithRawResponse =
+            StockServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun splits(): SplitServiceAsync.WithRawResponse = splits
 

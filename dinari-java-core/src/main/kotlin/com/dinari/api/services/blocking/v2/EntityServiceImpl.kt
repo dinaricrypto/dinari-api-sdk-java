@@ -25,6 +25,7 @@ import com.dinari.api.services.blocking.v2.entities.AccountService
 import com.dinari.api.services.blocking.v2.entities.AccountServiceImpl
 import com.dinari.api.services.blocking.v2.entities.KycService
 import com.dinari.api.services.blocking.v2.entities.KycServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class EntityServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -39,6 +40,9 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
     private val kyc: KycService by lazy { KycServiceImpl(clientOptions) }
 
     override fun withRawResponse(): EntityService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): EntityService =
+        EntityServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun accounts(): AccountService = accounts
 
@@ -78,6 +82,13 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
         private val kyc: KycService.WithRawResponse by lazy {
             KycServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EntityService.WithRawResponse =
+            EntityServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun accounts(): AccountService.WithRawResponse = accounts
 

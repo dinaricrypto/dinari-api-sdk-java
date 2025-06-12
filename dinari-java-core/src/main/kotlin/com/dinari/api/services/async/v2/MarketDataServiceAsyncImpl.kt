@@ -19,6 +19,7 @@ import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse
 import com.dinari.api.services.async.v2.marketdata.StockServiceAsync
 import com.dinari.api.services.async.v2.marketdata.StockServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class MarketDataServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     MarketDataServiceAsync {
@@ -30,6 +31,9 @@ class MarketDataServiceAsyncImpl internal constructor(private val clientOptions:
     private val stocks: StockServiceAsync by lazy { StockServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): MarketDataServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): MarketDataServiceAsync =
+        MarketDataServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun stocks(): StockServiceAsync = stocks
 
@@ -48,6 +52,13 @@ class MarketDataServiceAsyncImpl internal constructor(private val clientOptions:
         private val stocks: StockServiceAsync.WithRawResponse by lazy {
             StockServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): MarketDataServiceAsync.WithRawResponse =
+            MarketDataServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun stocks(): StockServiceAsync.WithRawResponse = stocks
 

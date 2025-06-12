@@ -2,6 +2,7 @@
 
 package com.dinari.api.services.async.v2.accounts
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequest
@@ -15,6 +16,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsync
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface OrderRequestServiceAsync {
 
@@ -22,6 +24,13 @@ interface OrderRequestServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestServiceAsync
 
     fun stocks(): StockServiceAsync
 
@@ -218,6 +227,15 @@ interface OrderRequestServiceAsync {
      * method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): OrderRequestServiceAsync.WithRawResponse
 
         fun stocks(): StockServiceAsync.WithRawResponse
 

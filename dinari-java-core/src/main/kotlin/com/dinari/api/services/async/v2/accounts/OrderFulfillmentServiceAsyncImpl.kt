@@ -19,6 +19,7 @@ import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class OrderFulfillmentServiceAsyncImpl
@@ -29,6 +30,11 @@ internal constructor(private val clientOptions: ClientOptions) : OrderFulfillmen
     }
 
     override fun withRawResponse(): OrderFulfillmentServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(
+        modifier: Consumer<ClientOptions.Builder>
+    ): OrderFulfillmentServiceAsync =
+        OrderFulfillmentServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: OrderFulfillmentRetrieveParams,
@@ -48,6 +54,13 @@ internal constructor(private val clientOptions: ClientOptions) : OrderFulfillmen
         OrderFulfillmentServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): OrderFulfillmentServiceAsync.WithRawResponse =
+            OrderFulfillmentServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<Fulfillment> =
             jsonHandler<Fulfillment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

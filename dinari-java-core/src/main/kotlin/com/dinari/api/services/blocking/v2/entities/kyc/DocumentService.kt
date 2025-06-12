@@ -2,12 +2,14 @@
 
 package com.dinari.api.services.blocking.v2.entities.kyc
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.entities.kyc.document.DocumentRetrieveParams
 import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams
 import com.dinari.api.models.v2.entities.kyc.document.KycDocument
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface DocumentService {
 
@@ -15,6 +17,13 @@ interface DocumentService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): DocumentService
 
     /** Get uploaded documents for a KYC check */
     fun retrieve(kycId: String, params: DocumentRetrieveParams): List<KycDocument> =
@@ -62,6 +71,13 @@ interface DocumentService {
 
     /** A view of [DocumentService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): DocumentService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/v2/entities/{entity_id}/kyc/{kyc_id}/document`,

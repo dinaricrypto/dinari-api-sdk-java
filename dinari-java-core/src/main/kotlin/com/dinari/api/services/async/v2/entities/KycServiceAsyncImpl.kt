@@ -24,6 +24,7 @@ import com.dinari.api.models.v2.entities.kyc.KycSubmitParams
 import com.dinari.api.services.async.v2.entities.kyc.DocumentServiceAsync
 import com.dinari.api.services.async.v2.entities.kyc.DocumentServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class KycServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -36,6 +37,9 @@ class KycServiceAsyncImpl internal constructor(private val clientOptions: Client
     private val document: DocumentServiceAsync by lazy { DocumentServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): KycServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): KycServiceAsync =
+        KycServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun document(): DocumentServiceAsync = document
 
@@ -68,6 +72,13 @@ class KycServiceAsyncImpl internal constructor(private val clientOptions: Client
         private val document: DocumentServiceAsync.WithRawResponse by lazy {
             DocumentServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): KycServiceAsync.WithRawResponse =
+            KycServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun document(): DocumentServiceAsync.WithRawResponse = document
 

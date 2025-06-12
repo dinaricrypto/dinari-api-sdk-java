@@ -18,6 +18,7 @@ import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class OrderFulfillmentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -28,6 +29,9 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
     }
 
     override fun withRawResponse(): OrderFulfillmentService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderFulfillmentService =
+        OrderFulfillmentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: OrderFulfillmentRetrieveParams,
@@ -47,6 +51,13 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
         OrderFulfillmentService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): OrderFulfillmentService.WithRawResponse =
+            OrderFulfillmentServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<Fulfillment> =
             jsonHandler<Fulfillment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

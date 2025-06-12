@@ -2,6 +2,7 @@
 
 package com.dinari.api.services.async.v2
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.entities.Entity
@@ -12,6 +13,7 @@ import com.dinari.api.models.v2.entities.EntityRetrieveCurrentParams
 import com.dinari.api.services.async.v2.entities.AccountServiceAsync
 import com.dinari.api.services.async.v2.entities.KycServiceAsync
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface EntityServiceAsync {
 
@@ -19,6 +21,13 @@ interface EntityServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): EntityServiceAsync
 
     fun accounts(): AccountServiceAsync
 
@@ -112,6 +121,15 @@ interface EntityServiceAsync {
      * A view of [EntityServiceAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EntityServiceAsync.WithRawResponse
 
         fun accounts(): AccountServiceAsync.WithRawResponse
 

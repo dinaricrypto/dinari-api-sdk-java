@@ -18,6 +18,7 @@ import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursParams
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse
 import com.dinari.api.services.blocking.v2.marketdata.StockService
 import com.dinari.api.services.blocking.v2.marketdata.StockServiceImpl
+import java.util.function.Consumer
 
 class MarketDataServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     MarketDataService {
@@ -29,6 +30,9 @@ class MarketDataServiceImpl internal constructor(private val clientOptions: Clie
     private val stocks: StockService by lazy { StockServiceImpl(clientOptions) }
 
     override fun withRawResponse(): MarketDataService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): MarketDataService =
+        MarketDataServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun stocks(): StockService = stocks
 
@@ -47,6 +51,13 @@ class MarketDataServiceImpl internal constructor(private val clientOptions: Clie
         private val stocks: StockService.WithRawResponse by lazy {
             StockServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): MarketDataService.WithRawResponse =
+            MarketDataServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun stocks(): StockService.WithRawResponse = stocks
 

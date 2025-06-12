@@ -6,6 +6,7 @@ import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.getPackageVersion
 import com.dinari.api.services.blocking.V2Service
 import com.dinari.api.services.blocking.V2ServiceImpl
+import java.util.function.Consumer
 
 class DinariClientImpl(private val clientOptions: ClientOptions) : DinariClient {
 
@@ -30,6 +31,9 @@ class DinariClientImpl(private val clientOptions: ClientOptions) : DinariClient 
 
     override fun withRawResponse(): DinariClient.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DinariClient =
+        DinariClientImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun v2(): V2Service = v2
 
     override fun close() = clientOptions.httpClient.close()
@@ -40,6 +44,13 @@ class DinariClientImpl(private val clientOptions: ClientOptions) : DinariClient 
         private val v2: V2Service.WithRawResponse by lazy {
             V2ServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DinariClient.WithRawResponse =
+            DinariClientImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun v2(): V2Service.WithRawResponse = v2
     }

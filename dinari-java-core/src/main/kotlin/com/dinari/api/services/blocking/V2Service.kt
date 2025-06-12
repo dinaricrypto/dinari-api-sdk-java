@@ -2,9 +2,11 @@
 
 package com.dinari.api.services.blocking
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.services.blocking.v2.AccountService
 import com.dinari.api.services.blocking.v2.EntityService
 import com.dinari.api.services.blocking.v2.MarketDataService
+import java.util.function.Consumer
 
 interface V2Service {
 
@@ -12,6 +14,13 @@ interface V2Service {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2Service
 
     fun marketData(): MarketDataService
 
@@ -21,6 +30,13 @@ interface V2Service {
 
     /** A view of [V2Service] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2Service.WithRawResponse
 
         fun marketData(): MarketDataService.WithRawResponse
 

@@ -19,6 +19,7 @@ import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.entities.kyc.document.DocumentRetrieveParams
 import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams
 import com.dinari.api.models.v2.entities.kyc.document.KycDocument
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -29,6 +30,9 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
     }
 
     override fun withRawResponse(): DocumentService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DocumentService =
+        DocumentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: DocumentRetrieveParams,
@@ -45,6 +49,13 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         DocumentService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DocumentService.WithRawResponse =
+            DocumentServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val retrieveHandler: Handler<List<KycDocument>> =
             jsonHandler<List<KycDocument>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

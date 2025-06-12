@@ -28,6 +28,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParam
 import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsync
 import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class OrderRequestServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -40,6 +41,9 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
     private val stocks: StockServiceAsync by lazy { StockServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): OrderRequestServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestServiceAsync =
+        OrderRequestServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun stocks(): StockServiceAsync = stocks
 
@@ -100,6 +104,13 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
         private val stocks: StockServiceAsync.WithRawResponse by lazy {
             StockServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): OrderRequestServiceAsync.WithRawResponse =
+            OrderRequestServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun stocks(): StockServiceAsync.WithRawResponse = stocks
 

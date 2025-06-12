@@ -2,6 +2,7 @@
 
 package com.dinari.api.services.blocking.v2.marketdata
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
@@ -16,6 +17,7 @@ import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteResponse
 import com.dinari.api.services.blocking.v2.marketdata.stocks.SplitService
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface StockService {
 
@@ -23,6 +25,13 @@ interface StockService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockService
 
     fun splits(): SplitService
 
@@ -187,6 +196,13 @@ interface StockService {
 
     /** A view of [StockService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockService.WithRawResponse
 
         fun splits(): SplitService.WithRawResponse
 

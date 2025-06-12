@@ -2,6 +2,7 @@
 
 package com.dinari.api.services.async.v2.marketdata
 
+import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
@@ -16,6 +17,7 @@ import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteResponse
 import com.dinari.api.services.async.v2.marketdata.stocks.SplitServiceAsync
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface StockServiceAsync {
 
@@ -23,6 +25,13 @@ interface StockServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockServiceAsync
 
     fun splits(): SplitServiceAsync
 
@@ -199,6 +208,15 @@ interface StockServiceAsync {
 
     /** A view of [StockServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): StockServiceAsync.WithRawResponse
 
         fun splits(): SplitServiceAsync.WithRawResponse
 

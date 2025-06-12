@@ -21,6 +21,7 @@ import com.dinari.api.models.v2.accounts.orders.stocks.eip155.Eip155GetFeeQuoteR
 import com.dinari.api.models.v2.accounts.orders.stocks.eip155.Eip155PrepareOrderParams
 import com.dinari.api.models.v2.accounts.orders.stocks.eip155.Eip155PrepareOrderResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -31,6 +32,9 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
     }
 
     override fun withRawResponse(): Eip155ServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): Eip155ServiceAsync =
+        Eip155ServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun getFeeQuote(
         params: Eip155GetFeeQuoteParams,
@@ -50,6 +54,13 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
         Eip155ServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): Eip155ServiceAsync.WithRawResponse =
+            Eip155ServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val getFeeQuoteHandler: Handler<Eip155GetFeeQuoteResponse> =
             jsonHandler<Eip155GetFeeQuoteResponse>(clientOptions.jsonMapper)

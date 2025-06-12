@@ -26,6 +26,7 @@ import com.dinari.api.services.async.v2.entities.AccountServiceAsyncImpl
 import com.dinari.api.services.async.v2.entities.KycServiceAsync
 import com.dinari.api.services.async.v2.entities.KycServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class EntityServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -40,6 +41,9 @@ class EntityServiceAsyncImpl internal constructor(private val clientOptions: Cli
     private val kyc: KycServiceAsync by lazy { KycServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): EntityServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): EntityServiceAsync =
+        EntityServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun accounts(): AccountServiceAsync = accounts
 
@@ -85,6 +89,13 @@ class EntityServiceAsyncImpl internal constructor(private val clientOptions: Cli
         private val kyc: KycServiceAsync.WithRawResponse by lazy {
             KycServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EntityServiceAsync.WithRawResponse =
+            EntityServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun accounts(): AccountServiceAsync.WithRawResponse = accounts
 
