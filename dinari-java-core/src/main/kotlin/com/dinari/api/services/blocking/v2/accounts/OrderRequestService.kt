@@ -132,7 +132,12 @@ interface OrderRequestService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
 
-    /** Create a managed `OrderRequest` to place a market buy `Order`. */
+    /**
+     * Create a managed `OrderRequest` to place a market buy `Order`. Fees for the `Order` are
+     * included in the transaction. Refer to our
+     * [Fee Quote API](https://docs.dinari.com/reference/createproxiedorderfeequote#/) for fee
+     * estimation.
+     */
     fun createMarketBuy(
         accountId: String,
         params: OrderRequestCreateMarketBuyParams,
