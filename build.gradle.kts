@@ -7,7 +7,7 @@ repositories {
 }
 
 allprojects {
-    group = "com.dinari"
+    group = "com.dinari.api"
     version = "0.0.1-alpha.0" // x-release-please-version
 }
 

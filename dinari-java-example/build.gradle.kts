@@ -17,5 +17,5 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 application {
-    mainClass = "com.dinari.example.Main"
+    mainClass = "com.dinari.api.example.Main"
 }
