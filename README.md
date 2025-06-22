@@ -7,13 +7,13 @@
 
 <!-- x-release-please-end -->
 
-The Dinari Java SDK provides convenient access to the Dinari REST API from applications written in Java.
+The Dinari Java SDK provides convenient access to the [Dinari REST API](https://docs.dinari.com/) from applications written in Java.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.1.0).
+The REST API documentation can be found on [docs.dinari.com](https://docs.dinari.com/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.1.0).
 
 <!-- x-release-please-end -->
 

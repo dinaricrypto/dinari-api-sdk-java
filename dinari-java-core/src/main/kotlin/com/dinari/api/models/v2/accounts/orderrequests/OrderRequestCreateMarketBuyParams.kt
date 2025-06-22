@@ -20,12 +20,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/**
- * Create a managed `OrderRequest` to place a market buy `Order`. Fees for the `Order` are included
- * in the transaction. Refer to our
- * [Fee Quote API](https://docs.dinari.com/reference/createproxiedorderfeequote#/) for fee
- * estimation.
- */
+/** Create a managed `OrderRequest` to place a market buy `Order`. */
 class OrderRequestCreateMarketBuyParams
 private constructor(
     private val accountId: String?,
@@ -37,8 +32,8 @@ private constructor(
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /**
-     * Amount of currency (USD for US equities and ETFs) to pay for the order. Must be a positive
-     * number with a precision of up to 2 decimal places.
+     * Amount of currency (USD for US equities and ETFs) to pay or receive for the order. Must be a
+     * positive number with a precision of up to 2 decimal places.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -124,8 +119,8 @@ private constructor(
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /**
-         * Amount of currency (USD for US equities and ETFs) to pay for the order. Must be a
-         * positive number with a precision of up to 2 decimal places.
+         * Amount of currency (USD for US equities and ETFs) to pay or receive for the order. Must
+         * be a positive number with a precision of up to 2 decimal places.
          */
         fun paymentAmount(paymentAmount: Double) = apply { body.paymentAmount(paymentAmount) }
 
@@ -319,8 +314,8 @@ private constructor(
         ) : this(paymentAmount, stockId, mutableMapOf())
 
         /**
-         * Amount of currency (USD for US equities and ETFs) to pay for the order. Must be a
-         * positive number with a precision of up to 2 decimal places.
+         * Amount of currency (USD for US equities and ETFs) to pay or receive for the order. Must
+         * be a positive number with a precision of up to 2 decimal places.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -393,8 +388,8 @@ private constructor(
             }
 
             /**
-             * Amount of currency (USD for US equities and ETFs) to pay for the order. Must be a
-             * positive number with a precision of up to 2 decimal places.
+             * Amount of currency (USD for US equities and ETFs) to pay or receive for the order.
+             * Must be a positive number with a precision of up to 2 decimal places.
              */
             fun paymentAmount(paymentAmount: Double) = paymentAmount(JsonField.of(paymentAmount))
 
