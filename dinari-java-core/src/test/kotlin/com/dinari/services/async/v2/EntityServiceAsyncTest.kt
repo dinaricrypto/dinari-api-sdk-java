@@ -1,0 +1,82 @@
+// File generated from our OpenAPI spec by Stainless.
+
+package com.dinari.services.async.v2
+
+import com.dinari.TestServerExtension
+import com.dinari.client.okhttp.DinariOkHttpClientAsync
+import com.dinari.models.v2.entities.EntityCreateParams
+import org.junit.jupiter.api.Disabled
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
+
+@ExtendWith(TestServerExtension::class)
+internal class EntityServiceAsyncTest {
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun create() {
+        val client =
+            DinariOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val entityServiceAsync = client.v2().entities()
+
+        val entityFuture = entityServiceAsync.create(EntityCreateParams.builder().name("x").build())
+
+        val entity = entityFuture.get()
+        entity.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun list() {
+        val client =
+            DinariOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val entityServiceAsync = client.v2().entities()
+
+        val entitiesFuture = entityServiceAsync.list()
+
+        val entities = entitiesFuture.get()
+        entities.forEach { it.validate() }
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun retrieveById() {
+        val client =
+            DinariOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val entityServiceAsync = client.v2().entities()
+
+        val entityFuture = entityServiceAsync.retrieveById("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+        val entity = entityFuture.get()
+        entity.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun retrieveCurrent() {
+        val client =
+            DinariOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val entityServiceAsync = client.v2().entities()
+
+        val entityFuture = entityServiceAsync.retrieveCurrent()
+
+        val entity = entityFuture.get()
+        entity.validate()
+    }
+}
