@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.dinari/dinari-java)](https://central.sonatype.com/artifact/com.dinari/dinari-java/0.0.1-alpha.0)
-[![javadoc](https://javadoc.io/badge2/com.dinari/dinari-java/0.0.1-alpha.0/javadoc.svg)](https://javadoc.io/doc/com.dinari/dinari-java/0.0.1-alpha.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java/0.0.1-alpha.0)
+[![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/0.0.1-alpha.0/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.0.1-alpha.0)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari/dinari-java/0.0.1-alpha.0).
+Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.0.1-alpha.0).
 
 <!-- x-release-please-end -->
 
@@ -24,14 +24,14 @@ Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari/dinari-
 ### Gradle
 
 ```kotlin
-implementation("com.dinari:dinari-java:0.0.1-alpha.0")
+implementation("com.dinari.api:dinari-java:0.0.1-alpha.0")
 ```
 
 ### Maven
 
 ```xml
 <dependency>
-  <groupId>com.dinari</groupId>
+  <groupId>com.dinari.api</groupId>
   <artifactId>dinari-java</artifactId>
   <version>0.0.1-alpha.0</version>
 </dependency>
@@ -46,10 +46,10 @@ This library requires Java 8 or later.
 ## Usage
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
-import com.dinari.models.v2.marketdata.stocks.StockListParams;
-import com.dinari.models.v2.marketdata.stocks.StockListResponse;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
 // Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
@@ -62,8 +62,8 @@ List<StockListResponse> stocks = client.v2().marketData().stocks().list();
 Configure the client using environment variables:
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 // Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
@@ -72,8 +72,8 @@ DinariClient client = DinariOkHttpClient.fromEnv();
 Or manually:
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
     .apiKeyId("My API Key ID")
@@ -84,8 +84,8 @@ DinariClient client = DinariOkHttpClient.builder()
 Or using a combination of the two approaches:
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
     // Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
@@ -111,7 +111,7 @@ See this table for the available options:
 To temporarily use a modified client configuration, while reusing the same connection and thread pools, call `withOptions()` on any client or service:
 
 ```java
-import com.dinari.client.DinariClient;
+import com.dinari.api.client.DinariClient;
 
 DinariClient clientWithOptions = client.withOptions(optionsBuilder -> {
     optionsBuilder.baseUrl("https://example.com");
@@ -140,10 +140,10 @@ Because each class is immutable, builder modification will _never_ affect alread
 The default client is synchronous. To switch to asynchronous execution, call the `async()` method:
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
-import com.dinari.models.v2.marketdata.stocks.StockListParams;
-import com.dinari.models.v2.marketdata.stocks.StockListResponse;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
@@ -155,10 +155,10 @@ CompletableFuture<List<StockListResponse>> stocks = client.async().v2().marketDa
 Or create an asynchronous client from the beginning:
 
 ```java
-import com.dinari.client.DinariClientAsync;
-import com.dinari.client.okhttp.DinariOkHttpClientAsync;
-import com.dinari.models.v2.marketdata.stocks.StockListParams;
-import com.dinari.models.v2.marketdata.stocks.StockListResponse;
+import com.dinari.api.client.DinariClientAsync;
+import com.dinari.api.client.okhttp.DinariOkHttpClientAsync;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
@@ -176,9 +176,9 @@ The SDK defines methods that accept files.
 To upload a file, pass a [`Path`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html):
 
 ```java
-import com.dinari.models.v2.entities.kyc.document.DocumentUploadParams;
-import com.dinari.models.v2.entities.kyc.document.KycDocument;
-import com.dinari.models.v2.entities.kyc.document.KycDocumentType;
+import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocument;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType;
 import java.nio.file.Paths;
 
 DocumentUploadParams params = DocumentUploadParams.builder()
@@ -193,9 +193,9 @@ KycDocument kycDocument = client.v2().entities().kyc().document().upload(params)
 Or an arbitrary [`InputStream`](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
 
 ```java
-import com.dinari.models.v2.entities.kyc.document.DocumentUploadParams;
-import com.dinari.models.v2.entities.kyc.document.KycDocument;
-import com.dinari.models.v2.entities.kyc.document.KycDocumentType;
+import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocument;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType;
 import java.net.URL;
 
 DocumentUploadParams params = DocumentUploadParams.builder()
@@ -210,9 +210,9 @@ KycDocument kycDocument = client.v2().entities().kyc().document().upload(params)
 Or a `byte[]` array:
 
 ```java
-import com.dinari.models.v2.entities.kyc.document.DocumentUploadParams;
-import com.dinari.models.v2.entities.kyc.document.KycDocument;
-import com.dinari.models.v2.entities.kyc.document.KycDocumentType;
+import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocument;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType;
 
 DocumentUploadParams params = DocumentUploadParams.builder()
     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -223,13 +223,13 @@ DocumentUploadParams params = DocumentUploadParams.builder()
 KycDocument kycDocument = client.v2().entities().kyc().document().upload(params);
 ```
 
-Note that when passing a non-`Path` its filename is unknown so it will not be included in the request. To manually set a filename, pass a [`MultipartField`](dinari-java-core/src/main/kotlin/com/dinari/core/Values.kt):
+Note that when passing a non-`Path` its filename is unknown so it will not be included in the request. To manually set a filename, pass a [`MultipartField`](dinari-java-core/src/main/kotlin/com/dinari/api/core/Values.kt):
 
 ```java
-import com.dinari.core.MultipartField;
-import com.dinari.models.v2.entities.kyc.document.DocumentUploadParams;
-import com.dinari.models.v2.entities.kyc.document.KycDocument;
-import com.dinari.models.v2.entities.kyc.document.KycDocumentType;
+import com.dinari.api.core.MultipartField;
+import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocument;
+import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -252,10 +252,10 @@ The SDK defines methods that deserialize responses into instances of Java classe
 To access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:
 
 ```java
-import com.dinari.core.http.Headers;
-import com.dinari.core.http.HttpResponseFor;
-import com.dinari.models.v2.marketdata.stocks.StockListParams;
-import com.dinari.models.v2.marketdata.stocks.StockListResponse;
+import com.dinari.api.core.http.Headers;
+import com.dinari.api.core.http.HttpResponseFor;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
 HttpResponseFor<List<StockListResponse>> stocks = client.v2().marketData().stocks().withRawResponse().list();
 
@@ -266,7 +266,7 @@ Headers headers = stocks.headers();
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import com.dinari.models.v2.marketdata.stocks.StockListResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
 List<StockListResponse> parsedStocks = stocks.parse();
 ```
@@ -275,24 +275,24 @@ List<StockListResponse> parsedStocks = stocks.parse();
 
 The SDK throws custom unchecked exception types:
 
-- [`DinariServiceException`](dinari-java-core/src/main/kotlin/com/dinari/errors/DinariServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
+- [`DinariServiceException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/DinariServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
 
-  | Status | Exception                                                                                                              |
-  | ------ | ---------------------------------------------------------------------------------------------------------------------- |
-  | 400    | [`BadRequestException`](dinari-java-core/src/main/kotlin/com/dinari/errors/BadRequestException.kt)                     |
-  | 401    | [`UnauthorizedException`](dinari-java-core/src/main/kotlin/com/dinari/errors/UnauthorizedException.kt)                 |
-  | 403    | [`PermissionDeniedException`](dinari-java-core/src/main/kotlin/com/dinari/errors/PermissionDeniedException.kt)         |
-  | 404    | [`NotFoundException`](dinari-java-core/src/main/kotlin/com/dinari/errors/NotFoundException.kt)                         |
-  | 422    | [`UnprocessableEntityException`](dinari-java-core/src/main/kotlin/com/dinari/errors/UnprocessableEntityException.kt)   |
-  | 429    | [`RateLimitException`](dinari-java-core/src/main/kotlin/com/dinari/errors/RateLimitException.kt)                       |
-  | 5xx    | [`InternalServerException`](dinari-java-core/src/main/kotlin/com/dinari/errors/InternalServerException.kt)             |
-  | others | [`UnexpectedStatusCodeException`](dinari-java-core/src/main/kotlin/com/dinari/errors/UnexpectedStatusCodeException.kt) |
+  | Status | Exception                                                                                                                  |
+  | ------ | -------------------------------------------------------------------------------------------------------------------------- |
+  | 400    | [`BadRequestException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/BadRequestException.kt)                     |
+  | 401    | [`UnauthorizedException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/UnauthorizedException.kt)                 |
+  | 403    | [`PermissionDeniedException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/PermissionDeniedException.kt)         |
+  | 404    | [`NotFoundException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/NotFoundException.kt)                         |
+  | 422    | [`UnprocessableEntityException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/UnprocessableEntityException.kt)   |
+  | 429    | [`RateLimitException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/RateLimitException.kt)                       |
+  | 5xx    | [`InternalServerException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/InternalServerException.kt)             |
+  | others | [`UnexpectedStatusCodeException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/UnexpectedStatusCodeException.kt) |
 
-- [`DinariIoException`](dinari-java-core/src/main/kotlin/com/dinari/errors/DinariIoException.kt): I/O networking errors.
+- [`DinariIoException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/DinariIoException.kt): I/O networking errors.
 
-- [`DinariInvalidDataException`](dinari-java-core/src/main/kotlin/com/dinari/errors/DinariInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
+- [`DinariInvalidDataException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/DinariInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
-- [`DinariException`](dinari-java-core/src/main/kotlin/com/dinari/errors/DinariException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
+- [`DinariException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/DinariException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
 
 ## Logging
 
@@ -316,7 +316,7 @@ The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON seri
 
 The SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the default version was overridden in your Maven or Gradle config).
 
-If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`DinariOkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/client/okhttp/DinariOkHttpClient.kt) or [`DinariOkHttpClientAsync`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/client/okhttp/DinariOkHttpClientAsync.kt).
+If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`DinariOkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/api/client/okhttp/DinariOkHttpClient.kt) or [`DinariOkHttpClientAsync`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/api/client/okhttp/DinariOkHttpClientAsync.kt).
 
 > [!CAUTION]
 > We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
@@ -340,8 +340,8 @@ The API may also explicitly instruct the SDK to retry or not retry a response.
 To set a custom number of retries, configure the client using the `maxRetries` method:
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
     .fromEnv()
@@ -356,7 +356,7 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import com.dinari.models.v2.marketdata.stocks.StockListResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
 List<StockListResponse> stocks = client.v2().marketData().stocks().list(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
@@ -364,8 +364,8 @@ List<StockListResponse> stocks = client.v2().marketData().stocks().list(RequestO
 Or configure the default for all method calls at the client level:
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
 import java.time.Duration;
 
 DinariClient client = DinariOkHttpClient.builder()
@@ -379,8 +379,8 @@ DinariClient client = DinariOkHttpClient.builder()
 To route requests through a proxy, configure the client using the `proxy` method:
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
@@ -399,8 +399,8 @@ DinariClient client = DinariOkHttpClient.builder()
 The SDK sends requests to the production by default. To send requests to a different environment, configure the client like so:
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
     .fromEnv()
@@ -415,10 +415,10 @@ The SDK consists of three artifacts:
 - `dinari-java-core`
   - Contains core SDK logic
   - Does not depend on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`DinariClient`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClient.kt), [`DinariClientAsync`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClientAsync.kt), [`DinariClientImpl`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClientImpl.kt), and [`DinariClientAsyncImpl`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClientAsyncImpl.kt), all of which can work with any HTTP client
+  - Exposes [`DinariClient`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClient.kt), [`DinariClientAsync`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClientAsync.kt), [`DinariClientImpl`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClientImpl.kt), and [`DinariClientAsyncImpl`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClientAsyncImpl.kt), all of which can work with any HTTP client
 - `dinari-java-client-okhttp`
   - Depends on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`DinariOkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/client/okhttp/DinariOkHttpClient.kt) and [`DinariOkHttpClientAsync`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/client/okhttp/DinariOkHttpClientAsync.kt), which provide a way to construct [`DinariClientImpl`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClientImpl.kt) and [`DinariClientAsyncImpl`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClientAsyncImpl.kt), respectively, using OkHttp
+  - Exposes [`DinariOkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/api/client/okhttp/DinariOkHttpClient.kt) and [`DinariOkHttpClientAsync`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/api/client/okhttp/DinariOkHttpClientAsync.kt), which provide a way to construct [`DinariClientImpl`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClientImpl.kt) and [`DinariClientAsyncImpl`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClientAsyncImpl.kt), respectively, using OkHttp
 - `dinari-java`
   - Depends on and exposes the APIs of both `dinari-java-core` and `dinari-java-client-okhttp`
   - Does not have its own logic
@@ -433,16 +433,16 @@ This structure allows replacing the SDK's default HTTP client without pulling in
 To use a customized `OkHttpClient`:
 
 1. Replace your [`dinari-java` dependency](#installation) with `dinari-java-core`
-2. Copy `dinari-java-client-okhttp`'s [`OkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/client/okhttp/OkHttpClient.kt) class into your code and customize it
-3. Construct [`DinariClientImpl`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClientImpl.kt) or [`DinariClientAsyncImpl`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClientAsyncImpl.kt), similarly to [`DinariOkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/client/okhttp/DinariOkHttpClient.kt) or [`DinariOkHttpClientAsync`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/client/okhttp/DinariOkHttpClientAsync.kt), using your customized client
+2. Copy `dinari-java-client-okhttp`'s [`OkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`DinariClientImpl`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClientImpl.kt) or [`DinariClientAsyncImpl`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClientAsyncImpl.kt), similarly to [`DinariOkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/api/client/okhttp/DinariOkHttpClient.kt) or [`DinariOkHttpClientAsync`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/api/client/okhttp/DinariOkHttpClientAsync.kt), using your customized client
 
 ### Completely custom HTTP client
 
 To use a completely custom HTTP client:
 
 1. Replace your [`dinari-java` dependency](#installation) with `dinari-java-core`
-2. Write a class that implements the [`HttpClient`](dinari-java-core/src/main/kotlin/com/dinari/core/http/HttpClient.kt) interface
-3. Construct [`DinariClientImpl`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClientImpl.kt) or [`DinariClientAsyncImpl`](dinari-java-core/src/main/kotlin/com/dinari/client/DinariClientAsyncImpl.kt), similarly to [`DinariOkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/client/okhttp/DinariOkHttpClient.kt) or [`DinariOkHttpClientAsync`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/client/okhttp/DinariOkHttpClientAsync.kt), using your new client class
+2. Write a class that implements the [`HttpClient`](dinari-java-core/src/main/kotlin/com/dinari/api/core/http/HttpClient.kt) interface
+3. Construct [`DinariClientImpl`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClientImpl.kt) or [`DinariClientAsyncImpl`](dinari-java-core/src/main/kotlin/com/dinari/api/client/DinariClientAsyncImpl.kt), similarly to [`DinariOkHttpClient`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/api/client/okhttp/DinariOkHttpClient.kt) or [`DinariOkHttpClientAsync`](dinari-java-client-okhttp/src/main/kotlin/com/dinari/api/client/okhttp/DinariOkHttpClientAsync.kt), using your new client class
 
 ## Undocumented API functionality
 
@@ -453,8 +453,8 @@ The SDK is typed for convenient usage of the documented API. However, it also su
 To set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or `putAdditionalBodyProperty` methods on any `Params` class:
 
 ```java
-import com.dinari.core.JsonValue;
-import com.dinari.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.core.JsonValue;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 
 StockListParams params = StockListParams.builder()
     .putAdditionalHeader("Secret-Header", "42")
@@ -468,9 +468,9 @@ These can be accessed on the built object later using the `_additionalHeaders()`
 To set undocumented parameters on _nested_ headers, query params, or body classes, call the `putAdditionalProperty` method on the nested class:
 
 ```java
-import com.dinari.core.JsonValue;
-import com.dinari.models.v2.entities.kyc.KycData;
-import com.dinari.models.v2.entities.kyc.KycSubmitParams;
+import com.dinari.api.core.JsonValue;
+import com.dinari.api.models.v2.entities.kyc.KycData;
+import com.dinari.api.models.v2.entities.kyc.KycSubmitParams;
 
 KycSubmitParams params = KycSubmitParams.builder()
     .data(KycData.builder()
@@ -481,18 +481,18 @@ KycSubmitParams params = KycSubmitParams.builder()
 
 These properties can be accessed on the nested built object later using the `_additionalProperties()` method.
 
-To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](dinari-java-core/src/main/kotlin/com/dinari/core/Values.kt) object to its setter:
+To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](dinari-java-core/src/main/kotlin/com/dinari/api/core/Values.kt) object to its setter:
 
 ```java
-import com.dinari.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 
 StockListParams params = StockListParams.builder().build();
 ```
 
-The most straightforward way to create a [`JsonValue`](dinari-java-core/src/main/kotlin/com/dinari/core/Values.kt) is using its `from(...)` method:
+The most straightforward way to create a [`JsonValue`](dinari-java-core/src/main/kotlin/com/dinari/api/core/Values.kt) is using its `from(...)` method:
 
 ```java
-import com.dinari.core.JsonValue;
+import com.dinari.api.core.JsonValue;
 import java.util.List;
 import java.util.Map;
 
@@ -530,12 +530,12 @@ JsonValue complexValue = JsonValue.from(Map.of(
 
 Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
 
-To forcibly omit a required parameter or property, pass [`JsonMissing`](dinari-java-core/src/main/kotlin/com/dinari/core/Values.kt):
+To forcibly omit a required parameter or property, pass [`JsonMissing`](dinari-java-core/src/main/kotlin/com/dinari/api/core/Values.kt):
 
 ```java
-import com.dinari.core.JsonMissing;
-import com.dinari.models.v2.marketdata.stocks.StockListParams;
-import com.dinari.models.v2.marketdata.stocks.StockRetrieveDividendsParams;
+import com.dinari.api.core.JsonMissing;
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsParams;
 
 StockListParams params = StockRetrieveDividendsParams.builder()
     .stockId(JsonMissing.of())
@@ -547,7 +547,7 @@ StockListParams params = StockRetrieveDividendsParams.builder()
 To access undocumented response properties, call the `_additionalProperties()` method:
 
 ```java
-import com.dinari.core.JsonValue;
+import com.dinari.api.core.JsonValue;
 import java.util.Map;
 
 Map<String, JsonValue> additionalProperties = client.v2().marketData().retrieveMarketHours(params)._additionalProperties();
@@ -577,7 +577,7 @@ String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
 To access a property's raw JSON value, which may be undocumented, call its `_` prefixed method:
 
 ```java
-import com.dinari.core.JsonField;
+import com.dinari.api.core.JsonField;
 import java.util.Optional;
 
 JsonField<Object> field = client.v2().marketData().retrieveMarketHours(params)._field();
@@ -600,12 +600,12 @@ if (field.isMissing()) {
 
 In rare cases, the API may return a response that doesn't match the expected type. For example, the SDK may expect a property to contain a `String`, but the API could return something else.
 
-By default, the SDK will not throw an exception in this case. It will throw [`DinariInvalidDataException`](dinari-java-core/src/main/kotlin/com/dinari/errors/DinariInvalidDataException.kt) only if you directly access the property.
+By default, the SDK will not throw an exception in this case. It will throw [`DinariInvalidDataException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/DinariInvalidDataException.kt) only if you directly access the property.
 
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.dinari.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse;
+import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse;
 
 MarketDataRetrieveMarketHoursResponse response = client.v2().marketData().retrieveMarketHours(params).validate();
 ```
@@ -613,7 +613,7 @@ MarketDataRetrieveMarketHoursResponse response = client.v2().marketData().retrie
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
-import com.dinari.models.v2.marketdata.stocks.StockListResponse;
+import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
 List<StockListResponse> stocks = client.v2().marketData().stocks().list(RequestOptions.builder().responseValidation(true).build());
 ```
@@ -621,8 +621,8 @@ List<StockListResponse> stocks = client.v2().marketData().stocks().list(RequestO
 Or configure the default for all method calls at the client level:
 
 ```java
-import com.dinari.client.DinariClient;
-import com.dinari.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
     .fromEnv()
