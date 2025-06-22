@@ -10,11 +10,6 @@ repositories {
     mavenCentral()
 }
 
-configure<JavaPluginExtension> {
-    withJavadocJar()
-    withSourcesJar()
-}
-
 configure<SpotlessExtension> {
     java {
         importOrder()
@@ -26,7 +21,7 @@ configure<SpotlessExtension> {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
+        languageVersion.set(JavaLanguageVersion.of(21))
     }
 
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -36,10 +31,6 @@ java {
 tasks.withType<JavaCompile>().configureEach {
     options.compilerArgs.add("-Werror")
     options.release.set(8)
-}
-
-tasks.named<Jar>("javadocJar") {
-    setZip64(true)
 }
 
 tasks.named<Jar>("jar") {

@@ -9,6 +9,8 @@ import com.dinari.api.core.http.QueryParams
 import com.dinari.api.core.http.RetryingHttpClient
 import com.fasterxml.jackson.databind.json.JsonMapper
 import java.time.Clock
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class ClientOptions
 private constructor(
@@ -17,13 +19,14 @@ private constructor(
     @get:JvmName("checkJacksonVersionCompatibility") val checkJacksonVersionCompatibility: Boolean,
     @get:JvmName("jsonMapper") val jsonMapper: JsonMapper,
     @get:JvmName("clock") val clock: Clock,
-    @get:JvmName("baseUrl") val baseUrl: String,
+    private val baseUrl: String?,
     @get:JvmName("headers") val headers: Headers,
     @get:JvmName("queryParams") val queryParams: QueryParams,
     @get:JvmName("responseValidation") val responseValidation: Boolean,
     @get:JvmName("timeout") val timeout: Timeout,
     @get:JvmName("maxRetries") val maxRetries: Int,
-    @get:JvmName("apiKey") val apiKey: String,
+    @get:JvmName("apiKeyId") val apiKeyId: String,
+    @get:JvmName("apiSecretKey") val apiSecretKey: String,
 ) {
 
     init {
@@ -32,11 +35,15 @@ private constructor(
         }
     }
 
+    fun baseUrl(): String = baseUrl ?: PRODUCTION_URL
+
     fun toBuilder() = Builder().from(this)
 
     companion object {
 
         const val PRODUCTION_URL = "https://api-enterprise.sbt.dinari.com"
+
+        const val SANDBOX_URL = "https://api-enterprise.sandbox.dinari.com"
 
         /**
          * Returns a mutable builder for constructing an instance of [ClientOptions].
@@ -44,7 +51,8 @@ private constructor(
          * The following fields are required:
          * ```java
          * .httpClient()
-         * .apiKey()
+         * .apiKeyId()
+         * .apiSecretKey()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -59,13 +67,14 @@ private constructor(
         private var checkJacksonVersionCompatibility: Boolean = true
         private var jsonMapper: JsonMapper = jsonMapper()
         private var clock: Clock = Clock.systemUTC()
-        private var baseUrl: String = PRODUCTION_URL
+        private var baseUrl: String? = null
         private var headers: Headers.Builder = Headers.builder()
         private var queryParams: QueryParams.Builder = QueryParams.builder()
         private var responseValidation: Boolean = false
         private var timeout: Timeout = Timeout.default()
         private var maxRetries: Int = 2
-        private var apiKey: String? = null
+        private var apiKeyId: String? = null
+        private var apiSecretKey: String? = null
 
         @JvmSynthetic
         internal fun from(clientOptions: ClientOptions) = apply {
@@ -79,7 +88,8 @@ private constructor(
             responseValidation = clientOptions.responseValidation
             timeout = clientOptions.timeout
             maxRetries = clientOptions.maxRetries
-            apiKey = clientOptions.apiKey
+            apiKeyId = clientOptions.apiKeyId
+            apiSecretKey = clientOptions.apiSecretKey
         }
 
         fun httpClient(httpClient: HttpClient) = apply { this.httpClient = httpClient }
@@ -92,7 +102,10 @@ private constructor(
 
         fun clock(clock: Clock) = apply { this.clock = clock }
 
-        fun baseUrl(baseUrl: String) = apply { this.baseUrl = baseUrl }
+        fun baseUrl(baseUrl: String?) = apply { this.baseUrl = baseUrl }
+
+        /** Alias for calling [Builder.baseUrl] with `baseUrl.orElse(null)`. */
+        fun baseUrl(baseUrl: Optional<String>) = baseUrl(baseUrl.getOrNull())
 
         fun responseValidation(responseValidation: Boolean) = apply {
             this.responseValidation = responseValidation
@@ -102,7 +115,9 @@ private constructor(
 
         fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
 
-        fun apiKey(apiKey: String) = apply { this.apiKey = apiKey }
+        fun apiKeyId(apiKeyId: String) = apply { this.apiKeyId = apiKeyId }
+
+        fun apiSecretKey(apiSecretKey: String) = apply { this.apiSecretKey = apiSecretKey }
 
         fun headers(headers: Headers) = apply {
             this.headers.clear()
@@ -184,11 +199,10 @@ private constructor(
 
         fun removeAllQueryParams(keys: Set<String>) = apply { queryParams.removeAll(keys) }
 
-        fun baseUrl(): String = baseUrl
-
         fun fromEnv() = apply {
             System.getenv("DINARI_BASE_URL")?.let { baseUrl(it) }
-            System.getenv("DINARI_API_KEY")?.let { apiKey(it) }
+            System.getenv("DINARI_API_KEY_ID")?.let { apiKeyId(it) }
+            System.getenv("DINARI_API_SECRET_KEY")?.let { apiSecretKey(it) }
         }
 
         /**
@@ -199,14 +213,16 @@ private constructor(
          * The following fields are required:
          * ```java
          * .httpClient()
-         * .apiKey()
+         * .apiKeyId()
+         * .apiSecretKey()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
          */
         fun build(): ClientOptions {
             val httpClient = checkRequired("httpClient", httpClient)
-            val apiKey = checkRequired("apiKey", apiKey)
+            val apiKeyId = checkRequired("apiKeyId", apiKeyId)
+            val apiSecretKey = checkRequired("apiSecretKey", apiSecretKey)
 
             val headers = Headers.builder()
             val queryParams = QueryParams.builder()
@@ -217,9 +233,14 @@ private constructor(
             headers.put("X-Stainless-Package-Version", getPackageVersion())
             headers.put("X-Stainless-Runtime", "JRE")
             headers.put("X-Stainless-Runtime-Version", getJavaVersion())
-            apiKey.let {
+            apiKeyId.let {
                 if (!it.isEmpty()) {
-                    headers.put("Authorization", "Bearer $it")
+                    headers.put("X-API-Key-Id", it)
+                }
+            }
+            apiSecretKey.let {
+                if (!it.isEmpty()) {
+                    headers.put("X-API-Secret-Key", it)
                 }
             }
             headers.replaceAll(this.headers.build())
@@ -243,7 +264,8 @@ private constructor(
                 responseValidation,
                 timeout,
                 maxRetries,
-                apiKey,
+                apiKeyId,
+                apiSecretKey,
             )
         }
     }

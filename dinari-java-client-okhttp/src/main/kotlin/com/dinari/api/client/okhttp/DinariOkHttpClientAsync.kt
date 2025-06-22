@@ -30,6 +30,8 @@ class DinariOkHttpClientAsync private constructor() {
         private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
 
+        fun sandbox() = apply { baseUrl(ClientOptions.SANDBOX_URL) }
+
         fun baseUrl(baseUrl: String) = apply { clientOptions.baseUrl(baseUrl) }
 
         /**
@@ -149,7 +151,9 @@ class DinariOkHttpClientAsync private constructor() {
             clientOptions.responseValidation(responseValidation)
         }
 
-        fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
+        fun apiKeyId(apiKeyId: String) = apply { clientOptions.apiKeyId(apiKeyId) }
+
+        fun apiSecretKey(apiSecretKey: String) = apply { clientOptions.apiSecretKey(apiSecretKey) }
 
         fun fromEnv() = apply { clientOptions.fromEnv() }
 
@@ -161,13 +165,7 @@ class DinariOkHttpClientAsync private constructor() {
         fun build(): DinariClientAsync =
             DinariClientAsyncImpl(
                 clientOptions
-                    .httpClient(
-                        OkHttpClient.builder()
-                            .baseUrl(clientOptions.baseUrl())
-                            .timeout(timeout)
-                            .proxy(proxy)
-                            .build()
-                    )
+                    .httpClient(OkHttpClient.builder().timeout(timeout).proxy(proxy).build())
                     .build()
             )
     }

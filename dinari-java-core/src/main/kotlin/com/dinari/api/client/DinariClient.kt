@@ -2,7 +2,9 @@
 
 package com.dinari.api.client
 
-import com.dinari.api.services.blocking.ApiService
+import com.dinari.api.core.ClientOptions
+import com.dinari.api.services.blocking.V2Service
+import java.util.function.Consumer
 
 /**
  * A client for interacting with the Dinari REST API synchronously. You can also switch to
@@ -33,7 +35,14 @@ interface DinariClient {
      */
     fun withRawResponse(): WithRawResponse
 
-    fun api(): ApiService
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): DinariClient
+
+    fun v2(): V2Service
 
     /**
      * Closes this client, relinquishing any underlying resources.
@@ -51,6 +60,13 @@ interface DinariClient {
     /** A view of [DinariClient] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
-        fun api(): ApiService.WithRawResponse
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): DinariClient.WithRawResponse
+
+        fun v2(): V2Service.WithRawResponse
     }
 }

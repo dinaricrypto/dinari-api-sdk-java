@@ -16,6 +16,7 @@ import com.dinari.api.errors.RateLimitException
 import com.dinari.api.errors.UnauthorizedException
 import com.dinari.api.errors.UnexpectedStatusCodeException
 import com.dinari.api.errors.UnprocessableEntityException
+import com.dinari.api.models.v2.marketdata.stocks.StockListParams
 import com.github.tomakehurst.wiremock.client.WireMock.anyUrl
 import com.github.tomakehurst.wiremock.client.WireMock.get
 import com.github.tomakehurst.wiremock.client.WireMock.status
@@ -54,14 +55,15 @@ internal class ErrorHandlingTest {
         client =
             DinariOkHttpClient.builder()
                 .baseUrl(wmRuntimeInfo.httpBaseUrl)
-                .apiKey("My API Key")
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
                 .build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth400() {
-        val v2Service = client.api().v2()
+    fun stocksList400() {
+        val stockService = client.v2().marketData().stocks()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -69,7 +71,12 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<BadRequestException> { v2Service.getHealth() }
+        val e =
+            assertThrows<BadRequestException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(400)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -78,8 +85,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth401() {
-        val v2Service = client.api().v2()
+    fun stocksList401() {
+        val stockService = client.v2().marketData().stocks()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -87,7 +94,12 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnauthorizedException> { v2Service.getHealth() }
+        val e =
+            assertThrows<UnauthorizedException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(401)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -96,8 +108,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth403() {
-        val v2Service = client.api().v2()
+    fun stocksList403() {
+        val stockService = client.v2().marketData().stocks()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -105,7 +117,12 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<PermissionDeniedException> { v2Service.getHealth() }
+        val e =
+            assertThrows<PermissionDeniedException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(403)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -114,8 +131,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth404() {
-        val v2Service = client.api().v2()
+    fun stocksList404() {
+        val stockService = client.v2().marketData().stocks()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -123,7 +140,12 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<NotFoundException> { v2Service.getHealth() }
+        val e =
+            assertThrows<NotFoundException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(404)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -132,8 +154,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth422() {
-        val v2Service = client.api().v2()
+    fun stocksList422() {
+        val stockService = client.v2().marketData().stocks()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -141,7 +163,12 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnprocessableEntityException> { v2Service.getHealth() }
+        val e =
+            assertThrows<UnprocessableEntityException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(422)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -150,8 +177,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth429() {
-        val v2Service = client.api().v2()
+    fun stocksList429() {
+        val stockService = client.v2().marketData().stocks()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -159,7 +186,12 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<RateLimitException> { v2Service.getHealth() }
+        val e =
+            assertThrows<RateLimitException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(429)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -168,8 +200,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth500() {
-        val v2Service = client.api().v2()
+    fun stocksList500() {
+        val stockService = client.v2().marketData().stocks()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -177,7 +209,12 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<InternalServerException> { v2Service.getHealth() }
+        val e =
+            assertThrows<InternalServerException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(500)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -186,8 +223,8 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealth999() {
-        val v2Service = client.api().v2()
+    fun stocksList999() {
+        val stockService = client.v2().marketData().stocks()
         stubFor(
             get(anyUrl())
                 .willReturn(
@@ -195,7 +232,12 @@ internal class ErrorHandlingTest {
                 )
         )
 
-        val e = assertThrows<UnexpectedStatusCodeException> { v2Service.getHealth() }
+        val e =
+            assertThrows<UnexpectedStatusCodeException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
 
         assertThat(e.statusCode()).isEqualTo(999)
         assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
@@ -204,14 +246,19 @@ internal class ErrorHandlingTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun v2GetHealthInvalidJsonBody() {
-        val v2Service = client.api().v2()
+    fun stocksListInvalidJsonBody() {
+        val stockService = client.v2().marketData().stocks()
         stubFor(
             get(anyUrl())
                 .willReturn(status(200).withHeader(HEADER_NAME, HEADER_VALUE).withBody(NOT_JSON))
         )
 
-        val e = assertThrows<DinariException> { v2Service.getHealth() }
+        val e =
+            assertThrows<DinariException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
 
         assertThat(e).hasMessage("Error reading response")
     }

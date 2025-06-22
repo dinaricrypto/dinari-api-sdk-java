@@ -1,60 +1,54 @@
+import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.KotlinJvm
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
-    `maven-publish`
-    signing
+    id("com.vanniktech.maven.publish")
 }
 
-configure<PublishingExtension> {
-    publications {
-        register<MavenPublication>("maven") {
-            from(components["java"])
+repositories {
+    gradlePluginPortal()
+    mavenCentral()
+}
 
-            pom {
-                name.set("Dinari API [Enterprise]")
-                description.set("An SDK library for dinari")
+extra["signingInMemoryKey"] = System.getenv("GPG_SIGNING_KEY")
+extra["signingInMemoryKeyId"] = System.getenv("GPG_SIGNING_KEY_ID")
+extra["signingInMemoryKeyPassword"] = System.getenv("GPG_SIGNING_PASSWORD")
 
-                licenses {
-                    license {
-                        name.set("Apache-2.0")
-                    }
-                }
+configure<MavenPublishBaseExtension> {
+    signAllPublications()
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
 
-                developers {
-                    developer {
-                        name.set("Dinari")
-                        email.set("hello@dinari.com")
-                    }
-                }
+    coordinates(project.group.toString(), project.name, project.version.toString())
+    configure(
+        KotlinJvm(
+            javadocJar = JavadocJar.Dokka("dokkaJavadoc"),
+            sourcesJar = true,
+        )
+    )
 
-                scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/dinari-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/dinari-java.git")
-                    url.set("https://github.com/stainless-sdks/dinari-java")
-                }
+    pom {
+        name.set("Dinari Enterprise API")
+        description.set("**Dinari API for enterprise usage.**\n\nDinari's dShares let businesses offer tokenized access to stocks to their\ncustomers through an easy-to-use API. Integrate Dinari's API and offer over a\nhundred stocks and ETFs to your customers.")
 
-                versionMapping {
-                    allVariants {
-                        fromResolutionResult()
-                    }
-                }
+        licenses {
+            license {
+                name.set("Apache-2.0")
             }
         }
-    }
-}
 
-signing {
-    val signingKeyId = System.getenv("GPG_SIGNING_KEY_ID")?.ifBlank { null }
-    val signingKey = System.getenv("GPG_SIGNING_KEY")?.ifBlank { null }
-    val signingPassword = System.getenv("GPG_SIGNING_PASSWORD")?.ifBlank { null }
-    if (signingKey != null && signingPassword != null) {
-        useInMemoryPgpKeys(
-            signingKeyId,
-            signingKey,
-            signingPassword,
-        )
-        sign(publishing.publications["maven"])
-    }
-}
+        developers {
+            developer {
+                name.set("Dinari")
+                email.set("hello@dinari.com")
+            }
+        }
 
-tasks.named("publish") {
-    dependsOn(":closeAndReleaseSonatypeStagingRepository")
+        scm {
+            connection.set("scm:git:git://github.com/dinaricrypto/dinari-api-sdk-java.git")
+            developerConnection.set("scm:git:git://github.com/dinaricrypto/dinari-api-sdk-java.git")
+            url.set("https://github.com/dinaricrypto/dinari-api-sdk-java")
+        }
+    }
 }
