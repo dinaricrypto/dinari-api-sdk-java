@@ -20,7 +20,7 @@ internal class Eip155GetFeeQuoteResponseTest {
                 .fee(0.0)
                 .orderFeeContractObject(
                     Eip155GetFeeQuoteResponse.OrderFeeContractObject.builder()
-                        .chainId(0L)
+                        .chainId(Eip155GetFeeQuoteResponse.OrderFeeContractObject.ChainId._42161)
                         .feeQuote(
                             Eip155GetFeeQuoteResponse.OrderFeeContractObject.FeeQuote.builder()
                                 .deadline(0L)
@@ -51,7 +51,7 @@ internal class Eip155GetFeeQuoteResponseTest {
         assertThat(eip155GetFeeQuoteResponse.orderFeeContractObject())
             .isEqualTo(
                 Eip155GetFeeQuoteResponse.OrderFeeContractObject.builder()
-                    .chainId(0L)
+                    .chainId(Eip155GetFeeQuoteResponse.OrderFeeContractObject.ChainId._42161)
                     .feeQuote(
                         Eip155GetFeeQuoteResponse.OrderFeeContractObject.FeeQuote.builder()
                             .deadline(0L)
@@ -87,7 +87,7 @@ internal class Eip155GetFeeQuoteResponseTest {
                 .fee(0.0)
                 .orderFeeContractObject(
                     Eip155GetFeeQuoteResponse.OrderFeeContractObject.builder()
-                        .chainId(0L)
+                        .chainId(Eip155GetFeeQuoteResponse.OrderFeeContractObject.ChainId._42161)
                         .feeQuote(
                             Eip155GetFeeQuoteResponse.OrderFeeContractObject.FeeQuote.builder()
                                 .deadline(0L)

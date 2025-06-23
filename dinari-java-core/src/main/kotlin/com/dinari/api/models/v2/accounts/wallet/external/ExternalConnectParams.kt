@@ -2,6 +2,7 @@
 
 package com.dinari.api.models.v2.accounts.wallet.external
 
+import com.dinari.api.core.Enum
 import com.dinari.api.core.ExcludeMissing
 import com.dinari.api.core.JsonField
 import com.dinari.api.core.JsonMissing
@@ -11,7 +12,6 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import com.dinari.api.errors.DinariInvalidDataException
-import com.dinari.api.models.v2.accounts.Chain
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -33,12 +33,13 @@ private constructor(
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /**
-     * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on.
+     * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used for
+     * EOA wallets
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun chainId(): Chain = body.chainId()
+    fun chainId(): ChainId = body.chainId()
 
     /**
      * Nonce contained within the connection message.
@@ -69,7 +70,7 @@ private constructor(
      *
      * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _chainId(): JsonField<Chain> = body._chainId()
+    fun _chainId(): JsonField<ChainId> = body._chainId()
 
     /**
      * Returns the raw JSON value of [nonce].
@@ -149,16 +150,19 @@ private constructor(
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
-        /** CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. */
-        fun chainId(chainId: Chain) = apply { body.chainId(chainId) }
+        /**
+         * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used
+         * for EOA wallets
+         */
+        fun chainId(chainId: ChainId) = apply { body.chainId(chainId) }
 
         /**
          * Sets [Builder.chainId] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.chainId] with a well-typed [Chain] value instead. This
+         * You should usually call [Builder.chainId] with a well-typed [ChainId] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun chainId(chainId: JsonField<Chain>) = apply { body.chainId(chainId) }
+        fun chainId(chainId: JsonField<ChainId>) = apply { body.chainId(chainId) }
 
         /** Nonce contained within the connection message. */
         fun nonce(nonce: String) = apply { body.nonce(nonce) }
@@ -353,7 +357,7 @@ private constructor(
     /** Input parameters for connecting an `Account` to a `Wallet` owned by the `Entity`. */
     class Body
     private constructor(
-        private val chainId: JsonField<Chain>,
+        private val chainId: JsonField<ChainId>,
         private val nonce: JsonField<String>,
         private val signature: JsonField<String>,
         private val walletAddress: JsonField<String>,
@@ -362,7 +366,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("chain_id") @ExcludeMissing chainId: JsonField<Chain> = JsonMissing.of(),
+            @JsonProperty("chain_id")
+            @ExcludeMissing
+            chainId: JsonField<ChainId> = JsonMissing.of(),
             @JsonProperty("nonce") @ExcludeMissing nonce: JsonField<String> = JsonMissing.of(),
             @JsonProperty("signature")
             @ExcludeMissing
@@ -373,12 +379,13 @@ private constructor(
         ) : this(chainId, nonce, signature, walletAddress, mutableMapOf())
 
         /**
-         * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on.
+         * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used
+         * for EOA wallets
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun chainId(): Chain = chainId.getRequired("chain_id")
+        fun chainId(): ChainId = chainId.getRequired("chain_id")
 
         /**
          * Nonce contained within the connection message.
@@ -409,7 +416,7 @@ private constructor(
          *
          * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("chain_id") @ExcludeMissing fun _chainId(): JsonField<Chain> = chainId
+        @JsonProperty("chain_id") @ExcludeMissing fun _chainId(): JsonField<ChainId> = chainId
 
         /**
          * Returns the raw JSON value of [nonce].
@@ -466,7 +473,7 @@ private constructor(
         /** A builder for [Body]. */
         class Builder internal constructor() {
 
-            private var chainId: JsonField<Chain>? = null
+            private var chainId: JsonField<ChainId>? = null
             private var nonce: JsonField<String>? = null
             private var signature: JsonField<String>? = null
             private var walletAddress: JsonField<String>? = null
@@ -481,17 +488,20 @@ private constructor(
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
-            /** CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. */
-            fun chainId(chainId: Chain) = chainId(JsonField.of(chainId))
+            /**
+             * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is
+             * used for EOA wallets
+             */
+            fun chainId(chainId: ChainId) = chainId(JsonField.of(chainId))
 
             /**
              * Sets [Builder.chainId] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.chainId] with a well-typed [Chain] value instead.
+             * You should usually call [Builder.chainId] with a well-typed [ChainId] value instead.
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun chainId(chainId: JsonField<Chain>) = apply { this.chainId = chainId }
+            fun chainId(chainId: JsonField<ChainId>) = apply { this.chainId = chainId }
 
             /** Nonce contained within the connection message. */
             fun nonce(nonce: String) = nonce(JsonField.of(nonce))
@@ -626,6 +636,165 @@ private constructor(
 
         override fun toString() =
             "Body{chainId=$chainId, nonce=$nonce, signature=$signature, walletAddress=$walletAddress, additionalProperties=$additionalProperties}"
+    }
+
+    /**
+     * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used for
+     * EOA wallets
+     */
+    class ChainId @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val EIP155_1 = of("eip155:1")
+
+            @JvmField val EIP155_42161 = of("eip155:42161")
+
+            @JvmField val EIP155_8453 = of("eip155:8453")
+
+            @JvmField val EIP155_81457 = of("eip155:81457")
+
+            @JvmField val EIP155_7887 = of("eip155:7887")
+
+            @JvmField val EIP155_98866 = of("eip155:98866")
+
+            @JvmField val EIP155_0 = of("eip155:0")
+
+            @JvmStatic fun of(value: String) = ChainId(JsonField.of(value))
+        }
+
+        /** An enum containing [ChainId]'s known values. */
+        enum class Known {
+            EIP155_1,
+            EIP155_42161,
+            EIP155_8453,
+            EIP155_81457,
+            EIP155_7887,
+            EIP155_98866,
+            EIP155_0,
+        }
+
+        /**
+         * An enum containing [ChainId]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [ChainId] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            EIP155_1,
+            EIP155_42161,
+            EIP155_8453,
+            EIP155_81457,
+            EIP155_7887,
+            EIP155_98866,
+            EIP155_0,
+            /** An enum member indicating that [ChainId] was instantiated with an unknown value. */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                EIP155_1 -> Value.EIP155_1
+                EIP155_42161 -> Value.EIP155_42161
+                EIP155_8453 -> Value.EIP155_8453
+                EIP155_81457 -> Value.EIP155_81457
+                EIP155_7887 -> Value.EIP155_7887
+                EIP155_98866 -> Value.EIP155_98866
+                EIP155_0 -> Value.EIP155_0
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws DinariInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                EIP155_1 -> Known.EIP155_1
+                EIP155_42161 -> Known.EIP155_42161
+                EIP155_8453 -> Known.EIP155_8453
+                EIP155_81457 -> Known.EIP155_81457
+                EIP155_7887 -> Known.EIP155_7887
+                EIP155_98866 -> Known.EIP155_98866
+                EIP155_0 -> Known.EIP155_0
+                else -> throw DinariInvalidDataException("Unknown ChainId: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws DinariInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow { DinariInvalidDataException("Value is not a String") }
+
+        private var validated: Boolean = false
+
+        fun validate(): ChainId = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: DinariInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return /* spotless:off */ other is ChainId && value == other.value /* spotless:on */
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
     }
 
     override fun equals(other: Any?): Boolean {

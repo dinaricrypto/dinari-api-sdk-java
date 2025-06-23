@@ -6,7 +6,9 @@ import com.dinari.api.core.ExcludeMissing
 import com.dinari.api.core.JsonField
 import com.dinari.api.core.JsonMissing
 import com.dinari.api.core.JsonValue
+import com.dinari.api.core.checkKnown
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.toImmutable
 import com.dinari.api.errors.DinariInvalidDataException
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
@@ -25,6 +27,7 @@ private constructor(
     private val isTradable: JsonField<Boolean>,
     private val name: JsonField<String>,
     private val symbol: JsonField<String>,
+    private val tokens: JsonField<List<String>>,
     private val cik: JsonField<String>,
     private val compositeFigi: JsonField<String>,
     private val cusip: JsonField<String>,
@@ -45,6 +48,7 @@ private constructor(
         isTradable: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
         @JsonProperty("symbol") @ExcludeMissing symbol: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("tokens") @ExcludeMissing tokens: JsonField<List<String>> = JsonMissing.of(),
         @JsonProperty("cik") @ExcludeMissing cik: JsonField<String> = JsonMissing.of(),
         @JsonProperty("composite_figi")
         @ExcludeMissing
@@ -63,6 +67,7 @@ private constructor(
         isTradable,
         name,
         symbol,
+        tokens,
         cik,
         compositeFigi,
         cusip,
@@ -112,6 +117,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun symbol(): String = symbol.getRequired("symbol")
+
+    /**
+     * List of CAIP-10 formatted token addresses.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun tokens(): List<String> = tokens.getRequired("tokens")
 
     /**
      * SEC Central Index Key. Refer to
@@ -203,6 +216,13 @@ private constructor(
     @JsonProperty("symbol") @ExcludeMissing fun _symbol(): JsonField<String> = symbol
 
     /**
+     * Returns the raw JSON value of [tokens].
+     *
+     * Unlike [tokens], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("tokens") @ExcludeMissing fun _tokens(): JsonField<List<String>> = tokens
+
+    /**
      * Returns the raw JSON value of [cik].
      *
      * Unlike [cik], this method doesn't throw if the JSON field has an unexpected type.
@@ -272,6 +292,7 @@ private constructor(
          * .isTradable()
          * .name()
          * .symbol()
+         * .tokens()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -285,6 +306,7 @@ private constructor(
         private var isTradable: JsonField<Boolean>? = null
         private var name: JsonField<String>? = null
         private var symbol: JsonField<String>? = null
+        private var tokens: JsonField<MutableList<String>>? = null
         private var cik: JsonField<String> = JsonMissing.of()
         private var compositeFigi: JsonField<String> = JsonMissing.of()
         private var cusip: JsonField<String> = JsonMissing.of()
@@ -300,6 +322,7 @@ private constructor(
             isTradable = stockListResponse.isTradable
             name = stockListResponse.name
             symbol = stockListResponse.symbol
+            tokens = stockListResponse.tokens.map { it.toMutableList() }
             cik = stockListResponse.cik
             compositeFigi = stockListResponse.compositeFigi
             cusip = stockListResponse.cusip
@@ -370,6 +393,32 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun symbol(symbol: JsonField<String>) = apply { this.symbol = symbol }
+
+        /** List of CAIP-10 formatted token addresses. */
+        fun tokens(tokens: List<String>) = tokens(JsonField.of(tokens))
+
+        /**
+         * Sets [Builder.tokens] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tokens] with a well-typed `List<String>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun tokens(tokens: JsonField<List<String>>) = apply {
+            this.tokens = tokens.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [String] to [tokens].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addToken(token: String) = apply {
+            tokens =
+                (tokens ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("tokens", it).add(token)
+                }
+        }
 
         /**
          * SEC Central Index Key. Refer to
@@ -506,6 +555,7 @@ private constructor(
          * .isTradable()
          * .name()
          * .symbol()
+         * .tokens()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -517,6 +567,7 @@ private constructor(
                 checkRequired("isTradable", isTradable),
                 checkRequired("name", name),
                 checkRequired("symbol", symbol),
+                checkRequired("tokens", tokens).map { it.toImmutable() },
                 cik,
                 compositeFigi,
                 cusip,
@@ -539,6 +590,7 @@ private constructor(
         isTradable()
         name()
         symbol()
+        tokens()
         cik()
         compositeFigi()
         cusip()
@@ -568,6 +620,7 @@ private constructor(
             (if (isTradable.asKnown().isPresent) 1 else 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
             (if (symbol.asKnown().isPresent) 1 else 0) +
+            (tokens.asKnown().getOrNull()?.size ?: 0) +
             (if (cik.asKnown().isPresent) 1 else 0) +
             (if (compositeFigi.asKnown().isPresent) 1 else 0) +
             (if (cusip.asKnown().isPresent) 1 else 0) +
@@ -580,15 +633,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockListResponse && id == other.id && isFractionable == other.isFractionable && isTradable == other.isTradable && name == other.name && symbol == other.symbol && cik == other.cik && compositeFigi == other.compositeFigi && cusip == other.cusip && description == other.description && displayName == other.displayName && logoUrl == other.logoUrl && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is StockListResponse && id == other.id && isFractionable == other.isFractionable && isTradable == other.isTradable && name == other.name && symbol == other.symbol && tokens == other.tokens && cik == other.cik && compositeFigi == other.compositeFigi && cusip == other.cusip && description == other.description && displayName == other.displayName && logoUrl == other.logoUrl && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, isFractionable, isTradable, name, symbol, cik, compositeFigi, cusip, description, displayName, logoUrl, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(id, isFractionable, isTradable, name, symbol, tokens, cik, compositeFigi, cusip, description, displayName, logoUrl, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "StockListResponse{id=$id, isFractionable=$isFractionable, isTradable=$isTradable, name=$name, symbol=$symbol, cik=$cik, compositeFigi=$compositeFigi, cusip=$cusip, description=$description, displayName=$displayName, logoUrl=$logoUrl, additionalProperties=$additionalProperties}"
+        "StockListResponse{id=$id, isFractionable=$isFractionable, isTradable=$isTradable, name=$name, symbol=$symbol, tokens=$tokens, cik=$cik, compositeFigi=$compositeFigi, cusip=$cusip, description=$description, displayName=$displayName, logoUrl=$logoUrl, additionalProperties=$additionalProperties}"
 }

@@ -251,7 +251,7 @@ private constructor(
      */
     class OrderFeeContractObject
     private constructor(
-        private val chainId: JsonField<Long>,
+        private val chainId: JsonField<ChainId>,
         private val feeQuote: JsonField<FeeQuote>,
         private val feeQuoteSignature: JsonField<String>,
         private val fees: JsonField<List<Fee>>,
@@ -261,7 +261,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("chain_id") @ExcludeMissing chainId: JsonField<Long> = JsonMissing.of(),
+            @JsonProperty("chain_id")
+            @ExcludeMissing
+            chainId: JsonField<ChainId> = JsonMissing.of(),
             @JsonProperty("fee_quote")
             @ExcludeMissing
             feeQuote: JsonField<FeeQuote> = JsonMissing.of(),
@@ -275,12 +277,12 @@ private constructor(
         ) : this(chainId, feeQuote, feeQuoteSignature, fees, paymentToken, mutableMapOf())
 
         /**
-         * EVM chain ID where the order is placed
+         * EVM chain ID of the blockchain where the `Order` will be placed.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun chainId(): Long = chainId.getRequired("chain_id")
+        fun chainId(): ChainId = chainId.getRequired("chain_id")
 
         /**
          * `FeeQuote` structure to pass into contracts.
@@ -319,7 +321,7 @@ private constructor(
          *
          * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("chain_id") @ExcludeMissing fun _chainId(): JsonField<Long> = chainId
+        @JsonProperty("chain_id") @ExcludeMissing fun _chainId(): JsonField<ChainId> = chainId
 
         /**
          * Returns the raw JSON value of [feeQuote].
@@ -387,7 +389,7 @@ private constructor(
         /** A builder for [OrderFeeContractObject]. */
         class Builder internal constructor() {
 
-            private var chainId: JsonField<Long>? = null
+            private var chainId: JsonField<ChainId>? = null
             private var feeQuote: JsonField<FeeQuote>? = null
             private var feeQuoteSignature: JsonField<String>? = null
             private var fees: JsonField<MutableList<Fee>>? = null
@@ -404,17 +406,17 @@ private constructor(
                 additionalProperties = orderFeeContractObject.additionalProperties.toMutableMap()
             }
 
-            /** EVM chain ID where the order is placed */
-            fun chainId(chainId: Long) = chainId(JsonField.of(chainId))
+            /** EVM chain ID of the blockchain where the `Order` will be placed. */
+            fun chainId(chainId: ChainId) = chainId(JsonField.of(chainId))
 
             /**
              * Sets [Builder.chainId] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.chainId] with a well-typed [Long] value instead.
+             * You should usually call [Builder.chainId] with a well-typed [ChainId] value instead.
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun chainId(chainId: JsonField<Long>) = apply { this.chainId = chainId }
+            fun chainId(chainId: JsonField<ChainId>) = apply { this.chainId = chainId }
 
             /** `FeeQuote` structure to pass into contracts. */
             fun feeQuote(feeQuote: FeeQuote) = feeQuote(JsonField.of(feeQuote))
@@ -534,7 +536,7 @@ private constructor(
                 return@apply
             }
 
-            chainId()
+            chainId().validate()
             feeQuote().validate()
             feeQuoteSignature()
             fees().forEach { it.validate() }
@@ -558,11 +560,162 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (chainId.asKnown().isPresent) 1 else 0) +
+            (chainId.asKnown().getOrNull()?.validity() ?: 0) +
                 (feeQuote.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (feeQuoteSignature.asKnown().isPresent) 1 else 0) +
                 (fees.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (paymentToken.asKnown().isPresent) 1 else 0)
+
+        /** EVM chain ID of the blockchain where the `Order` will be placed. */
+        class ChainId @JsonCreator private constructor(private val value: JsonField<Long>) : Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<Long> = value
+
+            companion object {
+
+                @JvmField val _42161 = of(42161L)
+
+                @JvmField val _1 = of(1L)
+
+                @JvmField val _8453 = of(8453L)
+
+                @JvmField val _81457 = of(81457L)
+
+                @JvmField val _7887 = of(7887L)
+
+                @JvmField val _98866 = of(98866L)
+
+                @JvmStatic fun of(value: Long) = ChainId(JsonField.of(value))
+            }
+
+            /** An enum containing [ChainId]'s known values. */
+            enum class Known {
+                _42161,
+                _1,
+                _8453,
+                _81457,
+                _7887,
+                _98866,
+            }
+
+            /**
+             * An enum containing [ChainId]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [ChainId] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                _42161,
+                _1,
+                _8453,
+                _81457,
+                _7887,
+                _98866,
+                /**
+                 * An enum member indicating that [ChainId] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    _42161 -> Value._42161
+                    _1 -> Value._1
+                    _8453 -> Value._8453
+                    _81457 -> Value._81457
+                    _7887 -> Value._7887
+                    _98866 -> Value._98866
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws DinariInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    _42161 -> Known._42161
+                    _1 -> Known._1
+                    _8453 -> Known._8453
+                    _81457 -> Known._81457
+                    _7887 -> Known._7887
+                    _98866 -> Known._98866
+                    else -> throw DinariInvalidDataException("Unknown ChainId: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * @throws DinariInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asLong(): Long =
+                _value().asNumber().getOrNull()?.let {
+                    if (it.toDouble() % 1 == 0.0) it.toLong() else null
+                } ?: throw DinariInvalidDataException("Value is not a Long")
+
+            private var validated: Boolean = false
+
+            fun validate(): ChainId = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: DinariInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return /* spotless:off */ other is ChainId && value == other.value /* spotless:on */
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
 
         /** `FeeQuote` structure to pass into contracts. */
         class FeeQuote
