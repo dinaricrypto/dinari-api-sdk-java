@@ -14,6 +14,7 @@ internal class ExternalGetNonceParamsTest {
     fun create() {
         ExternalGetNonceParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .chainId(ExternalGetNonceParams.ChainId.EIP155_1)
             .walletAddress("wallet_address")
             .build()
     }
@@ -24,6 +25,7 @@ internal class ExternalGetNonceParamsTest {
         val params =
             ExternalGetNonceParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .chainId(ExternalGetNonceParams.ChainId.EIP155_1)
                 .walletAddress("wallet_address")
                 .build()
 
@@ -38,12 +40,18 @@ internal class ExternalGetNonceParamsTest {
         val params =
             ExternalGetNonceParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .chainId(ExternalGetNonceParams.ChainId.EIP155_1)
                 .walletAddress("wallet_address")
                 .build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("wallet_address", "wallet_address").build())
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("chain_id", "eip155:1")
+                    .put("wallet_address", "wallet_address")
+                    .build()
+            )
     }
 }

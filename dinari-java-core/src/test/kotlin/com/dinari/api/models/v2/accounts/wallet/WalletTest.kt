@@ -14,9 +14,15 @@ internal class WalletTest {
     @Test
     fun create() {
         val wallet =
-            Wallet.builder().address("address").isAmlFlagged(true).isManagedWallet(true).build()
+            Wallet.builder()
+                .address("address")
+                .chainId(Wallet.ChainId.EIP155_1)
+                .isAmlFlagged(true)
+                .isManagedWallet(true)
+                .build()
 
         assertThat(wallet.address()).isEqualTo("address")
+        assertThat(wallet.chainId()).isEqualTo(Wallet.ChainId.EIP155_1)
         assertThat(wallet.isAmlFlagged()).isEqualTo(true)
         assertThat(wallet.isManagedWallet()).isEqualTo(true)
     }
@@ -26,7 +32,12 @@ internal class WalletTest {
     fun roundtrip() {
         val jsonMapper = jsonMapper()
         val wallet =
-            Wallet.builder().address("address").isAmlFlagged(true).isManagedWallet(true).build()
+            Wallet.builder()
+                .address("address")
+                .chainId(Wallet.ChainId.EIP155_1)
+                .isAmlFlagged(true)
+                .isManagedWallet(true)
+                .build()
 
         val roundtrippedWallet =
             jsonMapper.readValue(jsonMapper.writeValueAsString(wallet), jacksonTypeRef<Wallet>())
