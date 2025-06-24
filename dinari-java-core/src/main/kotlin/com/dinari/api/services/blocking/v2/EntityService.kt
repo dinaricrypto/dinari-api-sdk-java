@@ -10,6 +10,7 @@ import com.dinari.api.models.v2.entities.EntityCreateParams
 import com.dinari.api.models.v2.entities.EntityListParams
 import com.dinari.api.models.v2.entities.EntityRetrieveByIdParams
 import com.dinari.api.models.v2.entities.EntityRetrieveCurrentParams
+import com.dinari.api.models.v2.entities.EntityUpdateParams
 import com.dinari.api.services.blocking.v2.entities.AccountService
 import com.dinari.api.services.blocking.v2.entities.KycService
 import com.google.errorprone.annotations.MustBeClosed
@@ -44,6 +45,33 @@ interface EntityService {
         params: EntityCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Entity
+
+    /** Update a specific customer `Entity` of your organization. */
+    fun update(entityId: String): Entity = update(entityId, EntityUpdateParams.none())
+
+    /** @see [update] */
+    fun update(
+        entityId: String,
+        params: EntityUpdateParams = EntityUpdateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Entity = update(params.toBuilder().entityId(entityId).build(), requestOptions)
+
+    /** @see [update] */
+    fun update(entityId: String, params: EntityUpdateParams = EntityUpdateParams.none()): Entity =
+        update(entityId, params, RequestOptions.none())
+
+    /** @see [update] */
+    fun update(
+        params: EntityUpdateParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Entity
+
+    /** @see [update] */
+    fun update(params: EntityUpdateParams): Entity = update(params, RequestOptions.none())
+
+    /** @see [update] */
+    fun update(entityId: String, requestOptions: RequestOptions): Entity =
+        update(entityId, EntityUpdateParams.none(), requestOptions)
 
     /**
      * Get a list of direct `Entities` your organization manages. These `Entities` represent
@@ -142,6 +170,47 @@ interface EntityService {
             params: EntityCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Entity>
+
+        /**
+         * Returns a raw HTTP response for `patch /api/v2/entities/{entity_id}`, but is otherwise
+         * the same as [EntityService.update].
+         */
+        @MustBeClosed
+        fun update(entityId: String): HttpResponseFor<Entity> =
+            update(entityId, EntityUpdateParams.none())
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            entityId: String,
+            params: EntityUpdateParams = EntityUpdateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Entity> =
+            update(params.toBuilder().entityId(entityId).build(), requestOptions)
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            entityId: String,
+            params: EntityUpdateParams = EntityUpdateParams.none(),
+        ): HttpResponseFor<Entity> = update(entityId, params, RequestOptions.none())
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(
+            params: EntityUpdateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Entity>
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(params: EntityUpdateParams): HttpResponseFor<Entity> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
+        @MustBeClosed
+        fun update(entityId: String, requestOptions: RequestOptions): HttpResponseFor<Entity> =
+            update(entityId, EntityUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/entities/`, but is otherwise the same as

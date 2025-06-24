@@ -21,6 +21,7 @@ import com.dinari.api.models.v2.entities.EntityCreateParams
 import com.dinari.api.models.v2.entities.EntityListParams
 import com.dinari.api.models.v2.entities.EntityRetrieveByIdParams
 import com.dinari.api.models.v2.entities.EntityRetrieveCurrentParams
+import com.dinari.api.models.v2.entities.EntityUpdateParams
 import com.dinari.api.services.async.v2.entities.AccountServiceAsync
 import com.dinari.api.services.async.v2.entities.AccountServiceAsyncImpl
 import com.dinari.api.services.async.v2.entities.KycServiceAsync
@@ -55,6 +56,13 @@ class EntityServiceAsyncImpl internal constructor(private val clientOptions: Cli
     ): CompletableFuture<Entity> =
         // post /api/v2/entities/
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
+
+    override fun update(
+        params: EntityUpdateParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<Entity> =
+        // patch /api/v2/entities/{entity_id}
+        withRawResponse().update(params, requestOptions).thenApply { it.parse() }
 
     override fun list(
         params: EntityListParams,
@@ -123,6 +131,40 @@ class EntityServiceAsyncImpl internal constructor(private val clientOptions: Cli
                     response.parseable {
                         response
                             .use { createHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val updateHandler: Handler<Entity> =
+            jsonHandler<Entity>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun update(
+            params: EntityUpdateParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Entity>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("entityId", params.entityId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.PATCH)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "entities", params._pathParam(0))
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { updateHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

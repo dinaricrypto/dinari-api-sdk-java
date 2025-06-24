@@ -13,9 +13,11 @@ import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
+import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.accounts.wallet.Wallet
+import com.dinari.api.models.v2.accounts.wallet.WalletConnectInternalParams
 import com.dinari.api.models.v2.accounts.wallet.WalletGetParams
 import com.dinari.api.services.blocking.v2.accounts.wallet.ExternalService
 import com.dinari.api.services.blocking.v2.accounts.wallet.ExternalServiceImpl
@@ -38,6 +40,13 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
 
     override fun external(): ExternalService = external
 
+    override fun connectInternal(
+        params: WalletConnectInternalParams,
+        requestOptions: RequestOptions,
+    ): Wallet =
+        // post /api/v2/accounts/{account_id}/wallet/internal
+        withRawResponse().connectInternal(params, requestOptions).parse()
+
     override fun get(params: WalletGetParams, requestOptions: RequestOptions): Wallet =
         // get /api/v2/accounts/{account_id}/wallet
         withRawResponse().get(params, requestOptions).parse()
@@ -59,6 +68,44 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
             )
 
         override fun external(): ExternalService.WithRawResponse = external
+
+        private val connectInternalHandler: Handler<Wallet> =
+            jsonHandler<Wallet>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+
+        override fun connectInternal(
+            params: WalletConnectInternalParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<Wallet> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "api",
+                        "v2",
+                        "accounts",
+                        params._pathParam(0),
+                        "wallet",
+                        "internal",
+                    )
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { connectInternalHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
 
         private val getHandler: Handler<Wallet> =
             jsonHandler<Wallet>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

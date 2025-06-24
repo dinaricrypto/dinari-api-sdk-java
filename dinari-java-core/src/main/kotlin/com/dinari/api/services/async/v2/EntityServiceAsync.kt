@@ -10,6 +10,7 @@ import com.dinari.api.models.v2.entities.EntityCreateParams
 import com.dinari.api.models.v2.entities.EntityListParams
 import com.dinari.api.models.v2.entities.EntityRetrieveByIdParams
 import com.dinari.api.models.v2.entities.EntityRetrieveCurrentParams
+import com.dinari.api.models.v2.entities.EntityUpdateParams
 import com.dinari.api.services.async.v2.entities.AccountServiceAsync
 import com.dinari.api.services.async.v2.entities.KycServiceAsync
 import java.util.concurrent.CompletableFuture
@@ -45,6 +46,38 @@ interface EntityServiceAsync {
         params: EntityCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Entity>
+
+    /** Update a specific customer `Entity` of your organization. */
+    fun update(entityId: String): CompletableFuture<Entity> =
+        update(entityId, EntityUpdateParams.none())
+
+    /** @see [update] */
+    fun update(
+        entityId: String,
+        params: EntityUpdateParams = EntityUpdateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Entity> =
+        update(params.toBuilder().entityId(entityId).build(), requestOptions)
+
+    /** @see [update] */
+    fun update(
+        entityId: String,
+        params: EntityUpdateParams = EntityUpdateParams.none(),
+    ): CompletableFuture<Entity> = update(entityId, params, RequestOptions.none())
+
+    /** @see [update] */
+    fun update(
+        params: EntityUpdateParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Entity>
+
+    /** @see [update] */
+    fun update(params: EntityUpdateParams): CompletableFuture<Entity> =
+        update(params, RequestOptions.none())
+
+    /** @see [update] */
+    fun update(entityId: String, requestOptions: RequestOptions): CompletableFuture<Entity> =
+        update(entityId, EntityUpdateParams.none(), requestOptions)
 
     /**
      * Get a list of direct `Entities` your organization manages. These `Entities` represent
@@ -147,6 +180,45 @@ interface EntityServiceAsync {
             params: EntityCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Entity>>
+
+        /**
+         * Returns a raw HTTP response for `patch /api/v2/entities/{entity_id}`, but is otherwise
+         * the same as [EntityServiceAsync.update].
+         */
+        fun update(entityId: String): CompletableFuture<HttpResponseFor<Entity>> =
+            update(entityId, EntityUpdateParams.none())
+
+        /** @see [update] */
+        fun update(
+            entityId: String,
+            params: EntityUpdateParams = EntityUpdateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Entity>> =
+            update(params.toBuilder().entityId(entityId).build(), requestOptions)
+
+        /** @see [update] */
+        fun update(
+            entityId: String,
+            params: EntityUpdateParams = EntityUpdateParams.none(),
+        ): CompletableFuture<HttpResponseFor<Entity>> =
+            update(entityId, params, RequestOptions.none())
+
+        /** @see [update] */
+        fun update(
+            params: EntityUpdateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Entity>>
+
+        /** @see [update] */
+        fun update(params: EntityUpdateParams): CompletableFuture<HttpResponseFor<Entity>> =
+            update(params, RequestOptions.none())
+
+        /** @see [update] */
+        fun update(
+            entityId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<Entity>> =
+            update(entityId, EntityUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/entities/`, but is otherwise the same as

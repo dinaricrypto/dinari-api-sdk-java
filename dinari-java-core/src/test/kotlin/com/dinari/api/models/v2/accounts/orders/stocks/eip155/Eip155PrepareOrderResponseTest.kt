@@ -17,10 +17,10 @@ internal class Eip155PrepareOrderResponseTest {
         val eip155PrepareOrderResponse =
             Eip155PrepareOrderResponse.builder()
                 .addFee(
-                    Eip155PrepareOrderResponse.Fee.builder()
+                    OrderFeeAmount.builder()
                         .feeInEth(0.0)
                         .feeInWei("fee_in_wei")
-                        .type(Eip155PrepareOrderResponse.Fee.Type.SPONSORED_NETWORK)
+                        .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                         .build()
                 )
                 .addTransactionData(
@@ -35,10 +35,10 @@ internal class Eip155PrepareOrderResponseTest {
 
         assertThat(eip155PrepareOrderResponse.fees())
             .containsExactly(
-                Eip155PrepareOrderResponse.Fee.builder()
+                OrderFeeAmount.builder()
                     .feeInEth(0.0)
                     .feeInWei("fee_in_wei")
-                    .type(Eip155PrepareOrderResponse.Fee.Type.SPONSORED_NETWORK)
+                    .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                     .build()
             )
         assertThat(eip155PrepareOrderResponse.transactionData())
@@ -59,10 +59,10 @@ internal class Eip155PrepareOrderResponseTest {
         val eip155PrepareOrderResponse =
             Eip155PrepareOrderResponse.builder()
                 .addFee(
-                    Eip155PrepareOrderResponse.Fee.builder()
+                    OrderFeeAmount.builder()
                         .feeInEth(0.0)
                         .feeInWei("fee_in_wei")
-                        .type(Eip155PrepareOrderResponse.Fee.Type.SPONSORED_NETWORK)
+                        .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                         .build()
                 )
                 .addTransactionData(

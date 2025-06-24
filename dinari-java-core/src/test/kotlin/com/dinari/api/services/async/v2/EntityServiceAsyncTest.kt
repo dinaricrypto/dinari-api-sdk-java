@@ -6,6 +6,7 @@ import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.entities.EntityCreateParams
 import com.dinari.api.models.v2.entities.EntityListParams
+import com.dinari.api.models.v2.entities.EntityUpdateParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -27,6 +28,29 @@ internal class EntityServiceAsyncTest {
         val entityFuture =
             entityServiceAsync.create(
                 EntityCreateParams.builder().name("x").referenceId("x").build()
+            )
+
+        val entity = entityFuture.get()
+        entity.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun update() {
+        val client =
+            DinariOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val entityServiceAsync = client.v2().entities()
+
+        val entityFuture =
+            entityServiceAsync.update(
+                EntityUpdateParams.builder()
+                    .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .referenceId("x")
+                    .build()
             )
 
         val entity = entityFuture.get()
