@@ -32,13 +32,10 @@ internal class Eip155GetFeeQuoteResponseTest {
                         )
                         .feeQuoteSignature("0xeaF12bD1DfFd")
                         .addFee(
-                            Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.builder()
+                            OrderFeeAmount.builder()
                                 .feeInEth(0.0)
                                 .feeInWei("fee_in_wei")
-                                .type(
-                                    Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.Type
-                                        .SPONSORED_NETWORK
-                                )
+                                .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                                 .build()
                         )
                         .paymentToken("payment_token")
@@ -63,13 +60,10 @@ internal class Eip155GetFeeQuoteResponseTest {
                     )
                     .feeQuoteSignature("0xeaF12bD1DfFd")
                     .addFee(
-                        Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.builder()
+                        OrderFeeAmount.builder()
                             .feeInEth(0.0)
                             .feeInWei("fee_in_wei")
-                            .type(
-                                Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.Type
-                                    .SPONSORED_NETWORK
-                            )
+                            .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                             .build()
                     )
                     .paymentToken("payment_token")
@@ -99,13 +93,10 @@ internal class Eip155GetFeeQuoteResponseTest {
                         )
                         .feeQuoteSignature("0xeaF12bD1DfFd")
                         .addFee(
-                            Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.builder()
+                            OrderFeeAmount.builder()
                                 .feeInEth(0.0)
                                 .feeInWei("fee_in_wei")
-                                .type(
-                                    Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.Type
-                                        .SPONSORED_NETWORK
-                                )
+                                .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                                 .build()
                         )
                         .paymentToken("payment_token")

@@ -4,6 +4,7 @@ package com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155
 
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.accounts.orders.stocks.eip155.OrderFeeAmount
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -20,14 +21,14 @@ internal class Eip155PrepareProxiedOrderResponseTest {
                 .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .deadline(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addFee(
-                    Eip155PrepareProxiedOrderResponse.Fee.builder()
+                    OrderFeeAmount.builder()
                         .feeInEth(0.0)
                         .feeInWei("fee_in_wei")
-                        .type(Eip155PrepareProxiedOrderResponse.Fee.Type.SPONSORED_NETWORK)
+                        .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                         .build()
                 )
                 .orderTypedData(
-                    Eip155PrepareProxiedOrderResponse.OrderTypedData.builder()
+                    EvmTypedData.builder()
                         .domain(JsonValue.from(mapOf<String, Any>()))
                         .message(JsonValue.from(mapOf<String, Any>()))
                         .primaryType("primaryType")
@@ -35,7 +36,7 @@ internal class Eip155PrepareProxiedOrderResponseTest {
                         .build()
                 )
                 .permitTypedData(
-                    Eip155PrepareProxiedOrderResponse.PermitTypedData.builder()
+                    EvmTypedData.builder()
                         .domain(JsonValue.from(mapOf<String, Any>()))
                         .message(JsonValue.from(mapOf<String, Any>()))
                         .primaryType("primaryType")
@@ -50,15 +51,15 @@ internal class Eip155PrepareProxiedOrderResponseTest {
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(eip155PrepareProxiedOrderResponse.fees())
             .containsExactly(
-                Eip155PrepareProxiedOrderResponse.Fee.builder()
+                OrderFeeAmount.builder()
                     .feeInEth(0.0)
                     .feeInWei("fee_in_wei")
-                    .type(Eip155PrepareProxiedOrderResponse.Fee.Type.SPONSORED_NETWORK)
+                    .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                     .build()
             )
         assertThat(eip155PrepareProxiedOrderResponse.orderTypedData())
             .isEqualTo(
-                Eip155PrepareProxiedOrderResponse.OrderTypedData.builder()
+                EvmTypedData.builder()
                     .domain(JsonValue.from(mapOf<String, Any>()))
                     .message(JsonValue.from(mapOf<String, Any>()))
                     .primaryType("primaryType")
@@ -67,7 +68,7 @@ internal class Eip155PrepareProxiedOrderResponseTest {
             )
         assertThat(eip155PrepareProxiedOrderResponse.permitTypedData())
             .isEqualTo(
-                Eip155PrepareProxiedOrderResponse.PermitTypedData.builder()
+                EvmTypedData.builder()
                     .domain(JsonValue.from(mapOf<String, Any>()))
                     .message(JsonValue.from(mapOf<String, Any>()))
                     .primaryType("primaryType")
@@ -85,14 +86,14 @@ internal class Eip155PrepareProxiedOrderResponseTest {
                 .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .deadline(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addFee(
-                    Eip155PrepareProxiedOrderResponse.Fee.builder()
+                    OrderFeeAmount.builder()
                         .feeInEth(0.0)
                         .feeInWei("fee_in_wei")
-                        .type(Eip155PrepareProxiedOrderResponse.Fee.Type.SPONSORED_NETWORK)
+                        .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                         .build()
                 )
                 .orderTypedData(
-                    Eip155PrepareProxiedOrderResponse.OrderTypedData.builder()
+                    EvmTypedData.builder()
                         .domain(JsonValue.from(mapOf<String, Any>()))
                         .message(JsonValue.from(mapOf<String, Any>()))
                         .primaryType("primaryType")
@@ -100,7 +101,7 @@ internal class Eip155PrepareProxiedOrderResponseTest {
                         .build()
                 )
                 .permitTypedData(
-                    Eip155PrepareProxiedOrderResponse.PermitTypedData.builder()
+                    EvmTypedData.builder()
                         .domain(JsonValue.from(mapOf<String, Any>()))
                         .message(JsonValue.from(mapOf<String, Any>()))
                         .primaryType("primaryType")

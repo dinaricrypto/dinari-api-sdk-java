@@ -1,21 +1,22 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package com.dinari.api.models.v2.accounts.wallet.external
+package com.dinari.api.models.v2.accounts.wallet
 
-import com.dinari.api.core.http.QueryParams
+import com.dinari.api.models.v2.accounts.wallet.external.WalletChainId
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
-internal class ExternalGetNonceParamsTest {
+internal class WalletConnectInternalParamsTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        ExternalGetNonceParams.builder()
+        WalletConnectInternalParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .chainId(WalletChainId.EIP155_0)
             .walletAddress("wallet_address")
+            .isShared(true)
             .build()
     }
 
@@ -23,7 +24,7 @@ internal class ExternalGetNonceParamsTest {
     @Test
     fun pathParams() {
         val params =
-            ExternalGetNonceParams.builder()
+            WalletConnectInternalParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .chainId(WalletChainId.EIP155_0)
                 .walletAddress("wallet_address")
@@ -36,22 +37,35 @@ internal class ExternalGetNonceParamsTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
-    fun queryParams() {
+    fun body() {
         val params =
-            ExternalGetNonceParams.builder()
+            WalletConnectInternalParams.builder()
+                .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .chainId(WalletChainId.EIP155_0)
+                .walletAddress("wallet_address")
+                .isShared(true)
+                .build()
+
+        val body = params._body()
+
+        assertThat(body.chainId()).isEqualTo(WalletChainId.EIP155_0)
+        assertThat(body.walletAddress()).isEqualTo("wallet_address")
+        assertThat(body.isShared()).contains(true)
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun bodyWithoutOptionalFields() {
+        val params =
+            WalletConnectInternalParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .chainId(WalletChainId.EIP155_0)
                 .walletAddress("wallet_address")
                 .build()
 
-        val queryParams = params._queryParams()
+        val body = params._body()
 
-        assertThat(queryParams)
-            .isEqualTo(
-                QueryParams.builder()
-                    .put("chain_id", "eip155:0")
-                    .put("wallet_address", "wallet_address")
-                    .build()
-            )
+        assertThat(body.chainId()).isEqualTo(WalletChainId.EIP155_0)
+        assertThat(body.walletAddress()).isEqualTo("wallet_address")
     }
 }

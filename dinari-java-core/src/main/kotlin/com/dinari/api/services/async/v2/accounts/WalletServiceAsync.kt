@@ -6,6 +6,7 @@ import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.wallet.Wallet
+import com.dinari.api.models.v2.accounts.wallet.WalletConnectInternalParams
 import com.dinari.api.models.v2.accounts.wallet.WalletGetParams
 import com.dinari.api.services.async.v2.accounts.wallet.ExternalServiceAsync
 import java.util.concurrent.CompletableFuture
@@ -26,6 +27,30 @@ interface WalletServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): WalletServiceAsync
 
     fun external(): ExternalServiceAsync
+
+    /** Connect an internal `Wallet` to the `Account`. */
+    fun connectInternal(
+        accountId: String,
+        params: WalletConnectInternalParams,
+    ): CompletableFuture<Wallet> = connectInternal(accountId, params, RequestOptions.none())
+
+    /** @see [connectInternal] */
+    fun connectInternal(
+        accountId: String,
+        params: WalletConnectInternalParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Wallet> =
+        connectInternal(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+    /** @see [connectInternal] */
+    fun connectInternal(params: WalletConnectInternalParams): CompletableFuture<Wallet> =
+        connectInternal(params, RequestOptions.none())
+
+    /** @see [connectInternal] */
+    fun connectInternal(
+        params: WalletConnectInternalParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<Wallet>
 
     /** Get the wallet connected to the `Account`. */
     fun get(accountId: String): CompletableFuture<Wallet> = get(accountId, WalletGetParams.none())
@@ -72,6 +97,36 @@ interface WalletServiceAsync {
         ): WalletServiceAsync.WithRawResponse
 
         fun external(): ExternalServiceAsync.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/wallet/internal`, but
+         * is otherwise the same as [WalletServiceAsync.connectInternal].
+         */
+        fun connectInternal(
+            accountId: String,
+            params: WalletConnectInternalParams,
+        ): CompletableFuture<HttpResponseFor<Wallet>> =
+            connectInternal(accountId, params, RequestOptions.none())
+
+        /** @see [connectInternal] */
+        fun connectInternal(
+            accountId: String,
+            params: WalletConnectInternalParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Wallet>> =
+            connectInternal(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+        /** @see [connectInternal] */
+        fun connectInternal(
+            params: WalletConnectInternalParams
+        ): CompletableFuture<HttpResponseFor<Wallet>> =
+            connectInternal(params, RequestOptions.none())
+
+        /** @see [connectInternal] */
+        fun connectInternal(
+            params: WalletConnectInternalParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<Wallet>>
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/wallet`, but is
