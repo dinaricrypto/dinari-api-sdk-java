@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
+import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
@@ -20,6 +21,7 @@ class StockRetrieveQuoteResponse
 private constructor(
     private val price: JsonField<Double>,
     private val stockId: JsonField<String>,
+    private val timestamp: JsonField<OffsetDateTime>,
     private val change: JsonField<Double>,
     private val changePercent: JsonField<Double>,
     private val close: JsonField<Double>,
@@ -37,6 +39,9 @@ private constructor(
     private constructor(
         @JsonProperty("price") @ExcludeMissing price: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("timestamp")
+        @ExcludeMissing
+        timestamp: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("change") @ExcludeMissing change: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("change_percent")
         @ExcludeMissing
@@ -56,6 +61,7 @@ private constructor(
     ) : this(
         price,
         stockId,
+        timestamp,
         change,
         changePercent,
         close,
@@ -84,6 +90,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun stockId(): String = stockId.getRequired("stock_id")
+
+    /**
+     * When the Stock Quote was generated.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun timestamp(): OffsetDateTime = timestamp.getRequired("timestamp")
 
     /**
      * The change in price from the previous close.
@@ -179,6 +193,15 @@ private constructor(
      * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
+
+    /**
+     * Returns the raw JSON value of [timestamp].
+     *
+     * Unlike [timestamp], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("timestamp")
+    @ExcludeMissing
+    fun _timestamp(): JsonField<OffsetDateTime> = timestamp
 
     /**
      * Returns the raw JSON value of [change].
@@ -278,6 +301,7 @@ private constructor(
          * ```java
          * .price()
          * .stockId()
+         * .timestamp()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -288,6 +312,7 @@ private constructor(
 
         private var price: JsonField<Double>? = null
         private var stockId: JsonField<String>? = null
+        private var timestamp: JsonField<OffsetDateTime>? = null
         private var change: JsonField<Double> = JsonMissing.of()
         private var changePercent: JsonField<Double> = JsonMissing.of()
         private var close: JsonField<Double> = JsonMissing.of()
@@ -304,6 +329,7 @@ private constructor(
         internal fun from(stockRetrieveQuoteResponse: StockRetrieveQuoteResponse) = apply {
             price = stockRetrieveQuoteResponse.price
             stockId = stockRetrieveQuoteResponse.stockId
+            timestamp = stockRetrieveQuoteResponse.timestamp
             change = stockRetrieveQuoteResponse.change
             changePercent = stockRetrieveQuoteResponse.changePercent
             close = stockRetrieveQuoteResponse.close
@@ -338,6 +364,18 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+
+        /** When the Stock Quote was generated. */
+        fun timestamp(timestamp: OffsetDateTime) = timestamp(JsonField.of(timestamp))
+
+        /**
+         * Sets [Builder.timestamp] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.timestamp] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun timestamp(timestamp: JsonField<OffsetDateTime>) = apply { this.timestamp = timestamp }
 
         /** The change in price from the previous close. */
         fun change(change: Double) = change(JsonField.of(change))
@@ -487,6 +525,7 @@ private constructor(
          * ```java
          * .price()
          * .stockId()
+         * .timestamp()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -495,6 +534,7 @@ private constructor(
             StockRetrieveQuoteResponse(
                 checkRequired("price", price),
                 checkRequired("stockId", stockId),
+                checkRequired("timestamp", timestamp),
                 change,
                 changePercent,
                 close,
@@ -518,6 +558,7 @@ private constructor(
 
         price()
         stockId()
+        timestamp()
         change()
         changePercent()
         close()
@@ -548,6 +589,7 @@ private constructor(
     internal fun validity(): Int =
         (if (price.asKnown().isPresent) 1 else 0) +
             (if (stockId.asKnown().isPresent) 1 else 0) +
+            (if (timestamp.asKnown().isPresent) 1 else 0) +
             (if (change.asKnown().isPresent) 1 else 0) +
             (if (changePercent.asKnown().isPresent) 1 else 0) +
             (if (close.asKnown().isPresent) 1 else 0) +
@@ -564,15 +606,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockRetrieveQuoteResponse && price == other.price && stockId == other.stockId && change == other.change && changePercent == other.changePercent && close == other.close && high == other.high && low == other.low && marketCap == other.marketCap && open == other.open && previousClose == other.previousClose && volume == other.volume && weightedSharesOutstanding == other.weightedSharesOutstanding && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is StockRetrieveQuoteResponse && price == other.price && stockId == other.stockId && timestamp == other.timestamp && change == other.change && changePercent == other.changePercent && close == other.close && high == other.high && low == other.low && marketCap == other.marketCap && open == other.open && previousClose == other.previousClose && volume == other.volume && weightedSharesOutstanding == other.weightedSharesOutstanding && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(price, stockId, change, changePercent, close, high, low, marketCap, open, previousClose, volume, weightedSharesOutstanding, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(price, stockId, timestamp, change, changePercent, close, high, low, marketCap, open, previousClose, volume, weightedSharesOutstanding, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "StockRetrieveQuoteResponse{price=$price, stockId=$stockId, change=$change, changePercent=$changePercent, close=$close, high=$high, low=$low, marketCap=$marketCap, open=$open, previousClose=$previousClose, volume=$volume, weightedSharesOutstanding=$weightedSharesOutstanding, additionalProperties=$additionalProperties}"
+        "StockRetrieveQuoteResponse{price=$price, stockId=$stockId, timestamp=$timestamp, change=$change, changePercent=$changePercent, close=$close, high=$high, low=$low, marketCap=$marketCap, open=$open, previousClose=$previousClose, volume=$volume, weightedSharesOutstanding=$weightedSharesOutstanding, additionalProperties=$additionalProperties}"
 }

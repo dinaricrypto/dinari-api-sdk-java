@@ -20,6 +20,7 @@ import java.util.Optional
 /** KYC data for an `Entity`. */
 class KycData
 private constructor(
+    private val addressCountryCode: JsonField<String>,
     private val countryCode: JsonField<String>,
     private val lastName: JsonField<String>,
     private val addressCity: JsonField<String>,
@@ -37,6 +38,9 @@ private constructor(
 
     @JsonCreator
     private constructor(
+        @JsonProperty("address_country_code")
+        @ExcludeMissing
+        addressCountryCode: JsonField<String> = JsonMissing.of(),
         @JsonProperty("country_code")
         @ExcludeMissing
         countryCode: JsonField<String> = JsonMissing.of(),
@@ -68,6 +72,7 @@ private constructor(
         @ExcludeMissing
         taxIdNumber: JsonField<String> = JsonMissing.of(),
     ) : this(
+        addressCountryCode,
         countryCode,
         lastName,
         addressCity,
@@ -82,6 +87,14 @@ private constructor(
         taxIdNumber,
         mutableMapOf(),
     )
+
+    /**
+     * Country of residence. ISO 3166-1 alpha 2 country code.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun addressCountryCode(): String = addressCountryCode.getRequired("address_country_code")
 
     /**
      * Country of citizenship or home country of the organization. ISO 3166-1 alpha 2 country code.
@@ -180,6 +193,16 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun taxIdNumber(): Optional<String> = taxIdNumber.getOptional("tax_id_number")
+
+    /**
+     * Returns the raw JSON value of [addressCountryCode].
+     *
+     * Unlike [addressCountryCode], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("address_country_code")
+    @ExcludeMissing
+    fun _addressCountryCode(): JsonField<String> = addressCountryCode
 
     /**
      * Returns the raw JSON value of [countryCode].
@@ -300,6 +323,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
+         * .addressCountryCode()
          * .countryCode()
          * .lastName()
          * ```
@@ -310,6 +334,7 @@ private constructor(
     /** A builder for [KycData]. */
     class Builder internal constructor() {
 
+        private var addressCountryCode: JsonField<String>? = null
         private var countryCode: JsonField<String>? = null
         private var lastName: JsonField<String>? = null
         private var addressCity: JsonField<String> = JsonMissing.of()
@@ -326,6 +351,7 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(kycData: KycData) = apply {
+            addressCountryCode = kycData.addressCountryCode
             countryCode = kycData.countryCode
             lastName = kycData.lastName
             addressCity = kycData.addressCity
@@ -339,6 +365,21 @@ private constructor(
             middleName = kycData.middleName
             taxIdNumber = kycData.taxIdNumber
             additionalProperties = kycData.additionalProperties.toMutableMap()
+        }
+
+        /** Country of residence. ISO 3166-1 alpha 2 country code. */
+        fun addressCountryCode(addressCountryCode: String) =
+            addressCountryCode(JsonField.of(addressCountryCode))
+
+        /**
+         * Sets [Builder.addressCountryCode] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.addressCountryCode] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun addressCountryCode(addressCountryCode: JsonField<String>) = apply {
+            this.addressCountryCode = addressCountryCode
         }
 
         /**
@@ -525,6 +566,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
+         * .addressCountryCode()
          * .countryCode()
          * .lastName()
          * ```
@@ -533,6 +575,7 @@ private constructor(
          */
         fun build(): KycData =
             KycData(
+                checkRequired("addressCountryCode", addressCountryCode),
                 checkRequired("countryCode", countryCode),
                 checkRequired("lastName", lastName),
                 addressCity,
@@ -556,6 +599,7 @@ private constructor(
             return@apply
         }
 
+        addressCountryCode()
         countryCode()
         lastName()
         addressCity()
@@ -586,7 +630,8 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (if (countryCode.asKnown().isPresent) 1 else 0) +
+        (if (addressCountryCode.asKnown().isPresent) 1 else 0) +
+            (if (countryCode.asKnown().isPresent) 1 else 0) +
             (if (lastName.asKnown().isPresent) 1 else 0) +
             (if (addressCity.asKnown().isPresent) 1 else 0) +
             (if (addressPostalCode.asKnown().isPresent) 1 else 0) +
@@ -604,15 +649,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is KycData && countryCode == other.countryCode && lastName == other.lastName && addressCity == other.addressCity && addressPostalCode == other.addressPostalCode && addressStreet1 == other.addressStreet1 && addressStreet2 == other.addressStreet2 && addressSubdivision == other.addressSubdivision && birthDate == other.birthDate && email == other.email && firstName == other.firstName && middleName == other.middleName && taxIdNumber == other.taxIdNumber && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is KycData && addressCountryCode == other.addressCountryCode && countryCode == other.countryCode && lastName == other.lastName && addressCity == other.addressCity && addressPostalCode == other.addressPostalCode && addressStreet1 == other.addressStreet1 && addressStreet2 == other.addressStreet2 && addressSubdivision == other.addressSubdivision && birthDate == other.birthDate && email == other.email && firstName == other.firstName && middleName == other.middleName && taxIdNumber == other.taxIdNumber && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(countryCode, lastName, addressCity, addressPostalCode, addressStreet1, addressStreet2, addressSubdivision, birthDate, email, firstName, middleName, taxIdNumber, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(addressCountryCode, countryCode, lastName, addressCity, addressPostalCode, addressStreet1, addressStreet2, addressSubdivision, birthDate, email, firstName, middleName, taxIdNumber, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "KycData{countryCode=$countryCode, lastName=$lastName, addressCity=$addressCity, addressPostalCode=$addressPostalCode, addressStreet1=$addressStreet1, addressStreet2=$addressStreet2, addressSubdivision=$addressSubdivision, birthDate=$birthDate, email=$email, firstName=$firstName, middleName=$middleName, taxIdNumber=$taxIdNumber, additionalProperties=$additionalProperties}"
+        "KycData{addressCountryCode=$addressCountryCode, countryCode=$countryCode, lastName=$lastName, addressCity=$addressCity, addressPostalCode=$addressPostalCode, addressStreet1=$addressStreet1, addressStreet2=$addressStreet2, addressSubdivision=$addressSubdivision, birthDate=$birthDate, email=$email, firstName=$firstName, middleName=$middleName, taxIdNumber=$taxIdNumber, additionalProperties=$additionalProperties}"
 }

@@ -20,6 +20,7 @@ internal class EntityTest {
                 .isKycComplete(true)
                 .name("name")
                 .nationality("nationality")
+                .referenceId("x")
                 .build()
 
         assertThat(entity.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -27,6 +28,7 @@ internal class EntityTest {
         assertThat(entity.isKycComplete()).isEqualTo(true)
         assertThat(entity.name()).contains("name")
         assertThat(entity.nationality()).contains("nationality")
+        assertThat(entity.referenceId()).contains("x")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -40,6 +42,7 @@ internal class EntityTest {
                 .isKycComplete(true)
                 .name("name")
                 .nationality("nationality")
+                .referenceId("x")
                 .build()
 
         val roundtrippedEntity =

@@ -27,6 +27,7 @@ internal class OrderRequestTest {
                 .orderType(OrderType.MARKET)
                 .status(OrderRequest.Status.PENDING)
                 .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(orderRequest.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -38,6 +39,8 @@ internal class OrderRequestTest {
         assertThat(orderRequest.orderType()).isEqualTo(OrderType.MARKET)
         assertThat(orderRequest.status()).isEqualTo(OrderRequest.Status.PENDING)
         assertThat(orderRequest.orderId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(orderRequest.recipientAccountId())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -54,6 +57,7 @@ internal class OrderRequestTest {
                 .orderType(OrderType.MARKET)
                 .status(OrderRequest.Status.PENDING)
                 .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val roundtrippedOrderRequest =

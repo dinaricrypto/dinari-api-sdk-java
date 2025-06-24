@@ -4,6 +4,7 @@ package com.dinari.api.services.async.v2.accounts
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
+import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
@@ -53,6 +54,8 @@ internal class OrderServiceAsyncTest {
             orderServiceAsync.list(
                 OrderListParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .chainId(Chain.EIP155_1)
+                    .orderTransactionHash("order_transaction_hash")
                     .page(1L)
                     .pageSize(1L)
                     .build()

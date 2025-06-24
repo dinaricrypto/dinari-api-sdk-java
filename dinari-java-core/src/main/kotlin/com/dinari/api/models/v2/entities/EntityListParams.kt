@@ -6,16 +6,28 @@ import com.dinari.api.core.Params
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
- * Get a list of all direct `Entities` your organization manages. These `Entities` represent
- * individual customers of your organization.
+ * Get a list of direct `Entities` your organization manages. These `Entities` represent individual
+ * customers of your organization.
  */
 class EntityListParams
 private constructor(
+    private val page: Long?,
+    private val pageSize: Long?,
+    private val referenceId: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
+
+    fun page(): Optional<Long> = Optional.ofNullable(page)
+
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
+
+    /** Case sensitive unique reference ID for the `Entity`. */
+    fun referenceId(): Optional<String> = Optional.ofNullable(referenceId)
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -34,14 +46,50 @@ private constructor(
     /** A builder for [EntityListParams]. */
     class Builder internal constructor() {
 
+        private var page: Long? = null
+        private var pageSize: Long? = null
+        private var referenceId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(entityListParams: EntityListParams) = apply {
+            page = entityListParams.page
+            pageSize = entityListParams.pageSize
+            referenceId = entityListParams.referenceId
             additionalHeaders = entityListParams.additionalHeaders.toBuilder()
             additionalQueryParams = entityListParams.additionalQueryParams.toBuilder()
         }
+
+        fun page(page: Long?) = apply { this.page = page }
+
+        /**
+         * Alias for [Builder.page].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun page(page: Long) = page(page as Long?)
+
+        /** Alias for calling [Builder.page] with `page.orElse(null)`. */
+        fun page(page: Optional<Long>) = page(page.getOrNull())
+
+        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
+
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
+
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
+
+        /** Case sensitive unique reference ID for the `Entity`. */
+        fun referenceId(referenceId: String?) = apply { this.referenceId = referenceId }
+
+        /** Alias for calling [Builder.referenceId] with `referenceId.orElse(null)`. */
+        fun referenceId(referenceId: Optional<String>) = referenceId(referenceId.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -147,23 +195,37 @@ private constructor(
          * Further updates to this [Builder] will not mutate the returned instance.
          */
         fun build(): EntityListParams =
-            EntityListParams(additionalHeaders.build(), additionalQueryParams.build())
+            EntityListParams(
+                page,
+                pageSize,
+                referenceId,
+                additionalHeaders.build(),
+                additionalQueryParams.build(),
+            )
     }
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                page?.let { put("page", it.toString()) }
+                pageSize?.let { put("page_size", it.toString()) }
+                referenceId?.let { put("reference_id", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return /* spotless:off */ other is EntityListParams && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is EntityListParams && page == other.page && pageSize == other.pageSize && referenceId == other.referenceId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(page, pageSize, referenceId, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "EntityListParams{additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "EntityListParams{page=$page, pageSize=$pageSize, referenceId=$referenceId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

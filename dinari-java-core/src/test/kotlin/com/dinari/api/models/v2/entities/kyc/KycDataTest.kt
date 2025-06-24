@@ -16,6 +16,7 @@ internal class KycDataTest {
     fun create() {
         val kycData =
             KycData.builder()
+                .addressCountryCode("SG")
                 .countryCode("SG")
                 .lastName("Doe")
                 .addressCity("San Francisco")
@@ -30,6 +31,7 @@ internal class KycDataTest {
                 .taxIdNumber("12-3456789")
                 .build()
 
+        assertThat(kycData.addressCountryCode()).isEqualTo("SG")
         assertThat(kycData.countryCode()).isEqualTo("SG")
         assertThat(kycData.lastName()).isEqualTo("Doe")
         assertThat(kycData.addressCity()).contains("San Francisco")
@@ -50,6 +52,7 @@ internal class KycDataTest {
         val jsonMapper = jsonMapper()
         val kycData =
             KycData.builder()
+                .addressCountryCode("SG")
                 .countryCode("SG")
                 .lastName("Doe")
                 .addressCity("San Francisco")
