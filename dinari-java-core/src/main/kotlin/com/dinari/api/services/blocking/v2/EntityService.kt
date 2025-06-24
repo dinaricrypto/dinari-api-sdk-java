@@ -46,7 +46,7 @@ interface EntityService {
     ): Entity
 
     /**
-     * Get a list of all direct `Entities` your organization manages. These `Entities` represent
+     * Get a list of direct `Entities` your organization manages. These `Entities` represent
      * individual customers of your organization.
      */
     fun list(): List<Entity> = list(EntityListParams.none())

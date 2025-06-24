@@ -49,6 +49,14 @@ private constructor(
     fun stockId(): String = body.stockId()
 
     /**
+     * ID of `Account` to receive the `Order`.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun recipientAccountId(): Optional<String> = body.recipientAccountId()
+
+    /**
      * Returns the raw JSON value of [assetQuantity].
      *
      * Unlike [assetQuantity], this method doesn't throw if the JSON field has an unexpected type.
@@ -61,6 +69,14 @@ private constructor(
      * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _stockId(): JsonField<String> = body._stockId()
+
+    /**
+     * Returns the raw JSON value of [recipientAccountId].
+     *
+     * Unlike [recipientAccountId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _recipientAccountId(): JsonField<String> = body._recipientAccountId()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -115,6 +131,7 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [assetQuantity]
          * - [stockId]
+         * - [recipientAccountId]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
@@ -145,6 +162,22 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun stockId(stockId: JsonField<String>) = apply { body.stockId(stockId) }
+
+        /** ID of `Account` to receive the `Order`. */
+        fun recipientAccountId(recipientAccountId: String) = apply {
+            body.recipientAccountId(recipientAccountId)
+        }
+
+        /**
+         * Sets [Builder.recipientAccountId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.recipientAccountId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun recipientAccountId(recipientAccountId: JsonField<String>) = apply {
+            body.recipientAccountId(recipientAccountId)
+        }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -302,6 +335,7 @@ private constructor(
     private constructor(
         private val assetQuantity: JsonField<Double>,
         private val stockId: JsonField<String>,
+        private val recipientAccountId: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -311,7 +345,10 @@ private constructor(
             @ExcludeMissing
             assetQuantity: JsonField<Double> = JsonMissing.of(),
             @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
-        ) : this(assetQuantity, stockId, mutableMapOf())
+            @JsonProperty("recipient_account_id")
+            @ExcludeMissing
+            recipientAccountId: JsonField<String> = JsonMissing.of(),
+        ) : this(assetQuantity, stockId, recipientAccountId, mutableMapOf())
 
         /**
          * Quantity of shares to trade. Must be a positive number with a precision of up to 9
@@ -331,6 +368,15 @@ private constructor(
         fun stockId(): String = stockId.getRequired("stock_id")
 
         /**
+         * ID of `Account` to receive the `Order`.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun recipientAccountId(): Optional<String> =
+            recipientAccountId.getOptional("recipient_account_id")
+
+        /**
          * Returns the raw JSON value of [assetQuantity].
          *
          * Unlike [assetQuantity], this method doesn't throw if the JSON field has an unexpected
@@ -346,6 +392,16 @@ private constructor(
          * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
+
+        /**
+         * Returns the raw JSON value of [recipientAccountId].
+         *
+         * Unlike [recipientAccountId], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("recipient_account_id")
+        @ExcludeMissing
+        fun _recipientAccountId(): JsonField<String> = recipientAccountId
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -378,12 +434,14 @@ private constructor(
 
             private var assetQuantity: JsonField<Double>? = null
             private var stockId: JsonField<String>? = null
+            private var recipientAccountId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 assetQuantity = body.assetQuantity
                 stockId = body.stockId
+                recipientAccountId = body.recipientAccountId
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
@@ -415,6 +473,21 @@ private constructor(
              * supported value.
              */
             fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+
+            /** ID of `Account` to receive the `Order`. */
+            fun recipientAccountId(recipientAccountId: String) =
+                recipientAccountId(JsonField.of(recipientAccountId))
+
+            /**
+             * Sets [Builder.recipientAccountId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.recipientAccountId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun recipientAccountId(recipientAccountId: JsonField<String>) = apply {
+                this.recipientAccountId = recipientAccountId
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -452,6 +525,7 @@ private constructor(
                 Body(
                     checkRequired("assetQuantity", assetQuantity),
                     checkRequired("stockId", stockId),
+                    recipientAccountId,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -465,6 +539,7 @@ private constructor(
 
             assetQuantity()
             stockId()
+            recipientAccountId()
             validated = true
         }
 
@@ -485,24 +560,25 @@ private constructor(
         @JvmSynthetic
         internal fun validity(): Int =
             (if (assetQuantity.asKnown().isPresent) 1 else 0) +
-                (if (stockId.asKnown().isPresent) 1 else 0)
+                (if (stockId.asKnown().isPresent) 1 else 0) +
+                (if (recipientAccountId.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is Body && assetQuantity == other.assetQuantity && stockId == other.stockId && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && assetQuantity == other.assetQuantity && stockId == other.stockId && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(assetQuantity, stockId, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(assetQuantity, stockId, recipientAccountId, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{assetQuantity=$assetQuantity, stockId=$stockId, additionalProperties=$additionalProperties}"
+            "Body{assetQuantity=$assetQuantity, stockId=$stockId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

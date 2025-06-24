@@ -16,6 +16,7 @@ internal class KycSubmitParamsTest {
             .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .data(
                 KycData.builder()
+                    .addressCountryCode("SG")
                     .countryCode("SG")
                     .lastName("Doe")
                     .addressCity("San Francisco")
@@ -40,7 +41,13 @@ internal class KycSubmitParamsTest {
         val params =
             KycSubmitParams.builder()
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .data(KycData.builder().countryCode("SG").lastName("Doe").build())
+                .data(
+                    KycData.builder()
+                        .addressCountryCode("SG")
+                        .countryCode("SG")
+                        .lastName("Doe")
+                        .build()
+                )
                 .providerName("x")
                 .build()
 
@@ -57,6 +64,7 @@ internal class KycSubmitParamsTest {
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .data(
                     KycData.builder()
+                        .addressCountryCode("SG")
                         .countryCode("SG")
                         .lastName("Doe")
                         .addressCity("San Francisco")
@@ -79,6 +87,7 @@ internal class KycSubmitParamsTest {
         assertThat(body.data())
             .isEqualTo(
                 KycData.builder()
+                    .addressCountryCode("SG")
                     .countryCode("SG")
                     .lastName("Doe")
                     .addressCity("San Francisco")
@@ -102,14 +111,22 @@ internal class KycSubmitParamsTest {
         val params =
             KycSubmitParams.builder()
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .data(KycData.builder().countryCode("SG").lastName("Doe").build())
+                .data(
+                    KycData.builder()
+                        .addressCountryCode("SG")
+                        .countryCode("SG")
+                        .lastName("Doe")
+                        .build()
+                )
                 .providerName("x")
                 .build()
 
         val body = params._body()
 
         assertThat(body.data())
-            .isEqualTo(KycData.builder().countryCode("SG").lastName("Doe").build())
+            .isEqualTo(
+                KycData.builder().addressCountryCode("SG").countryCode("SG").lastName("Doe").build()
+            )
         assertThat(body.providerName()).isEqualTo("x")
     }
 }

@@ -5,6 +5,7 @@ package com.dinari.api.services.blocking.v2
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.entities.EntityCreateParams
+import com.dinari.api.models.v2.entities.EntityListParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -23,7 +24,8 @@ internal class EntityServiceTest {
                 .build()
         val entityService = client.v2().entities()
 
-        val entity = entityService.create(EntityCreateParams.builder().name("x").build())
+        val entity =
+            entityService.create(EntityCreateParams.builder().name("x").referenceId("x").build())
 
         entity.validate()
     }
@@ -39,7 +41,10 @@ internal class EntityServiceTest {
                 .build()
         val entityService = client.v2().entities()
 
-        val entities = entityService.list()
+        val entities =
+            entityService.list(
+                EntityListParams.builder().page(1L).pageSize(1L).referenceId("x").build()
+            )
 
         entities.forEach { it.validate() }
     }

@@ -22,6 +22,7 @@ internal class KycInfoTest {
                 .checkedDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .data(
                     KycData.builder()
+                        .addressCountryCode("SG")
                         .countryCode("SG")
                         .lastName("Doe")
                         .addressCity("San Francisco")
@@ -44,6 +45,7 @@ internal class KycInfoTest {
         assertThat(kycInfo.data())
             .contains(
                 KycData.builder()
+                    .addressCountryCode("SG")
                     .countryCode("SG")
                     .lastName("Doe")
                     .addressCity("San Francisco")
@@ -71,6 +73,7 @@ internal class KycInfoTest {
                 .checkedDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .data(
                     KycData.builder()
+                        .addressCountryCode("SG")
                         .countryCode("SG")
                         .lastName("Doe")
                         .addressCity("San Francisco")

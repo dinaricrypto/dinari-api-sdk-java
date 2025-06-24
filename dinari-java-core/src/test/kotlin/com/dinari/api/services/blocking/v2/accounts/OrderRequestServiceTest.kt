@@ -87,6 +87,7 @@ internal class OrderRequestServiceTest {
                             .assetQuantity(0L)
                             .limitPrice(0.0)
                             .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .build()
@@ -115,6 +116,7 @@ internal class OrderRequestServiceTest {
                             .assetQuantity(0L)
                             .limitPrice(0.0)
                             .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .build()
@@ -140,6 +142,7 @@ internal class OrderRequestServiceTest {
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .paymentAmount(JsonValue.from("0"))
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -163,6 +166,7 @@ internal class OrderRequestServiceTest {
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .assetQuantity(JsonValue.from("0"))
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 

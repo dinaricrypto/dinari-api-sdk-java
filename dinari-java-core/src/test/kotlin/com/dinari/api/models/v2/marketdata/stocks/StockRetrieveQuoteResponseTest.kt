@@ -4,6 +4,7 @@ package com.dinari.api.models.v2.marketdata.stocks
 
 import com.dinari.api.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -17,6 +18,7 @@ internal class StockRetrieveQuoteResponseTest {
             StockRetrieveQuoteResponse.builder()
                 .price(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .change(0.0)
                 .changePercent(0.0)
                 .close(0.0)
@@ -32,6 +34,8 @@ internal class StockRetrieveQuoteResponseTest {
         assertThat(stockRetrieveQuoteResponse.price()).isEqualTo(0.0)
         assertThat(stockRetrieveQuoteResponse.stockId())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(stockRetrieveQuoteResponse.timestamp())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(stockRetrieveQuoteResponse.change()).contains(0.0)
         assertThat(stockRetrieveQuoteResponse.changePercent()).contains(0.0)
         assertThat(stockRetrieveQuoteResponse.close()).contains(0.0)
@@ -52,6 +56,7 @@ internal class StockRetrieveQuoteResponseTest {
             StockRetrieveQuoteResponse.builder()
                 .price(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .change(0.0)
                 .changePercent(0.0)
                 .close(0.0)

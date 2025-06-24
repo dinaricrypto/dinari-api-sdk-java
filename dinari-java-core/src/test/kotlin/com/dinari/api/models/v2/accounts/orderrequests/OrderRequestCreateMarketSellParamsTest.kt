@@ -16,6 +16,7 @@ internal class OrderRequestCreateMarketSellParamsTest {
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .assetQuantity(JsonValue.from("0"))
             .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -37,6 +38,24 @@ internal class OrderRequestCreateMarketSellParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
+        val params =
+            OrderRequestCreateMarketSellParams.builder()
+                .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .assetQuantity(JsonValue.from("0"))
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .build()
+
+        val body = params._body()
+
+        assertThat(body._assetQuantity()).isEqualTo(JsonValue.from("0"))
+        assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.recipientAccountId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun bodyWithoutOptionalFields() {
         val params =
             OrderRequestCreateMarketSellParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

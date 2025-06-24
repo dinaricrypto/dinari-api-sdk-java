@@ -18,12 +18,15 @@ internal class CreateLimitOrderInputTest {
                 .assetQuantity(0L)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(createLimitOrderInput.assetQuantity()).isEqualTo(0L)
         assertThat(createLimitOrderInput.limitPrice()).isEqualTo(0.0)
         assertThat(createLimitOrderInput.stockId())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(createLimitOrderInput.recipientAccountId())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -35,6 +38,7 @@ internal class CreateLimitOrderInputTest {
                 .assetQuantity(0L)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val roundtrippedCreateLimitOrderInput =

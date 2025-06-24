@@ -51,7 +51,10 @@ interface OrderService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Order
 
-    /** Get a list of all `Orders` under the `Account`. */
+    /**
+     * Get a list of all `Orders` under the `Account`. Optionally `Orders` can be filtered by chain
+     * ID or transaction hash.
+     */
     fun list(accountId: String): List<Order> = list(accountId, OrderListParams.none())
 
     /** @see [list] */

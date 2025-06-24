@@ -53,7 +53,10 @@ interface OrderServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Order>
 
-    /** Get a list of all `Orders` under the `Account`. */
+    /**
+     * Get a list of all `Orders` under the `Account`. Optionally `Orders` can be filtered by chain
+     * ID or transaction hash.
+     */
     fun list(accountId: String): CompletableFuture<List<Order>> =
         list(accountId, OrderListParams.none())
 

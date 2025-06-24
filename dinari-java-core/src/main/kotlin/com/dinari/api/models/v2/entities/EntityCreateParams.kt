@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
 
 /**
  * Create a new `Entity` to be managed by your organization. This `Entity` represents an individual
@@ -38,11 +39,27 @@ private constructor(
     fun name(): String = body.name()
 
     /**
+     * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the unique
+     * ID of the `Entity` in your system.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun referenceId(): Optional<String> = body.referenceId()
+
+    /**
      * Returns the raw JSON value of [name].
      *
      * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _name(): JsonField<String> = body._name()
+
+    /**
+     * Returns the raw JSON value of [referenceId].
+     *
+     * Unlike [referenceId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _referenceId(): JsonField<String> = body._referenceId()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -85,6 +102,7 @@ private constructor(
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [name]
+         * - [referenceId]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
@@ -98,6 +116,21 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun name(name: JsonField<String>) = apply { body.name(name) }
+
+        /**
+         * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the
+         * unique ID of the `Entity` in your system.
+         */
+        fun referenceId(referenceId: String) = apply { body.referenceId(referenceId) }
+
+        /**
+         * Sets [Builder.referenceId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.referenceId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun referenceId(referenceId: JsonField<String>) = apply { body.referenceId(referenceId) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -246,13 +279,17 @@ private constructor(
     class Body
     private constructor(
         private val name: JsonField<String>,
+        private val referenceId: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of()
-        ) : this(name, mutableMapOf())
+            @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("reference_id")
+            @ExcludeMissing
+            referenceId: JsonField<String> = JsonMissing.of(),
+        ) : this(name, referenceId, mutableMapOf())
 
         /**
          * Name of the `Entity`.
@@ -263,11 +300,29 @@ private constructor(
         fun name(): String = name.getRequired("name")
 
         /**
+         * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the
+         * unique ID of the `Entity` in your system.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun referenceId(): Optional<String> = referenceId.getOptional("reference_id")
+
+        /**
          * Returns the raw JSON value of [name].
          *
          * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+        /**
+         * Returns the raw JSON value of [referenceId].
+         *
+         * Unlike [referenceId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("reference_id")
+        @ExcludeMissing
+        fun _referenceId(): JsonField<String> = referenceId
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -298,11 +353,13 @@ private constructor(
         class Builder internal constructor() {
 
             private var name: JsonField<String>? = null
+            private var referenceId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
                 name = body.name
+                referenceId = body.referenceId
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
@@ -317,6 +374,23 @@ private constructor(
              * value.
              */
             fun name(name: JsonField<String>) = apply { this.name = name }
+
+            /**
+             * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the
+             * unique ID of the `Entity` in your system.
+             */
+            fun referenceId(referenceId: String) = referenceId(JsonField.of(referenceId))
+
+            /**
+             * Sets [Builder.referenceId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.referenceId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun referenceId(referenceId: JsonField<String>) = apply {
+                this.referenceId = referenceId
+            }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -350,7 +424,7 @@ private constructor(
              * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Body =
-                Body(checkRequired("name", name), additionalProperties.toMutableMap())
+                Body(checkRequired("name", name), referenceId, additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false
@@ -361,6 +435,7 @@ private constructor(
             }
 
             name()
+            referenceId()
             validated = true
         }
 
@@ -378,23 +453,27 @@ private constructor(
          *
          * Used for best match union deserialization.
          */
-        @JvmSynthetic internal fun validity(): Int = (if (name.asKnown().isPresent) 1 else 0)
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (name.asKnown().isPresent) 1 else 0) +
+                (if (referenceId.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is Body && name == other.name && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && name == other.name && referenceId == other.referenceId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(name, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(name, referenceId, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
-        override fun toString() = "Body{name=$name, additionalProperties=$additionalProperties}"
+        override fun toString() =
+            "Body{name=$name, referenceId=$referenceId, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
