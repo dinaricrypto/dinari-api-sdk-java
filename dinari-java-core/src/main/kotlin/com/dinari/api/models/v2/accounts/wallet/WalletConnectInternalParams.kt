@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package com.dinari.api.models.v2.accounts.orderrequests
+package com.dinari.api.models.v2.accounts.wallet
 
 import com.dinari.api.core.ExcludeMissing
 import com.dinari.api.core.JsonField
@@ -11,6 +11,7 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import com.dinari.api.errors.DinariInvalidDataException
+import com.dinari.api.models.v2.accounts.wallet.external.WalletChainId
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -20,8 +21,8 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Create a managed `OrderRequest` to place a market sell `Order`. */
-class OrderRequestCreateMarketSellParams
+/** Connect an internal `Wallet` to the `Account`. */
+class WalletConnectInternalParams
 private constructor(
     private val accountId: String?,
     private val body: Body,
@@ -32,51 +33,50 @@ private constructor(
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /**
-     * Quantity of shares to trade. Must be a positive number with a precision of up to 9 decimal
-     * places.
+     * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used for
+     * EOA wallets
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun assetQuantity(): Double = body.assetQuantity()
+    fun chainId(): WalletChainId = body.chainId()
 
     /**
-     * ID of `Stock`.
+     * Address of the `Wallet`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun stockId(): String = body.stockId()
+    fun walletAddress(): String = body.walletAddress()
 
     /**
-     * ID of `Account` to receive the `Order`.
+     * Is the linked Wallet shared or not
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun recipientAccountId(): Optional<String> = body.recipientAccountId()
+    fun isShared(): Optional<Boolean> = body.isShared()
 
     /**
-     * Returns the raw JSON value of [assetQuantity].
+     * Returns the raw JSON value of [chainId].
      *
-     * Unlike [assetQuantity], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _assetQuantity(): JsonField<Double> = body._assetQuantity()
+    fun _chainId(): JsonField<WalletChainId> = body._chainId()
 
     /**
-     * Returns the raw JSON value of [stockId].
+     * Returns the raw JSON value of [walletAddress].
      *
-     * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [walletAddress], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _stockId(): JsonField<String> = body._stockId()
+    fun _walletAddress(): JsonField<String> = body._walletAddress()
 
     /**
-     * Returns the raw JSON value of [recipientAccountId].
+     * Returns the raw JSON value of [isShared].
      *
-     * Unlike [recipientAccountId], this method doesn't throw if the JSON field has an unexpected
-     * type.
+     * Unlike [isShared], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _recipientAccountId(): JsonField<String> = body._recipientAccountId()
+    fun _isShared(): JsonField<Boolean> = body._isShared()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -89,19 +89,18 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of
-         * [OrderRequestCreateMarketSellParams].
+         * Returns a mutable builder for constructing an instance of [WalletConnectInternalParams].
          *
          * The following fields are required:
          * ```java
-         * .assetQuantity()
-         * .stockId()
+         * .chainId()
+         * .walletAddress()
          * ```
          */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [OrderRequestCreateMarketSellParams]. */
+    /** A builder for [WalletConnectInternalParams]. */
     class Builder internal constructor() {
 
         private var accountId: String? = null
@@ -110,14 +109,12 @@ private constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(orderRequestCreateMarketSellParams: OrderRequestCreateMarketSellParams) =
-            apply {
-                accountId = orderRequestCreateMarketSellParams.accountId
-                body = orderRequestCreateMarketSellParams.body.toBuilder()
-                additionalHeaders = orderRequestCreateMarketSellParams.additionalHeaders.toBuilder()
-                additionalQueryParams =
-                    orderRequestCreateMarketSellParams.additionalQueryParams.toBuilder()
-            }
+        internal fun from(walletConnectInternalParams: WalletConnectInternalParams) = apply {
+            accountId = walletConnectInternalParams.accountId
+            body = walletConnectInternalParams.body.toBuilder()
+            additionalHeaders = walletConnectInternalParams.additionalHeaders.toBuilder()
+            additionalQueryParams = walletConnectInternalParams.additionalQueryParams.toBuilder()
+        }
 
         fun accountId(accountId: String?) = apply { this.accountId = accountId }
 
@@ -129,55 +126,52 @@ private constructor(
          *
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
-         * - [assetQuantity]
-         * - [stockId]
-         * - [recipientAccountId]
+         * - [chainId]
+         * - [walletAddress]
+         * - [isShared]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
         /**
-         * Quantity of shares to trade. Must be a positive number with a precision of up to 9
-         * decimal places.
+         * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used
+         * for EOA wallets
          */
-        fun assetQuantity(assetQuantity: Double) = apply { body.assetQuantity(assetQuantity) }
+        fun chainId(chainId: WalletChainId) = apply { body.chainId(chainId) }
 
         /**
-         * Sets [Builder.assetQuantity] to an arbitrary JSON value.
+         * Sets [Builder.chainId] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.assetQuantity] with a well-typed [Double] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun assetQuantity(assetQuantity: JsonField<Double>) = apply {
-            body.assetQuantity(assetQuantity)
-        }
-
-        /** ID of `Stock`. */
-        fun stockId(stockId: String) = apply { body.stockId(stockId) }
-
-        /**
-         * Sets [Builder.stockId] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.stockId] with a well-typed [String] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        fun stockId(stockId: JsonField<String>) = apply { body.stockId(stockId) }
-
-        /** ID of `Account` to receive the `Order`. */
-        fun recipientAccountId(recipientAccountId: String) = apply {
-            body.recipientAccountId(recipientAccountId)
-        }
-
-        /**
-         * Sets [Builder.recipientAccountId] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.recipientAccountId] with a well-typed [String] value
+         * You should usually call [Builder.chainId] with a well-typed [WalletChainId] value
          * instead. This method is primarily for setting the field to an undocumented or not yet
          * supported value.
          */
-        fun recipientAccountId(recipientAccountId: JsonField<String>) = apply {
-            body.recipientAccountId(recipientAccountId)
+        fun chainId(chainId: JsonField<WalletChainId>) = apply { body.chainId(chainId) }
+
+        /** Address of the `Wallet`. */
+        fun walletAddress(walletAddress: String) = apply { body.walletAddress(walletAddress) }
+
+        /**
+         * Sets [Builder.walletAddress] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.walletAddress] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun walletAddress(walletAddress: JsonField<String>) = apply {
+            body.walletAddress(walletAddress)
         }
+
+        /** Is the linked Wallet shared or not */
+        fun isShared(isShared: Boolean) = apply { body.isShared(isShared) }
+
+        /**
+         * Sets [Builder.isShared] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.isShared] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun isShared(isShared: JsonField<Boolean>) = apply { body.isShared(isShared) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -297,20 +291,20 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [OrderRequestCreateMarketSellParams].
+         * Returns an immutable instance of [WalletConnectInternalParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
          * The following fields are required:
          * ```java
-         * .assetQuantity()
-         * .stockId()
+         * .chainId()
+         * .walletAddress()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): OrderRequestCreateMarketSellParams =
-            OrderRequestCreateMarketSellParams(
+        fun build(): WalletConnectInternalParams =
+            WalletConnectInternalParams(
                 accountId,
                 body.build(),
                 additionalHeaders.build(),
@@ -330,78 +324,76 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    /** Input parameters for creating a market sell `OrderRequest`. */
+    /** Input parameters for connecting an `Account` to a `Wallet` owned by the `Entity`. */
     class Body
     private constructor(
-        private val assetQuantity: JsonField<Double>,
-        private val stockId: JsonField<String>,
-        private val recipientAccountId: JsonField<String>,
+        private val chainId: JsonField<WalletChainId>,
+        private val walletAddress: JsonField<String>,
+        private val isShared: JsonField<Boolean>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("asset_quantity")
+            @JsonProperty("chain_id")
             @ExcludeMissing
-            assetQuantity: JsonField<Double> = JsonMissing.of(),
-            @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("recipient_account_id")
+            chainId: JsonField<WalletChainId> = JsonMissing.of(),
+            @JsonProperty("wallet_address")
             @ExcludeMissing
-            recipientAccountId: JsonField<String> = JsonMissing.of(),
-        ) : this(assetQuantity, stockId, recipientAccountId, mutableMapOf())
+            walletAddress: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("is_shared")
+            @ExcludeMissing
+            isShared: JsonField<Boolean> = JsonMissing.of(),
+        ) : this(chainId, walletAddress, isShared, mutableMapOf())
 
         /**
-         * Quantity of shares to trade. Must be a positive number with a precision of up to 9
-         * decimal places.
+         * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used
+         * for EOA wallets
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun assetQuantity(): Double = assetQuantity.getRequired("asset_quantity")
+        fun chainId(): WalletChainId = chainId.getRequired("chain_id")
 
         /**
-         * ID of `Stock`.
+         * Address of the `Wallet`.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun stockId(): String = stockId.getRequired("stock_id")
+        fun walletAddress(): String = walletAddress.getRequired("wallet_address")
 
         /**
-         * ID of `Account` to receive the `Order`.
+         * Is the linked Wallet shared or not
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
          */
-        fun recipientAccountId(): Optional<String> =
-            recipientAccountId.getOptional("recipient_account_id")
+        fun isShared(): Optional<Boolean> = isShared.getOptional("is_shared")
 
         /**
-         * Returns the raw JSON value of [assetQuantity].
+         * Returns the raw JSON value of [chainId].
          *
-         * Unlike [assetQuantity], this method doesn't throw if the JSON field has an unexpected
+         * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("chain_id") @ExcludeMissing fun _chainId(): JsonField<WalletChainId> = chainId
+
+        /**
+         * Returns the raw JSON value of [walletAddress].
+         *
+         * Unlike [walletAddress], this method doesn't throw if the JSON field has an unexpected
          * type.
          */
-        @JsonProperty("asset_quantity")
+        @JsonProperty("wallet_address")
         @ExcludeMissing
-        fun _assetQuantity(): JsonField<Double> = assetQuantity
+        fun _walletAddress(): JsonField<String> = walletAddress
 
         /**
-         * Returns the raw JSON value of [stockId].
+         * Returns the raw JSON value of [isShared].
          *
-         * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+         * Unlike [isShared], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
-
-        /**
-         * Returns the raw JSON value of [recipientAccountId].
-         *
-         * Unlike [recipientAccountId], this method doesn't throw if the JSON field has an
-         * unexpected type.
-         */
-        @JsonProperty("recipient_account_id")
-        @ExcludeMissing
-        fun _recipientAccountId(): JsonField<String> = recipientAccountId
+        @JsonProperty("is_shared") @ExcludeMissing fun _isShared(): JsonField<Boolean> = isShared
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -422,8 +414,8 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .assetQuantity()
-             * .stockId()
+             * .chainId()
+             * .walletAddress()
              * ```
              */
             @JvmStatic fun builder() = Builder()
@@ -432,62 +424,59 @@ private constructor(
         /** A builder for [Body]. */
         class Builder internal constructor() {
 
-            private var assetQuantity: JsonField<Double>? = null
-            private var stockId: JsonField<String>? = null
-            private var recipientAccountId: JsonField<String> = JsonMissing.of()
+            private var chainId: JsonField<WalletChainId>? = null
+            private var walletAddress: JsonField<String>? = null
+            private var isShared: JsonField<Boolean> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
-                assetQuantity = body.assetQuantity
-                stockId = body.stockId
-                recipientAccountId = body.recipientAccountId
+                chainId = body.chainId
+                walletAddress = body.walletAddress
+                isShared = body.isShared
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
             /**
-             * Quantity of shares to trade. Must be a positive number with a precision of up to 9
-             * decimal places.
+             * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is
+             * used for EOA wallets
              */
-            fun assetQuantity(assetQuantity: Double) = assetQuantity(JsonField.of(assetQuantity))
+            fun chainId(chainId: WalletChainId) = chainId(JsonField.of(chainId))
 
             /**
-             * Sets [Builder.assetQuantity] to an arbitrary JSON value.
+             * Sets [Builder.chainId] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.assetQuantity] with a well-typed [Double] value
+             * You should usually call [Builder.chainId] with a well-typed [WalletChainId] value
              * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun assetQuantity(assetQuantity: JsonField<Double>) = apply {
-                this.assetQuantity = assetQuantity
-            }
+            fun chainId(chainId: JsonField<WalletChainId>) = apply { this.chainId = chainId }
 
-            /** ID of `Stock`. */
-            fun stockId(stockId: String) = stockId(JsonField.of(stockId))
+            /** Address of the `Wallet`. */
+            fun walletAddress(walletAddress: String) = walletAddress(JsonField.of(walletAddress))
 
             /**
-             * Sets [Builder.stockId] to an arbitrary JSON value.
+             * Sets [Builder.walletAddress] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.stockId] with a well-typed [String] value instead.
+             * You should usually call [Builder.walletAddress] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun walletAddress(walletAddress: JsonField<String>) = apply {
+                this.walletAddress = walletAddress
+            }
+
+            /** Is the linked Wallet shared or not */
+            fun isShared(isShared: Boolean) = isShared(JsonField.of(isShared))
+
+            /**
+             * Sets [Builder.isShared] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.isShared] with a well-typed [Boolean] value instead.
              * This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
-
-            /** ID of `Account` to receive the `Order`. */
-            fun recipientAccountId(recipientAccountId: String) =
-                recipientAccountId(JsonField.of(recipientAccountId))
-
-            /**
-             * Sets [Builder.recipientAccountId] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.recipientAccountId] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun recipientAccountId(recipientAccountId: JsonField<String>) = apply {
-                this.recipientAccountId = recipientAccountId
-            }
+            fun isShared(isShared: JsonField<Boolean>) = apply { this.isShared = isShared }
 
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
@@ -515,17 +504,17 @@ private constructor(
              *
              * The following fields are required:
              * ```java
-             * .assetQuantity()
-             * .stockId()
+             * .chainId()
+             * .walletAddress()
              * ```
              *
              * @throws IllegalStateException if any required field is unset.
              */
             fun build(): Body =
                 Body(
-                    checkRequired("assetQuantity", assetQuantity),
-                    checkRequired("stockId", stockId),
-                    recipientAccountId,
+                    checkRequired("chainId", chainId),
+                    checkRequired("walletAddress", walletAddress),
+                    isShared,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -537,9 +526,9 @@ private constructor(
                 return@apply
             }
 
-            assetQuantity()
-            stockId()
-            recipientAccountId()
+            chainId().validate()
+            walletAddress()
+            isShared()
             validated = true
         }
 
@@ -559,26 +548,26 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (assetQuantity.asKnown().isPresent) 1 else 0) +
-                (if (stockId.asKnown().isPresent) 1 else 0) +
-                (if (recipientAccountId.asKnown().isPresent) 1 else 0)
+            (chainId.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (walletAddress.asKnown().isPresent) 1 else 0) +
+                (if (isShared.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is Body && assetQuantity == other.assetQuantity && stockId == other.stockId && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && chainId == other.chainId && walletAddress == other.walletAddress && isShared == other.isShared && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(assetQuantity, stockId, recipientAccountId, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(chainId, walletAddress, isShared, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{assetQuantity=$assetQuantity, stockId=$stockId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
+            "Body{chainId=$chainId, walletAddress=$walletAddress, isShared=$isShared, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -586,11 +575,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is OrderRequestCreateMarketSellParams && accountId == other.accountId && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is WalletConnectInternalParams && accountId == other.accountId && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
     override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "OrderRequestCreateMarketSellParams{accountId=$accountId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "WalletConnectInternalParams{accountId=$accountId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

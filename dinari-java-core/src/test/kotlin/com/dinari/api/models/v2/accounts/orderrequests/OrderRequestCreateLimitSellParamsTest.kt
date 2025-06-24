@@ -18,6 +18,7 @@ internal class OrderRequestCreateLimitSellParamsTest {
                     .assetQuantity(0L)
                     .limitPrice(0.0)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
             .build()
@@ -46,6 +47,35 @@ internal class OrderRequestCreateLimitSellParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
+        val params =
+            OrderRequestCreateLimitSellParams.builder()
+                .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .createLimitOrderInput(
+                    CreateLimitOrderInput.builder()
+                        .assetQuantity(0L)
+                        .limitPrice(0.0)
+                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
+                .build()
+
+        val body = params._body()
+
+        assertThat(body)
+            .isEqualTo(
+                CreateLimitOrderInput.builder()
+                    .assetQuantity(0L)
+                    .limitPrice(0.0)
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun bodyWithoutOptionalFields() {
         val params =
             OrderRequestCreateLimitSellParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

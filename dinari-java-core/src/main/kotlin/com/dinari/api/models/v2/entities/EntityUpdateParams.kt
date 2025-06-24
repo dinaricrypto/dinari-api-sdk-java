@@ -7,7 +7,6 @@ import com.dinari.api.core.JsonField
 import com.dinari.api.core.JsonMissing
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.Params
-import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import com.dinari.api.errors.DinariInvalidDataException
@@ -18,25 +17,18 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
-/**
- * Create a new `Entity` to be managed by your organization. This `Entity` represents an individual
- * customer of your organization.
- */
-class EntityCreateParams
+/** Update a specific customer `Entity` of your organization. */
+class EntityUpdateParams
 private constructor(
+    private val entityId: String?,
     private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
-    /**
-     * Name of the `Entity`.
-     *
-     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-     */
-    fun name(): String = body.name()
+    fun entityId(): Optional<String> = Optional.ofNullable(entityId)
 
     /**
      * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the unique
@@ -46,13 +38,6 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun referenceId(): Optional<String> = body.referenceId()
-
-    /**
-     * Returns the raw JSON value of [name].
-     *
-     * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    fun _name(): JsonField<String> = body._name()
 
     /**
      * Returns the raw JSON value of [referenceId].
@@ -71,51 +56,41 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [EntityCreateParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .name()
-         * ```
-         */
+        @JvmStatic fun none(): EntityUpdateParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [EntityUpdateParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [EntityCreateParams]. */
+    /** A builder for [EntityUpdateParams]. */
     class Builder internal constructor() {
 
+        private var entityId: String? = null
         private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(entityCreateParams: EntityCreateParams) = apply {
-            body = entityCreateParams.body.toBuilder()
-            additionalHeaders = entityCreateParams.additionalHeaders.toBuilder()
-            additionalQueryParams = entityCreateParams.additionalQueryParams.toBuilder()
+        internal fun from(entityUpdateParams: EntityUpdateParams) = apply {
+            entityId = entityUpdateParams.entityId
+            body = entityUpdateParams.body.toBuilder()
+            additionalHeaders = entityUpdateParams.additionalHeaders.toBuilder()
+            additionalQueryParams = entityUpdateParams.additionalQueryParams.toBuilder()
         }
+
+        fun entityId(entityId: String?) = apply { this.entityId = entityId }
+
+        /** Alias for calling [Builder.entityId] with `entityId.orElse(null)`. */
+        fun entityId(entityId: Optional<String>) = entityId(entityId.getOrNull())
 
         /**
          * Sets the entire request body.
          *
          * This is generally only useful if you are already constructing the body separately.
          * Otherwise, it's more convenient to use the top-level setters instead:
-         * - [name]
          * - [referenceId]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
-
-        /** Name of the `Entity`. */
-        fun name(name: String) = apply { body.name(name) }
-
-        /**
-         * Sets [Builder.name] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.name] with a well-typed [String] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        fun name(name: JsonField<String>) = apply { body.name(name) }
 
         /**
          * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the
@@ -250,19 +225,13 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [EntityCreateParams].
+         * Returns an immutable instance of [EntityUpdateParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .name()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): EntityCreateParams =
-            EntityCreateParams(
+        fun build(): EntityUpdateParams =
+            EntityUpdateParams(
+                entityId,
                 body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -271,33 +240,29 @@ private constructor(
 
     fun _body(): Body = body
 
+    fun _pathParam(index: Int): String =
+        when (index) {
+            0 -> entityId ?: ""
+            else -> ""
+        }
+
     override fun _headers(): Headers = additionalHeaders
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    /** Input parameters for creating an `Entity`. */
+    /** Input parameters for updating an `Entity`. */
     class Body
     private constructor(
-        private val name: JsonField<String>,
         private val referenceId: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
         @JsonCreator
         private constructor(
-            @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
             @JsonProperty("reference_id")
             @ExcludeMissing
-            referenceId: JsonField<String> = JsonMissing.of(),
-        ) : this(name, referenceId, mutableMapOf())
-
-        /**
-         * Name of the `Entity`.
-         *
-         * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun name(): String = name.getRequired("name")
+            referenceId: JsonField<String> = JsonMissing.of()
+        ) : this(referenceId, mutableMapOf())
 
         /**
          * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the
@@ -307,13 +272,6 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun referenceId(): Optional<String> = referenceId.getOptional("reference_id")
-
-        /**
-         * Returns the raw JSON value of [name].
-         *
-         * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
 
         /**
          * Returns the raw JSON value of [referenceId].
@@ -338,42 +296,21 @@ private constructor(
 
         companion object {
 
-            /**
-             * Returns a mutable builder for constructing an instance of [Body].
-             *
-             * The following fields are required:
-             * ```java
-             * .name()
-             * ```
-             */
+            /** Returns a mutable builder for constructing an instance of [Body]. */
             @JvmStatic fun builder() = Builder()
         }
 
         /** A builder for [Body]. */
         class Builder internal constructor() {
 
-            private var name: JsonField<String>? = null
             private var referenceId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
             internal fun from(body: Body) = apply {
-                name = body.name
                 referenceId = body.referenceId
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
-
-            /** Name of the `Entity`. */
-            fun name(name: String) = name(JsonField.of(name))
-
-            /**
-             * Sets [Builder.name] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.name] with a well-typed [String] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
-             */
-            fun name(name: JsonField<String>) = apply { this.name = name }
 
             /**
              * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the
@@ -415,16 +352,8 @@ private constructor(
              * Returns an immutable instance of [Body].
              *
              * Further updates to this [Builder] will not mutate the returned instance.
-             *
-             * The following fields are required:
-             * ```java
-             * .name()
-             * ```
-             *
-             * @throws IllegalStateException if any required field is unset.
              */
-            fun build(): Body =
-                Body(checkRequired("name", name), referenceId, additionalProperties.toMutableMap())
+            fun build(): Body = Body(referenceId, additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false
@@ -434,7 +363,6 @@ private constructor(
                 return@apply
             }
 
-            name()
             referenceId()
             validated = true
         }
@@ -453,27 +381,24 @@ private constructor(
          *
          * Used for best match union deserialization.
          */
-        @JvmSynthetic
-        internal fun validity(): Int =
-            (if (name.asKnown().isPresent) 1 else 0) +
-                (if (referenceId.asKnown().isPresent) 1 else 0)
+        @JvmSynthetic internal fun validity(): Int = (if (referenceId.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
-            return /* spotless:off */ other is Body && name == other.name && referenceId == other.referenceId && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && referenceId == other.referenceId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(name, referenceId, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(referenceId, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{name=$name, referenceId=$referenceId, additionalProperties=$additionalProperties}"
+            "Body{referenceId=$referenceId, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
@@ -481,11 +406,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EntityCreateParams && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is EntityUpdateParams && entityId == other.entityId && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(entityId, body, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "EntityCreateParams{body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "EntityUpdateParams{entityId=$entityId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

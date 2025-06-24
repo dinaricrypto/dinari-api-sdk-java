@@ -4,9 +4,9 @@ package com.dinari.api.services.async.v2.accounts.wallet
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
-import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.wallet.external.ExternalConnectParams
 import com.dinari.api.models.v2.accounts.wallet.external.ExternalGetNonceParams
+import com.dinari.api.models.v2.accounts.wallet.external.WalletChainId
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -29,7 +29,7 @@ internal class ExternalServiceAsyncTest {
             externalServiceAsync.connect(
                 ExternalConnectParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .chainId(Chain.EIP155_1)
+                    .chainId(WalletChainId.EIP155_0)
                     .nonce("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .signature("0xeaF12bD1DfFd")
                     .walletAddress("wallet_address")
@@ -55,6 +55,7 @@ internal class ExternalServiceAsyncTest {
             externalServiceAsync.getNonce(
                 ExternalGetNonceParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .chainId(WalletChainId.EIP155_0)
                     .walletAddress("wallet_address")
                     .build()
             )

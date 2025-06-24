@@ -20,7 +20,7 @@ internal class Eip155GetFeeQuoteResponseTest {
                 .fee(0.0)
                 .orderFeeContractObject(
                     Eip155GetFeeQuoteResponse.OrderFeeContractObject.builder()
-                        .chainId(0L)
+                        .chainId(Eip155GetFeeQuoteResponse.OrderFeeContractObject.ChainId._42161)
                         .feeQuote(
                             Eip155GetFeeQuoteResponse.OrderFeeContractObject.FeeQuote.builder()
                                 .deadline(0L)
@@ -32,13 +32,10 @@ internal class Eip155GetFeeQuoteResponseTest {
                         )
                         .feeQuoteSignature("0xeaF12bD1DfFd")
                         .addFee(
-                            Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.builder()
+                            OrderFeeAmount.builder()
                                 .feeInEth(0.0)
                                 .feeInWei("fee_in_wei")
-                                .type(
-                                    Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.Type
-                                        .SPONSORED_NETWORK
-                                )
+                                .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                                 .build()
                         )
                         .paymentToken("payment_token")
@@ -51,7 +48,7 @@ internal class Eip155GetFeeQuoteResponseTest {
         assertThat(eip155GetFeeQuoteResponse.orderFeeContractObject())
             .isEqualTo(
                 Eip155GetFeeQuoteResponse.OrderFeeContractObject.builder()
-                    .chainId(0L)
+                    .chainId(Eip155GetFeeQuoteResponse.OrderFeeContractObject.ChainId._42161)
                     .feeQuote(
                         Eip155GetFeeQuoteResponse.OrderFeeContractObject.FeeQuote.builder()
                             .deadline(0L)
@@ -63,13 +60,10 @@ internal class Eip155GetFeeQuoteResponseTest {
                     )
                     .feeQuoteSignature("0xeaF12bD1DfFd")
                     .addFee(
-                        Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.builder()
+                        OrderFeeAmount.builder()
                             .feeInEth(0.0)
                             .feeInWei("fee_in_wei")
-                            .type(
-                                Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.Type
-                                    .SPONSORED_NETWORK
-                            )
+                            .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                             .build()
                     )
                     .paymentToken("payment_token")
@@ -87,7 +81,7 @@ internal class Eip155GetFeeQuoteResponseTest {
                 .fee(0.0)
                 .orderFeeContractObject(
                     Eip155GetFeeQuoteResponse.OrderFeeContractObject.builder()
-                        .chainId(0L)
+                        .chainId(Eip155GetFeeQuoteResponse.OrderFeeContractObject.ChainId._42161)
                         .feeQuote(
                             Eip155GetFeeQuoteResponse.OrderFeeContractObject.FeeQuote.builder()
                                 .deadline(0L)
@@ -99,13 +93,10 @@ internal class Eip155GetFeeQuoteResponseTest {
                         )
                         .feeQuoteSignature("0xeaF12bD1DfFd")
                         .addFee(
-                            Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.builder()
+                            OrderFeeAmount.builder()
                                 .feeInEth(0.0)
                                 .feeInWei("fee_in_wei")
-                                .type(
-                                    Eip155GetFeeQuoteResponse.OrderFeeContractObject.Fee.Type
-                                        .SPONSORED_NETWORK
-                                )
+                                .type(OrderFeeAmount.Type.SPONSORED_NETWORK)
                                 .build()
                         )
                         .paymentToken("payment_token")

@@ -6,6 +6,7 @@ import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.wallet.Wallet
+import com.dinari.api.models.v2.accounts.wallet.WalletConnectInternalParams
 import com.dinari.api.models.v2.accounts.wallet.WalletGetParams
 import com.dinari.api.services.blocking.v2.accounts.wallet.ExternalService
 import com.google.errorprone.annotations.MustBeClosed
@@ -26,6 +27,27 @@ interface WalletService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): WalletService
 
     fun external(): ExternalService
+
+    /** Connect an internal `Wallet` to the `Account`. */
+    fun connectInternal(accountId: String, params: WalletConnectInternalParams): Wallet =
+        connectInternal(accountId, params, RequestOptions.none())
+
+    /** @see [connectInternal] */
+    fun connectInternal(
+        accountId: String,
+        params: WalletConnectInternalParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Wallet = connectInternal(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+    /** @see [connectInternal] */
+    fun connectInternal(params: WalletConnectInternalParams): Wallet =
+        connectInternal(params, RequestOptions.none())
+
+    /** @see [connectInternal] */
+    fun connectInternal(
+        params: WalletConnectInternalParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): Wallet
 
     /** Get the wallet connected to the `Account`. */
     fun get(accountId: String): Wallet = get(accountId, WalletGetParams.none())
@@ -62,6 +84,37 @@ interface WalletService {
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): WalletService.WithRawResponse
 
         fun external(): ExternalService.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/wallet/internal`, but
+         * is otherwise the same as [WalletService.connectInternal].
+         */
+        @MustBeClosed
+        fun connectInternal(
+            accountId: String,
+            params: WalletConnectInternalParams,
+        ): HttpResponseFor<Wallet> = connectInternal(accountId, params, RequestOptions.none())
+
+        /** @see [connectInternal] */
+        @MustBeClosed
+        fun connectInternal(
+            accountId: String,
+            params: WalletConnectInternalParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Wallet> =
+            connectInternal(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+        /** @see [connectInternal] */
+        @MustBeClosed
+        fun connectInternal(params: WalletConnectInternalParams): HttpResponseFor<Wallet> =
+            connectInternal(params, RequestOptions.none())
+
+        /** @see [connectInternal] */
+        @MustBeClosed
+        fun connectInternal(
+            params: WalletConnectInternalParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<Wallet>
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/wallet`, but is

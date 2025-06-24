@@ -5,6 +5,8 @@ package com.dinari.api.services.blocking.v2
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.entities.EntityCreateParams
+import com.dinari.api.models.v2.entities.EntityListParams
+import com.dinari.api.models.v2.entities.EntityUpdateParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -23,7 +25,30 @@ internal class EntityServiceTest {
                 .build()
         val entityService = client.v2().entities()
 
-        val entity = entityService.create(EntityCreateParams.builder().name("x").build())
+        val entity =
+            entityService.create(EntityCreateParams.builder().name("x").referenceId("x").build())
+
+        entity.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun update() {
+        val client =
+            DinariOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val entityService = client.v2().entities()
+
+        val entity =
+            entityService.update(
+                EntityUpdateParams.builder()
+                    .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .referenceId("x")
+                    .build()
+            )
 
         entity.validate()
     }
@@ -39,7 +64,10 @@ internal class EntityServiceTest {
                 .build()
         val entityService = client.v2().entities()
 
-        val entities = entityService.list()
+        val entities =
+            entityService.list(
+                EntityListParams.builder().page(1L).pageSize(1L).referenceId("x").build()
+            )
 
         entities.forEach { it.validate() }
     }

@@ -14,12 +14,19 @@ import kotlin.jvm.optionals.getOrNull
 class ExternalGetNonceParams
 private constructor(
     private val accountId: String?,
+    private val chainId: WalletChainId,
     private val walletAddress: String,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
+
+    /**
+     * CAIP-2 formatted chain ID of the blockchain the `Wallet` is on. eip155:0 is used for EOA
+     * wallets
+     */
+    fun chainId(): WalletChainId = chainId
 
     /** Address of the `Wallet` to connect. */
     fun walletAddress(): String = walletAddress
@@ -37,6 +44,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
+         * .chainId()
          * .walletAddress()
          * ```
          */
@@ -47,6 +55,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var accountId: String? = null
+        private var chainId: WalletChainId? = null
         private var walletAddress: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -54,6 +63,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(externalGetNonceParams: ExternalGetNonceParams) = apply {
             accountId = externalGetNonceParams.accountId
+            chainId = externalGetNonceParams.chainId
             walletAddress = externalGetNonceParams.walletAddress
             additionalHeaders = externalGetNonceParams.additionalHeaders.toBuilder()
             additionalQueryParams = externalGetNonceParams.additionalQueryParams.toBuilder()
@@ -63,6 +73,12 @@ private constructor(
 
         /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
         fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
+
+        /**
+         * CAIP-2 formatted chain ID of the blockchain the `Wallet` is on. eip155:0 is used for EOA
+         * wallets
+         */
+        fun chainId(chainId: WalletChainId) = apply { this.chainId = chainId }
 
         /** Address of the `Wallet` to connect. */
         fun walletAddress(walletAddress: String) = apply { this.walletAddress = walletAddress }
@@ -172,6 +188,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
+         * .chainId()
          * .walletAddress()
          * ```
          *
@@ -180,6 +197,7 @@ private constructor(
         fun build(): ExternalGetNonceParams =
             ExternalGetNonceParams(
                 accountId,
+                checkRequired("chainId", chainId),
                 checkRequired("walletAddress", walletAddress),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -197,6 +215,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
+                put("chain_id", chainId.toString())
                 put("wallet_address", walletAddress)
                 putAll(additionalQueryParams)
             }
@@ -207,11 +226,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalGetNonceParams && accountId == other.accountId && walletAddress == other.walletAddress && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is ExternalGetNonceParams && accountId == other.accountId && chainId == other.chainId && walletAddress == other.walletAddress && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, walletAddress, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, chainId, walletAddress, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "ExternalGetNonceParams{accountId=$accountId, walletAddress=$walletAddress, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "ExternalGetNonceParams{accountId=$accountId, chainId=$chainId, walletAddress=$walletAddress, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

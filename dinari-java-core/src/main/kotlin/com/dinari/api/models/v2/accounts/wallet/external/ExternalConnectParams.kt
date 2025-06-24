@@ -11,7 +11,6 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import com.dinari.api.errors.DinariInvalidDataException
-import com.dinari.api.models.v2.accounts.Chain
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -33,12 +32,13 @@ private constructor(
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
     /**
-     * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on.
+     * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used for
+     * EOA wallets
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun chainId(): Chain = body.chainId()
+    fun chainId(): WalletChainId = body.chainId()
 
     /**
      * Nonce contained within the connection message.
@@ -69,7 +69,7 @@ private constructor(
      *
      * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
      */
-    fun _chainId(): JsonField<Chain> = body._chainId()
+    fun _chainId(): JsonField<WalletChainId> = body._chainId()
 
     /**
      * Returns the raw JSON value of [nonce].
@@ -149,16 +149,20 @@ private constructor(
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
 
-        /** CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. */
-        fun chainId(chainId: Chain) = apply { body.chainId(chainId) }
+        /**
+         * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used
+         * for EOA wallets
+         */
+        fun chainId(chainId: WalletChainId) = apply { body.chainId(chainId) }
 
         /**
          * Sets [Builder.chainId] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.chainId] with a well-typed [Chain] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.chainId] with a well-typed [WalletChainId] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun chainId(chainId: JsonField<Chain>) = apply { body.chainId(chainId) }
+        fun chainId(chainId: JsonField<WalletChainId>) = apply { body.chainId(chainId) }
 
         /** Nonce contained within the connection message. */
         fun nonce(nonce: String) = apply { body.nonce(nonce) }
@@ -353,7 +357,7 @@ private constructor(
     /** Input parameters for connecting an `Account` to a `Wallet` owned by the `Entity`. */
     class Body
     private constructor(
-        private val chainId: JsonField<Chain>,
+        private val chainId: JsonField<WalletChainId>,
         private val nonce: JsonField<String>,
         private val signature: JsonField<String>,
         private val walletAddress: JsonField<String>,
@@ -362,7 +366,9 @@ private constructor(
 
         @JsonCreator
         private constructor(
-            @JsonProperty("chain_id") @ExcludeMissing chainId: JsonField<Chain> = JsonMissing.of(),
+            @JsonProperty("chain_id")
+            @ExcludeMissing
+            chainId: JsonField<WalletChainId> = JsonMissing.of(),
             @JsonProperty("nonce") @ExcludeMissing nonce: JsonField<String> = JsonMissing.of(),
             @JsonProperty("signature")
             @ExcludeMissing
@@ -373,12 +379,13 @@ private constructor(
         ) : this(chainId, nonce, signature, walletAddress, mutableMapOf())
 
         /**
-         * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on.
+         * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is used
+         * for EOA wallets
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
-        fun chainId(): Chain = chainId.getRequired("chain_id")
+        fun chainId(): WalletChainId = chainId.getRequired("chain_id")
 
         /**
          * Nonce contained within the connection message.
@@ -409,7 +416,7 @@ private constructor(
          *
          * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("chain_id") @ExcludeMissing fun _chainId(): JsonField<Chain> = chainId
+        @JsonProperty("chain_id") @ExcludeMissing fun _chainId(): JsonField<WalletChainId> = chainId
 
         /**
          * Returns the raw JSON value of [nonce].
@@ -466,7 +473,7 @@ private constructor(
         /** A builder for [Body]. */
         class Builder internal constructor() {
 
-            private var chainId: JsonField<Chain>? = null
+            private var chainId: JsonField<WalletChainId>? = null
             private var nonce: JsonField<String>? = null
             private var signature: JsonField<String>? = null
             private var walletAddress: JsonField<String>? = null
@@ -481,17 +488,20 @@ private constructor(
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
-            /** CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. */
-            fun chainId(chainId: Chain) = chainId(JsonField.of(chainId))
+            /**
+             * CAIP-2 formatted chain ID of the blockchain the `Wallet` to link is on. eip155:0 is
+             * used for EOA wallets
+             */
+            fun chainId(chainId: WalletChainId) = chainId(JsonField.of(chainId))
 
             /**
              * Sets [Builder.chainId] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.chainId] with a well-typed [Chain] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
+             * You should usually call [Builder.chainId] with a well-typed [WalletChainId] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
              * supported value.
              */
-            fun chainId(chainId: JsonField<Chain>) = apply { this.chainId = chainId }
+            fun chainId(chainId: JsonField<WalletChainId>) = apply { this.chainId = chainId }
 
             /** Nonce contained within the connection message. */
             fun nonce(nonce: String) = nonce(JsonField.of(nonce))

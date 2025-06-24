@@ -63,6 +63,7 @@ internal class KycServiceTest {
                     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .data(
                         KycData.builder()
+                            .addressCountryCode("SG")
                             .countryCode("SG")
                             .lastName("Doe")
                             .addressCity("San Francisco")

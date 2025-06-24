@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.2.0 (2025-06-24)
+
+Full Changelog: [v0.1.1...v0.2.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.1.1...v0.2.0)
+
+### Features
+
+* **api:** 20250624 new updates ([f2c222b](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/f2c222b68af91d47a8b4b5c9e0ff0bd57f6d8705))
+* **api:** api update ([2edc8e4](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/2edc8e42c21e10c0c3e185a0b2b339aa74926200))
+* **api:** api update ([ae8a1f3](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/ae8a1f38ada852b5aff3655857670b7366aaeae7))
+
+
+### Bug Fixes
+
+* **client:** bump max requests per host to max requests (5 -&gt; 64) ([e4e9ef7](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/e4e9ef7d8cafabf2b602588b19b62df30b863ab4))
+
 ## 0.1.1 (2025-06-22)
 
 Full Changelog: [v0.1.0...v0.1.1](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.1.0...v0.1.1)

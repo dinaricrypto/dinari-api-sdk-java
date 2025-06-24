@@ -26,6 +26,7 @@ private constructor(
     private val isKycComplete: JsonField<Boolean>,
     private val name: JsonField<String>,
     private val nationality: JsonField<String>,
+    private val referenceId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -42,7 +43,10 @@ private constructor(
         @JsonProperty("nationality")
         @ExcludeMissing
         nationality: JsonField<String> = JsonMissing.of(),
-    ) : this(id, entityType, isKycComplete, name, nationality, mutableMapOf())
+        @JsonProperty("reference_id")
+        @ExcludeMissing
+        referenceId: JsonField<String> = JsonMissing.of(),
+    ) : this(id, entityType, isKycComplete, name, nationality, referenceId, mutableMapOf())
 
     /**
      * Unique ID of the `Entity`.
@@ -86,6 +90,15 @@ private constructor(
     fun nationality(): Optional<String> = nationality.getOptional("nationality")
 
     /**
+     * Case sensitive unique reference ID that you can set for the `Entity`. We recommend setting
+     * this to the unique ID of the `Entity` in your system.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun referenceId(): Optional<String> = referenceId.getOptional("reference_id")
+
+    /**
      * Returns the raw JSON value of [id].
      *
      * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
@@ -124,6 +137,15 @@ private constructor(
      */
     @JsonProperty("nationality") @ExcludeMissing fun _nationality(): JsonField<String> = nationality
 
+    /**
+     * Returns the raw JSON value of [referenceId].
+     *
+     * Unlike [referenceId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("reference_id")
+    @ExcludeMissing
+    fun _referenceId(): JsonField<String> = referenceId
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -159,6 +181,7 @@ private constructor(
         private var isKycComplete: JsonField<Boolean>? = null
         private var name: JsonField<String> = JsonMissing.of()
         private var nationality: JsonField<String> = JsonMissing.of()
+        private var referenceId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -168,6 +191,7 @@ private constructor(
             isKycComplete = entity.isKycComplete
             name = entity.name
             nationality = entity.nationality
+            referenceId = entity.referenceId
             additionalProperties = entity.additionalProperties.toMutableMap()
         }
 
@@ -234,6 +258,21 @@ private constructor(
          */
         fun nationality(nationality: JsonField<String>) = apply { this.nationality = nationality }
 
+        /**
+         * Case sensitive unique reference ID that you can set for the `Entity`. We recommend
+         * setting this to the unique ID of the `Entity` in your system.
+         */
+        fun referenceId(referenceId: String) = referenceId(JsonField.of(referenceId))
+
+        /**
+         * Sets [Builder.referenceId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.referenceId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun referenceId(referenceId: JsonField<String>) = apply { this.referenceId = referenceId }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -274,6 +313,7 @@ private constructor(
                 checkRequired("isKycComplete", isKycComplete),
                 name,
                 nationality,
+                referenceId,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -290,6 +330,7 @@ private constructor(
         isKycComplete()
         name()
         nationality()
+        referenceId()
         validated = true
     }
 
@@ -312,7 +353,8 @@ private constructor(
             (entityType.asKnown().getOrNull()?.validity() ?: 0) +
             (if (isKycComplete.asKnown().isPresent) 1 else 0) +
             (if (name.asKnown().isPresent) 1 else 0) +
-            (if (nationality.asKnown().isPresent) 1 else 0)
+            (if (nationality.asKnown().isPresent) 1 else 0) +
+            (if (referenceId.asKnown().isPresent) 1 else 0)
 
     /**
      * Type of `Entity`. `ORGANIZATION` for Dinari Partners and `INDIVIDUAL` for their individual
@@ -450,15 +492,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Entity && id == other.id && entityType == other.entityType && isKycComplete == other.isKycComplete && name == other.name && nationality == other.nationality && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Entity && id == other.id && entityType == other.entityType && isKycComplete == other.isKycComplete && name == other.name && nationality == other.nationality && referenceId == other.referenceId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, entityType, isKycComplete, name, nationality, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(id, entityType, isKycComplete, name, nationality, referenceId, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Entity{id=$id, entityType=$entityType, isKycComplete=$isKycComplete, name=$name, nationality=$nationality, additionalProperties=$additionalProperties}"
+        "Entity{id=$id, entityType=$entityType, isKycComplete=$isKycComplete, name=$name, nationality=$nationality, referenceId=$referenceId, additionalProperties=$additionalProperties}"
 }

@@ -41,6 +41,7 @@ private constructor(
     private val orderType: JsonField<OrderType>,
     private val status: JsonField<Status>,
     private val orderId: JsonField<String>,
+    private val recipientAccountId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -60,6 +61,9 @@ private constructor(
         orderType: JsonField<OrderType> = JsonMissing.of(),
         @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
         @JsonProperty("order_id") @ExcludeMissing orderId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("recipient_account_id")
+        @ExcludeMissing
+        recipientAccountId: JsonField<String> = JsonMissing.of(),
     ) : this(
         id,
         accountId,
@@ -69,6 +73,7 @@ private constructor(
         orderType,
         status,
         orderId,
+        recipientAccountId,
         mutableMapOf(),
     )
 
@@ -138,6 +143,15 @@ private constructor(
     fun orderId(): Optional<String> = orderId.getOptional("order_id")
 
     /**
+     * ID of recipient `Account`.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun recipientAccountId(): Optional<String> =
+        recipientAccountId.getOptional("recipient_account_id")
+
+    /**
      * Returns the raw JSON value of [id].
      *
      * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
@@ -195,6 +209,16 @@ private constructor(
      */
     @JsonProperty("order_id") @ExcludeMissing fun _orderId(): JsonField<String> = orderId
 
+    /**
+     * Returns the raw JSON value of [recipientAccountId].
+     *
+     * Unlike [recipientAccountId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("recipient_account_id")
+    @ExcludeMissing
+    fun _recipientAccountId(): JsonField<String> = recipientAccountId
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -237,6 +261,7 @@ private constructor(
         private var orderType: JsonField<OrderType>? = null
         private var status: JsonField<Status>? = null
         private var orderId: JsonField<String> = JsonMissing.of()
+        private var recipientAccountId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -249,6 +274,7 @@ private constructor(
             orderType = orderRequest.orderType
             status = orderRequest.status
             orderId = orderRequest.orderId
+            recipientAccountId = orderRequest.recipientAccountId
             additionalProperties = orderRequest.additionalProperties.toMutableMap()
         }
 
@@ -350,6 +376,21 @@ private constructor(
          */
         fun orderId(orderId: JsonField<String>) = apply { this.orderId = orderId }
 
+        /** ID of recipient `Account`. */
+        fun recipientAccountId(recipientAccountId: String) =
+            recipientAccountId(JsonField.of(recipientAccountId))
+
+        /**
+         * Sets [Builder.recipientAccountId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.recipientAccountId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun recipientAccountId(recipientAccountId: JsonField<String>) = apply {
+            this.recipientAccountId = recipientAccountId
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -397,6 +438,7 @@ private constructor(
                 checkRequired("orderType", orderType),
                 checkRequired("status", status),
                 orderId,
+                recipientAccountId,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -416,6 +458,7 @@ private constructor(
         orderType().validate()
         status().validate()
         orderId()
+        recipientAccountId()
         validated = true
     }
 
@@ -441,7 +484,8 @@ private constructor(
             (orderTif.asKnown().getOrNull()?.validity() ?: 0) +
             (orderType.asKnown().getOrNull()?.validity() ?: 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (orderId.asKnown().isPresent) 1 else 0)
+            (if (orderId.asKnown().isPresent) 1 else 0) +
+            (if (recipientAccountId.asKnown().isPresent) 1 else 0)
 
     /** Status of `OrderRequest`. */
     class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
@@ -586,15 +630,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is OrderRequest && id == other.id && accountId == other.accountId && createdDt == other.createdDt && orderSide == other.orderSide && orderTif == other.orderTif && orderType == other.orderType && status == other.status && orderId == other.orderId && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is OrderRequest && id == other.id && accountId == other.accountId && createdDt == other.createdDt && orderSide == other.orderSide && orderTif == other.orderTif && orderType == other.orderType && status == other.status && orderId == other.orderId && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, accountId, createdDt, orderSide, orderTif, orderType, status, orderId, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(id, accountId, createdDt, orderSide, orderTif, orderType, status, orderId, recipientAccountId, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "OrderRequest{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, orderId=$orderId, additionalProperties=$additionalProperties}"
+        "OrderRequest{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, orderId=$orderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
 }

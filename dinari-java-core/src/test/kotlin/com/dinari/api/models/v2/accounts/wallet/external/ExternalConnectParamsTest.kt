@@ -2,7 +2,6 @@
 
 package com.dinari.api.models.v2.accounts.wallet.external
 
-import com.dinari.api.models.v2.accounts.Chain
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -14,7 +13,7 @@ internal class ExternalConnectParamsTest {
     fun create() {
         ExternalConnectParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .chainId(Chain.EIP155_1)
+            .chainId(WalletChainId.EIP155_0)
             .nonce("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .signature("0xeaF12bD1DfFd")
             .walletAddress("wallet_address")
@@ -27,7 +26,7 @@ internal class ExternalConnectParamsTest {
         val params =
             ExternalConnectParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .chainId(Chain.EIP155_1)
+                .chainId(WalletChainId.EIP155_0)
                 .nonce("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .signature("0xeaF12bD1DfFd")
                 .walletAddress("wallet_address")
@@ -44,7 +43,7 @@ internal class ExternalConnectParamsTest {
         val params =
             ExternalConnectParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .chainId(Chain.EIP155_1)
+                .chainId(WalletChainId.EIP155_0)
                 .nonce("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .signature("0xeaF12bD1DfFd")
                 .walletAddress("wallet_address")
@@ -52,7 +51,7 @@ internal class ExternalConnectParamsTest {
 
         val body = params._body()
 
-        assertThat(body.chainId()).isEqualTo(Chain.EIP155_1)
+        assertThat(body.chainId()).isEqualTo(WalletChainId.EIP155_0)
         assertThat(body.nonce()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.signature()).isEqualTo("0xeaF12bD1DfFd")
         assertThat(body.walletAddress()).isEqualTo("wallet_address")
