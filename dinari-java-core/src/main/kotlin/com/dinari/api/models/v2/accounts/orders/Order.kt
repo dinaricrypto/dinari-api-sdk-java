@@ -36,6 +36,7 @@ private constructor(
     private val cancelTransactionHash: JsonField<String>,
     private val fee: JsonField<Double>,
     private val limitPrice: JsonField<Double>,
+    private val orderRequestId: JsonField<String>,
     private val paymentToken: JsonField<String>,
     private val paymentTokenQuantity: JsonField<Double>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -78,6 +79,9 @@ private constructor(
         @JsonProperty("limit_price")
         @ExcludeMissing
         limitPrice: JsonField<Double> = JsonMissing.of(),
+        @JsonProperty("order_request_id")
+        @ExcludeMissing
+        orderRequestId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("payment_token")
         @ExcludeMissing
         paymentToken: JsonField<String> = JsonMissing.of(),
@@ -100,6 +104,7 @@ private constructor(
         cancelTransactionHash,
         fee,
         limitPrice,
+        orderRequestId,
         paymentToken,
         paymentTokenQuantity,
         mutableMapOf(),
@@ -227,6 +232,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun limitPrice(): Optional<Double> = limitPrice.getOptional("limit_price")
+
+    /**
+     * Order Request ID for the `Order`
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun orderRequestId(): Optional<String> = orderRequestId.getOptional("order_request_id")
 
     /**
      * The payment token (stablecoin) address.
@@ -365,6 +378,15 @@ private constructor(
     @JsonProperty("limit_price") @ExcludeMissing fun _limitPrice(): JsonField<Double> = limitPrice
 
     /**
+     * Returns the raw JSON value of [orderRequestId].
+     *
+     * Unlike [orderRequestId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("order_request_id")
+    @ExcludeMissing
+    fun _orderRequestId(): JsonField<String> = orderRequestId
+
+    /**
      * Returns the raw JSON value of [paymentToken].
      *
      * Unlike [paymentToken], this method doesn't throw if the JSON field has an unexpected type.
@@ -435,6 +457,7 @@ private constructor(
         private var cancelTransactionHash: JsonField<String> = JsonMissing.of()
         private var fee: JsonField<Double> = JsonMissing.of()
         private var limitPrice: JsonField<Double> = JsonMissing.of()
+        private var orderRequestId: JsonField<String> = JsonMissing.of()
         private var paymentToken: JsonField<String> = JsonMissing.of()
         private var paymentTokenQuantity: JsonField<Double> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -456,6 +479,7 @@ private constructor(
             cancelTransactionHash = order.cancelTransactionHash
             fee = order.fee
             limitPrice = order.limitPrice
+            orderRequestId = order.orderRequestId
             paymentToken = order.paymentToken
             paymentTokenQuantity = order.paymentTokenQuantity
             additionalProperties = order.additionalProperties.toMutableMap()
@@ -652,6 +676,20 @@ private constructor(
          */
         fun limitPrice(limitPrice: JsonField<Double>) = apply { this.limitPrice = limitPrice }
 
+        /** Order Request ID for the `Order` */
+        fun orderRequestId(orderRequestId: String) = orderRequestId(JsonField.of(orderRequestId))
+
+        /**
+         * Sets [Builder.orderRequestId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.orderRequestId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun orderRequestId(orderRequestId: JsonField<String>) = apply {
+            this.orderRequestId = orderRequestId
+        }
+
         /** The payment token (stablecoin) address. */
         fun paymentToken(paymentToken: String) = paymentToken(JsonField.of(paymentToken))
 
@@ -738,6 +776,7 @@ private constructor(
                 cancelTransactionHash,
                 fee,
                 limitPrice,
+                orderRequestId,
                 paymentToken,
                 paymentTokenQuantity,
                 additionalProperties.toMutableMap(),
@@ -766,6 +805,7 @@ private constructor(
         cancelTransactionHash()
         fee()
         limitPrice()
+        orderRequestId()
         paymentToken()
         paymentTokenQuantity()
         validated = true
@@ -801,6 +841,7 @@ private constructor(
             (if (cancelTransactionHash.asKnown().isPresent) 1 else 0) +
             (if (fee.asKnown().isPresent) 1 else 0) +
             (if (limitPrice.asKnown().isPresent) 1 else 0) +
+            (if (orderRequestId.asKnown().isPresent) 1 else 0) +
             (if (paymentToken.asKnown().isPresent) 1 else 0) +
             (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0)
 
@@ -809,15 +850,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Order && id == other.id && chainId == other.chainId && createdDt == other.createdDt && orderContractAddress == other.orderContractAddress && orderSide == other.orderSide && orderTif == other.orderTif && orderTransactionHash == other.orderTransactionHash && orderType == other.orderType && status == other.status && stockId == other.stockId && assetToken == other.assetToken && assetTokenQuantity == other.assetTokenQuantity && cancelTransactionHash == other.cancelTransactionHash && fee == other.fee && limitPrice == other.limitPrice && paymentToken == other.paymentToken && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is Order && id == other.id && chainId == other.chainId && createdDt == other.createdDt && orderContractAddress == other.orderContractAddress && orderSide == other.orderSide && orderTif == other.orderTif && orderTransactionHash == other.orderTransactionHash && orderType == other.orderType && status == other.status && stockId == other.stockId && assetToken == other.assetToken && assetTokenQuantity == other.assetTokenQuantity && cancelTransactionHash == other.cancelTransactionHash && fee == other.fee && limitPrice == other.limitPrice && orderRequestId == other.orderRequestId && paymentToken == other.paymentToken && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, chainId, createdDt, orderContractAddress, orderSide, orderTif, orderTransactionHash, orderType, status, stockId, assetToken, assetTokenQuantity, cancelTransactionHash, fee, limitPrice, paymentToken, paymentTokenQuantity, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(id, chainId, createdDt, orderContractAddress, orderSide, orderTif, orderTransactionHash, orderType, status, stockId, assetToken, assetTokenQuantity, cancelTransactionHash, fee, limitPrice, orderRequestId, paymentToken, paymentTokenQuantity, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Order{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, status=$status, stockId=$stockId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, fee=$fee, limitPrice=$limitPrice, paymentToken=$paymentToken, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+        "Order{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, status=$status, stockId=$stockId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentToken=$paymentToken, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
 }

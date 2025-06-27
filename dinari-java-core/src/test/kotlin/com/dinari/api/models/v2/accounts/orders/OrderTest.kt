@@ -32,6 +32,7 @@ internal class OrderTest {
                 .cancelTransactionHash("0xeaF12bD1DfFd")
                 .fee(0.0)
                 .limitPrice(0.0)
+                .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentToken("payment_token")
                 .paymentTokenQuantity(0.0)
                 .build()
@@ -51,6 +52,7 @@ internal class OrderTest {
         assertThat(order.cancelTransactionHash()).contains("0xeaF12bD1DfFd")
         assertThat(order.fee()).contains(0.0)
         assertThat(order.limitPrice()).contains(0.0)
+        assertThat(order.orderRequestId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(order.paymentToken()).contains("payment_token")
         assertThat(order.paymentTokenQuantity()).contains(0.0)
     }
@@ -76,6 +78,7 @@ internal class OrderTest {
                 .cancelTransactionHash("0xeaF12bD1DfFd")
                 .fee(0.0)
                 .limitPrice(0.0)
+                .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentToken("payment_token")
                 .paymentTokenQuantity(0.0)
                 .build()
