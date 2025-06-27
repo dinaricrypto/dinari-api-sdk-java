@@ -13,8 +13,6 @@ import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesP
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsResponse
-import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteParams
-import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteResponse
 import com.dinari.api.services.blocking.v2.marketdata.stocks.SplitService
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
@@ -161,38 +159,6 @@ interface StockService {
         requestOptions: RequestOptions,
     ): List<StockRetrieveNewsResponse> =
         retrieveNews(stockId, StockRetrieveNewsParams.none(), requestOptions)
-
-    /** Get quote for a specified `Stock`. */
-    fun retrieveQuote(stockId: String): StockRetrieveQuoteResponse =
-        retrieveQuote(stockId, StockRetrieveQuoteParams.none())
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(
-        stockId: String,
-        params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): StockRetrieveQuoteResponse =
-        retrieveQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(
-        stockId: String,
-        params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
-    ): StockRetrieveQuoteResponse = retrieveQuote(stockId, params, RequestOptions.none())
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(
-        params: StockRetrieveQuoteParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): StockRetrieveQuoteResponse
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(params: StockRetrieveQuoteParams): StockRetrieveQuoteResponse =
-        retrieveQuote(params, RequestOptions.none())
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(stockId: String, requestOptions: RequestOptions): StockRetrieveQuoteResponse =
-        retrieveQuote(stockId, StockRetrieveQuoteParams.none(), requestOptions)
 
     /** A view of [StockService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -361,52 +327,5 @@ interface StockService {
             requestOptions: RequestOptions,
         ): HttpResponseFor<List<StockRetrieveNewsResponse>> =
             retrieveNews(stockId, StockRetrieveNewsParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `get /api/v2/market_data/stocks/{stock_id}/quote`, but is
-         * otherwise the same as [StockService.retrieveQuote].
-         */
-        @MustBeClosed
-        fun retrieveQuote(stockId: String): HttpResponseFor<StockRetrieveQuoteResponse> =
-            retrieveQuote(stockId, StockRetrieveQuoteParams.none())
-
-        /** @see [retrieveQuote] */
-        @MustBeClosed
-        fun retrieveQuote(
-            stockId: String,
-            params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<StockRetrieveQuoteResponse> =
-            retrieveQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
-
-        /** @see [retrieveQuote] */
-        @MustBeClosed
-        fun retrieveQuote(
-            stockId: String,
-            params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
-        ): HttpResponseFor<StockRetrieveQuoteResponse> =
-            retrieveQuote(stockId, params, RequestOptions.none())
-
-        /** @see [retrieveQuote] */
-        @MustBeClosed
-        fun retrieveQuote(
-            params: StockRetrieveQuoteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<StockRetrieveQuoteResponse>
-
-        /** @see [retrieveQuote] */
-        @MustBeClosed
-        fun retrieveQuote(
-            params: StockRetrieveQuoteParams
-        ): HttpResponseFor<StockRetrieveQuoteResponse> =
-            retrieveQuote(params, RequestOptions.none())
-
-        /** @see [retrieveQuote] */
-        @MustBeClosed
-        fun retrieveQuote(
-            stockId: String,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<StockRetrieveQuoteResponse> =
-            retrieveQuote(stockId, StockRetrieveQuoteParams.none(), requestOptions)
     }
 }
