@@ -92,20 +92,4 @@ internal class StockServiceTest {
 
         response.forEach { it.validate() }
     }
-
-    @Disabled("skipped: tests are disabled for the time being")
-    @Test
-    fun retrieveQuote() {
-        val client =
-            DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKeyId("My API Key ID")
-                .apiSecretKey("My API Secret Key")
-                .build()
-        val stockService = client.v2().marketData().stocks()
-
-        val response = stockService.retrieveQuote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-
-        response.validate()
-    }
 }
