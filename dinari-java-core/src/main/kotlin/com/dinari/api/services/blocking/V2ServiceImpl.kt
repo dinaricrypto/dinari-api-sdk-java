@@ -3,6 +3,19 @@
 package com.dinari.api.services.blocking
 
 import com.dinari.api.core.ClientOptions
+import com.dinari.api.core.JsonValue
+import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.handlers.errorHandler
+import com.dinari.api.core.handlers.jsonHandler
+import com.dinari.api.core.handlers.withErrorHandler
+import com.dinari.api.core.http.HttpMethod
+import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse.Handler
+import com.dinari.api.core.http.HttpResponseFor
+import com.dinari.api.core.http.parseable
+import com.dinari.api.core.prepare
+import com.dinari.api.models.v2.V2ListOrdersParams
+import com.dinari.api.models.v2.V2ListOrdersResponse
 import com.dinari.api.services.blocking.v2.AccountService
 import com.dinari.api.services.blocking.v2.AccountServiceImpl
 import com.dinari.api.services.blocking.v2.EntityService
@@ -34,8 +47,17 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
 
     override fun accounts(): AccountService = accounts
 
+    override fun listOrders(
+        params: V2ListOrdersParams,
+        requestOptions: RequestOptions,
+    ): List<V2ListOrdersResponse> =
+        // get /api/v2/orders/
+        withRawResponse().listOrders(params, requestOptions).parse()
+
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         V2Service.WithRawResponse {
+
+        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
         private val marketData: MarketDataService.WithRawResponse by lazy {
             MarketDataServiceImpl.WithRawResponseImpl(clientOptions)
@@ -61,5 +83,33 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
         override fun entities(): EntityService.WithRawResponse = entities
 
         override fun accounts(): AccountService.WithRawResponse = accounts
+
+        private val listOrdersHandler: Handler<List<V2ListOrdersResponse>> =
+            jsonHandler<List<V2ListOrdersResponse>>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun listOrders(
+            params: V2ListOrdersParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<List<V2ListOrdersResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "v2", "orders", "")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { listOrdersHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.forEach { it.validate() }
+                        }
+                    }
+            }
+        }
     }
 }

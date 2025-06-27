@@ -7,6 +7,10 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentPriceParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentPriceResponse
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
@@ -49,6 +53,80 @@ interface StockService {
     /** @see [list] */
     fun list(requestOptions: RequestOptions): List<StockListResponse> =
         list(StockListParams.none(), requestOptions)
+
+    /** Get current price for a specified `Stock`. */
+    fun retrieveCurrentPrice(stockId: String): StockRetrieveCurrentPriceResponse =
+        retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none())
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        stockId: String,
+        params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StockRetrieveCurrentPriceResponse =
+        retrieveCurrentPrice(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        stockId: String,
+        params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
+    ): StockRetrieveCurrentPriceResponse =
+        retrieveCurrentPrice(stockId, params, RequestOptions.none())
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        params: StockRetrieveCurrentPriceParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StockRetrieveCurrentPriceResponse
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        params: StockRetrieveCurrentPriceParams
+    ): StockRetrieveCurrentPriceResponse = retrieveCurrentPrice(params, RequestOptions.none())
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        stockId: String,
+        requestOptions: RequestOptions,
+    ): StockRetrieveCurrentPriceResponse =
+        retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none(), requestOptions)
+
+    /** Get quote for a specified `Stock`. */
+    fun retrieveCurrentQuote(stockId: String): StockRetrieveCurrentQuoteResponse =
+        retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none())
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        stockId: String,
+        params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StockRetrieveCurrentQuoteResponse =
+        retrieveCurrentQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        stockId: String,
+        params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
+    ): StockRetrieveCurrentQuoteResponse =
+        retrieveCurrentQuote(stockId, params, RequestOptions.none())
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        params: StockRetrieveCurrentQuoteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): StockRetrieveCurrentQuoteResponse
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        params: StockRetrieveCurrentQuoteParams
+    ): StockRetrieveCurrentQuoteResponse = retrieveCurrentQuote(params, RequestOptions.none())
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        stockId: String,
+        requestOptions: RequestOptions,
+    ): StockRetrieveCurrentQuoteResponse =
+        retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none(), requestOptions)
 
     /**
      * Get a list of announced stock dividend details for a specified `Stock`.
@@ -196,6 +274,106 @@ interface StockService {
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<StockListResponse>> =
             list(StockListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /api/v2/market_data/stocks/{stock_id}/current_price`, but is otherwise the same as
+         * [StockService.retrieveCurrentPrice].
+         */
+        @MustBeClosed
+        fun retrieveCurrentPrice(
+            stockId: String
+        ): HttpResponseFor<StockRetrieveCurrentPriceResponse> =
+            retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none())
+
+        /** @see [retrieveCurrentPrice] */
+        @MustBeClosed
+        fun retrieveCurrentPrice(
+            stockId: String,
+            params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StockRetrieveCurrentPriceResponse> =
+            retrieveCurrentPrice(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieveCurrentPrice] */
+        @MustBeClosed
+        fun retrieveCurrentPrice(
+            stockId: String,
+            params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
+        ): HttpResponseFor<StockRetrieveCurrentPriceResponse> =
+            retrieveCurrentPrice(stockId, params, RequestOptions.none())
+
+        /** @see [retrieveCurrentPrice] */
+        @MustBeClosed
+        fun retrieveCurrentPrice(
+            params: StockRetrieveCurrentPriceParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StockRetrieveCurrentPriceResponse>
+
+        /** @see [retrieveCurrentPrice] */
+        @MustBeClosed
+        fun retrieveCurrentPrice(
+            params: StockRetrieveCurrentPriceParams
+        ): HttpResponseFor<StockRetrieveCurrentPriceResponse> =
+            retrieveCurrentPrice(params, RequestOptions.none())
+
+        /** @see [retrieveCurrentPrice] */
+        @MustBeClosed
+        fun retrieveCurrentPrice(
+            stockId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StockRetrieveCurrentPriceResponse> =
+            retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /api/v2/market_data/stocks/{stock_id}/current_quote`, but is otherwise the same as
+         * [StockService.retrieveCurrentQuote].
+         */
+        @MustBeClosed
+        fun retrieveCurrentQuote(
+            stockId: String
+        ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> =
+            retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none())
+
+        /** @see [retrieveCurrentQuote] */
+        @MustBeClosed
+        fun retrieveCurrentQuote(
+            stockId: String,
+            params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> =
+            retrieveCurrentQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieveCurrentQuote] */
+        @MustBeClosed
+        fun retrieveCurrentQuote(
+            stockId: String,
+            params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
+        ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> =
+            retrieveCurrentQuote(stockId, params, RequestOptions.none())
+
+        /** @see [retrieveCurrentQuote] */
+        @MustBeClosed
+        fun retrieveCurrentQuote(
+            params: StockRetrieveCurrentQuoteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<StockRetrieveCurrentQuoteResponse>
+
+        /** @see [retrieveCurrentQuote] */
+        @MustBeClosed
+        fun retrieveCurrentQuote(
+            params: StockRetrieveCurrentQuoteParams
+        ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> =
+            retrieveCurrentQuote(params, RequestOptions.none())
+
+        /** @see [retrieveCurrentQuote] */
+        @MustBeClosed
+        fun retrieveCurrentQuote(
+            stockId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> =
+            retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/{stock_id}/dividends`,
