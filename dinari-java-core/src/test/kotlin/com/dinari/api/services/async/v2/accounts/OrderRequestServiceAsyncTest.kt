@@ -86,7 +86,7 @@ internal class OrderRequestServiceAsyncTest {
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .createLimitOrderInput(
                         CreateLimitOrderInput.builder()
-                            .assetQuantity(0L)
+                            .assetQuantity(0.0)
                             .limitPrice(0.0)
                             .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -116,7 +116,7 @@ internal class OrderRequestServiceAsyncTest {
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .createLimitOrderInput(
                         CreateLimitOrderInput.builder()
-                            .assetQuantity(0L)
+                            .assetQuantity(0.0)
                             .limitPrice(0.0)
                             .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
