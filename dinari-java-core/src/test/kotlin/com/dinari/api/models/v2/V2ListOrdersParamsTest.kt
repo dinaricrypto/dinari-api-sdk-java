@@ -16,6 +16,7 @@ internal class V2ListOrdersParamsTest {
         V2ListOrdersParams.builder()
             .chainId(Chain.EIP155_1)
             .orderFulfillmentTransactionHash("order_fulfillment_transaction_hash")
+            .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .orderTransactionHash("order_transaction_hash")
             .page(1L)
             .pageSize(1L)
@@ -29,6 +30,7 @@ internal class V2ListOrdersParamsTest {
             V2ListOrdersParams.builder()
                 .chainId(Chain.EIP155_1)
                 .orderFulfillmentTransactionHash("order_fulfillment_transaction_hash")
+                .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .orderTransactionHash("order_transaction_hash")
                 .page(1L)
                 .pageSize(1L)
@@ -41,6 +43,7 @@ internal class V2ListOrdersParamsTest {
                 QueryParams.builder()
                     .put("chain_id", "eip155:1")
                     .put("order_fulfillment_transaction_hash", "order_fulfillment_transaction_hash")
+                    .put("order_request_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("order_transaction_hash", "order_transaction_hash")
                     .put("page", "1")
                     .put("page_size", "1")
@@ -51,10 +54,10 @@ internal class V2ListOrdersParamsTest {
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
-        val params = V2ListOrdersParams.builder().chainId(Chain.EIP155_1).build()
+        val params = V2ListOrdersParams.builder().build()
 
         val queryParams = params._queryParams()
 
-        assertThat(queryParams).isEqualTo(QueryParams.builder().put("chain_id", "eip155:1").build())
+        assertThat(queryParams).isEqualTo(QueryParams.builder().build())
     }
 }

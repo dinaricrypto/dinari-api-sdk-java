@@ -29,6 +29,7 @@ internal class V2ServiceAsyncTest {
                 V2ListOrdersParams.builder()
                     .chainId(Chain.EIP155_1)
                     .orderFulfillmentTransactionHash("order_fulfillment_transaction_hash")
+                    .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .orderTransactionHash("order_transaction_hash")
                     .page(1L)
                     .pageSize(1L)

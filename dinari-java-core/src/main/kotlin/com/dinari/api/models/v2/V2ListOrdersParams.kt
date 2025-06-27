@@ -3,7 +3,6 @@
 package com.dinari.api.models.v2
 
 import com.dinari.api.core.Params
-import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import com.dinari.api.models.v2.accounts.Chain
@@ -17,8 +16,9 @@ import kotlin.jvm.optionals.getOrNull
  */
 class V2ListOrdersParams
 private constructor(
-    private val chainId: Chain,
+    private val chainId: Chain?,
     private val orderFulfillmentTransactionHash: String?,
+    private val orderRequestId: String?,
     private val orderTransactionHash: String?,
     private val page: Long?,
     private val pageSize: Long?,
@@ -27,11 +27,14 @@ private constructor(
 ) : Params {
 
     /** CAIP-2 formatted chain ID of the blockchain the `Order` was made on. */
-    fun chainId(): Chain = chainId
+    fun chainId(): Optional<Chain> = Optional.ofNullable(chainId)
 
     /** Fulfillment transaction hash of the `Order`. */
     fun orderFulfillmentTransactionHash(): Optional<String> =
         Optional.ofNullable(orderFulfillmentTransactionHash)
+
+    /** Order Request ID for the `Order` */
+    fun orderRequestId(): Optional<String> = Optional.ofNullable(orderRequestId)
 
     /** Transaction hash of the `Order`. */
     fun orderTransactionHash(): Optional<String> = Optional.ofNullable(orderTransactionHash)
@@ -48,14 +51,9 @@ private constructor(
 
     companion object {
 
-        /**
-         * Returns a mutable builder for constructing an instance of [V2ListOrdersParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .chainId()
-         * ```
-         */
+        @JvmStatic fun none(): V2ListOrdersParams = builder().build()
+
+        /** Returns a mutable builder for constructing an instance of [V2ListOrdersParams]. */
         @JvmStatic fun builder() = Builder()
     }
 
@@ -64,6 +62,7 @@ private constructor(
 
         private var chainId: Chain? = null
         private var orderFulfillmentTransactionHash: String? = null
+        private var orderRequestId: String? = null
         private var orderTransactionHash: String? = null
         private var page: Long? = null
         private var pageSize: Long? = null
@@ -74,6 +73,7 @@ private constructor(
         internal fun from(v2ListOrdersParams: V2ListOrdersParams) = apply {
             chainId = v2ListOrdersParams.chainId
             orderFulfillmentTransactionHash = v2ListOrdersParams.orderFulfillmentTransactionHash
+            orderRequestId = v2ListOrdersParams.orderRequestId
             orderTransactionHash = v2ListOrdersParams.orderTransactionHash
             page = v2ListOrdersParams.page
             pageSize = v2ListOrdersParams.pageSize
@@ -82,7 +82,10 @@ private constructor(
         }
 
         /** CAIP-2 formatted chain ID of the blockchain the `Order` was made on. */
-        fun chainId(chainId: Chain) = apply { this.chainId = chainId }
+        fun chainId(chainId: Chain?) = apply { this.chainId = chainId }
+
+        /** Alias for calling [Builder.chainId] with `chainId.orElse(null)`. */
+        fun chainId(chainId: Optional<Chain>) = chainId(chainId.getOrNull())
 
         /** Fulfillment transaction hash of the `Order`. */
         fun orderFulfillmentTransactionHash(orderFulfillmentTransactionHash: String?) = apply {
@@ -95,6 +98,13 @@ private constructor(
          */
         fun orderFulfillmentTransactionHash(orderFulfillmentTransactionHash: Optional<String>) =
             orderFulfillmentTransactionHash(orderFulfillmentTransactionHash.getOrNull())
+
+        /** Order Request ID for the `Order` */
+        fun orderRequestId(orderRequestId: String?) = apply { this.orderRequestId = orderRequestId }
+
+        /** Alias for calling [Builder.orderRequestId] with `orderRequestId.orElse(null)`. */
+        fun orderRequestId(orderRequestId: Optional<String>) =
+            orderRequestId(orderRequestId.getOrNull())
 
         /** Transaction hash of the `Order`. */
         fun orderTransactionHash(orderTransactionHash: String?) = apply {
@@ -234,18 +244,12 @@ private constructor(
          * Returns an immutable instance of [V2ListOrdersParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .chainId()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
         fun build(): V2ListOrdersParams =
             V2ListOrdersParams(
-                checkRequired("chainId", chainId),
+                chainId,
                 orderFulfillmentTransactionHash,
+                orderRequestId,
                 orderTransactionHash,
                 page,
                 pageSize,
@@ -259,10 +263,11 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                put("chain_id", chainId.toString())
+                chainId?.let { put("chain_id", it.toString()) }
                 orderFulfillmentTransactionHash?.let {
                     put("order_fulfillment_transaction_hash", it)
                 }
+                orderRequestId?.let { put("order_request_id", it) }
                 orderTransactionHash?.let { put("order_transaction_hash", it) }
                 page?.let { put("page", it.toString()) }
                 pageSize?.let { put("page_size", it.toString()) }
@@ -275,11 +280,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is V2ListOrdersParams && chainId == other.chainId && orderFulfillmentTransactionHash == other.orderFulfillmentTransactionHash && orderTransactionHash == other.orderTransactionHash && page == other.page && pageSize == other.pageSize && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is V2ListOrdersParams && chainId == other.chainId && orderFulfillmentTransactionHash == other.orderFulfillmentTransactionHash && orderRequestId == other.orderRequestId && orderTransactionHash == other.orderTransactionHash && page == other.page && pageSize == other.pageSize && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(chainId, orderFulfillmentTransactionHash, orderTransactionHash, page, pageSize, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(chainId, orderFulfillmentTransactionHash, orderRequestId, orderTransactionHash, page, pageSize, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "V2ListOrdersParams{chainId=$chainId, orderFulfillmentTransactionHash=$orderFulfillmentTransactionHash, orderTransactionHash=$orderTransactionHash, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "V2ListOrdersParams{chainId=$chainId, orderFulfillmentTransactionHash=$orderFulfillmentTransactionHash, orderRequestId=$orderRequestId, orderTransactionHash=$orderTransactionHash, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
