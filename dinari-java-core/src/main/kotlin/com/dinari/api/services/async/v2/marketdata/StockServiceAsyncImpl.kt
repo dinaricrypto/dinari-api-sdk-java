@@ -17,6 +17,10 @@ import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepareAsync
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentPriceParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentPriceResponse
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
@@ -51,6 +55,20 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
     ): CompletableFuture<List<StockListResponse>> =
         // get /api/v2/market_data/stocks/
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveCurrentPrice(
+        params: StockRetrieveCurrentPriceParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
+        // get /api/v2/market_data/stocks/{stock_id}/current_price
+        withRawResponse().retrieveCurrentPrice(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveCurrentQuote(
+        params: StockRetrieveCurrentQuoteParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
+        // get /api/v2/market_data/stocks/{stock_id}/current_quote
+        withRawResponse().retrieveCurrentQuote(params, requestOptions).thenApply { it.parse() }
 
     override fun retrieveDividends(
         params: StockRetrieveDividendsParams,
@@ -116,6 +134,88 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.forEach { it.validate() }
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveCurrentPriceHandler: Handler<StockRetrieveCurrentPriceResponse> =
+            jsonHandler<StockRetrieveCurrentPriceResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveCurrentPrice(
+            params: StockRetrieveCurrentPriceParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stockId", params.stockId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "api",
+                        "v2",
+                        "market_data",
+                        "stocks",
+                        params._pathParam(0),
+                        "current_price",
+                    )
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { retrieveCurrentPriceHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveCurrentQuoteHandler: Handler<StockRetrieveCurrentQuoteResponse> =
+            jsonHandler<StockRetrieveCurrentQuoteResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveCurrentQuote(
+            params: StockRetrieveCurrentQuoteParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stockId", params.stockId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "api",
+                        "v2",
+                        "market_data",
+                        "stocks",
+                        params._pathParam(0),
+                        "current_quote",
+                    )
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { retrieveCurrentQuoteHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
                                 }
                             }
                     }

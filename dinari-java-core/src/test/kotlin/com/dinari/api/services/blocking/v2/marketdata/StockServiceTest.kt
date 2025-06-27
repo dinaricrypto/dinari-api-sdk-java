@@ -35,6 +35,38 @@ internal class StockServiceTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
+    fun retrieveCurrentPrice() {
+        val client =
+            DinariOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val stockService = client.v2().marketData().stocks()
+
+        val response = stockService.retrieveCurrentPrice("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+        response.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun retrieveCurrentQuote() {
+        val client =
+            DinariOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val stockService = client.v2().marketData().stocks()
+
+        val response = stockService.retrieveCurrentQuote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+
+        response.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
     fun retrieveDividends() {
         val client =
             DinariOkHttpClient.builder()

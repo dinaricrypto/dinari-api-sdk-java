@@ -3,9 +3,14 @@
 package com.dinari.api.services.async
 
 import com.dinari.api.core.ClientOptions
+import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.http.HttpResponseFor
+import com.dinari.api.models.v2.V2ListOrdersParams
+import com.dinari.api.models.v2.V2ListOrdersResponse
 import com.dinari.api.services.async.v2.AccountServiceAsync
 import com.dinari.api.services.async.v2.EntityServiceAsync
 import com.dinari.api.services.async.v2.MarketDataServiceAsync
+import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
 interface V2ServiceAsync {
@@ -28,6 +33,19 @@ interface V2ServiceAsync {
 
     fun accounts(): AccountServiceAsync
 
+    /**
+     * Get a list of all `Orders` under the `Entity`. Optionally `Orders` can be transaction hash or
+     * fulfillment transaction hash.
+     */
+    fun listOrders(params: V2ListOrdersParams): CompletableFuture<List<V2ListOrdersResponse>> =
+        listOrders(params, RequestOptions.none())
+
+    /** @see [listOrders] */
+    fun listOrders(
+        params: V2ListOrdersParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<List<V2ListOrdersResponse>>
+
     /** A view of [V2ServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
@@ -43,5 +61,20 @@ interface V2ServiceAsync {
         fun entities(): EntityServiceAsync.WithRawResponse
 
         fun accounts(): AccountServiceAsync.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `get /api/v2/orders/`, but is otherwise the same as
+         * [V2ServiceAsync.listOrders].
+         */
+        fun listOrders(
+            params: V2ListOrdersParams
+        ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>> =
+            listOrders(params, RequestOptions.none())
+
+        /** @see [listOrders] */
+        fun listOrders(
+            params: V2ListOrdersParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>>
     }
 }
