@@ -37,14 +37,23 @@ interface V2ServiceAsync {
      * Get a list of all `Orders` under the `Entity`. Optionally `Orders` can be transaction hash or
      * fulfillment transaction hash.
      */
-    fun listOrders(params: V2ListOrdersParams): CompletableFuture<List<V2ListOrdersResponse>> =
-        listOrders(params, RequestOptions.none())
+    fun listOrders(): CompletableFuture<List<V2ListOrdersResponse>> =
+        listOrders(V2ListOrdersParams.none())
 
     /** @see [listOrders] */
     fun listOrders(
-        params: V2ListOrdersParams,
+        params: V2ListOrdersParams = V2ListOrdersParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<V2ListOrdersResponse>>
+
+    /** @see [listOrders] */
+    fun listOrders(
+        params: V2ListOrdersParams = V2ListOrdersParams.none()
+    ): CompletableFuture<List<V2ListOrdersResponse>> = listOrders(params, RequestOptions.none())
+
+    /** @see [listOrders] */
+    fun listOrders(requestOptions: RequestOptions): CompletableFuture<List<V2ListOrdersResponse>> =
+        listOrders(V2ListOrdersParams.none(), requestOptions)
 
     /** A view of [V2ServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -66,15 +75,25 @@ interface V2ServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/orders/`, but is otherwise the same as
          * [V2ServiceAsync.listOrders].
          */
+        fun listOrders(): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>> =
+            listOrders(V2ListOrdersParams.none())
+
+        /** @see [listOrders] */
         fun listOrders(
-            params: V2ListOrdersParams
+            params: V2ListOrdersParams = V2ListOrdersParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>>
+
+        /** @see [listOrders] */
+        fun listOrders(
+            params: V2ListOrdersParams = V2ListOrdersParams.none()
         ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>> =
             listOrders(params, RequestOptions.none())
 
         /** @see [listOrders] */
         fun listOrders(
-            params: V2ListOrdersParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>>
+            requestOptions: RequestOptions
+        ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>> =
+            listOrders(V2ListOrdersParams.none(), requestOptions)
     }
 }

@@ -534,11 +534,11 @@ To forcibly omit a required parameter or property, pass [`JsonMissing`](dinari-j
 
 ```java
 import com.dinari.api.core.JsonMissing;
-import com.dinari.api.models.v2.V2ListOrdersParams;
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentPriceParams;
 
-StockListParams params = V2ListOrdersParams.builder()
-    .chainId(JsonMissing.of())
+StockListParams params = StockRetrieveCurrentPriceParams.builder()
+    .stockId(JsonMissing.of())
     .build();
 ```
 
