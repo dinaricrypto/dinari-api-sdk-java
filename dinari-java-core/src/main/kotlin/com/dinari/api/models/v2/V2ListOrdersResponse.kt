@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package com.dinari.api.models.v2.accounts.orders
+package com.dinari.api.models.v2
 
 import com.dinari.api.core.ExcludeMissing
 import com.dinari.api.core.JsonField
@@ -9,6 +9,10 @@ import com.dinari.api.core.JsonValue
 import com.dinari.api.core.checkRequired
 import com.dinari.api.errors.DinariInvalidDataException
 import com.dinari.api.models.v2.accounts.Chain
+import com.dinari.api.models.v2.accounts.orders.BrokerageOrderStatus
+import com.dinari.api.models.v2.accounts.orders.OrderSide
+import com.dinari.api.models.v2.accounts.orders.OrderTif
+import com.dinari.api.models.v2.accounts.orders.OrderType
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -19,7 +23,7 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-class Order
+class V2ListOrdersResponse
 private constructor(
     private val id: JsonField<String>,
     private val chainId: JsonField<Chain>,
@@ -31,9 +35,11 @@ private constructor(
     private val orderType: JsonField<OrderType>,
     private val status: JsonField<BrokerageOrderStatus>,
     private val stockId: JsonField<String>,
+    private val accountId: JsonField<String>,
     private val assetToken: JsonField<String>,
     private val assetTokenQuantity: JsonField<Double>,
     private val cancelTransactionHash: JsonField<String>,
+    private val entityId: JsonField<String>,
     private val fee: JsonField<Double>,
     private val limitPrice: JsonField<Double>,
     private val orderRequestId: JsonField<String>,
@@ -66,6 +72,7 @@ private constructor(
         @ExcludeMissing
         status: JsonField<BrokerageOrderStatus> = JsonMissing.of(),
         @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("account_id") @ExcludeMissing accountId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("asset_token")
         @ExcludeMissing
         assetToken: JsonField<String> = JsonMissing.of(),
@@ -75,6 +82,7 @@ private constructor(
         @JsonProperty("cancel_transaction_hash")
         @ExcludeMissing
         cancelTransactionHash: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("entity_id") @ExcludeMissing entityId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("fee") @ExcludeMissing fee: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("limit_price")
         @ExcludeMissing
@@ -99,9 +107,11 @@ private constructor(
         orderType,
         status,
         stockId,
+        accountId,
         assetToken,
         assetTokenQuantity,
         cancelTransactionHash,
+        entityId,
         fee,
         limitPrice,
         orderRequestId,
@@ -191,6 +201,14 @@ private constructor(
     fun stockId(): String = stockId.getRequired("stock_id")
 
     /**
+     * Account ID the order was made for.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun accountId(): Optional<String> = accountId.getOptional("account_id")
+
+    /**
      * The dShare asset token address.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -215,6 +233,14 @@ private constructor(
      */
     fun cancelTransactionHash(): Optional<String> =
         cancelTransactionHash.getOptional("cancel_transaction_hash")
+
+    /**
+     * Entity ID of the Order
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun entityId(): Optional<String> = entityId.getOptional("entity_id")
 
     /**
      * Fee amount associated with `Order`.
@@ -337,6 +363,13 @@ private constructor(
     @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
 
     /**
+     * Returns the raw JSON value of [accountId].
+     *
+     * Unlike [accountId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("account_id") @ExcludeMissing fun _accountId(): JsonField<String> = accountId
+
+    /**
      * Returns the raw JSON value of [assetToken].
      *
      * Unlike [assetToken], this method doesn't throw if the JSON field has an unexpected type.
@@ -362,6 +395,13 @@ private constructor(
     @JsonProperty("cancel_transaction_hash")
     @ExcludeMissing
     fun _cancelTransactionHash(): JsonField<String> = cancelTransactionHash
+
+    /**
+     * Returns the raw JSON value of [entityId].
+     *
+     * Unlike [entityId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("entity_id") @ExcludeMissing fun _entityId(): JsonField<String> = entityId
 
     /**
      * Returns the raw JSON value of [fee].
@@ -420,7 +460,7 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [Order].
+         * Returns a mutable builder for constructing an instance of [V2ListOrdersResponse].
          *
          * The following fields are required:
          * ```java
@@ -439,7 +479,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [Order]. */
+    /** A builder for [V2ListOrdersResponse]. */
     class Builder internal constructor() {
 
         private var id: JsonField<String>? = null
@@ -452,9 +492,11 @@ private constructor(
         private var orderType: JsonField<OrderType>? = null
         private var status: JsonField<BrokerageOrderStatus>? = null
         private var stockId: JsonField<String>? = null
+        private var accountId: JsonField<String> = JsonMissing.of()
         private var assetToken: JsonField<String> = JsonMissing.of()
         private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
         private var cancelTransactionHash: JsonField<String> = JsonMissing.of()
+        private var entityId: JsonField<String> = JsonMissing.of()
         private var fee: JsonField<Double> = JsonMissing.of()
         private var limitPrice: JsonField<Double> = JsonMissing.of()
         private var orderRequestId: JsonField<String> = JsonMissing.of()
@@ -463,26 +505,28 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(order: Order) = apply {
-            id = order.id
-            chainId = order.chainId
-            createdDt = order.createdDt
-            orderContractAddress = order.orderContractAddress
-            orderSide = order.orderSide
-            orderTif = order.orderTif
-            orderTransactionHash = order.orderTransactionHash
-            orderType = order.orderType
-            status = order.status
-            stockId = order.stockId
-            assetToken = order.assetToken
-            assetTokenQuantity = order.assetTokenQuantity
-            cancelTransactionHash = order.cancelTransactionHash
-            fee = order.fee
-            limitPrice = order.limitPrice
-            orderRequestId = order.orderRequestId
-            paymentToken = order.paymentToken
-            paymentTokenQuantity = order.paymentTokenQuantity
-            additionalProperties = order.additionalProperties.toMutableMap()
+        internal fun from(v2ListOrdersResponse: V2ListOrdersResponse) = apply {
+            id = v2ListOrdersResponse.id
+            chainId = v2ListOrdersResponse.chainId
+            createdDt = v2ListOrdersResponse.createdDt
+            orderContractAddress = v2ListOrdersResponse.orderContractAddress
+            orderSide = v2ListOrdersResponse.orderSide
+            orderTif = v2ListOrdersResponse.orderTif
+            orderTransactionHash = v2ListOrdersResponse.orderTransactionHash
+            orderType = v2ListOrdersResponse.orderType
+            status = v2ListOrdersResponse.status
+            stockId = v2ListOrdersResponse.stockId
+            accountId = v2ListOrdersResponse.accountId
+            assetToken = v2ListOrdersResponse.assetToken
+            assetTokenQuantity = v2ListOrdersResponse.assetTokenQuantity
+            cancelTransactionHash = v2ListOrdersResponse.cancelTransactionHash
+            entityId = v2ListOrdersResponse.entityId
+            fee = v2ListOrdersResponse.fee
+            limitPrice = v2ListOrdersResponse.limitPrice
+            orderRequestId = v2ListOrdersResponse.orderRequestId
+            paymentToken = v2ListOrdersResponse.paymentToken
+            paymentTokenQuantity = v2ListOrdersResponse.paymentTokenQuantity
+            additionalProperties = v2ListOrdersResponse.additionalProperties.toMutableMap()
         }
 
         /** ID of the `Order`. */
@@ -608,6 +652,18 @@ private constructor(
          */
         fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
 
+        /** Account ID the order was made for. */
+        fun accountId(accountId: String) = accountId(JsonField.of(accountId))
+
+        /**
+         * Sets [Builder.accountId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.accountId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun accountId(accountId: JsonField<String>) = apply { this.accountId = accountId }
+
         /** The dShare asset token address. */
         fun assetToken(assetToken: String) = assetToken(JsonField.of(assetToken))
 
@@ -649,6 +705,17 @@ private constructor(
         fun cancelTransactionHash(cancelTransactionHash: JsonField<String>) = apply {
             this.cancelTransactionHash = cancelTransactionHash
         }
+
+        /** Entity ID of the Order */
+        fun entityId(entityId: String) = entityId(JsonField.of(entityId))
+
+        /**
+         * Sets [Builder.entityId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.entityId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun entityId(entityId: JsonField<String>) = apply { this.entityId = entityId }
 
         /** Fee amount associated with `Order`. */
         fun fee(fee: Double) = fee(JsonField.of(fee))
@@ -739,7 +806,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [Order].
+         * Returns an immutable instance of [V2ListOrdersResponse].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -759,8 +826,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): Order =
-            Order(
+        fun build(): V2ListOrdersResponse =
+            V2ListOrdersResponse(
                 checkRequired("id", id),
                 checkRequired("chainId", chainId),
                 checkRequired("createdDt", createdDt),
@@ -771,9 +838,11 @@ private constructor(
                 checkRequired("orderType", orderType),
                 checkRequired("status", status),
                 checkRequired("stockId", stockId),
+                accountId,
                 assetToken,
                 assetTokenQuantity,
                 cancelTransactionHash,
+                entityId,
                 fee,
                 limitPrice,
                 orderRequestId,
@@ -785,7 +854,7 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): Order = apply {
+    fun validate(): V2ListOrdersResponse = apply {
         if (validated) {
             return@apply
         }
@@ -800,9 +869,11 @@ private constructor(
         orderType().validate()
         status().validate()
         stockId()
+        accountId()
         assetToken()
         assetTokenQuantity()
         cancelTransactionHash()
+        entityId()
         fee()
         limitPrice()
         orderRequestId()
@@ -836,9 +907,11 @@ private constructor(
             (orderType.asKnown().getOrNull()?.validity() ?: 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
             (if (stockId.asKnown().isPresent) 1 else 0) +
+            (if (accountId.asKnown().isPresent) 1 else 0) +
             (if (assetToken.asKnown().isPresent) 1 else 0) +
             (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
             (if (cancelTransactionHash.asKnown().isPresent) 1 else 0) +
+            (if (entityId.asKnown().isPresent) 1 else 0) +
             (if (fee.asKnown().isPresent) 1 else 0) +
             (if (limitPrice.asKnown().isPresent) 1 else 0) +
             (if (orderRequestId.asKnown().isPresent) 1 else 0) +
@@ -850,15 +923,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Order && id == other.id && chainId == other.chainId && createdDt == other.createdDt && orderContractAddress == other.orderContractAddress && orderSide == other.orderSide && orderTif == other.orderTif && orderTransactionHash == other.orderTransactionHash && orderType == other.orderType && status == other.status && stockId == other.stockId && assetToken == other.assetToken && assetTokenQuantity == other.assetTokenQuantity && cancelTransactionHash == other.cancelTransactionHash && fee == other.fee && limitPrice == other.limitPrice && orderRequestId == other.orderRequestId && paymentToken == other.paymentToken && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is V2ListOrdersResponse && id == other.id && chainId == other.chainId && createdDt == other.createdDt && orderContractAddress == other.orderContractAddress && orderSide == other.orderSide && orderTif == other.orderTif && orderTransactionHash == other.orderTransactionHash && orderType == other.orderType && status == other.status && stockId == other.stockId && accountId == other.accountId && assetToken == other.assetToken && assetTokenQuantity == other.assetTokenQuantity && cancelTransactionHash == other.cancelTransactionHash && entityId == other.entityId && fee == other.fee && limitPrice == other.limitPrice && orderRequestId == other.orderRequestId && paymentToken == other.paymentToken && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, chainId, createdDt, orderContractAddress, orderSide, orderTif, orderTransactionHash, orderType, status, stockId, assetToken, assetTokenQuantity, cancelTransactionHash, fee, limitPrice, orderRequestId, paymentToken, paymentTokenQuantity, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(id, chainId, createdDt, orderContractAddress, orderSide, orderTif, orderTransactionHash, orderType, status, stockId, accountId, assetToken, assetTokenQuantity, cancelTransactionHash, entityId, fee, limitPrice, orderRequestId, paymentToken, paymentTokenQuantity, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Order{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, status=$status, stockId=$stockId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentToken=$paymentToken, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+        "V2ListOrdersResponse{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, status=$status, stockId=$stockId, accountId=$accountId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, entityId=$entityId, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentToken=$paymentToken, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
 }

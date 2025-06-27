@@ -6,19 +6,21 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
-internal class StockRetrieveQuoteParamsTest {
+internal class StockRetrieveCurrentPriceParamsTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        StockRetrieveQuoteParams.builder().stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").build()
+        StockRetrieveCurrentPriceParams.builder()
+            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .build()
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
-            StockRetrieveQuoteParams.builder()
+            StockRetrieveCurrentPriceParams.builder()
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 

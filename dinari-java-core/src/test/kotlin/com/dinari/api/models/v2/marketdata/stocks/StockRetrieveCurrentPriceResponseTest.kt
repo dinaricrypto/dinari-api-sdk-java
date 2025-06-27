@@ -9,13 +9,13 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
-internal class StockRetrieveQuoteResponseTest {
+internal class StockRetrieveCurrentPriceResponseTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        val stockRetrieveQuoteResponse =
-            StockRetrieveQuoteResponse.builder()
+        val stockRetrieveCurrentPriceResponse =
+            StockRetrieveCurrentPriceResponse.builder()
                 .price(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -31,29 +31,29 @@ internal class StockRetrieveQuoteResponseTest {
                 .weightedSharesOutstanding(0L)
                 .build()
 
-        assertThat(stockRetrieveQuoteResponse.price()).isEqualTo(0.0)
-        assertThat(stockRetrieveQuoteResponse.stockId())
+        assertThat(stockRetrieveCurrentPriceResponse.price()).isEqualTo(0.0)
+        assertThat(stockRetrieveCurrentPriceResponse.stockId())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(stockRetrieveQuoteResponse.timestamp())
+        assertThat(stockRetrieveCurrentPriceResponse.timestamp())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-        assertThat(stockRetrieveQuoteResponse.change()).contains(0.0)
-        assertThat(stockRetrieveQuoteResponse.changePercent()).contains(0.0)
-        assertThat(stockRetrieveQuoteResponse.close()).contains(0.0)
-        assertThat(stockRetrieveQuoteResponse.high()).contains(0.0)
-        assertThat(stockRetrieveQuoteResponse.low()).contains(0.0)
-        assertThat(stockRetrieveQuoteResponse.marketCap()).contains(0L)
-        assertThat(stockRetrieveQuoteResponse.open()).contains(0.0)
-        assertThat(stockRetrieveQuoteResponse.previousClose()).contains(0.0)
-        assertThat(stockRetrieveQuoteResponse.volume()).contains(0.0)
-        assertThat(stockRetrieveQuoteResponse.weightedSharesOutstanding()).contains(0L)
+        assertThat(stockRetrieveCurrentPriceResponse.change()).contains(0.0)
+        assertThat(stockRetrieveCurrentPriceResponse.changePercent()).contains(0.0)
+        assertThat(stockRetrieveCurrentPriceResponse.close()).contains(0.0)
+        assertThat(stockRetrieveCurrentPriceResponse.high()).contains(0.0)
+        assertThat(stockRetrieveCurrentPriceResponse.low()).contains(0.0)
+        assertThat(stockRetrieveCurrentPriceResponse.marketCap()).contains(0L)
+        assertThat(stockRetrieveCurrentPriceResponse.open()).contains(0.0)
+        assertThat(stockRetrieveCurrentPriceResponse.previousClose()).contains(0.0)
+        assertThat(stockRetrieveCurrentPriceResponse.volume()).contains(0.0)
+        assertThat(stockRetrieveCurrentPriceResponse.weightedSharesOutstanding()).contains(0L)
     }
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val stockRetrieveQuoteResponse =
-            StockRetrieveQuoteResponse.builder()
+        val stockRetrieveCurrentPriceResponse =
+            StockRetrieveCurrentPriceResponse.builder()
                 .price(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
@@ -69,12 +69,13 @@ internal class StockRetrieveQuoteResponseTest {
                 .weightedSharesOutstanding(0L)
                 .build()
 
-        val roundtrippedStockRetrieveQuoteResponse =
+        val roundtrippedStockRetrieveCurrentPriceResponse =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(stockRetrieveQuoteResponse),
-                jacksonTypeRef<StockRetrieveQuoteResponse>(),
+                jsonMapper.writeValueAsString(stockRetrieveCurrentPriceResponse),
+                jacksonTypeRef<StockRetrieveCurrentPriceResponse>(),
             )
 
-        assertThat(roundtrippedStockRetrieveQuoteResponse).isEqualTo(stockRetrieveQuoteResponse)
+        assertThat(roundtrippedStockRetrieveCurrentPriceResponse)
+            .isEqualTo(stockRetrieveCurrentPriceResponse)
     }
 }

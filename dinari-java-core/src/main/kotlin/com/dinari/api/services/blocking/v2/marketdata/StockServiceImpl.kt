@@ -17,14 +17,16 @@ import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentPriceParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentPriceResponse
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsResponse
-import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteParams
-import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteResponse
 import com.dinari.api.services.blocking.v2.marketdata.stocks.SplitService
 import com.dinari.api.services.blocking.v2.marketdata.stocks.SplitServiceImpl
 import java.util.function.Consumer
@@ -53,6 +55,20 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
         // get /api/v2/market_data/stocks/
         withRawResponse().list(params, requestOptions).parse()
 
+    override fun retrieveCurrentPrice(
+        params: StockRetrieveCurrentPriceParams,
+        requestOptions: RequestOptions,
+    ): StockRetrieveCurrentPriceResponse =
+        // get /api/v2/market_data/stocks/{stock_id}/current_price
+        withRawResponse().retrieveCurrentPrice(params, requestOptions).parse()
+
+    override fun retrieveCurrentQuote(
+        params: StockRetrieveCurrentQuoteParams,
+        requestOptions: RequestOptions,
+    ): StockRetrieveCurrentQuoteResponse =
+        // get /api/v2/market_data/stocks/{stock_id}/current_quote
+        withRawResponse().retrieveCurrentQuote(params, requestOptions).parse()
+
     override fun retrieveDividends(
         params: StockRetrieveDividendsParams,
         requestOptions: RequestOptions,
@@ -73,13 +89,6 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
     ): List<StockRetrieveNewsResponse> =
         // get /api/v2/market_data/stocks/{stock_id}/news
         withRawResponse().retrieveNews(params, requestOptions).parse()
-
-    override fun retrieveQuote(
-        params: StockRetrieveQuoteParams,
-        requestOptions: RequestOptions,
-    ): StockRetrieveQuoteResponse =
-        // get /api/v2/market_data/stocks/{stock_id}/quote
-        withRawResponse().retrieveQuote(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         StockService.WithRawResponse {
@@ -122,6 +131,82 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.forEach { it.validate() }
+                        }
+                    }
+            }
+        }
+
+        private val retrieveCurrentPriceHandler: Handler<StockRetrieveCurrentPriceResponse> =
+            jsonHandler<StockRetrieveCurrentPriceResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveCurrentPrice(
+            params: StockRetrieveCurrentPriceParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StockRetrieveCurrentPriceResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stockId", params.stockId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "api",
+                        "v2",
+                        "market_data",
+                        "stocks",
+                        params._pathParam(0),
+                        "current_price",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveCurrentPriceHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val retrieveCurrentQuoteHandler: Handler<StockRetrieveCurrentQuoteResponse> =
+            jsonHandler<StockRetrieveCurrentQuoteResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveCurrentQuote(
+            params: StockRetrieveCurrentQuoteParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("stockId", params.stockId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "api",
+                        "v2",
+                        "market_data",
+                        "stocks",
+                        params._pathParam(0),
+                        "current_quote",
+                    )
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveCurrentQuoteHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
                         }
                     }
             }
@@ -238,44 +323,6 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.forEach { it.validate() }
-                        }
-                    }
-            }
-        }
-
-        private val retrieveQuoteHandler: Handler<StockRetrieveQuoteResponse> =
-            jsonHandler<StockRetrieveQuoteResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
-
-        override fun retrieveQuote(
-            params: StockRetrieveQuoteParams,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<StockRetrieveQuoteResponse> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("stockId", params.stockId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.GET)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments(
-                        "api",
-                        "v2",
-                        "market_data",
-                        "stocks",
-                        params._pathParam(0),
-                        "quote",
-                    )
-                    .build()
-                    .prepare(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
-                response
-                    .use { retrieveQuoteHandler.handle(it) }
-                    .also {
-                        if (requestOptions.responseValidation!!) {
-                            it.validate()
                         }
                     }
             }

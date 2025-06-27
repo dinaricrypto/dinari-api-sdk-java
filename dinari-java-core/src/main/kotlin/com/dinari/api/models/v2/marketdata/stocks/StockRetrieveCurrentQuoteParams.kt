@@ -10,7 +10,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /** Get quote for a specified `Stock`. */
-class StockRetrieveQuoteParams
+class StockRetrieveCurrentQuoteParams
 private constructor(
     private val stockId: String?,
     private val additionalHeaders: Headers,
@@ -27,13 +27,16 @@ private constructor(
 
     companion object {
 
-        @JvmStatic fun none(): StockRetrieveQuoteParams = builder().build()
+        @JvmStatic fun none(): StockRetrieveCurrentQuoteParams = builder().build()
 
-        /** Returns a mutable builder for constructing an instance of [StockRetrieveQuoteParams]. */
+        /**
+         * Returns a mutable builder for constructing an instance of
+         * [StockRetrieveCurrentQuoteParams].
+         */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [StockRetrieveQuoteParams]. */
+    /** A builder for [StockRetrieveCurrentQuoteParams]. */
     class Builder internal constructor() {
 
         private var stockId: String? = null
@@ -41,11 +44,13 @@ private constructor(
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(stockRetrieveQuoteParams: StockRetrieveQuoteParams) = apply {
-            stockId = stockRetrieveQuoteParams.stockId
-            additionalHeaders = stockRetrieveQuoteParams.additionalHeaders.toBuilder()
-            additionalQueryParams = stockRetrieveQuoteParams.additionalQueryParams.toBuilder()
-        }
+        internal fun from(stockRetrieveCurrentQuoteParams: StockRetrieveCurrentQuoteParams) =
+            apply {
+                stockId = stockRetrieveCurrentQuoteParams.stockId
+                additionalHeaders = stockRetrieveCurrentQuoteParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    stockRetrieveCurrentQuoteParams.additionalQueryParams.toBuilder()
+            }
 
         fun stockId(stockId: String?) = apply { this.stockId = stockId }
 
@@ -151,12 +156,12 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [StockRetrieveQuoteParams].
+         * Returns an immutable instance of [StockRetrieveCurrentQuoteParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          */
-        fun build(): StockRetrieveQuoteParams =
-            StockRetrieveQuoteParams(
+        fun build(): StockRetrieveCurrentQuoteParams =
+            StockRetrieveCurrentQuoteParams(
                 stockId,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -178,11 +183,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockRetrieveQuoteParams && stockId == other.stockId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is StockRetrieveCurrentQuoteParams && stockId == other.stockId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
     override fun hashCode(): Int = /* spotless:off */ Objects.hash(stockId, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "StockRetrieveQuoteParams{stockId=$stockId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "StockRetrieveCurrentQuoteParams{stockId=$stockId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

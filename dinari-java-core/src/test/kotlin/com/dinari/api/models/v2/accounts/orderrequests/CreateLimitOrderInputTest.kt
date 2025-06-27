@@ -15,13 +15,13 @@ internal class CreateLimitOrderInputTest {
     fun create() {
         val createLimitOrderInput =
             CreateLimitOrderInput.builder()
-                .assetQuantity(0L)
+                .assetQuantity(0.0)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
-        assertThat(createLimitOrderInput.assetQuantity()).isEqualTo(0L)
+        assertThat(createLimitOrderInput.assetQuantity()).isEqualTo(0.0)
         assertThat(createLimitOrderInput.limitPrice()).isEqualTo(0.0)
         assertThat(createLimitOrderInput.stockId())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -35,7 +35,7 @@ internal class CreateLimitOrderInputTest {
         val jsonMapper = jsonMapper()
         val createLimitOrderInput =
             CreateLimitOrderInput.builder()
-                .assetQuantity(0L)
+                .assetQuantity(0.0)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

@@ -7,14 +7,16 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentPriceParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentPriceResponse
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveDividendsResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesResponse
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsResponse
-import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteParams
-import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveQuoteResponse
 import com.dinari.api.services.async.v2.marketdata.stocks.SplitServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -52,6 +54,86 @@ interface StockServiceAsync {
     /** @see [list] */
     fun list(requestOptions: RequestOptions): CompletableFuture<List<StockListResponse>> =
         list(StockListParams.none(), requestOptions)
+
+    /** Get current price for a specified `Stock`. */
+    fun retrieveCurrentPrice(
+        stockId: String
+    ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
+        retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none())
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        stockId: String,
+        params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
+        retrieveCurrentPrice(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        stockId: String,
+        params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
+    ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
+        retrieveCurrentPrice(stockId, params, RequestOptions.none())
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        params: StockRetrieveCurrentPriceParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<StockRetrieveCurrentPriceResponse>
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        params: StockRetrieveCurrentPriceParams
+    ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
+        retrieveCurrentPrice(params, RequestOptions.none())
+
+    /** @see [retrieveCurrentPrice] */
+    fun retrieveCurrentPrice(
+        stockId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
+        retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none(), requestOptions)
+
+    /** Get quote for a specified `Stock`. */
+    fun retrieveCurrentQuote(
+        stockId: String
+    ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
+        retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none())
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        stockId: String,
+        params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
+        retrieveCurrentQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        stockId: String,
+        params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
+    ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
+        retrieveCurrentQuote(stockId, params, RequestOptions.none())
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        params: StockRetrieveCurrentQuoteParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<StockRetrieveCurrentQuoteResponse>
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        params: StockRetrieveCurrentQuoteParams
+    ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
+        retrieveCurrentQuote(params, RequestOptions.none())
+
+    /** @see [retrieveCurrentQuote] */
+    fun retrieveCurrentQuote(
+        stockId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
+        retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none(), requestOptions)
 
     /**
      * Get a list of announced stock dividend details for a specified `Stock`.
@@ -169,43 +251,6 @@ interface StockServiceAsync {
     ): CompletableFuture<List<StockRetrieveNewsResponse>> =
         retrieveNews(stockId, StockRetrieveNewsParams.none(), requestOptions)
 
-    /** Get quote for a specified `Stock`. */
-    fun retrieveQuote(stockId: String): CompletableFuture<StockRetrieveQuoteResponse> =
-        retrieveQuote(stockId, StockRetrieveQuoteParams.none())
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(
-        stockId: String,
-        params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<StockRetrieveQuoteResponse> =
-        retrieveQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(
-        stockId: String,
-        params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
-    ): CompletableFuture<StockRetrieveQuoteResponse> =
-        retrieveQuote(stockId, params, RequestOptions.none())
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(
-        params: StockRetrieveQuoteParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<StockRetrieveQuoteResponse>
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(
-        params: StockRetrieveQuoteParams
-    ): CompletableFuture<StockRetrieveQuoteResponse> = retrieveQuote(params, RequestOptions.none())
-
-    /** @see [retrieveQuote] */
-    fun retrieveQuote(
-        stockId: String,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<StockRetrieveQuoteResponse> =
-        retrieveQuote(stockId, StockRetrieveQuoteParams.none(), requestOptions)
-
     /** A view of [StockServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
@@ -244,6 +289,94 @@ interface StockServiceAsync {
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
             list(StockListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /api/v2/market_data/stocks/{stock_id}/current_price`, but is otherwise the same as
+         * [StockServiceAsync.retrieveCurrentPrice].
+         */
+        fun retrieveCurrentPrice(
+            stockId: String
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> =
+            retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none())
+
+        /** @see [retrieveCurrentPrice] */
+        fun retrieveCurrentPrice(
+            stockId: String,
+            params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> =
+            retrieveCurrentPrice(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieveCurrentPrice] */
+        fun retrieveCurrentPrice(
+            stockId: String,
+            params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> =
+            retrieveCurrentPrice(stockId, params, RequestOptions.none())
+
+        /** @see [retrieveCurrentPrice] */
+        fun retrieveCurrentPrice(
+            params: StockRetrieveCurrentPriceParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>>
+
+        /** @see [retrieveCurrentPrice] */
+        fun retrieveCurrentPrice(
+            params: StockRetrieveCurrentPriceParams
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> =
+            retrieveCurrentPrice(params, RequestOptions.none())
+
+        /** @see [retrieveCurrentPrice] */
+        fun retrieveCurrentPrice(
+            stockId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> =
+            retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get
+         * /api/v2/market_data/stocks/{stock_id}/current_quote`, but is otherwise the same as
+         * [StockServiceAsync.retrieveCurrentQuote].
+         */
+        fun retrieveCurrentQuote(
+            stockId: String
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> =
+            retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none())
+
+        /** @see [retrieveCurrentQuote] */
+        fun retrieveCurrentQuote(
+            stockId: String,
+            params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> =
+            retrieveCurrentQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
+
+        /** @see [retrieveCurrentQuote] */
+        fun retrieveCurrentQuote(
+            stockId: String,
+            params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> =
+            retrieveCurrentQuote(stockId, params, RequestOptions.none())
+
+        /** @see [retrieveCurrentQuote] */
+        fun retrieveCurrentQuote(
+            params: StockRetrieveCurrentQuoteParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>>
+
+        /** @see [retrieveCurrentQuote] */
+        fun retrieveCurrentQuote(
+            params: StockRetrieveCurrentQuoteParams
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> =
+            retrieveCurrentQuote(params, RequestOptions.none())
+
+        /** @see [retrieveCurrentQuote] */
+        fun retrieveCurrentQuote(
+            stockId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> =
+            retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/{stock_id}/dividends`,
@@ -361,48 +494,5 @@ interface StockServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveNewsResponse>>> =
             retrieveNews(stockId, StockRetrieveNewsParams.none(), requestOptions)
-
-        /**
-         * Returns a raw HTTP response for `get /api/v2/market_data/stocks/{stock_id}/quote`, but is
-         * otherwise the same as [StockServiceAsync.retrieveQuote].
-         */
-        fun retrieveQuote(
-            stockId: String
-        ): CompletableFuture<HttpResponseFor<StockRetrieveQuoteResponse>> =
-            retrieveQuote(stockId, StockRetrieveQuoteParams.none())
-
-        /** @see [retrieveQuote] */
-        fun retrieveQuote(
-            stockId: String,
-            params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<StockRetrieveQuoteResponse>> =
-            retrieveQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
-
-        /** @see [retrieveQuote] */
-        fun retrieveQuote(
-            stockId: String,
-            params: StockRetrieveQuoteParams = StockRetrieveQuoteParams.none(),
-        ): CompletableFuture<HttpResponseFor<StockRetrieveQuoteResponse>> =
-            retrieveQuote(stockId, params, RequestOptions.none())
-
-        /** @see [retrieveQuote] */
-        fun retrieveQuote(
-            params: StockRetrieveQuoteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<StockRetrieveQuoteResponse>>
-
-        /** @see [retrieveQuote] */
-        fun retrieveQuote(
-            params: StockRetrieveQuoteParams
-        ): CompletableFuture<HttpResponseFor<StockRetrieveQuoteResponse>> =
-            retrieveQuote(params, RequestOptions.none())
-
-        /** @see [retrieveQuote] */
-        fun retrieveQuote(
-            stockId: String,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<StockRetrieveQuoteResponse>> =
-            retrieveQuote(stockId, StockRetrieveQuoteParams.none(), requestOptions)
     }
 }

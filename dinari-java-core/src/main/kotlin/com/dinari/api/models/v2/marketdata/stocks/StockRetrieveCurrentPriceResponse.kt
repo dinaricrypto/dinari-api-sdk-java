@@ -17,7 +17,7 @@ import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-class StockRetrieveQuoteResponse
+class StockRetrieveCurrentPriceResponse
 private constructor(
     private val price: JsonField<Double>,
     private val stockId: JsonField<String>,
@@ -295,7 +295,8 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [StockRetrieveQuoteResponse].
+         * Returns a mutable builder for constructing an instance of
+         * [StockRetrieveCurrentPriceResponse].
          *
          * The following fields are required:
          * ```java
@@ -307,7 +308,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [StockRetrieveQuoteResponse]. */
+    /** A builder for [StockRetrieveCurrentPriceResponse]. */
     class Builder internal constructor() {
 
         private var price: JsonField<Double>? = null
@@ -326,22 +327,25 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(stockRetrieveQuoteResponse: StockRetrieveQuoteResponse) = apply {
-            price = stockRetrieveQuoteResponse.price
-            stockId = stockRetrieveQuoteResponse.stockId
-            timestamp = stockRetrieveQuoteResponse.timestamp
-            change = stockRetrieveQuoteResponse.change
-            changePercent = stockRetrieveQuoteResponse.changePercent
-            close = stockRetrieveQuoteResponse.close
-            high = stockRetrieveQuoteResponse.high
-            low = stockRetrieveQuoteResponse.low
-            marketCap = stockRetrieveQuoteResponse.marketCap
-            open = stockRetrieveQuoteResponse.open
-            previousClose = stockRetrieveQuoteResponse.previousClose
-            volume = stockRetrieveQuoteResponse.volume
-            weightedSharesOutstanding = stockRetrieveQuoteResponse.weightedSharesOutstanding
-            additionalProperties = stockRetrieveQuoteResponse.additionalProperties.toMutableMap()
-        }
+        internal fun from(stockRetrieveCurrentPriceResponse: StockRetrieveCurrentPriceResponse) =
+            apply {
+                price = stockRetrieveCurrentPriceResponse.price
+                stockId = stockRetrieveCurrentPriceResponse.stockId
+                timestamp = stockRetrieveCurrentPriceResponse.timestamp
+                change = stockRetrieveCurrentPriceResponse.change
+                changePercent = stockRetrieveCurrentPriceResponse.changePercent
+                close = stockRetrieveCurrentPriceResponse.close
+                high = stockRetrieveCurrentPriceResponse.high
+                low = stockRetrieveCurrentPriceResponse.low
+                marketCap = stockRetrieveCurrentPriceResponse.marketCap
+                open = stockRetrieveCurrentPriceResponse.open
+                previousClose = stockRetrieveCurrentPriceResponse.previousClose
+                volume = stockRetrieveCurrentPriceResponse.volume
+                weightedSharesOutstanding =
+                    stockRetrieveCurrentPriceResponse.weightedSharesOutstanding
+                additionalProperties =
+                    stockRetrieveCurrentPriceResponse.additionalProperties.toMutableMap()
+            }
 
         /** The ask price. */
         fun price(price: Double) = price(JsonField.of(price))
@@ -517,7 +521,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [StockRetrieveQuoteResponse].
+         * Returns an immutable instance of [StockRetrieveCurrentPriceResponse].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -530,8 +534,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): StockRetrieveQuoteResponse =
-            StockRetrieveQuoteResponse(
+        fun build(): StockRetrieveCurrentPriceResponse =
+            StockRetrieveCurrentPriceResponse(
                 checkRequired("price", price),
                 checkRequired("stockId", stockId),
                 checkRequired("timestamp", timestamp),
@@ -551,7 +555,7 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): StockRetrieveQuoteResponse = apply {
+    fun validate(): StockRetrieveCurrentPriceResponse = apply {
         if (validated) {
             return@apply
         }
@@ -606,7 +610,7 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockRetrieveQuoteResponse && price == other.price && stockId == other.stockId && timestamp == other.timestamp && change == other.change && changePercent == other.changePercent && close == other.close && high == other.high && low == other.low && marketCap == other.marketCap && open == other.open && previousClose == other.previousClose && volume == other.volume && weightedSharesOutstanding == other.weightedSharesOutstanding && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is StockRetrieveCurrentPriceResponse && price == other.price && stockId == other.stockId && timestamp == other.timestamp && change == other.change && changePercent == other.changePercent && close == other.close && high == other.high && low == other.low && marketCap == other.marketCap && open == other.open && previousClose == other.previousClose && volume == other.volume && weightedSharesOutstanding == other.weightedSharesOutstanding && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
@@ -616,5 +620,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "StockRetrieveQuoteResponse{price=$price, stockId=$stockId, timestamp=$timestamp, change=$change, changePercent=$changePercent, close=$close, high=$high, low=$low, marketCap=$marketCap, open=$open, previousClose=$previousClose, volume=$volume, weightedSharesOutstanding=$weightedSharesOutstanding, additionalProperties=$additionalProperties}"
+        "StockRetrieveCurrentPriceResponse{price=$price, stockId=$stockId, timestamp=$timestamp, change=$change, changePercent=$changePercent, close=$close, high=$high, low=$low, marketCap=$marketCap, open=$open, previousClose=$previousClose, volume=$volume, weightedSharesOutstanding=$weightedSharesOutstanding, additionalProperties=$additionalProperties}"
 }

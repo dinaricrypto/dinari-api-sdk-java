@@ -19,7 +19,7 @@ import java.util.Optional
 /** Input parameters for creating a limit `OrderRequest`. */
 class CreateLimitOrderInput
 private constructor(
-    private val assetQuantity: JsonField<Long>,
+    private val assetQuantity: JsonField<Double>,
     private val limitPrice: JsonField<Double>,
     private val stockId: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
@@ -30,7 +30,7 @@ private constructor(
     private constructor(
         @JsonProperty("asset_quantity")
         @ExcludeMissing
-        assetQuantity: JsonField<Long> = JsonMissing.of(),
+        assetQuantity: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("limit_price")
         @ExcludeMissing
         limitPrice: JsonField<Double> = JsonMissing.of(),
@@ -41,12 +41,12 @@ private constructor(
     ) : this(assetQuantity, limitPrice, stockId, recipientAccountId, mutableMapOf())
 
     /**
-     * Quantity of shares to trade. Must be a positive integer.
+     * Amount of dShare asset involved. Required for limit `Orders` and market sell `Orders`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun assetQuantity(): Long = assetQuantity.getRequired("asset_quantity")
+    fun assetQuantity(): Double = assetQuantity.getRequired("asset_quantity")
 
     /**
      * Price at which to execute the order. Must be a positive number with a precision of up to 2
@@ -81,7 +81,7 @@ private constructor(
      */
     @JsonProperty("asset_quantity")
     @ExcludeMissing
-    fun _assetQuantity(): JsonField<Long> = assetQuantity
+    fun _assetQuantity(): JsonField<Double> = assetQuantity
 
     /**
      * Returns the raw JSON value of [limitPrice].
@@ -137,7 +137,7 @@ private constructor(
     /** A builder for [CreateLimitOrderInput]. */
     class Builder internal constructor() {
 
-        private var assetQuantity: JsonField<Long>? = null
+        private var assetQuantity: JsonField<Double>? = null
         private var limitPrice: JsonField<Double>? = null
         private var stockId: JsonField<String>? = null
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
@@ -152,17 +152,19 @@ private constructor(
             additionalProperties = createLimitOrderInput.additionalProperties.toMutableMap()
         }
 
-        /** Quantity of shares to trade. Must be a positive integer. */
-        fun assetQuantity(assetQuantity: Long) = assetQuantity(JsonField.of(assetQuantity))
+        /**
+         * Amount of dShare asset involved. Required for limit `Orders` and market sell `Orders`.
+         */
+        fun assetQuantity(assetQuantity: Double) = assetQuantity(JsonField.of(assetQuantity))
 
         /**
          * Sets [Builder.assetQuantity] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.assetQuantity] with a well-typed [Long] value instead.
+         * You should usually call [Builder.assetQuantity] with a well-typed [Double] value instead.
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun assetQuantity(assetQuantity: JsonField<Long>) = apply {
+        fun assetQuantity(assetQuantity: JsonField<Double>) = apply {
             this.assetQuantity = assetQuantity
         }
 
