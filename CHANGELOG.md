@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.1 (2025-06-29)
+
+Full Changelog: [v0.3.0...v0.3.1](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.3.0...v0.3.1)
+
+### Bug Fixes
+
+* **client:** don't close client on `withOptions` usage when original is gc'd ([6327d0b](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/6327d0bfcf50b15dc7afefefec8a7df4246ab564))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([fb8836e](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/fb8836e0aa51291f2a37a77e4b22f3a7fe005fc4))
+
 ## 0.3.0 (2025-06-27)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.2.0...v0.3.0)
