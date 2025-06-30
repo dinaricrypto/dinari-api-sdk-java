@@ -5,7 +5,6 @@ package com.dinari.api.services.blocking.v2.accounts
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.core.JsonValue
-import com.dinari.api.models.v2.accounts.orderrequests.CreateLimitOrderInput
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
@@ -82,14 +81,10 @@ internal class OrderRequestServiceTest {
             orderRequestService.createLimitBuy(
                 OrderRequestCreateLimitBuyParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .createLimitOrderInput(
-                        CreateLimitOrderInput.builder()
-                            .assetQuantity(0.0)
-                            .limitPrice(0.0)
-                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .build()
-                    )
+                    .assetQuantity(JsonValue.from("0"))
+                    .limitPrice(JsonValue.from("0"))
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -111,14 +106,11 @@ internal class OrderRequestServiceTest {
             orderRequestService.createLimitSell(
                 OrderRequestCreateLimitSellParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .createLimitOrderInput(
-                        CreateLimitOrderInput.builder()
-                            .assetQuantity(0.0)
-                            .limitPrice(0.0)
-                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .build()
-                    )
+                    .assetQuantity(JsonValue.from("0"))
+                    .limitPrice(JsonValue.from("0"))
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .paymentTokenAddress("payment_token_address")
+                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
@@ -166,6 +158,7 @@ internal class OrderRequestServiceTest {
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .assetQuantity(JsonValue.from("0"))
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .paymentTokenAddress("payment_token_address")
                     .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
@@ -193,6 +186,7 @@ internal class OrderRequestServiceTest {
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .assetTokenQuantity(JsonValue.from("0"))
                     .limitPrice(JsonValue.from("0"))
+                    .paymentTokenAddress("payment_token_address")
                     .paymentTokenQuantity(JsonValue.from("0"))
                     .build()
             )
