@@ -78,6 +78,15 @@ private constructor(
     fun limitPrice(): Optional<Double> = body.limitPrice()
 
     /**
+     * Address of the payment token to be used for an order. If not provided, the default payment
+     * token (USD+) will be used.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun paymentTokenAddress(): Optional<String> = body.paymentTokenAddress()
+
+    /**
      * Amount of payment tokens involved. Required for market buy `Order Requests`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -120,6 +129,14 @@ private constructor(
      * Unlike [limitPrice], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _limitPrice(): JsonField<Double> = body._limitPrice()
+
+    /**
+     * Returns the raw JSON value of [paymentTokenAddress].
+     *
+     * Unlike [paymentTokenAddress], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _paymentTokenAddress(): JsonField<String> = body._paymentTokenAddress()
 
     /**
      * Returns the raw JSON value of [paymentTokenQuantity].
@@ -256,6 +273,25 @@ private constructor(
          * value.
          */
         fun limitPrice(limitPrice: JsonField<Double>) = apply { body.limitPrice(limitPrice) }
+
+        /**
+         * Address of the payment token to be used for an order. If not provided, the default
+         * payment token (USD+) will be used.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: String) = apply {
+            body.paymentTokenAddress(paymentTokenAddress)
+        }
+
+        /**
+         * Sets [Builder.paymentTokenAddress] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.paymentTokenAddress] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: JsonField<String>) = apply {
+            body.paymentTokenAddress(paymentTokenAddress)
+        }
 
         /** Amount of payment tokens involved. Required for market buy `Order Requests`. */
         fun paymentTokenQuantity(paymentTokenQuantity: Double) = apply {
@@ -433,6 +469,7 @@ private constructor(
         private val stockId: JsonField<String>,
         private val assetTokenQuantity: JsonField<Double>,
         private val limitPrice: JsonField<Double>,
+        private val paymentTokenAddress: JsonField<String>,
         private val paymentTokenQuantity: JsonField<Double>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -452,6 +489,9 @@ private constructor(
             @JsonProperty("limit_price")
             @ExcludeMissing
             limitPrice: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("payment_token_address")
+            @ExcludeMissing
+            paymentTokenAddress: JsonField<String> = JsonMissing.of(),
             @JsonProperty("payment_token_quantity")
             @ExcludeMissing
             paymentTokenQuantity: JsonField<Double> = JsonMissing.of(),
@@ -461,6 +501,7 @@ private constructor(
             stockId,
             assetTokenQuantity,
             limitPrice,
+            paymentTokenAddress,
             paymentTokenQuantity,
             mutableMapOf(),
         )
@@ -507,6 +548,16 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun limitPrice(): Optional<Double> = limitPrice.getOptional("limit_price")
+
+        /**
+         * Address of the payment token to be used for an order. If not provided, the default
+         * payment token (USD+) will be used.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun paymentTokenAddress(): Optional<String> =
+            paymentTokenAddress.getOptional("payment_token_address")
 
         /**
          * Amount of payment tokens involved. Required for market buy `Order Requests`.
@@ -562,6 +613,16 @@ private constructor(
         fun _limitPrice(): JsonField<Double> = limitPrice
 
         /**
+         * Returns the raw JSON value of [paymentTokenAddress].
+         *
+         * Unlike [paymentTokenAddress], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("payment_token_address")
+        @ExcludeMissing
+        fun _paymentTokenAddress(): JsonField<String> = paymentTokenAddress
+
+        /**
          * Returns the raw JSON value of [paymentTokenQuantity].
          *
          * Unlike [paymentTokenQuantity], this method doesn't throw if the JSON field has an
@@ -606,6 +667,7 @@ private constructor(
             private var stockId: JsonField<String>? = null
             private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
             private var limitPrice: JsonField<Double> = JsonMissing.of()
+            private var paymentTokenAddress: JsonField<String> = JsonMissing.of()
             private var paymentTokenQuantity: JsonField<Double> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -616,6 +678,7 @@ private constructor(
                 stockId = body.stockId
                 assetTokenQuantity = body.assetTokenQuantity
                 limitPrice = body.limitPrice
+                paymentTokenAddress = body.paymentTokenAddress
                 paymentTokenQuantity = body.paymentTokenQuantity
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
@@ -689,6 +752,24 @@ private constructor(
              */
             fun limitPrice(limitPrice: JsonField<Double>) = apply { this.limitPrice = limitPrice }
 
+            /**
+             * Address of the payment token to be used for an order. If not provided, the default
+             * payment token (USD+) will be used.
+             */
+            fun paymentTokenAddress(paymentTokenAddress: String) =
+                paymentTokenAddress(JsonField.of(paymentTokenAddress))
+
+            /**
+             * Sets [Builder.paymentTokenAddress] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.paymentTokenAddress] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun paymentTokenAddress(paymentTokenAddress: JsonField<String>) = apply {
+                this.paymentTokenAddress = paymentTokenAddress
+            }
+
             /** Amount of payment tokens involved. Required for market buy `Order Requests`. */
             fun paymentTokenQuantity(paymentTokenQuantity: Double) =
                 paymentTokenQuantity(JsonField.of(paymentTokenQuantity))
@@ -744,6 +825,7 @@ private constructor(
                     checkRequired("stockId", stockId),
                     assetTokenQuantity,
                     limitPrice,
+                    paymentTokenAddress,
                     paymentTokenQuantity,
                     additionalProperties.toMutableMap(),
                 )
@@ -761,6 +843,7 @@ private constructor(
             stockId()
             assetTokenQuantity()
             limitPrice()
+            paymentTokenAddress()
             paymentTokenQuantity()
             validated = true
         }
@@ -786,6 +869,7 @@ private constructor(
                 (if (stockId.asKnown().isPresent) 1 else 0) +
                 (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
                 (if (limitPrice.asKnown().isPresent) 1 else 0) +
+                (if (paymentTokenAddress.asKnown().isPresent) 1 else 0) +
                 (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
@@ -793,17 +877,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && orderSide == other.orderSide && orderType == other.orderType && stockId == other.stockId && assetTokenQuantity == other.assetTokenQuantity && limitPrice == other.limitPrice && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && orderSide == other.orderSide && orderType == other.orderType && stockId == other.stockId && assetTokenQuantity == other.assetTokenQuantity && limitPrice == other.limitPrice && paymentTokenAddress == other.paymentTokenAddress && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(orderSide, orderType, stockId, assetTokenQuantity, limitPrice, paymentTokenQuantity, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(orderSide, orderType, stockId, assetTokenQuantity, limitPrice, paymentTokenAddress, paymentTokenQuantity, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{orderSide=$orderSide, orderType=$orderType, stockId=$stockId, assetTokenQuantity=$assetTokenQuantity, limitPrice=$limitPrice, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+            "Body{orderSide=$orderSide, orderType=$orderType, stockId=$stockId, assetTokenQuantity=$assetTokenQuantity, limitPrice=$limitPrice, paymentTokenAddress=$paymentTokenAddress, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

@@ -49,6 +49,16 @@ private constructor(
     fun stockId(): String = body.stockId()
 
     /**
+     * Address of the payment token to be used for the sell order. If not provided, the default
+     * payment token (USD+) will be used. Should only be specified if `recipient_account_id` for a
+     * non-managed wallet account is also provided.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun paymentTokenAddress(): Optional<String> = body.paymentTokenAddress()
+
+    /**
      * ID of `Account` to receive the `Order`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -69,6 +79,14 @@ private constructor(
      * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _stockId(): JsonField<String> = body._stockId()
+
+    /**
+     * Returns the raw JSON value of [paymentTokenAddress].
+     *
+     * Unlike [paymentTokenAddress], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _paymentTokenAddress(): JsonField<String> = body._paymentTokenAddress()
 
     /**
      * Returns the raw JSON value of [recipientAccountId].
@@ -131,6 +149,7 @@ private constructor(
          * Otherwise, it's more convenient to use the top-level setters instead:
          * - [assetQuantity]
          * - [stockId]
+         * - [paymentTokenAddress]
          * - [recipientAccountId]
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
@@ -162,6 +181,26 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun stockId(stockId: JsonField<String>) = apply { body.stockId(stockId) }
+
+        /**
+         * Address of the payment token to be used for the sell order. If not provided, the default
+         * payment token (USD+) will be used. Should only be specified if `recipient_account_id` for
+         * a non-managed wallet account is also provided.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: String) = apply {
+            body.paymentTokenAddress(paymentTokenAddress)
+        }
+
+        /**
+         * Sets [Builder.paymentTokenAddress] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.paymentTokenAddress] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: JsonField<String>) = apply {
+            body.paymentTokenAddress(paymentTokenAddress)
+        }
 
         /** ID of `Account` to receive the `Order`. */
         fun recipientAccountId(recipientAccountId: String) = apply {
@@ -335,6 +374,7 @@ private constructor(
     private constructor(
         private val assetQuantity: JsonField<Double>,
         private val stockId: JsonField<String>,
+        private val paymentTokenAddress: JsonField<String>,
         private val recipientAccountId: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -345,10 +385,13 @@ private constructor(
             @ExcludeMissing
             assetQuantity: JsonField<Double> = JsonMissing.of(),
             @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("payment_token_address")
+            @ExcludeMissing
+            paymentTokenAddress: JsonField<String> = JsonMissing.of(),
             @JsonProperty("recipient_account_id")
             @ExcludeMissing
             recipientAccountId: JsonField<String> = JsonMissing.of(),
-        ) : this(assetQuantity, stockId, recipientAccountId, mutableMapOf())
+        ) : this(assetQuantity, stockId, paymentTokenAddress, recipientAccountId, mutableMapOf())
 
         /**
          * Quantity of shares to trade. Must be a positive number with a precision of up to 9
@@ -366,6 +409,17 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun stockId(): String = stockId.getRequired("stock_id")
+
+        /**
+         * Address of the payment token to be used for the sell order. If not provided, the default
+         * payment token (USD+) will be used. Should only be specified if `recipient_account_id` for
+         * a non-managed wallet account is also provided.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun paymentTokenAddress(): Optional<String> =
+            paymentTokenAddress.getOptional("payment_token_address")
 
         /**
          * ID of `Account` to receive the `Order`.
@@ -392,6 +446,16 @@ private constructor(
          * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
+
+        /**
+         * Returns the raw JSON value of [paymentTokenAddress].
+         *
+         * Unlike [paymentTokenAddress], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("payment_token_address")
+        @ExcludeMissing
+        fun _paymentTokenAddress(): JsonField<String> = paymentTokenAddress
 
         /**
          * Returns the raw JSON value of [recipientAccountId].
@@ -434,6 +498,7 @@ private constructor(
 
             private var assetQuantity: JsonField<Double>? = null
             private var stockId: JsonField<String>? = null
+            private var paymentTokenAddress: JsonField<String> = JsonMissing.of()
             private var recipientAccountId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -441,6 +506,7 @@ private constructor(
             internal fun from(body: Body) = apply {
                 assetQuantity = body.assetQuantity
                 stockId = body.stockId
+                paymentTokenAddress = body.paymentTokenAddress
                 recipientAccountId = body.recipientAccountId
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
@@ -473,6 +539,25 @@ private constructor(
              * supported value.
              */
             fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+
+            /**
+             * Address of the payment token to be used for the sell order. If not provided, the
+             * default payment token (USD+) will be used. Should only be specified if
+             * `recipient_account_id` for a non-managed wallet account is also provided.
+             */
+            fun paymentTokenAddress(paymentTokenAddress: String) =
+                paymentTokenAddress(JsonField.of(paymentTokenAddress))
+
+            /**
+             * Sets [Builder.paymentTokenAddress] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.paymentTokenAddress] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun paymentTokenAddress(paymentTokenAddress: JsonField<String>) = apply {
+                this.paymentTokenAddress = paymentTokenAddress
+            }
 
             /** ID of `Account` to receive the `Order`. */
             fun recipientAccountId(recipientAccountId: String) =
@@ -525,6 +610,7 @@ private constructor(
                 Body(
                     checkRequired("assetQuantity", assetQuantity),
                     checkRequired("stockId", stockId),
+                    paymentTokenAddress,
                     recipientAccountId,
                     additionalProperties.toMutableMap(),
                 )
@@ -539,6 +625,7 @@ private constructor(
 
             assetQuantity()
             stockId()
+            paymentTokenAddress()
             recipientAccountId()
             validated = true
         }
@@ -561,6 +648,7 @@ private constructor(
         internal fun validity(): Int =
             (if (assetQuantity.asKnown().isPresent) 1 else 0) +
                 (if (stockId.asKnown().isPresent) 1 else 0) +
+                (if (paymentTokenAddress.asKnown().isPresent) 1 else 0) +
                 (if (recipientAccountId.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
@@ -568,17 +656,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && assetQuantity == other.assetQuantity && stockId == other.stockId && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && assetQuantity == other.assetQuantity && stockId == other.stockId && paymentTokenAddress == other.paymentTokenAddress && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(assetQuantity, stockId, recipientAccountId, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(assetQuantity, stockId, paymentTokenAddress, recipientAccountId, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{assetQuantity=$assetQuantity, stockId=$stockId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
+            "Body{assetQuantity=$assetQuantity, stockId=$stockId, paymentTokenAddress=$paymentTokenAddress, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
