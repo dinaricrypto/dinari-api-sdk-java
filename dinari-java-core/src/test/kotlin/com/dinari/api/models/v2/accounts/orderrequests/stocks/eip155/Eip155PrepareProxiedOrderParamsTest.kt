@@ -22,10 +22,10 @@ internal class Eip155PrepareProxiedOrderParamsTest {
             .orderSide(OrderSide.BUY)
             .orderTif(OrderTif.DAY)
             .orderType(OrderType.MARKET)
+            .paymentToken("payment_token")
             .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .assetTokenQuantity(JsonValue.from("0"))
             .limitPrice(JsonValue.from("0"))
-            .paymentToken("payment_token")
             .paymentTokenQuantity(JsonValue.from("0"))
             .build()
     }
@@ -40,6 +40,7 @@ internal class Eip155PrepareProxiedOrderParamsTest {
                 .orderSide(OrderSide.BUY)
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
@@ -58,10 +59,10 @@ internal class Eip155PrepareProxiedOrderParamsTest {
                 .orderSide(OrderSide.BUY)
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetTokenQuantity(JsonValue.from("0"))
                 .limitPrice(JsonValue.from("0"))
-                .paymentToken("payment_token")
                 .paymentTokenQuantity(JsonValue.from("0"))
                 .build()
 
@@ -71,10 +72,10 @@ internal class Eip155PrepareProxiedOrderParamsTest {
         assertThat(body.orderSide()).isEqualTo(OrderSide.BUY)
         assertThat(body.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(body.orderType()).isEqualTo(OrderType.MARKET)
+        assertThat(body.paymentToken()).isEqualTo("payment_token")
         assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body._assetTokenQuantity()).isEqualTo(JsonValue.from("0"))
         assertThat(body._limitPrice()).isEqualTo(JsonValue.from("0"))
-        assertThat(body.paymentToken()).contains("payment_token")
         assertThat(body._paymentTokenQuantity()).isEqualTo(JsonValue.from("0"))
     }
 
@@ -88,6 +89,7 @@ internal class Eip155PrepareProxiedOrderParamsTest {
                 .orderSide(OrderSide.BUY)
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
@@ -97,6 +99,7 @@ internal class Eip155PrepareProxiedOrderParamsTest {
         assertThat(body.orderSide()).isEqualTo(OrderSide.BUY)
         assertThat(body.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(body.orderType()).isEqualTo(OrderType.MARKET)
+        assertThat(body.paymentToken()).isEqualTo("payment_token")
         assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

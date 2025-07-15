@@ -11,6 +11,7 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import com.dinari.api.errors.DinariInvalidDataException
+import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderType
 import com.fasterxml.jackson.annotation.JsonAnyGetter
@@ -69,6 +70,15 @@ private constructor(
     fun assetTokenQuantity(): Optional<Double> = body.assetTokenQuantity()
 
     /**
+     * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not provided,
+     * the default chain ID (eip155:42161) will be used.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun chainId(): Optional<Chain> = body.chainId()
+
+    /**
      * Price per asset in the asset's native currency. USD for US equities and ETFs. Required for
      * limit `Order Requests`.
      *
@@ -122,6 +132,13 @@ private constructor(
      * type.
      */
     fun _assetTokenQuantity(): JsonField<Double> = body._assetTokenQuantity()
+
+    /**
+     * Returns the raw JSON value of [chainId].
+     *
+     * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _chainId(): JsonField<Chain> = body._chainId()
 
     /**
      * Returns the raw JSON value of [limitPrice].
@@ -200,7 +217,7 @@ private constructor(
          * - [orderType]
          * - [stockId]
          * - [assetTokenQuantity]
-         * - [limitPrice]
+         * - [chainId]
          * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
@@ -258,6 +275,20 @@ private constructor(
         fun assetTokenQuantity(assetTokenQuantity: JsonField<Double>) = apply {
             body.assetTokenQuantity(assetTokenQuantity)
         }
+
+        /**
+         * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not
+         * provided, the default chain ID (eip155:42161) will be used.
+         */
+        fun chainId(chainId: Chain) = apply { body.chainId(chainId) }
+
+        /**
+         * Sets [Builder.chainId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.chainId] with a well-typed [Chain] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun chainId(chainId: JsonField<Chain>) = apply { body.chainId(chainId) }
 
         /**
          * Price per asset in the asset's native currency. USD for US equities and ETFs. Required
@@ -468,6 +499,7 @@ private constructor(
         private val orderType: JsonField<OrderType>,
         private val stockId: JsonField<String>,
         private val assetTokenQuantity: JsonField<Double>,
+        private val chainId: JsonField<Chain>,
         private val limitPrice: JsonField<Double>,
         private val paymentTokenAddress: JsonField<String>,
         private val paymentTokenQuantity: JsonField<Double>,
@@ -486,6 +518,7 @@ private constructor(
             @JsonProperty("asset_token_quantity")
             @ExcludeMissing
             assetTokenQuantity: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("chain_id") @ExcludeMissing chainId: JsonField<Chain> = JsonMissing.of(),
             @JsonProperty("limit_price")
             @ExcludeMissing
             limitPrice: JsonField<Double> = JsonMissing.of(),
@@ -500,6 +533,7 @@ private constructor(
             orderType,
             stockId,
             assetTokenQuantity,
+            chainId,
             limitPrice,
             paymentTokenAddress,
             paymentTokenQuantity,
@@ -539,6 +573,15 @@ private constructor(
          */
         fun assetTokenQuantity(): Optional<Double> =
             assetTokenQuantity.getOptional("asset_token_quantity")
+
+        /**
+         * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not
+         * provided, the default chain ID (eip155:42161) will be used.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun chainId(): Optional<Chain> = chainId.getOptional("chain_id")
 
         /**
          * Price per asset in the asset's native currency. USD for US equities and ETFs. Required
@@ -604,6 +647,13 @@ private constructor(
         fun _assetTokenQuantity(): JsonField<Double> = assetTokenQuantity
 
         /**
+         * Returns the raw JSON value of [chainId].
+         *
+         * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("chain_id") @ExcludeMissing fun _chainId(): JsonField<Chain> = chainId
+
+        /**
          * Returns the raw JSON value of [limitPrice].
          *
          * Unlike [limitPrice], this method doesn't throw if the JSON field has an unexpected type.
@@ -666,6 +716,7 @@ private constructor(
             private var orderType: JsonField<OrderType>? = null
             private var stockId: JsonField<String>? = null
             private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
+            private var chainId: JsonField<Chain> = JsonMissing.of()
             private var limitPrice: JsonField<Double> = JsonMissing.of()
             private var paymentTokenAddress: JsonField<String> = JsonMissing.of()
             private var paymentTokenQuantity: JsonField<Double> = JsonMissing.of()
@@ -677,6 +728,7 @@ private constructor(
                 orderType = body.orderType
                 stockId = body.stockId
                 assetTokenQuantity = body.assetTokenQuantity
+                chainId = body.chainId
                 limitPrice = body.limitPrice
                 paymentTokenAddress = body.paymentTokenAddress
                 paymentTokenQuantity = body.paymentTokenQuantity
@@ -736,6 +788,21 @@ private constructor(
             fun assetTokenQuantity(assetTokenQuantity: JsonField<Double>) = apply {
                 this.assetTokenQuantity = assetTokenQuantity
             }
+
+            /**
+             * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not
+             * provided, the default chain ID (eip155:42161) will be used.
+             */
+            fun chainId(chainId: Chain) = chainId(JsonField.of(chainId))
+
+            /**
+             * Sets [Builder.chainId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.chainId] with a well-typed [Chain] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun chainId(chainId: JsonField<Chain>) = apply { this.chainId = chainId }
 
             /**
              * Price per asset in the asset's native currency. USD for US equities and ETFs.
@@ -824,6 +891,7 @@ private constructor(
                     checkRequired("orderType", orderType),
                     checkRequired("stockId", stockId),
                     assetTokenQuantity,
+                    chainId,
                     limitPrice,
                     paymentTokenAddress,
                     paymentTokenQuantity,
@@ -842,6 +910,7 @@ private constructor(
             orderType().validate()
             stockId()
             assetTokenQuantity()
+            chainId().ifPresent { it.validate() }
             limitPrice()
             paymentTokenAddress()
             paymentTokenQuantity()
@@ -868,6 +937,7 @@ private constructor(
                 (orderType.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (stockId.asKnown().isPresent) 1 else 0) +
                 (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
+                (chainId.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (limitPrice.asKnown().isPresent) 1 else 0) +
                 (if (paymentTokenAddress.asKnown().isPresent) 1 else 0) +
                 (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0)
@@ -877,17 +947,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && orderSide == other.orderSide && orderType == other.orderType && stockId == other.stockId && assetTokenQuantity == other.assetTokenQuantity && limitPrice == other.limitPrice && paymentTokenAddress == other.paymentTokenAddress && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && orderSide == other.orderSide && orderType == other.orderType && stockId == other.stockId && assetTokenQuantity == other.assetTokenQuantity && chainId == other.chainId && limitPrice == other.limitPrice && paymentTokenAddress == other.paymentTokenAddress && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(orderSide, orderType, stockId, assetTokenQuantity, limitPrice, paymentTokenAddress, paymentTokenQuantity, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(orderSide, orderType, stockId, assetTokenQuantity, chainId, limitPrice, paymentTokenAddress, paymentTokenQuantity, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{orderSide=$orderSide, orderType=$orderType, stockId=$stockId, assetTokenQuantity=$assetTokenQuantity, limitPrice=$limitPrice, paymentTokenAddress=$paymentTokenAddress, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+            "Body{orderSide=$orderSide, orderType=$orderType, stockId=$stockId, assetTokenQuantity=$assetTokenQuantity, chainId=$chainId, limitPrice=$limitPrice, paymentTokenAddress=$paymentTokenAddress, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
