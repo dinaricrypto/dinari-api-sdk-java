@@ -5,6 +5,7 @@ package com.dinari.api.services.async.v2.accounts
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.core.JsonValue
+import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
@@ -191,6 +192,7 @@ internal class OrderRequestServiceAsyncTest {
                     .orderType(OrderType.MARKET)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .assetTokenQuantity(JsonValue.from("0"))
+                    .chainId(Chain.EIP155_1)
                     .limitPrice(JsonValue.from("0"))
                     .paymentTokenAddress("payment_token_address")
                     .paymentTokenQuantity(JsonValue.from("0"))
