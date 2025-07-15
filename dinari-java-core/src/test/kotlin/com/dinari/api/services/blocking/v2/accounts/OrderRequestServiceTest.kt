@@ -6,6 +6,10 @@ import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.core.JsonValue
 import com.dinari.api.models.v2.accounts.Chain
+import com.dinari.api.models.v2.accounts.orderrequests.CreateLimitBuyOrderInput
+import com.dinari.api.models.v2.accounts.orderrequests.CreateLimitSellOrderInput
+import com.dinari.api.models.v2.accounts.orderrequests.CreateMarketBuyOrderInput
+import com.dinari.api.models.v2.accounts.orderrequests.CreateMarketSellOrderInput
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
@@ -82,10 +86,14 @@ internal class OrderRequestServiceTest {
             orderRequestService.createLimitBuy(
                 OrderRequestCreateLimitBuyParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .assetQuantity(JsonValue.from("0"))
-                    .limitPrice(JsonValue.from("0"))
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .createLimitBuyOrderInput(
+                        CreateLimitBuyOrderInput.builder()
+                            .assetQuantity(0.0)
+                            .limitPrice(0.0)
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .build()
+                    )
                     .build()
             )
 
@@ -107,11 +115,15 @@ internal class OrderRequestServiceTest {
             orderRequestService.createLimitSell(
                 OrderRequestCreateLimitSellParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .assetQuantity(JsonValue.from("0"))
-                    .limitPrice(JsonValue.from("0"))
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .paymentTokenAddress("payment_token_address")
-                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .createLimitSellOrderInput(
+                        CreateLimitSellOrderInput.builder()
+                            .assetQuantity(0.0)
+                            .limitPrice(0.0)
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .paymentTokenAddress("payment_token_address")
+                            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .build()
+                    )
                     .build()
             )
 
@@ -133,9 +145,13 @@ internal class OrderRequestServiceTest {
             orderRequestService.createMarketBuy(
                 OrderRequestCreateMarketBuyParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .paymentAmount(JsonValue.from("0"))
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .createMarketBuyOrderInput(
+                        CreateMarketBuyOrderInput.builder()
+                            .paymentAmount(0.0)
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .build()
+                    )
                     .build()
             )
 
@@ -157,10 +173,14 @@ internal class OrderRequestServiceTest {
             orderRequestService.createMarketSell(
                 OrderRequestCreateMarketSellParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .assetQuantity(JsonValue.from("0"))
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .paymentTokenAddress("payment_token_address")
-                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .createMarketSellOrderInput(
+                        CreateMarketSellOrderInput.builder()
+                            .assetQuantity(0.0)
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .paymentTokenAddress("payment_token_address")
+                            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .build()
+                    )
                     .build()
             )
 
