@@ -3,14 +3,14 @@
 package com.dinari.api.services.blocking.v2.accounts.wallet
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -49,7 +49,8 @@ class ExternalServiceImpl internal constructor(private val clientOptions: Client
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ExternalService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -58,8 +59,7 @@ class ExternalServiceImpl internal constructor(private val clientOptions: Client
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val connectHandler: Handler<Wallet> =
-            jsonHandler<Wallet>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val connectHandler: Handler<Wallet> = jsonHandler<Wallet>(clientOptions.jsonMapper)
 
         override fun connect(
             params: ExternalConnectParams,
@@ -85,7 +85,7 @@ class ExternalServiceImpl internal constructor(private val clientOptions: Client
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { connectHandler.handle(it) }
                     .also {
@@ -98,7 +98,6 @@ class ExternalServiceImpl internal constructor(private val clientOptions: Client
 
         private val getNonceHandler: Handler<ExternalGetNonceResponse> =
             jsonHandler<ExternalGetNonceResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getNonce(
             params: ExternalGetNonceParams,
@@ -124,7 +123,7 @@ class ExternalServiceImpl internal constructor(private val clientOptions: Client
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { getNonceHandler.handle(it) }
                     .also {

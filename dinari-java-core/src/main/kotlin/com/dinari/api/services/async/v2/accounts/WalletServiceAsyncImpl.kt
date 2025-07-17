@@ -3,14 +3,14 @@
 package com.dinari.api.services.async.v2.accounts
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -58,7 +58,8 @@ class WalletServiceAsyncImpl internal constructor(private val clientOptions: Cli
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         WalletServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val external: ExternalServiceAsync.WithRawResponse by lazy {
             ExternalServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -74,7 +75,7 @@ class WalletServiceAsyncImpl internal constructor(private val clientOptions: Cli
         override fun external(): ExternalServiceAsync.WithRawResponse = external
 
         private val connectInternalHandler: Handler<Wallet> =
-            jsonHandler<Wallet>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Wallet>(clientOptions.jsonMapper)
 
         override fun connectInternal(
             params: WalletConnectInternalParams,
@@ -102,7 +103,7 @@ class WalletServiceAsyncImpl internal constructor(private val clientOptions: Cli
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { connectInternalHandler.handle(it) }
                             .also {
@@ -114,8 +115,7 @@ class WalletServiceAsyncImpl internal constructor(private val clientOptions: Cli
                 }
         }
 
-        private val getHandler: Handler<Wallet> =
-            jsonHandler<Wallet>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val getHandler: Handler<Wallet> = jsonHandler<Wallet>(clientOptions.jsonMapper)
 
         override fun get(
             params: WalletGetParams,
@@ -135,7 +135,7 @@ class WalletServiceAsyncImpl internal constructor(private val clientOptions: Cli
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { getHandler.handle(it) }
                             .also {

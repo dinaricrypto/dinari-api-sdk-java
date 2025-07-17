@@ -3,14 +3,14 @@
 package com.dinari.api.services.blocking.v2.accounts
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -59,7 +59,8 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         WithdrawalRequestService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -69,7 +70,7 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
             )
 
         private val createHandler: Handler<WithdrawalRequest> =
-            jsonHandler<WithdrawalRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<WithdrawalRequest>(clientOptions.jsonMapper)
 
         override fun create(
             params: WithdrawalRequestCreateParams,
@@ -94,7 +95,7 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createHandler.handle(it) }
                     .also {
@@ -106,7 +107,7 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
         }
 
         private val retrieveHandler: Handler<WithdrawalRequest> =
-            jsonHandler<WithdrawalRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<WithdrawalRequest>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: WithdrawalRequestRetrieveParams,
@@ -131,7 +132,7 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -144,7 +145,6 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
 
         private val listHandler: Handler<List<WithdrawalRequest>> =
             jsonHandler<List<WithdrawalRequest>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: WithdrawalRequestListParams,
@@ -168,7 +168,7 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
