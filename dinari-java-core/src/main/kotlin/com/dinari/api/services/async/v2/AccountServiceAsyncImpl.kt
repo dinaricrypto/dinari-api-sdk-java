@@ -3,13 +3,12 @@
 package com.dinari.api.services.async.v2
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
 import com.dinari.api.core.handlers.emptyHandler
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
 import com.dinari.api.core.http.HttpResponse
@@ -142,7 +141,8 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AccountServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val wallet: WalletServiceAsync.WithRawResponse by lazy {
             WalletServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -190,7 +190,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
         override fun withdrawals(): WithdrawalServiceAsync.WithRawResponse = withdrawals
 
         private val retrieveHandler: Handler<Account> =
-            jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Account>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AccountRetrieveParams,
@@ -210,7 +210,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
@@ -223,7 +223,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
         }
 
         private val deactivateHandler: Handler<Account> =
-            jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Account>(clientOptions.jsonMapper)
 
         override fun deactivate(
             params: AccountDeactivateParams,
@@ -244,7 +244,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { deactivateHandler.handle(it) }
                             .also {
@@ -258,7 +258,6 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
         private val getCashBalancesHandler: Handler<List<AccountGetCashBalancesResponse>> =
             jsonHandler<List<AccountGetCashBalancesResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getCashBalances(
             params: AccountGetCashBalancesParams,
@@ -278,7 +277,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { getCashBalancesHandler.handle(it) }
                             .also {
@@ -292,7 +291,6 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
         private val getDividendPaymentsHandler: Handler<List<AccountGetDividendPaymentsResponse>> =
             jsonHandler<List<AccountGetDividendPaymentsResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getDividendPayments(
             params: AccountGetDividendPaymentsParams,
@@ -318,7 +316,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { getDividendPaymentsHandler.handle(it) }
                             .also {
@@ -332,7 +330,6 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
         private val getInterestPaymentsHandler: Handler<List<AccountGetInterestPaymentsResponse>> =
             jsonHandler<List<AccountGetInterestPaymentsResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getInterestPayments(
             params: AccountGetInterestPaymentsParams,
@@ -358,7 +355,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { getInterestPaymentsHandler.handle(it) }
                             .also {
@@ -372,7 +369,6 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
 
         private val getPortfolioHandler: Handler<AccountGetPortfolioResponse> =
             jsonHandler<AccountGetPortfolioResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getPortfolio(
             params: AccountGetPortfolioParams,
@@ -392,7 +388,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { getPortfolioHandler.handle(it) }
                             .also {
@@ -404,8 +400,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 }
         }
 
-        private val mintSandboxTokensHandler: Handler<Void?> =
-            emptyHandler().withErrorHandler(errorHandler)
+        private val mintSandboxTokensHandler: Handler<Void?> = emptyHandler()
 
         override fun mintSandboxTokens(
             params: AccountMintSandboxTokensParams,
@@ -426,7 +421,9 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable { response.use { mintSandboxTokensHandler.handle(it) } }
+                    errorHandler.handle(response).parseable {
+                        response.use { mintSandboxTokensHandler.handle(it) }
+                    }
                 }
         }
     }

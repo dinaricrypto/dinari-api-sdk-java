@@ -3,14 +3,14 @@
 package com.dinari.api.services.blocking.v2.accounts
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -54,7 +54,8 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         WalletService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val external: ExternalService.WithRawResponse by lazy {
             ExternalServiceImpl.WithRawResponseImpl(clientOptions)
@@ -70,7 +71,7 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
         override fun external(): ExternalService.WithRawResponse = external
 
         private val connectInternalHandler: Handler<Wallet> =
-            jsonHandler<Wallet>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Wallet>(clientOptions.jsonMapper)
 
         override fun connectInternal(
             params: WalletConnectInternalParams,
@@ -96,7 +97,7 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { connectInternalHandler.handle(it) }
                     .also {
@@ -107,8 +108,7 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
             }
         }
 
-        private val getHandler: Handler<Wallet> =
-            jsonHandler<Wallet>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val getHandler: Handler<Wallet> = jsonHandler<Wallet>(clientOptions.jsonMapper)
 
         override fun get(
             params: WalletGetParams,
@@ -126,7 +126,7 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { getHandler.handle(it) }
                     .also {

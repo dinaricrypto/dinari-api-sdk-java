@@ -3,13 +3,13 @@
 package com.dinari.api.services.async
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
@@ -61,7 +61,8 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         V2ServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val marketData: MarketDataServiceAsync.WithRawResponse by lazy {
             MarketDataServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -90,7 +91,6 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
 
         private val listOrdersHandler: Handler<List<V2ListOrdersResponse>> =
             jsonHandler<List<V2ListOrdersResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listOrders(
             params: V2ListOrdersParams,
@@ -107,7 +107,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listOrdersHandler.handle(it) }
                             .also {

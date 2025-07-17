@@ -3,14 +3,14 @@
 package com.dinari.api.services.async.v2.accounts
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -75,7 +75,8 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         OrderServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val stocks: StockServiceAsync.WithRawResponse by lazy {
             StockServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -90,8 +91,7 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         override fun stocks(): StockServiceAsync.WithRawResponse = stocks
 
-        private val retrieveHandler: Handler<Order> =
-            jsonHandler<Order>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val retrieveHandler: Handler<Order> = jsonHandler<Order>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: OrderRetrieveParams,
@@ -118,7 +118,7 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
@@ -131,7 +131,7 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
         }
 
         private val listHandler: Handler<List<Order>> =
-            jsonHandler<List<Order>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<List<Order>>(clientOptions.jsonMapper)
 
         override fun list(
             params: OrderListParams,
@@ -151,7 +151,7 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listHandler.handle(it) }
                             .also {
@@ -163,8 +163,7 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
                 }
         }
 
-        private val cancelHandler: Handler<Order> =
-            jsonHandler<Order>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val cancelHandler: Handler<Order> = jsonHandler<Order>(clientOptions.jsonMapper)
 
         override fun cancel(
             params: OrderCancelParams,
@@ -193,7 +192,7 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { cancelHandler.handle(it) }
                             .also {
@@ -206,7 +205,7 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
         }
 
         private val getFulfillmentsHandler: Handler<List<Fulfillment>> =
-            jsonHandler<List<Fulfillment>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<List<Fulfillment>>(clientOptions.jsonMapper)
 
         override fun getFulfillments(
             params: OrderGetFulfillmentsParams,
@@ -234,7 +233,7 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { getFulfillmentsHandler.handle(it) }
                             .also {
