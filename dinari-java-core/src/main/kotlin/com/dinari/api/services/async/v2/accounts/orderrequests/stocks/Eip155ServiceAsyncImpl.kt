@@ -3,14 +3,14 @@
 package com.dinari.api.services.async.v2.accounts.orderrequests.stocks
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -53,7 +53,8 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         Eip155ServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -63,7 +64,7 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
             )
 
         private val createProxiedOrderHandler: Handler<OrderRequest> =
-            jsonHandler<OrderRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<OrderRequest>(clientOptions.jsonMapper)
 
         override fun createProxiedOrder(
             params: Eip155CreateProxiedOrderParams,
@@ -92,7 +93,7 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { createProxiedOrderHandler.handle(it) }
                             .also {
@@ -106,7 +107,6 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
         private val prepareProxiedOrderHandler: Handler<Eip155PrepareProxiedOrderResponse> =
             jsonHandler<Eip155PrepareProxiedOrderResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun prepareProxiedOrder(
             params: Eip155PrepareProxiedOrderParams,
@@ -136,7 +136,7 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { prepareProxiedOrderHandler.handle(it) }
                             .also {

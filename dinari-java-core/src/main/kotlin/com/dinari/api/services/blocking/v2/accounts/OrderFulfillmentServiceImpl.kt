@@ -3,14 +3,14 @@
 package com.dinari.api.services.blocking.v2.accounts
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
@@ -50,7 +50,8 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         OrderFulfillmentService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -60,7 +61,7 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
             )
 
         private val retrieveHandler: Handler<Fulfillment> =
-            jsonHandler<Fulfillment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Fulfillment>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: OrderFulfillmentRetrieveParams,
@@ -85,7 +86,7 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -97,7 +98,7 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
         }
 
         private val queryHandler: Handler<List<Fulfillment>> =
-            jsonHandler<List<Fulfillment>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<List<Fulfillment>>(clientOptions.jsonMapper)
 
         override fun query(
             params: OrderFulfillmentQueryParams,
@@ -121,7 +122,7 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { queryHandler.handle(it) }
                     .also {
