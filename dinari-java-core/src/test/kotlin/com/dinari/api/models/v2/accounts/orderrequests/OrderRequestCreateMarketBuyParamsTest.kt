@@ -2,7 +2,6 @@
 
 package com.dinari.api.models.v2.accounts.orderrequests
 
-import com.dinari.api.core.JsonValue
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -14,9 +13,13 @@ internal class OrderRequestCreateMarketBuyParamsTest {
     fun create() {
         OrderRequestCreateMarketBuyParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .paymentAmount(JsonValue.from("0"))
-            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .createMarketBuyOrderInput(
+                CreateMarketBuyOrderInput.builder()
+                    .paymentAmount(0.0)
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
             .build()
     }
 
@@ -26,8 +29,12 @@ internal class OrderRequestCreateMarketBuyParamsTest {
         val params =
             OrderRequestCreateMarketBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .paymentAmount(JsonValue.from("0"))
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .createMarketBuyOrderInput(
+                    CreateMarketBuyOrderInput.builder()
+                        .paymentAmount(0.0)
+                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -41,16 +48,25 @@ internal class OrderRequestCreateMarketBuyParamsTest {
         val params =
             OrderRequestCreateMarketBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .paymentAmount(JsonValue.from("0"))
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .createMarketBuyOrderInput(
+                    CreateMarketBuyOrderInput.builder()
+                        .paymentAmount(0.0)
+                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
                 .build()
 
         val body = params._body()
 
-        assertThat(body._paymentAmount()).isEqualTo(JsonValue.from("0"))
-        assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.recipientAccountId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body)
+            .isEqualTo(
+                CreateMarketBuyOrderInput.builder()
+                    .paymentAmount(0.0)
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
     }
 
     @Disabled("skipped: tests are disabled for the time being")
@@ -59,13 +75,22 @@ internal class OrderRequestCreateMarketBuyParamsTest {
         val params =
             OrderRequestCreateMarketBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .paymentAmount(JsonValue.from("0"))
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .createMarketBuyOrderInput(
+                    CreateMarketBuyOrderInput.builder()
+                        .paymentAmount(0.0)
+                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .build()
+                )
                 .build()
 
         val body = params._body()
 
-        assertThat(body._paymentAmount()).isEqualTo(JsonValue.from("0"))
-        assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body)
+            .isEqualTo(
+                CreateMarketBuyOrderInput.builder()
+                    .paymentAmount(0.0)
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
     }
 }

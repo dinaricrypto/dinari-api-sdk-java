@@ -3,14 +3,14 @@
 package com.dinari.api.services.async.v2.accounts
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
@@ -51,7 +51,8 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         WithdrawalServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -61,7 +62,7 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
             )
 
         private val retrieveHandler: Handler<Withdrawal> =
-            jsonHandler<Withdrawal>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<Withdrawal>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: WithdrawalRetrieveParams,
@@ -88,7 +89,7 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
@@ -101,7 +102,7 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
         }
 
         private val listHandler: Handler<List<Withdrawal>> =
-            jsonHandler<List<Withdrawal>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<List<Withdrawal>>(clientOptions.jsonMapper)
 
         override fun list(
             params: WithdrawalListParams,
@@ -121,7 +122,7 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listHandler.handle(it) }
                             .also {

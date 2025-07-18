@@ -15,18 +15,18 @@ import kotlin.jvm.optionals.getOrNull
 class OrderRequestCreateLimitBuyParams
 private constructor(
     private val accountId: String?,
-    private val createLimitOrderInput: CreateLimitOrderInput,
+    private val createLimitBuyOrderInput: CreateLimitBuyOrderInput,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
-    /** Input parameters for creating a limit `OrderRequest`. */
-    fun createLimitOrderInput(): CreateLimitOrderInput = createLimitOrderInput
+    /** Input parameters for creating a limit buy `OrderRequest`. */
+    fun createLimitBuyOrderInput(): CreateLimitBuyOrderInput = createLimitBuyOrderInput
 
     fun _additionalBodyProperties(): Map<String, JsonValue> =
-        createLimitOrderInput._additionalProperties()
+        createLimitBuyOrderInput._additionalProperties()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -42,7 +42,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .createLimitOrderInput()
+         * .createLimitBuyOrderInput()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -52,7 +52,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var accountId: String? = null
-        private var createLimitOrderInput: CreateLimitOrderInput? = null
+        private var createLimitBuyOrderInput: CreateLimitBuyOrderInput? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
@@ -60,7 +60,7 @@ private constructor(
         internal fun from(orderRequestCreateLimitBuyParams: OrderRequestCreateLimitBuyParams) =
             apply {
                 accountId = orderRequestCreateLimitBuyParams.accountId
-                createLimitOrderInput = orderRequestCreateLimitBuyParams.createLimitOrderInput
+                createLimitBuyOrderInput = orderRequestCreateLimitBuyParams.createLimitBuyOrderInput
                 additionalHeaders = orderRequestCreateLimitBuyParams.additionalHeaders.toBuilder()
                 additionalQueryParams =
                     orderRequestCreateLimitBuyParams.additionalQueryParams.toBuilder()
@@ -71,9 +71,9 @@ private constructor(
         /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
         fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
 
-        /** Input parameters for creating a limit `OrderRequest`. */
-        fun createLimitOrderInput(createLimitOrderInput: CreateLimitOrderInput) = apply {
-            this.createLimitOrderInput = createLimitOrderInput
+        /** Input parameters for creating a limit buy `OrderRequest`. */
+        fun createLimitBuyOrderInput(createLimitBuyOrderInput: CreateLimitBuyOrderInput) = apply {
+            this.createLimitBuyOrderInput = createLimitBuyOrderInput
         }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
@@ -181,7 +181,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .createLimitOrderInput()
+         * .createLimitBuyOrderInput()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -189,13 +189,13 @@ private constructor(
         fun build(): OrderRequestCreateLimitBuyParams =
             OrderRequestCreateLimitBuyParams(
                 accountId,
-                checkRequired("createLimitOrderInput", createLimitOrderInput),
+                checkRequired("createLimitBuyOrderInput", createLimitBuyOrderInput),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
     }
 
-    fun _body(): CreateLimitOrderInput = createLimitOrderInput
+    fun _body(): CreateLimitBuyOrderInput = createLimitBuyOrderInput
 
     fun _pathParam(index: Int): String =
         when (index) {
@@ -212,11 +212,11 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is OrderRequestCreateLimitBuyParams && accountId == other.accountId && createLimitOrderInput == other.createLimitOrderInput && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return /* spotless:off */ other is OrderRequestCreateLimitBuyParams && accountId == other.accountId && createLimitBuyOrderInput == other.createLimitBuyOrderInput && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, createLimitOrderInput, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, createLimitBuyOrderInput, additionalHeaders, additionalQueryParams) /* spotless:on */
 
     override fun toString() =
-        "OrderRequestCreateLimitBuyParams{accountId=$accountId, createLimitOrderInput=$createLimitOrderInput, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "OrderRequestCreateLimitBuyParams{accountId=$accountId, createLimitBuyOrderInput=$createLimitBuyOrderInput, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -8,24 +8,27 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
-internal class CreateLimitOrderInputTest {
+internal class CreateLimitSellOrderInputTest {
 
     @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        val createLimitOrderInput =
-            CreateLimitOrderInput.builder()
+        val createLimitSellOrderInput =
+            CreateLimitSellOrderInput.builder()
                 .assetQuantity(0.0)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .paymentTokenAddress("payment_token_address")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
-        assertThat(createLimitOrderInput.assetQuantity()).isEqualTo(0.0)
-        assertThat(createLimitOrderInput.limitPrice()).isEqualTo(0.0)
-        assertThat(createLimitOrderInput.stockId())
+        assertThat(createLimitSellOrderInput.assetQuantity()).isEqualTo(0.0)
+        assertThat(createLimitSellOrderInput.limitPrice()).isEqualTo(0.0)
+        assertThat(createLimitSellOrderInput.stockId())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(createLimitOrderInput.recipientAccountId())
+        assertThat(createLimitSellOrderInput.paymentTokenAddress())
+            .contains("payment_token_address")
+        assertThat(createLimitSellOrderInput.recipientAccountId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
@@ -33,20 +36,21 @@ internal class CreateLimitOrderInputTest {
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val createLimitOrderInput =
-            CreateLimitOrderInput.builder()
+        val createLimitSellOrderInput =
+            CreateLimitSellOrderInput.builder()
                 .assetQuantity(0.0)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .paymentTokenAddress("payment_token_address")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
-        val roundtrippedCreateLimitOrderInput =
+        val roundtrippedCreateLimitSellOrderInput =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(createLimitOrderInput),
-                jacksonTypeRef<CreateLimitOrderInput>(),
+                jsonMapper.writeValueAsString(createLimitSellOrderInput),
+                jacksonTypeRef<CreateLimitSellOrderInput>(),
             )
 
-        assertThat(roundtrippedCreateLimitOrderInput).isEqualTo(createLimitOrderInput)
+        assertThat(roundtrippedCreateLimitSellOrderInput).isEqualTo(createLimitSellOrderInput)
     }
 }
