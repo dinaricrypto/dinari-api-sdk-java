@@ -51,7 +51,8 @@ import com.dinari.api.client.okhttp.DinariOkHttpClient;
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+// Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+// Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 
 List<StockListResponse> stocks = client.v2().marketData().stocks().list();
@@ -59,13 +60,14 @@ List<StockListResponse> stocks = client.v2().marketData().stocks().list();
 
 ## Client configuration
 
-Configure the client using environment variables:
+Configure the client using system properties or environment variables:
 
 ```java
 import com.dinari.api.client.DinariClient;
 import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
-// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+// Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+// Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 ```
 
@@ -88,7 +90,8 @@ import com.dinari.api.client.DinariClient;
 import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
-    // Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+    // Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+    Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
     .fromEnv()
     .apiKeyId("My API Key ID")
     .build();
@@ -96,11 +99,13 @@ DinariClient client = DinariOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter         | Environment variable    | Required | Default value                             |
-| -------------- | ----------------------- | -------- | ----------------------------------------- |
-| `apiKeyId`     | `DINARI_API_KEY_ID`     | true     | -                                         |
-| `apiSecretKey` | `DINARI_API_SECRET_KEY` | true     | -                                         |
-| `baseUrl`      | `DINARI_BASE_URL`       | true     | `"https://api-enterprise.sbt.dinari.com"` |
+| Setter         | System property       | Environment variable    | Required | Default value                             |
+| -------------- | --------------------- | ----------------------- | -------- | ----------------------------------------- |
+| `apiKeyId`     | `dinari.apiKeyId`     | `DINARI_API_KEY_ID`     | true     | -                                         |
+| `apiSecretKey` | `dinari.apiSecretKey` | `DINARI_API_SECRET_KEY` | true     | -                                         |
+| `baseUrl`      | `dinari.baseUrl`      | `DINARI_BASE_URL`       | true     | `"https://api-enterprise.sbt.dinari.com"` |
+
+System properties take precedence over environment variables.
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -146,7 +151,8 @@ import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+// Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+// Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 
 CompletableFuture<List<StockListResponse>> stocks = client.async().v2().marketData().stocks().list();
@@ -161,7 +167,8 @@ import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+// Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+// Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClientAsync client = DinariOkHttpClientAsync.fromEnv();
 
 CompletableFuture<List<StockListResponse>> stocks = client.v2().marketData().stocks().list();
