@@ -230,9 +230,14 @@ private constructor(
         fun timeout(): Timeout = timeout
 
         fun fromEnv() = apply {
-            System.getenv("DINARI_BASE_URL")?.let { baseUrl(it) }
-            System.getenv("DINARI_API_KEY_ID")?.let { apiKeyId(it) }
-            System.getenv("DINARI_API_SECRET_KEY")?.let { apiSecretKey(it) }
+            (System.getProperty("dinari.baseUrl") ?: System.getenv("DINARI_BASE_URL"))?.let {
+                baseUrl(it)
+            }
+            (System.getProperty("dinari.apiKeyId") ?: System.getenv("DINARI_API_KEY_ID"))?.let {
+                apiKeyId(it)
+            }
+            (System.getProperty("dinari.apiSecretKey") ?: System.getenv("DINARI_API_SECRET_KEY"))
+                ?.let { apiSecretKey(it) }
         }
 
         /**
