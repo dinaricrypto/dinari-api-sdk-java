@@ -2,6 +2,14 @@
 
 package com.dinari.api.core.http
 
+import com.dinari.api.core.JsonArray
+import com.dinari.api.core.JsonBoolean
+import com.dinari.api.core.JsonMissing
+import com.dinari.api.core.JsonNull
+import com.dinari.api.core.JsonNumber
+import com.dinari.api.core.JsonObject
+import com.dinari.api.core.JsonString
+import com.dinari.api.core.JsonValue
 import com.dinari.api.core.toImmutable
 
 class QueryParams
@@ -27,6 +35,39 @@ private constructor(
 
         private val map: MutableMap<String, MutableList<String>> = mutableMapOf()
         private var size: Int = 0
+
+        fun put(key: String, value: JsonValue): Builder = apply {
+            when (value) {
+                is JsonMissing,
+                is JsonNull -> {}
+                is JsonBoolean -> put(key, value.value.toString())
+                is JsonNumber -> put(key, value.value.toString())
+                is JsonString -> put(key, value.value)
+                is JsonArray ->
+                    put(
+                        key,
+                        value.values
+                            .asSequence()
+                            .mapNotNull {
+                                when (it) {
+                                    is JsonMissing,
+                                    is JsonNull -> null
+                                    is JsonBoolean -> it.value.toString()
+                                    is JsonNumber -> it.value.toString()
+                                    is JsonString -> it.value
+                                    is JsonArray,
+                                    is JsonObject ->
+                                        throw IllegalArgumentException(
+                                            "Cannot comma separate non-primitives in query params"
+                                        )
+                                }
+                            }
+                            .joinToString(","),
+                    )
+                is JsonObject ->
+                    value.values.forEach { (nestedKey, value) -> put("$key[$nestedKey]", value) }
+            }
+        }
 
         fun put(key: String, value: String) = apply {
             map.getOrPut(key) { mutableListOf() }.add(value)
