@@ -91,7 +91,7 @@ import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
     // Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
-    Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+    // Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
     .fromEnv()
     .apiKeyId("My API Key ID")
     .build();
