@@ -40,18 +40,18 @@ interface StockServiceAsync {
     /** Get a list of `Stocks`. */
     fun list(): CompletableFuture<List<StockListResponse>> = list(StockListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: StockListParams = StockListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<StockListResponse>>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: StockListParams = StockListParams.none()
     ): CompletableFuture<List<StockListResponse>> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<List<StockListResponse>> =
         list(StockListParams.none(), requestOptions)
 
@@ -61,7 +61,7 @@ interface StockServiceAsync {
     ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
         retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none())
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         stockId: String,
         params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
@@ -69,26 +69,26 @@ interface StockServiceAsync {
     ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
         retrieveCurrentPrice(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         stockId: String,
         params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
     ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
         retrieveCurrentPrice(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         params: StockRetrieveCurrentPriceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<StockRetrieveCurrentPriceResponse>
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         params: StockRetrieveCurrentPriceParams
     ): CompletableFuture<StockRetrieveCurrentPriceResponse> =
         retrieveCurrentPrice(params, RequestOptions.none())
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         stockId: String,
         requestOptions: RequestOptions,
@@ -101,7 +101,7 @@ interface StockServiceAsync {
     ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
         retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none())
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         stockId: String,
         params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
@@ -109,26 +109,26 @@ interface StockServiceAsync {
     ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
         retrieveCurrentQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         stockId: String,
         params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
     ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
         retrieveCurrentQuote(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         params: StockRetrieveCurrentQuoteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<StockRetrieveCurrentQuoteResponse>
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         params: StockRetrieveCurrentQuoteParams
     ): CompletableFuture<StockRetrieveCurrentQuoteResponse> =
         retrieveCurrentQuote(params, RequestOptions.none())
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         stockId: String,
         requestOptions: RequestOptions,
@@ -146,7 +146,7 @@ interface StockServiceAsync {
     ): CompletableFuture<List<StockRetrieveDividendsResponse>> =
         retrieveDividends(stockId, StockRetrieveDividendsParams.none())
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         stockId: String,
         params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
@@ -154,26 +154,26 @@ interface StockServiceAsync {
     ): CompletableFuture<List<StockRetrieveDividendsResponse>> =
         retrieveDividends(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         stockId: String,
         params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
     ): CompletableFuture<List<StockRetrieveDividendsResponse>> =
         retrieveDividends(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         params: StockRetrieveDividendsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<StockRetrieveDividendsResponse>>
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         params: StockRetrieveDividendsParams
     ): CompletableFuture<List<StockRetrieveDividendsResponse>> =
         retrieveDividends(params, RequestOptions.none())
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         stockId: String,
         requestOptions: RequestOptions,
@@ -190,7 +190,7 @@ interface StockServiceAsync {
     ): CompletableFuture<List<StockRetrieveHistoricalPricesResponse>> =
         retrieveHistoricalPrices(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveHistoricalPrices] */
+    /** @see retrieveHistoricalPrices */
     fun retrieveHistoricalPrices(
         stockId: String,
         params: StockRetrieveHistoricalPricesParams,
@@ -198,13 +198,13 @@ interface StockServiceAsync {
     ): CompletableFuture<List<StockRetrieveHistoricalPricesResponse>> =
         retrieveHistoricalPrices(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveHistoricalPrices] */
+    /** @see retrieveHistoricalPrices */
     fun retrieveHistoricalPrices(
         params: StockRetrieveHistoricalPricesParams
     ): CompletableFuture<List<StockRetrieveHistoricalPricesResponse>> =
         retrieveHistoricalPrices(params, RequestOptions.none())
 
-    /** @see [retrieveHistoricalPrices] */
+    /** @see retrieveHistoricalPrices */
     fun retrieveHistoricalPrices(
         params: StockRetrieveHistoricalPricesParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -217,7 +217,7 @@ interface StockServiceAsync {
     fun retrieveNews(stockId: String): CompletableFuture<List<StockRetrieveNewsResponse>> =
         retrieveNews(stockId, StockRetrieveNewsParams.none())
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(
         stockId: String,
         params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
@@ -225,26 +225,26 @@ interface StockServiceAsync {
     ): CompletableFuture<List<StockRetrieveNewsResponse>> =
         retrieveNews(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(
         stockId: String,
         params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
     ): CompletableFuture<List<StockRetrieveNewsResponse>> =
         retrieveNews(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(
         params: StockRetrieveNewsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<StockRetrieveNewsResponse>>
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(
         params: StockRetrieveNewsParams
     ): CompletableFuture<List<StockRetrieveNewsResponse>> =
         retrieveNews(params, RequestOptions.none())
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(
         stockId: String,
         requestOptions: RequestOptions,
@@ -272,19 +272,19 @@ interface StockServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
             list(StockListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: StockListParams = StockListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<StockListResponse>>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: StockListParams = StockListParams.none()
         ): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
@@ -300,7 +300,7 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> =
             retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none())
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         fun retrieveCurrentPrice(
             stockId: String,
             params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
@@ -308,26 +308,26 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> =
             retrieveCurrentPrice(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         fun retrieveCurrentPrice(
             stockId: String,
             params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> =
             retrieveCurrentPrice(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         fun retrieveCurrentPrice(
             params: StockRetrieveCurrentPriceParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>>
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         fun retrieveCurrentPrice(
             params: StockRetrieveCurrentPriceParams
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentPriceResponse>> =
             retrieveCurrentPrice(params, RequestOptions.none())
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         fun retrieveCurrentPrice(
             stockId: String,
             requestOptions: RequestOptions,
@@ -344,7 +344,7 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> =
             retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none())
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         fun retrieveCurrentQuote(
             stockId: String,
             params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
@@ -352,26 +352,26 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> =
             retrieveCurrentQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         fun retrieveCurrentQuote(
             stockId: String,
             params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> =
             retrieveCurrentQuote(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         fun retrieveCurrentQuote(
             params: StockRetrieveCurrentQuoteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>>
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         fun retrieveCurrentQuote(
             params: StockRetrieveCurrentQuoteParams
         ): CompletableFuture<HttpResponseFor<StockRetrieveCurrentQuoteResponse>> =
             retrieveCurrentQuote(params, RequestOptions.none())
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         fun retrieveCurrentQuote(
             stockId: String,
             requestOptions: RequestOptions,
@@ -387,7 +387,7 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveDividendsResponse>>> =
             retrieveDividends(stockId, StockRetrieveDividendsParams.none())
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         fun retrieveDividends(
             stockId: String,
             params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
@@ -395,26 +395,26 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveDividendsResponse>>> =
             retrieveDividends(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         fun retrieveDividends(
             stockId: String,
             params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveDividendsResponse>>> =
             retrieveDividends(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         fun retrieveDividends(
             params: StockRetrieveDividendsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveDividendsResponse>>>
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         fun retrieveDividends(
             params: StockRetrieveDividendsParams
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveDividendsResponse>>> =
             retrieveDividends(params, RequestOptions.none())
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         fun retrieveDividends(
             stockId: String,
             requestOptions: RequestOptions,
@@ -432,7 +432,7 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>>> =
             retrieveHistoricalPrices(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveHistoricalPrices] */
+        /** @see retrieveHistoricalPrices */
         fun retrieveHistoricalPrices(
             stockId: String,
             params: StockRetrieveHistoricalPricesParams,
@@ -440,13 +440,13 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>>> =
             retrieveHistoricalPrices(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveHistoricalPrices] */
+        /** @see retrieveHistoricalPrices */
         fun retrieveHistoricalPrices(
             params: StockRetrieveHistoricalPricesParams
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>>> =
             retrieveHistoricalPrices(params, RequestOptions.none())
 
-        /** @see [retrieveHistoricalPrices] */
+        /** @see retrieveHistoricalPrices */
         fun retrieveHistoricalPrices(
             params: StockRetrieveHistoricalPricesParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -461,7 +461,7 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveNewsResponse>>> =
             retrieveNews(stockId, StockRetrieveNewsParams.none())
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         fun retrieveNews(
             stockId: String,
             params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
@@ -469,26 +469,26 @@ interface StockServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveNewsResponse>>> =
             retrieveNews(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         fun retrieveNews(
             stockId: String,
             params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveNewsResponse>>> =
             retrieveNews(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         fun retrieveNews(
             params: StockRetrieveNewsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveNewsResponse>>>
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         fun retrieveNews(
             params: StockRetrieveNewsParams
         ): CompletableFuture<HttpResponseFor<List<StockRetrieveNewsResponse>>> =
             retrieveNews(params, RequestOptions.none())
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         fun retrieveNews(
             stockId: String,
             requestOptions: RequestOptions,

@@ -37,7 +37,7 @@ interface Eip155Service {
     fun getFeeQuote(accountId: String, params: Eip155GetFeeQuoteParams): Eip155GetFeeQuoteResponse =
         getFeeQuote(accountId, params, RequestOptions.none())
 
-    /** @see [getFeeQuote] */
+    /** @see getFeeQuote */
     fun getFeeQuote(
         accountId: String,
         params: Eip155GetFeeQuoteParams,
@@ -45,11 +45,11 @@ interface Eip155Service {
     ): Eip155GetFeeQuoteResponse =
         getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getFeeQuote] */
+    /** @see getFeeQuote */
     fun getFeeQuote(params: Eip155GetFeeQuoteParams): Eip155GetFeeQuoteResponse =
         getFeeQuote(params, RequestOptions.none())
 
-    /** @see [getFeeQuote] */
+    /** @see getFeeQuote */
     fun getFeeQuote(
         params: Eip155GetFeeQuoteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -68,7 +68,7 @@ interface Eip155Service {
         params: Eip155PrepareOrderParams,
     ): Eip155PrepareOrderResponse = prepareOrder(accountId, params, RequestOptions.none())
 
-    /** @see [prepareOrder] */
+    /** @see prepareOrder */
     fun prepareOrder(
         accountId: String,
         params: Eip155PrepareOrderParams,
@@ -76,11 +76,11 @@ interface Eip155Service {
     ): Eip155PrepareOrderResponse =
         prepareOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [prepareOrder] */
+    /** @see prepareOrder */
     fun prepareOrder(params: Eip155PrepareOrderParams): Eip155PrepareOrderResponse =
         prepareOrder(params, RequestOptions.none())
 
-    /** @see [prepareOrder] */
+    /** @see prepareOrder */
     fun prepareOrder(
         params: Eip155PrepareOrderParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -108,7 +108,7 @@ interface Eip155Service {
         ): HttpResponseFor<Eip155GetFeeQuoteResponse> =
             getFeeQuote(accountId, params, RequestOptions.none())
 
-        /** @see [getFeeQuote] */
+        /** @see getFeeQuote */
         @MustBeClosed
         fun getFeeQuote(
             accountId: String,
@@ -117,13 +117,13 @@ interface Eip155Service {
         ): HttpResponseFor<Eip155GetFeeQuoteResponse> =
             getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getFeeQuote] */
+        /** @see getFeeQuote */
         @MustBeClosed
         fun getFeeQuote(
             params: Eip155GetFeeQuoteParams
         ): HttpResponseFor<Eip155GetFeeQuoteResponse> = getFeeQuote(params, RequestOptions.none())
 
-        /** @see [getFeeQuote] */
+        /** @see getFeeQuote */
         @MustBeClosed
         fun getFeeQuote(
             params: Eip155GetFeeQuoteParams,
@@ -142,7 +142,7 @@ interface Eip155Service {
         ): HttpResponseFor<Eip155PrepareOrderResponse> =
             prepareOrder(accountId, params, RequestOptions.none())
 
-        /** @see [prepareOrder] */
+        /** @see prepareOrder */
         @MustBeClosed
         fun prepareOrder(
             accountId: String,
@@ -151,13 +151,13 @@ interface Eip155Service {
         ): HttpResponseFor<Eip155PrepareOrderResponse> =
             prepareOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [prepareOrder] */
+        /** @see prepareOrder */
         @MustBeClosed
         fun prepareOrder(
             params: Eip155PrepareOrderParams
         ): HttpResponseFor<Eip155PrepareOrderResponse> = prepareOrder(params, RequestOptions.none())
 
-        /** @see [prepareOrder] */
+        /** @see prepareOrder */
         @MustBeClosed
         fun prepareOrder(
             params: Eip155PrepareOrderParams,

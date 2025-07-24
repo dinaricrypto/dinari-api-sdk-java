@@ -36,7 +36,7 @@ interface Eip155ServiceAsync {
     ): CompletableFuture<OrderRequest> =
         createProxiedOrder(accountId, params, RequestOptions.none())
 
-    /** @see [createProxiedOrder] */
+    /** @see createProxiedOrder */
     fun createProxiedOrder(
         accountId: String,
         params: Eip155CreateProxiedOrderParams,
@@ -44,12 +44,12 @@ interface Eip155ServiceAsync {
     ): CompletableFuture<OrderRequest> =
         createProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [createProxiedOrder] */
+    /** @see createProxiedOrder */
     fun createProxiedOrder(
         params: Eip155CreateProxiedOrderParams
     ): CompletableFuture<OrderRequest> = createProxiedOrder(params, RequestOptions.none())
 
-    /** @see [createProxiedOrder] */
+    /** @see createProxiedOrder */
     fun createProxiedOrder(
         params: Eip155CreateProxiedOrderParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -65,7 +65,7 @@ interface Eip155ServiceAsync {
     ): CompletableFuture<Eip155PrepareProxiedOrderResponse> =
         prepareProxiedOrder(accountId, params, RequestOptions.none())
 
-    /** @see [prepareProxiedOrder] */
+    /** @see prepareProxiedOrder */
     fun prepareProxiedOrder(
         accountId: String,
         params: Eip155PrepareProxiedOrderParams,
@@ -73,13 +73,13 @@ interface Eip155ServiceAsync {
     ): CompletableFuture<Eip155PrepareProxiedOrderResponse> =
         prepareProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [prepareProxiedOrder] */
+    /** @see prepareProxiedOrder */
     fun prepareProxiedOrder(
         params: Eip155PrepareProxiedOrderParams
     ): CompletableFuture<Eip155PrepareProxiedOrderResponse> =
         prepareProxiedOrder(params, RequestOptions.none())
 
-    /** @see [prepareProxiedOrder] */
+    /** @see prepareProxiedOrder */
     fun prepareProxiedOrder(
         params: Eip155PrepareProxiedOrderParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -110,7 +110,7 @@ interface Eip155ServiceAsync {
         ): CompletableFuture<HttpResponseFor<OrderRequest>> =
             createProxiedOrder(accountId, params, RequestOptions.none())
 
-        /** @see [createProxiedOrder] */
+        /** @see createProxiedOrder */
         fun createProxiedOrder(
             accountId: String,
             params: Eip155CreateProxiedOrderParams,
@@ -118,13 +118,13 @@ interface Eip155ServiceAsync {
         ): CompletableFuture<HttpResponseFor<OrderRequest>> =
             createProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [createProxiedOrder] */
+        /** @see createProxiedOrder */
         fun createProxiedOrder(
             params: Eip155CreateProxiedOrderParams
         ): CompletableFuture<HttpResponseFor<OrderRequest>> =
             createProxiedOrder(params, RequestOptions.none())
 
-        /** @see [createProxiedOrder] */
+        /** @see createProxiedOrder */
         fun createProxiedOrder(
             params: Eip155CreateProxiedOrderParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -141,7 +141,7 @@ interface Eip155ServiceAsync {
         ): CompletableFuture<HttpResponseFor<Eip155PrepareProxiedOrderResponse>> =
             prepareProxiedOrder(accountId, params, RequestOptions.none())
 
-        /** @see [prepareProxiedOrder] */
+        /** @see prepareProxiedOrder */
         fun prepareProxiedOrder(
             accountId: String,
             params: Eip155PrepareProxiedOrderParams,
@@ -149,13 +149,13 @@ interface Eip155ServiceAsync {
         ): CompletableFuture<HttpResponseFor<Eip155PrepareProxiedOrderResponse>> =
             prepareProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [prepareProxiedOrder] */
+        /** @see prepareProxiedOrder */
         fun prepareProxiedOrder(
             params: Eip155PrepareProxiedOrderParams
         ): CompletableFuture<HttpResponseFor<Eip155PrepareProxiedOrderResponse>> =
             prepareProxiedOrder(params, RequestOptions.none())
 
-        /** @see [prepareProxiedOrder] */
+        /** @see prepareProxiedOrder */
         fun prepareProxiedOrder(
             params: Eip155PrepareProxiedOrderParams,
             requestOptions: RequestOptions = RequestOptions.none(),

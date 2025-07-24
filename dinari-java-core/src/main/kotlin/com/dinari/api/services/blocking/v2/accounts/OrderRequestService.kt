@@ -38,7 +38,7 @@ interface OrderRequestService {
     fun retrieve(orderRequestId: String, params: OrderRequestRetrieveParams): OrderRequest =
         retrieve(orderRequestId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         orderRequestId: String,
         params: OrderRequestRetrieveParams,
@@ -46,11 +46,11 @@ interface OrderRequestService {
     ): OrderRequest =
         retrieve(params.toBuilder().orderRequestId(orderRequestId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: OrderRequestRetrieveParams): OrderRequest =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: OrderRequestRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -59,30 +59,30 @@ interface OrderRequestService {
     /** Lists `OrderRequests`. */
     fun list(accountId: String): List<OrderRequest> = list(accountId, OrderRequestListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         accountId: String,
         params: OrderRequestListParams = OrderRequestListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<OrderRequest> = list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         accountId: String,
         params: OrderRequestListParams = OrderRequestListParams.none(),
     ): List<OrderRequest> = list(accountId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: OrderRequestListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<OrderRequest>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: OrderRequestListParams): List<OrderRequest> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(accountId: String, requestOptions: RequestOptions): List<OrderRequest> =
         list(accountId, OrderRequestListParams.none(), requestOptions)
 
@@ -90,7 +90,7 @@ interface OrderRequestService {
     fun createLimitBuy(accountId: String, params: OrderRequestCreateLimitBuyParams): OrderRequest =
         createLimitBuy(accountId, params, RequestOptions.none())
 
-    /** @see [createLimitBuy] */
+    /** @see createLimitBuy */
     fun createLimitBuy(
         accountId: String,
         params: OrderRequestCreateLimitBuyParams,
@@ -98,11 +98,11 @@ interface OrderRequestService {
     ): OrderRequest =
         createLimitBuy(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [createLimitBuy] */
+    /** @see createLimitBuy */
     fun createLimitBuy(params: OrderRequestCreateLimitBuyParams): OrderRequest =
         createLimitBuy(params, RequestOptions.none())
 
-    /** @see [createLimitBuy] */
+    /** @see createLimitBuy */
     fun createLimitBuy(
         params: OrderRequestCreateLimitBuyParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -114,7 +114,7 @@ interface OrderRequestService {
         params: OrderRequestCreateLimitSellParams,
     ): OrderRequest = createLimitSell(accountId, params, RequestOptions.none())
 
-    /** @see [createLimitSell] */
+    /** @see createLimitSell */
     fun createLimitSell(
         accountId: String,
         params: OrderRequestCreateLimitSellParams,
@@ -122,11 +122,11 @@ interface OrderRequestService {
     ): OrderRequest =
         createLimitSell(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [createLimitSell] */
+    /** @see createLimitSell */
     fun createLimitSell(params: OrderRequestCreateLimitSellParams): OrderRequest =
         createLimitSell(params, RequestOptions.none())
 
-    /** @see [createLimitSell] */
+    /** @see createLimitSell */
     fun createLimitSell(
         params: OrderRequestCreateLimitSellParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -143,7 +143,7 @@ interface OrderRequestService {
         params: OrderRequestCreateMarketBuyParams,
     ): OrderRequest = createMarketBuy(accountId, params, RequestOptions.none())
 
-    /** @see [createMarketBuy] */
+    /** @see createMarketBuy */
     fun createMarketBuy(
         accountId: String,
         params: OrderRequestCreateMarketBuyParams,
@@ -151,11 +151,11 @@ interface OrderRequestService {
     ): OrderRequest =
         createMarketBuy(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [createMarketBuy] */
+    /** @see createMarketBuy */
     fun createMarketBuy(params: OrderRequestCreateMarketBuyParams): OrderRequest =
         createMarketBuy(params, RequestOptions.none())
 
-    /** @see [createMarketBuy] */
+    /** @see createMarketBuy */
     fun createMarketBuy(
         params: OrderRequestCreateMarketBuyParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -167,7 +167,7 @@ interface OrderRequestService {
         params: OrderRequestCreateMarketSellParams,
     ): OrderRequest = createMarketSell(accountId, params, RequestOptions.none())
 
-    /** @see [createMarketSell] */
+    /** @see createMarketSell */
     fun createMarketSell(
         accountId: String,
         params: OrderRequestCreateMarketSellParams,
@@ -175,11 +175,11 @@ interface OrderRequestService {
     ): OrderRequest =
         createMarketSell(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [createMarketSell] */
+    /** @see createMarketSell */
     fun createMarketSell(params: OrderRequestCreateMarketSellParams): OrderRequest =
         createMarketSell(params, RequestOptions.none())
 
-    /** @see [createMarketSell] */
+    /** @see createMarketSell */
     fun createMarketSell(
         params: OrderRequestCreateMarketSellParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -194,7 +194,7 @@ interface OrderRequestService {
         params: OrderRequestGetFeeQuoteParams,
     ): OrderRequestGetFeeQuoteResponse = getFeeQuote(accountId, params, RequestOptions.none())
 
-    /** @see [getFeeQuote] */
+    /** @see getFeeQuote */
     fun getFeeQuote(
         accountId: String,
         params: OrderRequestGetFeeQuoteParams,
@@ -202,11 +202,11 @@ interface OrderRequestService {
     ): OrderRequestGetFeeQuoteResponse =
         getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getFeeQuote] */
+    /** @see getFeeQuote */
     fun getFeeQuote(params: OrderRequestGetFeeQuoteParams): OrderRequestGetFeeQuoteResponse =
         getFeeQuote(params, RequestOptions.none())
 
-    /** @see [getFeeQuote] */
+    /** @see getFeeQuote */
     fun getFeeQuote(
         params: OrderRequestGetFeeQuoteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -239,7 +239,7 @@ interface OrderRequestService {
             params: OrderRequestRetrieveParams,
         ): HttpResponseFor<OrderRequest> = retrieve(orderRequestId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             orderRequestId: String,
@@ -248,12 +248,12 @@ interface OrderRequestService {
         ): HttpResponseFor<OrderRequest> =
             retrieve(params.toBuilder().orderRequestId(orderRequestId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: OrderRequestRetrieveParams): HttpResponseFor<OrderRequest> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: OrderRequestRetrieveParams,
@@ -268,7 +268,7 @@ interface OrderRequestService {
         fun list(accountId: String): HttpResponseFor<List<OrderRequest>> =
             list(accountId, OrderRequestListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             accountId: String,
@@ -277,26 +277,26 @@ interface OrderRequestService {
         ): HttpResponseFor<List<OrderRequest>> =
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             accountId: String,
             params: OrderRequestListParams = OrderRequestListParams.none(),
         ): HttpResponseFor<List<OrderRequest>> = list(accountId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: OrderRequestListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<OrderRequest>>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(params: OrderRequestListParams): HttpResponseFor<List<OrderRequest>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             accountId: String,
@@ -315,7 +315,7 @@ interface OrderRequestService {
             params: OrderRequestCreateLimitBuyParams,
         ): HttpResponseFor<OrderRequest> = createLimitBuy(accountId, params, RequestOptions.none())
 
-        /** @see [createLimitBuy] */
+        /** @see createLimitBuy */
         @MustBeClosed
         fun createLimitBuy(
             accountId: String,
@@ -324,13 +324,13 @@ interface OrderRequestService {
         ): HttpResponseFor<OrderRequest> =
             createLimitBuy(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [createLimitBuy] */
+        /** @see createLimitBuy */
         @MustBeClosed
         fun createLimitBuy(
             params: OrderRequestCreateLimitBuyParams
         ): HttpResponseFor<OrderRequest> = createLimitBuy(params, RequestOptions.none())
 
-        /** @see [createLimitBuy] */
+        /** @see createLimitBuy */
         @MustBeClosed
         fun createLimitBuy(
             params: OrderRequestCreateLimitBuyParams,
@@ -348,7 +348,7 @@ interface OrderRequestService {
             params: OrderRequestCreateLimitSellParams,
         ): HttpResponseFor<OrderRequest> = createLimitSell(accountId, params, RequestOptions.none())
 
-        /** @see [createLimitSell] */
+        /** @see createLimitSell */
         @MustBeClosed
         fun createLimitSell(
             accountId: String,
@@ -357,13 +357,13 @@ interface OrderRequestService {
         ): HttpResponseFor<OrderRequest> =
             createLimitSell(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [createLimitSell] */
+        /** @see createLimitSell */
         @MustBeClosed
         fun createLimitSell(
             params: OrderRequestCreateLimitSellParams
         ): HttpResponseFor<OrderRequest> = createLimitSell(params, RequestOptions.none())
 
-        /** @see [createLimitSell] */
+        /** @see createLimitSell */
         @MustBeClosed
         fun createLimitSell(
             params: OrderRequestCreateLimitSellParams,
@@ -381,7 +381,7 @@ interface OrderRequestService {
             params: OrderRequestCreateMarketBuyParams,
         ): HttpResponseFor<OrderRequest> = createMarketBuy(accountId, params, RequestOptions.none())
 
-        /** @see [createMarketBuy] */
+        /** @see createMarketBuy */
         @MustBeClosed
         fun createMarketBuy(
             accountId: String,
@@ -390,13 +390,13 @@ interface OrderRequestService {
         ): HttpResponseFor<OrderRequest> =
             createMarketBuy(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [createMarketBuy] */
+        /** @see createMarketBuy */
         @MustBeClosed
         fun createMarketBuy(
             params: OrderRequestCreateMarketBuyParams
         ): HttpResponseFor<OrderRequest> = createMarketBuy(params, RequestOptions.none())
 
-        /** @see [createMarketBuy] */
+        /** @see createMarketBuy */
         @MustBeClosed
         fun createMarketBuy(
             params: OrderRequestCreateMarketBuyParams,
@@ -415,7 +415,7 @@ interface OrderRequestService {
         ): HttpResponseFor<OrderRequest> =
             createMarketSell(accountId, params, RequestOptions.none())
 
-        /** @see [createMarketSell] */
+        /** @see createMarketSell */
         @MustBeClosed
         fun createMarketSell(
             accountId: String,
@@ -424,13 +424,13 @@ interface OrderRequestService {
         ): HttpResponseFor<OrderRequest> =
             createMarketSell(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [createMarketSell] */
+        /** @see createMarketSell */
         @MustBeClosed
         fun createMarketSell(
             params: OrderRequestCreateMarketSellParams
         ): HttpResponseFor<OrderRequest> = createMarketSell(params, RequestOptions.none())
 
-        /** @see [createMarketSell] */
+        /** @see createMarketSell */
         @MustBeClosed
         fun createMarketSell(
             params: OrderRequestCreateMarketSellParams,
@@ -449,7 +449,7 @@ interface OrderRequestService {
         ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> =
             getFeeQuote(accountId, params, RequestOptions.none())
 
-        /** @see [getFeeQuote] */
+        /** @see getFeeQuote */
         @MustBeClosed
         fun getFeeQuote(
             accountId: String,
@@ -458,14 +458,14 @@ interface OrderRequestService {
         ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> =
             getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getFeeQuote] */
+        /** @see getFeeQuote */
         @MustBeClosed
         fun getFeeQuote(
             params: OrderRequestGetFeeQuoteParams
         ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> =
             getFeeQuote(params, RequestOptions.none())
 
-        /** @see [getFeeQuote] */
+        /** @see getFeeQuote */
         @MustBeClosed
         fun getFeeQuote(
             params: OrderRequestGetFeeQuoteParams,

@@ -31,18 +31,18 @@ interface MarketDataService {
     fun retrieveMarketHours(): MarketDataRetrieveMarketHoursResponse =
         retrieveMarketHours(MarketDataRetrieveMarketHoursParams.none())
 
-    /** @see [retrieveMarketHours] */
+    /** @see retrieveMarketHours */
     fun retrieveMarketHours(
         params: MarketDataRetrieveMarketHoursParams = MarketDataRetrieveMarketHoursParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): MarketDataRetrieveMarketHoursResponse
 
-    /** @see [retrieveMarketHours] */
+    /** @see retrieveMarketHours */
     fun retrieveMarketHours(
         params: MarketDataRetrieveMarketHoursParams = MarketDataRetrieveMarketHoursParams.none()
     ): MarketDataRetrieveMarketHoursResponse = retrieveMarketHours(params, RequestOptions.none())
 
-    /** @see [retrieveMarketHours] */
+    /** @see retrieveMarketHours */
     fun retrieveMarketHours(requestOptions: RequestOptions): MarketDataRetrieveMarketHoursResponse =
         retrieveMarketHours(MarketDataRetrieveMarketHoursParams.none(), requestOptions)
 
@@ -68,7 +68,7 @@ interface MarketDataService {
         fun retrieveMarketHours(): HttpResponseFor<MarketDataRetrieveMarketHoursResponse> =
             retrieveMarketHours(MarketDataRetrieveMarketHoursParams.none())
 
-        /** @see [retrieveMarketHours] */
+        /** @see retrieveMarketHours */
         @MustBeClosed
         fun retrieveMarketHours(
             params: MarketDataRetrieveMarketHoursParams =
@@ -76,14 +76,14 @@ interface MarketDataService {
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<MarketDataRetrieveMarketHoursResponse>
 
-        /** @see [retrieveMarketHours] */
+        /** @see retrieveMarketHours */
         @MustBeClosed
         fun retrieveMarketHours(
             params: MarketDataRetrieveMarketHoursParams = MarketDataRetrieveMarketHoursParams.none()
         ): HttpResponseFor<MarketDataRetrieveMarketHoursResponse> =
             retrieveMarketHours(params, RequestOptions.none())
 
-        /** @see [retrieveMarketHours] */
+        /** @see retrieveMarketHours */
         @MustBeClosed
         fun retrieveMarketHours(
             requestOptions: RequestOptions

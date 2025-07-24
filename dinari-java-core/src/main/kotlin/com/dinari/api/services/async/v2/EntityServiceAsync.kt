@@ -41,7 +41,7 @@ interface EntityServiceAsync {
     fun create(params: EntityCreateParams): CompletableFuture<Entity> =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: EntityCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -51,7 +51,7 @@ interface EntityServiceAsync {
     fun update(entityId: String): CompletableFuture<Entity> =
         update(entityId, EntityUpdateParams.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         entityId: String,
         params: EntityUpdateParams = EntityUpdateParams.none(),
@@ -59,23 +59,23 @@ interface EntityServiceAsync {
     ): CompletableFuture<Entity> =
         update(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         entityId: String,
         params: EntityUpdateParams = EntityUpdateParams.none(),
     ): CompletableFuture<Entity> = update(entityId, params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         params: EntityUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Entity>
 
-    /** @see [update] */
+    /** @see update */
     fun update(params: EntityUpdateParams): CompletableFuture<Entity> =
         update(params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(entityId: String, requestOptions: RequestOptions): CompletableFuture<Entity> =
         update(entityId, EntityUpdateParams.none(), requestOptions)
 
@@ -85,17 +85,17 @@ interface EntityServiceAsync {
      */
     fun list(): CompletableFuture<List<Entity>> = list(EntityListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: EntityListParams = EntityListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<Entity>>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: EntityListParams = EntityListParams.none()): CompletableFuture<List<Entity>> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<List<Entity>> =
         list(EntityListParams.none(), requestOptions)
 
@@ -103,7 +103,7 @@ interface EntityServiceAsync {
     fun retrieveById(entityId: String): CompletableFuture<Entity> =
         retrieveById(entityId, EntityRetrieveByIdParams.none())
 
-    /** @see [retrieveById] */
+    /** @see retrieveById */
     fun retrieveById(
         entityId: String,
         params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
@@ -111,23 +111,23 @@ interface EntityServiceAsync {
     ): CompletableFuture<Entity> =
         retrieveById(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-    /** @see [retrieveById] */
+    /** @see retrieveById */
     fun retrieveById(
         entityId: String,
         params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
     ): CompletableFuture<Entity> = retrieveById(entityId, params, RequestOptions.none())
 
-    /** @see [retrieveById] */
+    /** @see retrieveById */
     fun retrieveById(
         params: EntityRetrieveByIdParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Entity>
 
-    /** @see [retrieveById] */
+    /** @see retrieveById */
     fun retrieveById(params: EntityRetrieveByIdParams): CompletableFuture<Entity> =
         retrieveById(params, RequestOptions.none())
 
-    /** @see [retrieveById] */
+    /** @see retrieveById */
     fun retrieveById(entityId: String, requestOptions: RequestOptions): CompletableFuture<Entity> =
         retrieveById(entityId, EntityRetrieveByIdParams.none(), requestOptions)
 
@@ -135,18 +135,18 @@ interface EntityServiceAsync {
     fun retrieveCurrent(): CompletableFuture<Entity> =
         retrieveCurrent(EntityRetrieveCurrentParams.none())
 
-    /** @see [retrieveCurrent] */
+    /** @see retrieveCurrent */
     fun retrieveCurrent(
         params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Entity>
 
-    /** @see [retrieveCurrent] */
+    /** @see retrieveCurrent */
     fun retrieveCurrent(
         params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none()
     ): CompletableFuture<Entity> = retrieveCurrent(params, RequestOptions.none())
 
-    /** @see [retrieveCurrent] */
+    /** @see retrieveCurrent */
     fun retrieveCurrent(requestOptions: RequestOptions): CompletableFuture<Entity> =
         retrieveCurrent(EntityRetrieveCurrentParams.none(), requestOptions)
 
@@ -175,7 +175,7 @@ interface EntityServiceAsync {
         fun create(params: EntityCreateParams): CompletableFuture<HttpResponseFor<Entity>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: EntityCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -188,7 +188,7 @@ interface EntityServiceAsync {
         fun update(entityId: String): CompletableFuture<HttpResponseFor<Entity>> =
             update(entityId, EntityUpdateParams.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             entityId: String,
             params: EntityUpdateParams = EntityUpdateParams.none(),
@@ -196,24 +196,24 @@ interface EntityServiceAsync {
         ): CompletableFuture<HttpResponseFor<Entity>> =
             update(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             entityId: String,
             params: EntityUpdateParams = EntityUpdateParams.none(),
         ): CompletableFuture<HttpResponseFor<Entity>> =
             update(entityId, params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             params: EntityUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Entity>>
 
-        /** @see [update] */
+        /** @see update */
         fun update(params: EntityUpdateParams): CompletableFuture<HttpResponseFor<Entity>> =
             update(params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             entityId: String,
             requestOptions: RequestOptions,
@@ -226,18 +226,18 @@ interface EntityServiceAsync {
          */
         fun list(): CompletableFuture<HttpResponseFor<List<Entity>>> = list(EntityListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: EntityListParams = EntityListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<Entity>>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: EntityListParams = EntityListParams.none()
         ): CompletableFuture<HttpResponseFor<List<Entity>>> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(requestOptions: RequestOptions): CompletableFuture<HttpResponseFor<List<Entity>>> =
             list(EntityListParams.none(), requestOptions)
 
@@ -248,7 +248,7 @@ interface EntityServiceAsync {
         fun retrieveById(entityId: String): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveById(entityId, EntityRetrieveByIdParams.none())
 
-        /** @see [retrieveById] */
+        /** @see retrieveById */
         fun retrieveById(
             entityId: String,
             params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
@@ -256,25 +256,25 @@ interface EntityServiceAsync {
         ): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveById(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-        /** @see [retrieveById] */
+        /** @see retrieveById */
         fun retrieveById(
             entityId: String,
             params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
         ): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveById(entityId, params, RequestOptions.none())
 
-        /** @see [retrieveById] */
+        /** @see retrieveById */
         fun retrieveById(
             params: EntityRetrieveByIdParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Entity>>
 
-        /** @see [retrieveById] */
+        /** @see retrieveById */
         fun retrieveById(
             params: EntityRetrieveByIdParams
         ): CompletableFuture<HttpResponseFor<Entity>> = retrieveById(params, RequestOptions.none())
 
-        /** @see [retrieveById] */
+        /** @see retrieveById */
         fun retrieveById(
             entityId: String,
             requestOptions: RequestOptions,
@@ -288,19 +288,19 @@ interface EntityServiceAsync {
         fun retrieveCurrent(): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveCurrent(EntityRetrieveCurrentParams.none())
 
-        /** @see [retrieveCurrent] */
+        /** @see retrieveCurrent */
         fun retrieveCurrent(
             params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Entity>>
 
-        /** @see [retrieveCurrent] */
+        /** @see retrieveCurrent */
         fun retrieveCurrent(
             params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none()
         ): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveCurrent(params, RequestOptions.none())
 
-        /** @see [retrieveCurrent] */
+        /** @see retrieveCurrent */
         fun retrieveCurrent(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<Entity>> =

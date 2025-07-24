@@ -29,18 +29,18 @@ interface DocumentService {
     fun retrieve(kycId: String, params: DocumentRetrieveParams): List<KycDocument> =
         retrieve(kycId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         kycId: String,
         params: DocumentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<KycDocument> = retrieve(params.toBuilder().kycId(kycId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: DocumentRetrieveParams): List<KycDocument> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: DocumentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -53,17 +53,17 @@ interface DocumentService {
     fun upload(kycId: String, params: DocumentUploadParams): KycDocument =
         upload(kycId, params, RequestOptions.none())
 
-    /** @see [upload] */
+    /** @see upload */
     fun upload(
         kycId: String,
         params: DocumentUploadParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): KycDocument = upload(params.toBuilder().kycId(kycId).build(), requestOptions)
 
-    /** @see [upload] */
+    /** @see upload */
     fun upload(params: DocumentUploadParams): KycDocument = upload(params, RequestOptions.none())
 
-    /** @see [upload] */
+    /** @see upload */
     fun upload(
         params: DocumentUploadParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -89,7 +89,7 @@ interface DocumentService {
             params: DocumentRetrieveParams,
         ): HttpResponseFor<List<KycDocument>> = retrieve(kycId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             kycId: String,
@@ -98,12 +98,12 @@ interface DocumentService {
         ): HttpResponseFor<List<KycDocument>> =
             retrieve(params.toBuilder().kycId(kycId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: DocumentRetrieveParams): HttpResponseFor<List<KycDocument>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: DocumentRetrieveParams,
@@ -119,7 +119,7 @@ interface DocumentService {
         fun upload(kycId: String, params: DocumentUploadParams): HttpResponseFor<KycDocument> =
             upload(kycId, params, RequestOptions.none())
 
-        /** @see [upload] */
+        /** @see upload */
         @MustBeClosed
         fun upload(
             kycId: String,
@@ -128,12 +128,12 @@ interface DocumentService {
         ): HttpResponseFor<KycDocument> =
             upload(params.toBuilder().kycId(kycId).build(), requestOptions)
 
-        /** @see [upload] */
+        /** @see upload */
         @MustBeClosed
         fun upload(params: DocumentUploadParams): HttpResponseFor<KycDocument> =
             upload(params, RequestOptions.none())
 
-        /** @see [upload] */
+        /** @see upload */
         @MustBeClosed
         fun upload(
             params: DocumentUploadParams,

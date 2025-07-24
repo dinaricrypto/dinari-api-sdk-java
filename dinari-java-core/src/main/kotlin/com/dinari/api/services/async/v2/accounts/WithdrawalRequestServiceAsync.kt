@@ -37,7 +37,7 @@ interface WithdrawalRequestServiceAsync {
         params: WithdrawalRequestCreateParams,
     ): CompletableFuture<WithdrawalRequest> = create(accountId, params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         accountId: String,
         params: WithdrawalRequestCreateParams,
@@ -45,11 +45,11 @@ interface WithdrawalRequestServiceAsync {
     ): CompletableFuture<WithdrawalRequest> =
         create(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [create] */
+    /** @see create */
     fun create(params: WithdrawalRequestCreateParams): CompletableFuture<WithdrawalRequest> =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: WithdrawalRequestCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -62,7 +62,7 @@ interface WithdrawalRequestServiceAsync {
     ): CompletableFuture<WithdrawalRequest> =
         retrieve(withdrawalRequestId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         withdrawalRequestId: String,
         params: WithdrawalRequestRetrieveParams,
@@ -73,11 +73,11 @@ interface WithdrawalRequestServiceAsync {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: WithdrawalRequestRetrieveParams): CompletableFuture<WithdrawalRequest> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: WithdrawalRequestRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -87,7 +87,7 @@ interface WithdrawalRequestServiceAsync {
     fun list(accountId: String): CompletableFuture<List<WithdrawalRequest>> =
         list(accountId, WithdrawalRequestListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         accountId: String,
         params: WithdrawalRequestListParams = WithdrawalRequestListParams.none(),
@@ -95,23 +95,23 @@ interface WithdrawalRequestServiceAsync {
     ): CompletableFuture<List<WithdrawalRequest>> =
         list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         accountId: String,
         params: WithdrawalRequestListParams = WithdrawalRequestListParams.none(),
     ): CompletableFuture<List<WithdrawalRequest>> = list(accountId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: WithdrawalRequestListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<WithdrawalRequest>>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: WithdrawalRequestListParams): CompletableFuture<List<WithdrawalRequest>> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         accountId: String,
         requestOptions: RequestOptions,
@@ -143,7 +143,7 @@ interface WithdrawalRequestServiceAsync {
         ): CompletableFuture<HttpResponseFor<WithdrawalRequest>> =
             create(accountId, params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             accountId: String,
             params: WithdrawalRequestCreateParams,
@@ -151,13 +151,13 @@ interface WithdrawalRequestServiceAsync {
         ): CompletableFuture<HttpResponseFor<WithdrawalRequest>> =
             create(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: WithdrawalRequestCreateParams
         ): CompletableFuture<HttpResponseFor<WithdrawalRequest>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: WithdrawalRequestCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -174,7 +174,7 @@ interface WithdrawalRequestServiceAsync {
         ): CompletableFuture<HttpResponseFor<WithdrawalRequest>> =
             retrieve(withdrawalRequestId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             withdrawalRequestId: String,
             params: WithdrawalRequestRetrieveParams,
@@ -185,13 +185,13 @@ interface WithdrawalRequestServiceAsync {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: WithdrawalRequestRetrieveParams
         ): CompletableFuture<HttpResponseFor<WithdrawalRequest>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: WithdrawalRequestRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -204,7 +204,7 @@ interface WithdrawalRequestServiceAsync {
         fun list(accountId: String): CompletableFuture<HttpResponseFor<List<WithdrawalRequest>>> =
             list(accountId, WithdrawalRequestListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             accountId: String,
             params: WithdrawalRequestListParams = WithdrawalRequestListParams.none(),
@@ -212,26 +212,26 @@ interface WithdrawalRequestServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<WithdrawalRequest>>> =
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             accountId: String,
             params: WithdrawalRequestListParams = WithdrawalRequestListParams.none(),
         ): CompletableFuture<HttpResponseFor<List<WithdrawalRequest>>> =
             list(accountId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: WithdrawalRequestListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<WithdrawalRequest>>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: WithdrawalRequestListParams
         ): CompletableFuture<HttpResponseFor<List<WithdrawalRequest>>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             accountId: String,
             requestOptions: RequestOptions,
