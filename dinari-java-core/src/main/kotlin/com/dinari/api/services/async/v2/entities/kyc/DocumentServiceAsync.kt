@@ -31,7 +31,7 @@ interface DocumentServiceAsync {
         params: DocumentRetrieveParams,
     ): CompletableFuture<List<KycDocument>> = retrieve(kycId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         kycId: String,
         params: DocumentRetrieveParams,
@@ -39,11 +39,11 @@ interface DocumentServiceAsync {
     ): CompletableFuture<List<KycDocument>> =
         retrieve(params.toBuilder().kycId(kycId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: DocumentRetrieveParams): CompletableFuture<List<KycDocument>> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: DocumentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -56,7 +56,7 @@ interface DocumentServiceAsync {
     fun upload(kycId: String, params: DocumentUploadParams): CompletableFuture<KycDocument> =
         upload(kycId, params, RequestOptions.none())
 
-    /** @see [upload] */
+    /** @see upload */
     fun upload(
         kycId: String,
         params: DocumentUploadParams,
@@ -64,11 +64,11 @@ interface DocumentServiceAsync {
     ): CompletableFuture<KycDocument> =
         upload(params.toBuilder().kycId(kycId).build(), requestOptions)
 
-    /** @see [upload] */
+    /** @see upload */
     fun upload(params: DocumentUploadParams): CompletableFuture<KycDocument> =
         upload(params, RequestOptions.none())
 
-    /** @see [upload] */
+    /** @see upload */
     fun upload(
         params: DocumentUploadParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -98,7 +98,7 @@ interface DocumentServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<KycDocument>>> =
             retrieve(kycId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             kycId: String,
             params: DocumentRetrieveParams,
@@ -106,13 +106,13 @@ interface DocumentServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<KycDocument>>> =
             retrieve(params.toBuilder().kycId(kycId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: DocumentRetrieveParams
         ): CompletableFuture<HttpResponseFor<List<KycDocument>>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: DocumentRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -129,7 +129,7 @@ interface DocumentServiceAsync {
         ): CompletableFuture<HttpResponseFor<KycDocument>> =
             upload(kycId, params, RequestOptions.none())
 
-        /** @see [upload] */
+        /** @see upload */
         fun upload(
             kycId: String,
             params: DocumentUploadParams,
@@ -137,11 +137,11 @@ interface DocumentServiceAsync {
         ): CompletableFuture<HttpResponseFor<KycDocument>> =
             upload(params.toBuilder().kycId(kycId).build(), requestOptions)
 
-        /** @see [upload] */
+        /** @see upload */
         fun upload(params: DocumentUploadParams): CompletableFuture<HttpResponseFor<KycDocument>> =
             upload(params, RequestOptions.none())
 
-        /** @see [upload] */
+        /** @see upload */
         fun upload(
             params: DocumentUploadParams,
             requestOptions: RequestOptions = RequestOptions.none(),

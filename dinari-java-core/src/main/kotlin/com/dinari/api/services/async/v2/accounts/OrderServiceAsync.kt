@@ -35,7 +35,7 @@ interface OrderServiceAsync {
     fun retrieve(orderId: String, params: OrderRetrieveParams): CompletableFuture<Order> =
         retrieve(orderId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         orderId: String,
         params: OrderRetrieveParams,
@@ -43,11 +43,11 @@ interface OrderServiceAsync {
     ): CompletableFuture<Order> =
         retrieve(params.toBuilder().orderId(orderId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: OrderRetrieveParams): CompletableFuture<Order> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: OrderRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -60,7 +60,7 @@ interface OrderServiceAsync {
     fun list(accountId: String): CompletableFuture<List<Order>> =
         list(accountId, OrderListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         accountId: String,
         params: OrderListParams = OrderListParams.none(),
@@ -68,23 +68,23 @@ interface OrderServiceAsync {
     ): CompletableFuture<List<Order>> =
         list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         accountId: String,
         params: OrderListParams = OrderListParams.none(),
     ): CompletableFuture<List<Order>> = list(accountId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: OrderListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<Order>>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: OrderListParams): CompletableFuture<List<Order>> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(accountId: String, requestOptions: RequestOptions): CompletableFuture<List<Order>> =
         list(accountId, OrderListParams.none(), requestOptions)
 
@@ -102,7 +102,7 @@ interface OrderServiceAsync {
     fun cancel(orderId: String, params: OrderCancelParams): CompletableFuture<Order> =
         cancel(orderId, params, RequestOptions.none())
 
-    /** @see [cancel] */
+    /** @see cancel */
     fun cancel(
         orderId: String,
         params: OrderCancelParams,
@@ -110,11 +110,11 @@ interface OrderServiceAsync {
     ): CompletableFuture<Order> =
         cancel(params.toBuilder().orderId(orderId).build(), requestOptions)
 
-    /** @see [cancel] */
+    /** @see cancel */
     fun cancel(params: OrderCancelParams): CompletableFuture<Order> =
         cancel(params, RequestOptions.none())
 
-    /** @see [cancel] */
+    /** @see cancel */
     fun cancel(
         params: OrderCancelParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -127,7 +127,7 @@ interface OrderServiceAsync {
     ): CompletableFuture<List<Fulfillment>> =
         getFulfillments(orderId, params, RequestOptions.none())
 
-    /** @see [getFulfillments] */
+    /** @see getFulfillments */
     fun getFulfillments(
         orderId: String,
         params: OrderGetFulfillmentsParams,
@@ -135,11 +135,11 @@ interface OrderServiceAsync {
     ): CompletableFuture<List<Fulfillment>> =
         getFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
 
-    /** @see [getFulfillments] */
+    /** @see getFulfillments */
     fun getFulfillments(params: OrderGetFulfillmentsParams): CompletableFuture<List<Fulfillment>> =
         getFulfillments(params, RequestOptions.none())
 
-    /** @see [getFulfillments] */
+    /** @see getFulfillments */
     fun getFulfillments(
         params: OrderGetFulfillmentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -169,7 +169,7 @@ interface OrderServiceAsync {
         ): CompletableFuture<HttpResponseFor<Order>> =
             retrieve(orderId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             orderId: String,
             params: OrderRetrieveParams,
@@ -177,11 +177,11 @@ interface OrderServiceAsync {
         ): CompletableFuture<HttpResponseFor<Order>> =
             retrieve(params.toBuilder().orderId(orderId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(params: OrderRetrieveParams): CompletableFuture<HttpResponseFor<Order>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: OrderRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -194,7 +194,7 @@ interface OrderServiceAsync {
         fun list(accountId: String): CompletableFuture<HttpResponseFor<List<Order>>> =
             list(accountId, OrderListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             accountId: String,
             params: OrderListParams = OrderListParams.none(),
@@ -202,24 +202,24 @@ interface OrderServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<Order>>> =
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             accountId: String,
             params: OrderListParams = OrderListParams.none(),
         ): CompletableFuture<HttpResponseFor<List<Order>>> =
             list(accountId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: OrderListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<Order>>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(params: OrderListParams): CompletableFuture<HttpResponseFor<List<Order>>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             accountId: String,
             requestOptions: RequestOptions,
@@ -237,7 +237,7 @@ interface OrderServiceAsync {
         ): CompletableFuture<HttpResponseFor<Order>> =
             cancel(orderId, params, RequestOptions.none())
 
-        /** @see [cancel] */
+        /** @see cancel */
         fun cancel(
             orderId: String,
             params: OrderCancelParams,
@@ -245,11 +245,11 @@ interface OrderServiceAsync {
         ): CompletableFuture<HttpResponseFor<Order>> =
             cancel(params.toBuilder().orderId(orderId).build(), requestOptions)
 
-        /** @see [cancel] */
+        /** @see cancel */
         fun cancel(params: OrderCancelParams): CompletableFuture<HttpResponseFor<Order>> =
             cancel(params, RequestOptions.none())
 
-        /** @see [cancel] */
+        /** @see cancel */
         fun cancel(
             params: OrderCancelParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -266,7 +266,7 @@ interface OrderServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<Fulfillment>>> =
             getFulfillments(orderId, params, RequestOptions.none())
 
-        /** @see [getFulfillments] */
+        /** @see getFulfillments */
         fun getFulfillments(
             orderId: String,
             params: OrderGetFulfillmentsParams,
@@ -274,13 +274,13 @@ interface OrderServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<Fulfillment>>> =
             getFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
 
-        /** @see [getFulfillments] */
+        /** @see getFulfillments */
         fun getFulfillments(
             params: OrderGetFulfillmentsParams
         ): CompletableFuture<HttpResponseFor<List<Fulfillment>>> =
             getFulfillments(params, RequestOptions.none())
 
-        /** @see [getFulfillments] */
+        /** @see getFulfillments */
         fun getFulfillments(
             params: OrderGetFulfillmentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),

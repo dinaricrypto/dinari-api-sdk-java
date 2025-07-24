@@ -30,7 +30,7 @@ interface ExternalServiceAsync {
     fun connect(accountId: String, params: ExternalConnectParams): CompletableFuture<Wallet> =
         connect(accountId, params, RequestOptions.none())
 
-    /** @see [connect] */
+    /** @see connect */
     fun connect(
         accountId: String,
         params: ExternalConnectParams,
@@ -38,11 +38,11 @@ interface ExternalServiceAsync {
     ): CompletableFuture<Wallet> =
         connect(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [connect] */
+    /** @see connect */
     fun connect(params: ExternalConnectParams): CompletableFuture<Wallet> =
         connect(params, RequestOptions.none())
 
-    /** @see [connect] */
+    /** @see connect */
     fun connect(
         params: ExternalConnectParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -55,7 +55,7 @@ interface ExternalServiceAsync {
     ): CompletableFuture<ExternalGetNonceResponse> =
         getNonce(accountId, params, RequestOptions.none())
 
-    /** @see [getNonce] */
+    /** @see getNonce */
     fun getNonce(
         accountId: String,
         params: ExternalGetNonceParams,
@@ -63,11 +63,11 @@ interface ExternalServiceAsync {
     ): CompletableFuture<ExternalGetNonceResponse> =
         getNonce(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getNonce] */
+    /** @see getNonce */
     fun getNonce(params: ExternalGetNonceParams): CompletableFuture<ExternalGetNonceResponse> =
         getNonce(params, RequestOptions.none())
 
-    /** @see [getNonce] */
+    /** @see getNonce */
     fun getNonce(
         params: ExternalGetNonceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -97,7 +97,7 @@ interface ExternalServiceAsync {
         ): CompletableFuture<HttpResponseFor<Wallet>> =
             connect(accountId, params, RequestOptions.none())
 
-        /** @see [connect] */
+        /** @see connect */
         fun connect(
             accountId: String,
             params: ExternalConnectParams,
@@ -105,11 +105,11 @@ interface ExternalServiceAsync {
         ): CompletableFuture<HttpResponseFor<Wallet>> =
             connect(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [connect] */
+        /** @see connect */
         fun connect(params: ExternalConnectParams): CompletableFuture<HttpResponseFor<Wallet>> =
             connect(params, RequestOptions.none())
 
-        /** @see [connect] */
+        /** @see connect */
         fun connect(
             params: ExternalConnectParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -126,7 +126,7 @@ interface ExternalServiceAsync {
         ): CompletableFuture<HttpResponseFor<ExternalGetNonceResponse>> =
             getNonce(accountId, params, RequestOptions.none())
 
-        /** @see [getNonce] */
+        /** @see getNonce */
         fun getNonce(
             accountId: String,
             params: ExternalGetNonceParams,
@@ -134,13 +134,13 @@ interface ExternalServiceAsync {
         ): CompletableFuture<HttpResponseFor<ExternalGetNonceResponse>> =
             getNonce(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getNonce] */
+        /** @see getNonce */
         fun getNonce(
             params: ExternalGetNonceParams
         ): CompletableFuture<HttpResponseFor<ExternalGetNonceResponse>> =
             getNonce(params, RequestOptions.none())
 
-        /** @see [getNonce] */
+        /** @see getNonce */
         fun getNonce(
             params: ExternalGetNonceParams,
             requestOptions: RequestOptions = RequestOptions.none(),

@@ -39,27 +39,27 @@ interface KycService {
      */
     fun retrieve(entityId: String): KycInfo = retrieve(entityId, KycRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         entityId: String,
         params: KycRetrieveParams = KycRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): KycInfo = retrieve(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(entityId: String, params: KycRetrieveParams = KycRetrieveParams.none()): KycInfo =
         retrieve(entityId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: KycRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): KycInfo
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: KycRetrieveParams): KycInfo = retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(entityId: String, requestOptions: RequestOptions): KycInfo =
         retrieve(entityId, KycRetrieveParams.none(), requestOptions)
 
@@ -73,7 +73,7 @@ interface KycService {
     fun createManagedCheck(entityId: String): KycCreateManagedCheckResponse =
         createManagedCheck(entityId, KycCreateManagedCheckParams.none())
 
-    /** @see [createManagedCheck] */
+    /** @see createManagedCheck */
     fun createManagedCheck(
         entityId: String,
         params: KycCreateManagedCheckParams = KycCreateManagedCheckParams.none(),
@@ -81,23 +81,23 @@ interface KycService {
     ): KycCreateManagedCheckResponse =
         createManagedCheck(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-    /** @see [createManagedCheck] */
+    /** @see createManagedCheck */
     fun createManagedCheck(
         entityId: String,
         params: KycCreateManagedCheckParams = KycCreateManagedCheckParams.none(),
     ): KycCreateManagedCheckResponse = createManagedCheck(entityId, params, RequestOptions.none())
 
-    /** @see [createManagedCheck] */
+    /** @see createManagedCheck */
     fun createManagedCheck(
         params: KycCreateManagedCheckParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): KycCreateManagedCheckResponse
 
-    /** @see [createManagedCheck] */
+    /** @see createManagedCheck */
     fun createManagedCheck(params: KycCreateManagedCheckParams): KycCreateManagedCheckResponse =
         createManagedCheck(params, RequestOptions.none())
 
-    /** @see [createManagedCheck] */
+    /** @see createManagedCheck */
     fun createManagedCheck(
         entityId: String,
         requestOptions: RequestOptions,
@@ -113,17 +113,17 @@ interface KycService {
     fun submit(entityId: String, params: KycSubmitParams): KycInfo =
         submit(entityId, params, RequestOptions.none())
 
-    /** @see [submit] */
+    /** @see submit */
     fun submit(
         entityId: String,
         params: KycSubmitParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): KycInfo = submit(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-    /** @see [submit] */
+    /** @see submit */
     fun submit(params: KycSubmitParams): KycInfo = submit(params, RequestOptions.none())
 
-    /** @see [submit] */
+    /** @see submit */
     fun submit(
         params: KycSubmitParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -149,7 +149,7 @@ interface KycService {
         fun retrieve(entityId: String): HttpResponseFor<KycInfo> =
             retrieve(entityId, KycRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             entityId: String,
@@ -158,26 +158,26 @@ interface KycService {
         ): HttpResponseFor<KycInfo> =
             retrieve(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             entityId: String,
             params: KycRetrieveParams = KycRetrieveParams.none(),
         ): HttpResponseFor<KycInfo> = retrieve(entityId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: KycRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<KycInfo>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: KycRetrieveParams): HttpResponseFor<KycInfo> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(entityId: String, requestOptions: RequestOptions): HttpResponseFor<KycInfo> =
             retrieve(entityId, KycRetrieveParams.none(), requestOptions)
@@ -190,7 +190,7 @@ interface KycService {
         fun createManagedCheck(entityId: String): HttpResponseFor<KycCreateManagedCheckResponse> =
             createManagedCheck(entityId, KycCreateManagedCheckParams.none())
 
-        /** @see [createManagedCheck] */
+        /** @see createManagedCheck */
         @MustBeClosed
         fun createManagedCheck(
             entityId: String,
@@ -199,7 +199,7 @@ interface KycService {
         ): HttpResponseFor<KycCreateManagedCheckResponse> =
             createManagedCheck(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-        /** @see [createManagedCheck] */
+        /** @see createManagedCheck */
         @MustBeClosed
         fun createManagedCheck(
             entityId: String,
@@ -207,21 +207,21 @@ interface KycService {
         ): HttpResponseFor<KycCreateManagedCheckResponse> =
             createManagedCheck(entityId, params, RequestOptions.none())
 
-        /** @see [createManagedCheck] */
+        /** @see createManagedCheck */
         @MustBeClosed
         fun createManagedCheck(
             params: KycCreateManagedCheckParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<KycCreateManagedCheckResponse>
 
-        /** @see [createManagedCheck] */
+        /** @see createManagedCheck */
         @MustBeClosed
         fun createManagedCheck(
             params: KycCreateManagedCheckParams
         ): HttpResponseFor<KycCreateManagedCheckResponse> =
             createManagedCheck(params, RequestOptions.none())
 
-        /** @see [createManagedCheck] */
+        /** @see createManagedCheck */
         @MustBeClosed
         fun createManagedCheck(
             entityId: String,
@@ -237,7 +237,7 @@ interface KycService {
         fun submit(entityId: String, params: KycSubmitParams): HttpResponseFor<KycInfo> =
             submit(entityId, params, RequestOptions.none())
 
-        /** @see [submit] */
+        /** @see submit */
         @MustBeClosed
         fun submit(
             entityId: String,
@@ -246,12 +246,12 @@ interface KycService {
         ): HttpResponseFor<KycInfo> =
             submit(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-        /** @see [submit] */
+        /** @see submit */
         @MustBeClosed
         fun submit(params: KycSubmitParams): HttpResponseFor<KycInfo> =
             submit(params, RequestOptions.none())
 
-        /** @see [submit] */
+        /** @see submit */
         @MustBeClosed
         fun submit(
             params: KycSubmitParams,

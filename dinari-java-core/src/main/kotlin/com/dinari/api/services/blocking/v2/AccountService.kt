@@ -56,29 +56,29 @@ interface AccountService {
     /** Get a specific `Account` by its ID. */
     fun retrieve(accountId: String): Account = retrieve(accountId, AccountRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         accountId: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Account = retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         accountId: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
     ): Account = retrieve(accountId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: AccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Account
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: AccountRetrieveParams): Account = retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(accountId: String, requestOptions: RequestOptions): Account =
         retrieve(accountId, AccountRetrieveParams.none(), requestOptions)
 
@@ -86,30 +86,30 @@ interface AccountService {
     fun deactivate(accountId: String): Account =
         deactivate(accountId, AccountDeactivateParams.none())
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(
         accountId: String,
         params: AccountDeactivateParams = AccountDeactivateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Account = deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(
         accountId: String,
         params: AccountDeactivateParams = AccountDeactivateParams.none(),
     ): Account = deactivate(accountId, params, RequestOptions.none())
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(
         params: AccountDeactivateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Account
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(params: AccountDeactivateParams): Account =
         deactivate(params, RequestOptions.none())
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(accountId: String, requestOptions: RequestOptions): Account =
         deactivate(accountId, AccountDeactivateParams.none(), requestOptions)
 
@@ -117,7 +117,7 @@ interface AccountService {
     fun getCashBalances(accountId: String): List<AccountGetCashBalancesResponse> =
         getCashBalances(accountId, AccountGetCashBalancesParams.none())
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         accountId: String,
         params: AccountGetCashBalancesParams = AccountGetCashBalancesParams.none(),
@@ -125,25 +125,25 @@ interface AccountService {
     ): List<AccountGetCashBalancesResponse> =
         getCashBalances(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         accountId: String,
         params: AccountGetCashBalancesParams = AccountGetCashBalancesParams.none(),
     ): List<AccountGetCashBalancesResponse> =
         getCashBalances(accountId, params, RequestOptions.none())
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         params: AccountGetCashBalancesParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<AccountGetCashBalancesResponse>
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         params: AccountGetCashBalancesParams
     ): List<AccountGetCashBalancesResponse> = getCashBalances(params, RequestOptions.none())
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         accountId: String,
         requestOptions: RequestOptions,
@@ -157,7 +157,7 @@ interface AccountService {
     ): List<AccountGetDividendPaymentsResponse> =
         getDividendPayments(accountId, params, RequestOptions.none())
 
-    /** @see [getDividendPayments] */
+    /** @see getDividendPayments */
     fun getDividendPayments(
         accountId: String,
         params: AccountGetDividendPaymentsParams,
@@ -165,12 +165,12 @@ interface AccountService {
     ): List<AccountGetDividendPaymentsResponse> =
         getDividendPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getDividendPayments] */
+    /** @see getDividendPayments */
     fun getDividendPayments(
         params: AccountGetDividendPaymentsParams
     ): List<AccountGetDividendPaymentsResponse> = getDividendPayments(params, RequestOptions.none())
 
-    /** @see [getDividendPayments] */
+    /** @see getDividendPayments */
     fun getDividendPayments(
         params: AccountGetDividendPaymentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -188,7 +188,7 @@ interface AccountService {
     ): List<AccountGetInterestPaymentsResponse> =
         getInterestPayments(accountId, params, RequestOptions.none())
 
-    /** @see [getInterestPayments] */
+    /** @see getInterestPayments */
     fun getInterestPayments(
         accountId: String,
         params: AccountGetInterestPaymentsParams,
@@ -196,12 +196,12 @@ interface AccountService {
     ): List<AccountGetInterestPaymentsResponse> =
         getInterestPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getInterestPayments] */
+    /** @see getInterestPayments */
     fun getInterestPayments(
         params: AccountGetInterestPaymentsParams
     ): List<AccountGetInterestPaymentsResponse> = getInterestPayments(params, RequestOptions.none())
 
-    /** @see [getInterestPayments] */
+    /** @see getInterestPayments */
     fun getInterestPayments(
         params: AccountGetInterestPaymentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -211,7 +211,7 @@ interface AccountService {
     fun getPortfolio(accountId: String): AccountGetPortfolioResponse =
         getPortfolio(accountId, AccountGetPortfolioParams.none())
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(
         accountId: String,
         params: AccountGetPortfolioParams = AccountGetPortfolioParams.none(),
@@ -219,23 +219,23 @@ interface AccountService {
     ): AccountGetPortfolioResponse =
         getPortfolio(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(
         accountId: String,
         params: AccountGetPortfolioParams = AccountGetPortfolioParams.none(),
     ): AccountGetPortfolioResponse = getPortfolio(accountId, params, RequestOptions.none())
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(
         params: AccountGetPortfolioParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AccountGetPortfolioResponse
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(params: AccountGetPortfolioParams): AccountGetPortfolioResponse =
         getPortfolio(params, RequestOptions.none())
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(
         accountId: String,
         requestOptions: RequestOptions,
@@ -250,30 +250,30 @@ interface AccountService {
     fun mintSandboxTokens(accountId: String) =
         mintSandboxTokens(accountId, AccountMintSandboxTokensParams.none())
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(
         accountId: String,
         params: AccountMintSandboxTokensParams = AccountMintSandboxTokensParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ) = mintSandboxTokens(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(
         accountId: String,
         params: AccountMintSandboxTokensParams = AccountMintSandboxTokensParams.none(),
     ) = mintSandboxTokens(accountId, params, RequestOptions.none())
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(
         params: AccountMintSandboxTokensParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     )
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(params: AccountMintSandboxTokensParams) =
         mintSandboxTokens(params, RequestOptions.none())
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(accountId: String, requestOptions: RequestOptions) =
         mintSandboxTokens(accountId, AccountMintSandboxTokensParams.none(), requestOptions)
 
@@ -307,7 +307,7 @@ interface AccountService {
         fun retrieve(accountId: String): HttpResponseFor<Account> =
             retrieve(accountId, AccountRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             accountId: String,
@@ -316,26 +316,26 @@ interface AccountService {
         ): HttpResponseFor<Account> =
             retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             accountId: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
         ): HttpResponseFor<Account> = retrieve(accountId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: AccountRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Account>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: AccountRetrieveParams): HttpResponseFor<Account> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(accountId: String, requestOptions: RequestOptions): HttpResponseFor<Account> =
             retrieve(accountId, AccountRetrieveParams.none(), requestOptions)
@@ -348,7 +348,7 @@ interface AccountService {
         fun deactivate(accountId: String): HttpResponseFor<Account> =
             deactivate(accountId, AccountDeactivateParams.none())
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         @MustBeClosed
         fun deactivate(
             accountId: String,
@@ -357,26 +357,26 @@ interface AccountService {
         ): HttpResponseFor<Account> =
             deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         @MustBeClosed
         fun deactivate(
             accountId: String,
             params: AccountDeactivateParams = AccountDeactivateParams.none(),
         ): HttpResponseFor<Account> = deactivate(accountId, params, RequestOptions.none())
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         @MustBeClosed
         fun deactivate(
             params: AccountDeactivateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Account>
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         @MustBeClosed
         fun deactivate(params: AccountDeactivateParams): HttpResponseFor<Account> =
             deactivate(params, RequestOptions.none())
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         @MustBeClosed
         fun deactivate(
             accountId: String,
@@ -394,7 +394,7 @@ interface AccountService {
         ): HttpResponseFor<List<AccountGetCashBalancesResponse>> =
             getCashBalances(accountId, AccountGetCashBalancesParams.none())
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         @MustBeClosed
         fun getCashBalances(
             accountId: String,
@@ -403,7 +403,7 @@ interface AccountService {
         ): HttpResponseFor<List<AccountGetCashBalancesResponse>> =
             getCashBalances(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         @MustBeClosed
         fun getCashBalances(
             accountId: String,
@@ -411,21 +411,21 @@ interface AccountService {
         ): HttpResponseFor<List<AccountGetCashBalancesResponse>> =
             getCashBalances(accountId, params, RequestOptions.none())
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         @MustBeClosed
         fun getCashBalances(
             params: AccountGetCashBalancesParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<AccountGetCashBalancesResponse>>
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         @MustBeClosed
         fun getCashBalances(
             params: AccountGetCashBalancesParams
         ): HttpResponseFor<List<AccountGetCashBalancesResponse>> =
             getCashBalances(params, RequestOptions.none())
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         @MustBeClosed
         fun getCashBalances(
             accountId: String,
@@ -444,7 +444,7 @@ interface AccountService {
         ): HttpResponseFor<List<AccountGetDividendPaymentsResponse>> =
             getDividendPayments(accountId, params, RequestOptions.none())
 
-        /** @see [getDividendPayments] */
+        /** @see getDividendPayments */
         @MustBeClosed
         fun getDividendPayments(
             accountId: String,
@@ -453,14 +453,14 @@ interface AccountService {
         ): HttpResponseFor<List<AccountGetDividendPaymentsResponse>> =
             getDividendPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getDividendPayments] */
+        /** @see getDividendPayments */
         @MustBeClosed
         fun getDividendPayments(
             params: AccountGetDividendPaymentsParams
         ): HttpResponseFor<List<AccountGetDividendPaymentsResponse>> =
             getDividendPayments(params, RequestOptions.none())
 
-        /** @see [getDividendPayments] */
+        /** @see getDividendPayments */
         @MustBeClosed
         fun getDividendPayments(
             params: AccountGetDividendPaymentsParams,
@@ -478,7 +478,7 @@ interface AccountService {
         ): HttpResponseFor<List<AccountGetInterestPaymentsResponse>> =
             getInterestPayments(accountId, params, RequestOptions.none())
 
-        /** @see [getInterestPayments] */
+        /** @see getInterestPayments */
         @MustBeClosed
         fun getInterestPayments(
             accountId: String,
@@ -487,14 +487,14 @@ interface AccountService {
         ): HttpResponseFor<List<AccountGetInterestPaymentsResponse>> =
             getInterestPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getInterestPayments] */
+        /** @see getInterestPayments */
         @MustBeClosed
         fun getInterestPayments(
             params: AccountGetInterestPaymentsParams
         ): HttpResponseFor<List<AccountGetInterestPaymentsResponse>> =
             getInterestPayments(params, RequestOptions.none())
 
-        /** @see [getInterestPayments] */
+        /** @see getInterestPayments */
         @MustBeClosed
         fun getInterestPayments(
             params: AccountGetInterestPaymentsParams,
@@ -509,7 +509,7 @@ interface AccountService {
         fun getPortfolio(accountId: String): HttpResponseFor<AccountGetPortfolioResponse> =
             getPortfolio(accountId, AccountGetPortfolioParams.none())
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         @MustBeClosed
         fun getPortfolio(
             accountId: String,
@@ -518,7 +518,7 @@ interface AccountService {
         ): HttpResponseFor<AccountGetPortfolioResponse> =
             getPortfolio(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         @MustBeClosed
         fun getPortfolio(
             accountId: String,
@@ -526,21 +526,21 @@ interface AccountService {
         ): HttpResponseFor<AccountGetPortfolioResponse> =
             getPortfolio(accountId, params, RequestOptions.none())
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         @MustBeClosed
         fun getPortfolio(
             params: AccountGetPortfolioParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<AccountGetPortfolioResponse>
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         @MustBeClosed
         fun getPortfolio(
             params: AccountGetPortfolioParams
         ): HttpResponseFor<AccountGetPortfolioResponse> =
             getPortfolio(params, RequestOptions.none())
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         @MustBeClosed
         fun getPortfolio(
             accountId: String,
@@ -556,7 +556,7 @@ interface AccountService {
         fun mintSandboxTokens(accountId: String): HttpResponse =
             mintSandboxTokens(accountId, AccountMintSandboxTokensParams.none())
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         @MustBeClosed
         fun mintSandboxTokens(
             accountId: String,
@@ -565,26 +565,26 @@ interface AccountService {
         ): HttpResponse =
             mintSandboxTokens(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         @MustBeClosed
         fun mintSandboxTokens(
             accountId: String,
             params: AccountMintSandboxTokensParams = AccountMintSandboxTokensParams.none(),
         ): HttpResponse = mintSandboxTokens(accountId, params, RequestOptions.none())
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         @MustBeClosed
         fun mintSandboxTokens(
             params: AccountMintSandboxTokensParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponse
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         @MustBeClosed
         fun mintSandboxTokens(params: AccountMintSandboxTokensParams): HttpResponse =
             mintSandboxTokens(params, RequestOptions.none())
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         @MustBeClosed
         fun mintSandboxTokens(accountId: String, requestOptions: RequestOptions): HttpResponse =
             mintSandboxTokens(accountId, AccountMintSandboxTokensParams.none(), requestOptions)

@@ -40,17 +40,17 @@ interface StockService {
     /** Get a list of `Stocks`. */
     fun list(): List<StockListResponse> = list(StockListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: StockListParams = StockListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<StockListResponse>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: StockListParams = StockListParams.none()): List<StockListResponse> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): List<StockListResponse> =
         list(StockListParams.none(), requestOptions)
 
@@ -58,7 +58,7 @@ interface StockService {
     fun retrieveCurrentPrice(stockId: String): StockRetrieveCurrentPriceResponse =
         retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none())
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         stockId: String,
         params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
@@ -66,25 +66,25 @@ interface StockService {
     ): StockRetrieveCurrentPriceResponse =
         retrieveCurrentPrice(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         stockId: String,
         params: StockRetrieveCurrentPriceParams = StockRetrieveCurrentPriceParams.none(),
     ): StockRetrieveCurrentPriceResponse =
         retrieveCurrentPrice(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         params: StockRetrieveCurrentPriceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StockRetrieveCurrentPriceResponse
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         params: StockRetrieveCurrentPriceParams
     ): StockRetrieveCurrentPriceResponse = retrieveCurrentPrice(params, RequestOptions.none())
 
-    /** @see [retrieveCurrentPrice] */
+    /** @see retrieveCurrentPrice */
     fun retrieveCurrentPrice(
         stockId: String,
         requestOptions: RequestOptions,
@@ -95,7 +95,7 @@ interface StockService {
     fun retrieveCurrentQuote(stockId: String): StockRetrieveCurrentQuoteResponse =
         retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none())
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         stockId: String,
         params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
@@ -103,25 +103,25 @@ interface StockService {
     ): StockRetrieveCurrentQuoteResponse =
         retrieveCurrentQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         stockId: String,
         params: StockRetrieveCurrentQuoteParams = StockRetrieveCurrentQuoteParams.none(),
     ): StockRetrieveCurrentQuoteResponse =
         retrieveCurrentQuote(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         params: StockRetrieveCurrentQuoteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): StockRetrieveCurrentQuoteResponse
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         params: StockRetrieveCurrentQuoteParams
     ): StockRetrieveCurrentQuoteResponse = retrieveCurrentQuote(params, RequestOptions.none())
 
-    /** @see [retrieveCurrentQuote] */
+    /** @see retrieveCurrentQuote */
     fun retrieveCurrentQuote(
         stockId: String,
         requestOptions: RequestOptions,
@@ -137,7 +137,7 @@ interface StockService {
     fun retrieveDividends(stockId: String): List<StockRetrieveDividendsResponse> =
         retrieveDividends(stockId, StockRetrieveDividendsParams.none())
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         stockId: String,
         params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
@@ -145,25 +145,25 @@ interface StockService {
     ): List<StockRetrieveDividendsResponse> =
         retrieveDividends(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         stockId: String,
         params: StockRetrieveDividendsParams = StockRetrieveDividendsParams.none(),
     ): List<StockRetrieveDividendsResponse> =
         retrieveDividends(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         params: StockRetrieveDividendsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<StockRetrieveDividendsResponse>
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         params: StockRetrieveDividendsParams
     ): List<StockRetrieveDividendsResponse> = retrieveDividends(params, RequestOptions.none())
 
-    /** @see [retrieveDividends] */
+    /** @see retrieveDividends */
     fun retrieveDividends(
         stockId: String,
         requestOptions: RequestOptions,
@@ -180,7 +180,7 @@ interface StockService {
     ): List<StockRetrieveHistoricalPricesResponse> =
         retrieveHistoricalPrices(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveHistoricalPrices] */
+    /** @see retrieveHistoricalPrices */
     fun retrieveHistoricalPrices(
         stockId: String,
         params: StockRetrieveHistoricalPricesParams,
@@ -188,13 +188,13 @@ interface StockService {
     ): List<StockRetrieveHistoricalPricesResponse> =
         retrieveHistoricalPrices(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveHistoricalPrices] */
+    /** @see retrieveHistoricalPrices */
     fun retrieveHistoricalPrices(
         params: StockRetrieveHistoricalPricesParams
     ): List<StockRetrieveHistoricalPricesResponse> =
         retrieveHistoricalPrices(params, RequestOptions.none())
 
-    /** @see [retrieveHistoricalPrices] */
+    /** @see retrieveHistoricalPrices */
     fun retrieveHistoricalPrices(
         params: StockRetrieveHistoricalPricesParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -207,7 +207,7 @@ interface StockService {
     fun retrieveNews(stockId: String): List<StockRetrieveNewsResponse> =
         retrieveNews(stockId, StockRetrieveNewsParams.none())
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(
         stockId: String,
         params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
@@ -215,23 +215,23 @@ interface StockService {
     ): List<StockRetrieveNewsResponse> =
         retrieveNews(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(
         stockId: String,
         params: StockRetrieveNewsParams = StockRetrieveNewsParams.none(),
     ): List<StockRetrieveNewsResponse> = retrieveNews(stockId, params, RequestOptions.none())
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(
         params: StockRetrieveNewsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<StockRetrieveNewsResponse>
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(params: StockRetrieveNewsParams): List<StockRetrieveNewsResponse> =
         retrieveNews(params, RequestOptions.none())
 
-    /** @see [retrieveNews] */
+    /** @see retrieveNews */
     fun retrieveNews(
         stockId: String,
         requestOptions: RequestOptions,
@@ -257,20 +257,20 @@ interface StockService {
         @MustBeClosed
         fun list(): HttpResponseFor<List<StockListResponse>> = list(StockListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: StockListParams = StockListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<StockListResponse>>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: StockListParams = StockListParams.none()
         ): HttpResponseFor<List<StockListResponse>> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<StockListResponse>> =
             list(StockListParams.none(), requestOptions)
@@ -286,7 +286,7 @@ interface StockService {
         ): HttpResponseFor<StockRetrieveCurrentPriceResponse> =
             retrieveCurrentPrice(stockId, StockRetrieveCurrentPriceParams.none())
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         @MustBeClosed
         fun retrieveCurrentPrice(
             stockId: String,
@@ -295,7 +295,7 @@ interface StockService {
         ): HttpResponseFor<StockRetrieveCurrentPriceResponse> =
             retrieveCurrentPrice(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         @MustBeClosed
         fun retrieveCurrentPrice(
             stockId: String,
@@ -303,21 +303,21 @@ interface StockService {
         ): HttpResponseFor<StockRetrieveCurrentPriceResponse> =
             retrieveCurrentPrice(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         @MustBeClosed
         fun retrieveCurrentPrice(
             params: StockRetrieveCurrentPriceParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StockRetrieveCurrentPriceResponse>
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         @MustBeClosed
         fun retrieveCurrentPrice(
             params: StockRetrieveCurrentPriceParams
         ): HttpResponseFor<StockRetrieveCurrentPriceResponse> =
             retrieveCurrentPrice(params, RequestOptions.none())
 
-        /** @see [retrieveCurrentPrice] */
+        /** @see retrieveCurrentPrice */
         @MustBeClosed
         fun retrieveCurrentPrice(
             stockId: String,
@@ -336,7 +336,7 @@ interface StockService {
         ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> =
             retrieveCurrentQuote(stockId, StockRetrieveCurrentQuoteParams.none())
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         @MustBeClosed
         fun retrieveCurrentQuote(
             stockId: String,
@@ -345,7 +345,7 @@ interface StockService {
         ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> =
             retrieveCurrentQuote(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         @MustBeClosed
         fun retrieveCurrentQuote(
             stockId: String,
@@ -353,21 +353,21 @@ interface StockService {
         ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> =
             retrieveCurrentQuote(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         @MustBeClosed
         fun retrieveCurrentQuote(
             params: StockRetrieveCurrentQuoteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<StockRetrieveCurrentQuoteResponse>
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         @MustBeClosed
         fun retrieveCurrentQuote(
             params: StockRetrieveCurrentQuoteParams
         ): HttpResponseFor<StockRetrieveCurrentQuoteResponse> =
             retrieveCurrentQuote(params, RequestOptions.none())
 
-        /** @see [retrieveCurrentQuote] */
+        /** @see retrieveCurrentQuote */
         @MustBeClosed
         fun retrieveCurrentQuote(
             stockId: String,
@@ -385,7 +385,7 @@ interface StockService {
         ): HttpResponseFor<List<StockRetrieveDividendsResponse>> =
             retrieveDividends(stockId, StockRetrieveDividendsParams.none())
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         @MustBeClosed
         fun retrieveDividends(
             stockId: String,
@@ -394,7 +394,7 @@ interface StockService {
         ): HttpResponseFor<List<StockRetrieveDividendsResponse>> =
             retrieveDividends(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         @MustBeClosed
         fun retrieveDividends(
             stockId: String,
@@ -402,21 +402,21 @@ interface StockService {
         ): HttpResponseFor<List<StockRetrieveDividendsResponse>> =
             retrieveDividends(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         @MustBeClosed
         fun retrieveDividends(
             params: StockRetrieveDividendsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<StockRetrieveDividendsResponse>>
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         @MustBeClosed
         fun retrieveDividends(
             params: StockRetrieveDividendsParams
         ): HttpResponseFor<List<StockRetrieveDividendsResponse>> =
             retrieveDividends(params, RequestOptions.none())
 
-        /** @see [retrieveDividends] */
+        /** @see retrieveDividends */
         @MustBeClosed
         fun retrieveDividends(
             stockId: String,
@@ -436,7 +436,7 @@ interface StockService {
         ): HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>> =
             retrieveHistoricalPrices(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveHistoricalPrices] */
+        /** @see retrieveHistoricalPrices */
         @MustBeClosed
         fun retrieveHistoricalPrices(
             stockId: String,
@@ -445,14 +445,14 @@ interface StockService {
         ): HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>> =
             retrieveHistoricalPrices(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveHistoricalPrices] */
+        /** @see retrieveHistoricalPrices */
         @MustBeClosed
         fun retrieveHistoricalPrices(
             params: StockRetrieveHistoricalPricesParams
         ): HttpResponseFor<List<StockRetrieveHistoricalPricesResponse>> =
             retrieveHistoricalPrices(params, RequestOptions.none())
 
-        /** @see [retrieveHistoricalPrices] */
+        /** @see retrieveHistoricalPrices */
         @MustBeClosed
         fun retrieveHistoricalPrices(
             params: StockRetrieveHistoricalPricesParams,
@@ -467,7 +467,7 @@ interface StockService {
         fun retrieveNews(stockId: String): HttpResponseFor<List<StockRetrieveNewsResponse>> =
             retrieveNews(stockId, StockRetrieveNewsParams.none())
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         @MustBeClosed
         fun retrieveNews(
             stockId: String,
@@ -476,7 +476,7 @@ interface StockService {
         ): HttpResponseFor<List<StockRetrieveNewsResponse>> =
             retrieveNews(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         @MustBeClosed
         fun retrieveNews(
             stockId: String,
@@ -484,21 +484,21 @@ interface StockService {
         ): HttpResponseFor<List<StockRetrieveNewsResponse>> =
             retrieveNews(stockId, params, RequestOptions.none())
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         @MustBeClosed
         fun retrieveNews(
             params: StockRetrieveNewsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<StockRetrieveNewsResponse>>
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         @MustBeClosed
         fun retrieveNews(
             params: StockRetrieveNewsParams
         ): HttpResponseFor<List<StockRetrieveNewsResponse>> =
             retrieveNews(params, RequestOptions.none())
 
-        /** @see [retrieveNews] */
+        /** @see retrieveNews */
         @MustBeClosed
         fun retrieveNews(
             stockId: String,
