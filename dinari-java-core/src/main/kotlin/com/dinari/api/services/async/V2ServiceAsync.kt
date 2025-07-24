@@ -40,18 +40,18 @@ interface V2ServiceAsync {
     fun listOrders(): CompletableFuture<List<V2ListOrdersResponse>> =
         listOrders(V2ListOrdersParams.none())
 
-    /** @see [listOrders] */
+    /** @see listOrders */
     fun listOrders(
         params: V2ListOrdersParams = V2ListOrdersParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<V2ListOrdersResponse>>
 
-    /** @see [listOrders] */
+    /** @see listOrders */
     fun listOrders(
         params: V2ListOrdersParams = V2ListOrdersParams.none()
     ): CompletableFuture<List<V2ListOrdersResponse>> = listOrders(params, RequestOptions.none())
 
-    /** @see [listOrders] */
+    /** @see listOrders */
     fun listOrders(requestOptions: RequestOptions): CompletableFuture<List<V2ListOrdersResponse>> =
         listOrders(V2ListOrdersParams.none(), requestOptions)
 
@@ -78,19 +78,19 @@ interface V2ServiceAsync {
         fun listOrders(): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>> =
             listOrders(V2ListOrdersParams.none())
 
-        /** @see [listOrders] */
+        /** @see listOrders */
         fun listOrders(
             params: V2ListOrdersParams = V2ListOrdersParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>>
 
-        /** @see [listOrders] */
+        /** @see listOrders */
         fun listOrders(
             params: V2ListOrdersParams = V2ListOrdersParams.none()
         ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>> =
             listOrders(params, RequestOptions.none())
 
-        /** @see [listOrders] */
+        /** @see listOrders */
         fun listOrders(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>> =

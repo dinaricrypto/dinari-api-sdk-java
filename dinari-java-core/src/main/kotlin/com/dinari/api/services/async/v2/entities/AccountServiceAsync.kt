@@ -32,7 +32,7 @@ interface AccountServiceAsync {
     fun create(entityId: String): CompletableFuture<Account> =
         create(entityId, AccountCreateParams.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         entityId: String,
         params: AccountCreateParams = AccountCreateParams.none(),
@@ -40,23 +40,23 @@ interface AccountServiceAsync {
     ): CompletableFuture<Account> =
         create(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         entityId: String,
         params: AccountCreateParams = AccountCreateParams.none(),
     ): CompletableFuture<Account> = create(entityId, params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: AccountCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Account>
 
-    /** @see [create] */
+    /** @see create */
     fun create(params: AccountCreateParams): CompletableFuture<Account> =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(entityId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
         create(entityId, AccountCreateParams.none(), requestOptions)
 
@@ -67,7 +67,7 @@ interface AccountServiceAsync {
     fun list(entityId: String): CompletableFuture<List<Account>> =
         list(entityId, AccountListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         entityId: String,
         params: AccountListParams = AccountListParams.none(),
@@ -75,23 +75,23 @@ interface AccountServiceAsync {
     ): CompletableFuture<List<Account>> =
         list(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         entityId: String,
         params: AccountListParams = AccountListParams.none(),
     ): CompletableFuture<List<Account>> = list(entityId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: AccountListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<Account>>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: AccountListParams): CompletableFuture<List<Account>> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(entityId: String, requestOptions: RequestOptions): CompletableFuture<List<Account>> =
         list(entityId, AccountListParams.none(), requestOptions)
 
@@ -116,7 +116,7 @@ interface AccountServiceAsync {
         fun create(entityId: String): CompletableFuture<HttpResponseFor<Account>> =
             create(entityId, AccountCreateParams.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
@@ -124,24 +124,24 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<Account>> =
             create(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
         ): CompletableFuture<HttpResponseFor<Account>> =
             create(entityId, params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: AccountCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Account>>
 
-        /** @see [create] */
+        /** @see create */
         fun create(params: AccountCreateParams): CompletableFuture<HttpResponseFor<Account>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             entityId: String,
             requestOptions: RequestOptions,
@@ -155,7 +155,7 @@ interface AccountServiceAsync {
         fun list(entityId: String): CompletableFuture<HttpResponseFor<List<Account>>> =
             list(entityId, AccountListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             entityId: String,
             params: AccountListParams = AccountListParams.none(),
@@ -163,24 +163,24 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<Account>>> =
             list(params.toBuilder().entityId(entityId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             entityId: String,
             params: AccountListParams = AccountListParams.none(),
         ): CompletableFuture<HttpResponseFor<List<Account>>> =
             list(entityId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: AccountListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<Account>>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(params: AccountListParams): CompletableFuture<HttpResponseFor<List<Account>>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             entityId: String,
             requestOptions: RequestOptions,
