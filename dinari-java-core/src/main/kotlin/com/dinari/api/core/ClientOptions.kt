@@ -13,9 +13,15 @@ import java.time.Duration
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
+/** A class representing the SDK client configuration. */
 class ClientOptions
 private constructor(
     private val originalHttpClient: HttpClient,
+    /**
+     * The HTTP client to use in the SDK.
+     *
+     * Use the one published in `dinari-java-client-okhttp` or implement your own.
+     */
     @get:JvmName("httpClient") val httpClient: HttpClient,
     /**
      * Whether to throw an exception if any of the Jackson versions detected at runtime are
@@ -25,15 +31,59 @@ private constructor(
      * the SDK will work correctly when using an incompatible Jackson version.
      */
     @get:JvmName("checkJacksonVersionCompatibility") val checkJacksonVersionCompatibility: Boolean,
+    /**
+     * The Jackson JSON mapper to use for serializing and deserializing JSON.
+     *
+     * Defaults to [com.dinari.api.core.jsonMapper]. The default is usually sufficient and rarely
+     * needs to be overridden.
+     */
     @get:JvmName("jsonMapper") val jsonMapper: JsonMapper,
+    /**
+     * The clock to use for operations that require timing, like retries.
+     *
+     * This is primarily useful for using a fake clock in tests.
+     *
+     * Defaults to [Clock.systemUTC].
+     */
     @get:JvmName("clock") val clock: Clock,
     private val baseUrl: String?,
+    /** Headers to send with the request. */
     @get:JvmName("headers") val headers: Headers,
+    /** Query params to send with the request. */
     @get:JvmName("queryParams") val queryParams: QueryParams,
+    /**
+     * Whether to call `validate` on every response before returning it.
+     *
+     * Defaults to false, which means the shape of the response will not be validated upfront.
+     * Instead, validation will only occur for the parts of the response that are accessed.
+     */
     @get:JvmName("responseValidation") val responseValidation: Boolean,
+    /**
+     * Sets the maximum time allowed for various parts of an HTTP call's lifecycle, excluding
+     * retries.
+     *
+     * Defaults to [Timeout.default].
+     */
     @get:JvmName("timeout") val timeout: Timeout,
+    /**
+     * The maximum number of times to retry failed requests, with a short exponential backoff
+     * between requests.
+     *
+     * Only the following error types are retried:
+     * - Connection errors (for example, due to a network connectivity problem)
+     * - 408 Request Timeout
+     * - 409 Conflict
+     * - 429 Rate Limit
+     * - 5xx Internal
+     *
+     * The API may also explicitly instruct the SDK to retry or not retry a request.
+     *
+     * Defaults to 2.
+     */
     @get:JvmName("maxRetries") val maxRetries: Int,
+    /** The API key ID provided on the [Partners Dashboard](https://partners.dinari.com). */
     @get:JvmName("apiKeyId") val apiKeyId: String,
+    /** API Secret Key that is only shown once at API Key creation. */
     @get:JvmName("apiSecretKey") val apiSecretKey: String,
 ) {
 
@@ -43,6 +93,14 @@ private constructor(
         }
     }
 
+    /**
+     * The base URL to use for every request.
+     *
+     * Defaults to the production environment: `https://api-enterprise.sbt.dinari.com`.
+     *
+     * The following other environments, with dedicated builder methods, are available:
+     * - sandbox: `https://api-enterprise.sandbox.dinari.com`
+     */
     fun baseUrl(): String = baseUrl ?: PRODUCTION_URL
 
     fun toBuilder() = Builder().from(this)
@@ -65,6 +123,11 @@ private constructor(
          */
         @JvmStatic fun builder() = Builder()
 
+        /**
+         * Returns options configured using system properties and environment variables.
+         *
+         * @see Builder.fromEnv
+         */
         @JvmStatic fun fromEnv(): ClientOptions = builder().fromEnv().build()
     }
 
@@ -100,6 +163,11 @@ private constructor(
             apiSecretKey = clientOptions.apiSecretKey
         }
 
+        /**
+         * The HTTP client to use in the SDK.
+         *
+         * Use the one published in `dinari-java-client-okhttp` or implement your own.
+         */
         fun httpClient(httpClient: HttpClient) = apply {
             this.httpClient = PhantomReachableClosingHttpClient(httpClient)
         }
@@ -115,21 +183,55 @@ private constructor(
             this.checkJacksonVersionCompatibility = checkJacksonVersionCompatibility
         }
 
+        /**
+         * The Jackson JSON mapper to use for serializing and deserializing JSON.
+         *
+         * Defaults to [com.dinari.api.core.jsonMapper]. The default is usually sufficient and
+         * rarely needs to be overridden.
+         */
         fun jsonMapper(jsonMapper: JsonMapper) = apply { this.jsonMapper = jsonMapper }
 
+        /**
+         * The clock to use for operations that require timing, like retries.
+         *
+         * This is primarily useful for using a fake clock in tests.
+         *
+         * Defaults to [Clock.systemUTC].
+         */
         fun clock(clock: Clock) = apply { this.clock = clock }
 
+        /**
+         * The base URL to use for every request.
+         *
+         * Defaults to the production environment: `https://api-enterprise.sbt.dinari.com`.
+         *
+         * The following other environments, with dedicated builder methods, are available:
+         * - sandbox: `https://api-enterprise.sandbox.dinari.com`
+         */
         fun baseUrl(baseUrl: String?) = apply { this.baseUrl = baseUrl }
 
         /** Alias for calling [Builder.baseUrl] with `baseUrl.orElse(null)`. */
         fun baseUrl(baseUrl: Optional<String>) = baseUrl(baseUrl.getOrNull())
 
+        /** Sets [baseUrl] to `https://api-enterprise.sandbox.dinari.com`. */
         fun sandbox() = baseUrl(SANDBOX_URL)
 
+        /**
+         * Whether to call `validate` on every response before returning it.
+         *
+         * Defaults to false, which means the shape of the response will not be validated upfront.
+         * Instead, validation will only occur for the parts of the response that are accessed.
+         */
         fun responseValidation(responseValidation: Boolean) = apply {
             this.responseValidation = responseValidation
         }
 
+        /**
+         * Sets the maximum time allowed for various parts of an HTTP call's lifecycle, excluding
+         * retries.
+         *
+         * Defaults to [Timeout.default].
+         */
         fun timeout(timeout: Timeout) = apply { this.timeout = timeout }
 
         /**
@@ -141,10 +243,27 @@ private constructor(
          */
         fun timeout(timeout: Duration) = timeout(Timeout.builder().request(timeout).build())
 
+        /**
+         * The maximum number of times to retry failed requests, with a short exponential backoff
+         * between requests.
+         *
+         * Only the following error types are retried:
+         * - Connection errors (for example, due to a network connectivity problem)
+         * - 408 Request Timeout
+         * - 409 Conflict
+         * - 429 Rate Limit
+         * - 5xx Internal
+         *
+         * The API may also explicitly instruct the SDK to retry or not retry a request.
+         *
+         * Defaults to 2.
+         */
         fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
 
+        /** The API key ID provided on the [Partners Dashboard](https://partners.dinari.com). */
         fun apiKeyId(apiKeyId: String) = apply { this.apiKeyId = apiKeyId }
 
+        /** API Secret Key that is only shown once at API Key creation. */
         fun apiSecretKey(apiSecretKey: String) = apply { this.apiSecretKey = apiSecretKey }
 
         fun headers(headers: Headers) = apply {
@@ -229,6 +348,19 @@ private constructor(
 
         fun timeout(): Timeout = timeout
 
+        /**
+         * Updates configuration using system properties and environment variables.
+         *
+         * See this table for the available options:
+         *
+         * |Setter        |System property      |Environment variable   |Required|Default value                            |
+         * |--------------|---------------------|-----------------------|--------|-----------------------------------------|
+         * |`apiKeyId`    |`dinari.apiKeyId`    |`DINARI_API_KEY_ID`    |true    |-                                        |
+         * |`apiSecretKey`|`dinari.apiSecretKey`|`DINARI_API_SECRET_KEY`|true    |-                                        |
+         * |`baseUrl`     |`dinari.baseUrl`     |`DINARI_BASE_URL`      |true    |`"https://api-enterprise.sbt.dinari.com"`|
+         *
+         * System properties take precedence over environment variables.
+         */
         fun fromEnv() = apply {
             (System.getProperty("dinari.baseUrl") ?: System.getenv("DINARI_BASE_URL"))?.let {
                 baseUrl(it)
