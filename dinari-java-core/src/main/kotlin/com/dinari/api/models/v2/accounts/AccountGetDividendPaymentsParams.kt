@@ -39,8 +39,10 @@ private constructor(
     /** Optional ID of the `Stock` to filter by */
     fun stockId(): Optional<String> = Optional.ofNullable(stockId)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
