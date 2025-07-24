@@ -29,8 +29,10 @@ private constructor(
     /** Case sensitive unique reference ID for the `Entity`. */
     fun referenceId(): Optional<String> = Optional.ofNullable(referenceId)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
