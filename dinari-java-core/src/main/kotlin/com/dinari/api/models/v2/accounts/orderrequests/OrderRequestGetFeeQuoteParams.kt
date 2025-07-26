@@ -11,6 +11,7 @@ import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import com.dinari.api.errors.DinariInvalidDataException
+import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderType
 import com.fasterxml.jackson.annotation.JsonAnyGetter
@@ -69,6 +70,15 @@ private constructor(
     fun assetTokenQuantity(): Optional<Double> = body.assetTokenQuantity()
 
     /**
+     * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not provided,
+     * the default chain ID (eip155:42161) will be used.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun chainId(): Optional<Chain> = body.chainId()
+
+    /**
      * Price per asset in the asset's native currency. USD for US equities and ETFs. Required for
      * limit `Order Requests`.
      *
@@ -76,6 +86,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun limitPrice(): Optional<Double> = body.limitPrice()
+
+    /**
+     * Address of the payment token to be used for an order. If not provided, the default payment
+     * token (USD+) will be used.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun paymentTokenAddress(): Optional<String> = body.paymentTokenAddress()
 
     /**
      * Amount of payment tokens involved. Required for market buy `Order Requests`.
@@ -115,11 +134,26 @@ private constructor(
     fun _assetTokenQuantity(): JsonField<Double> = body._assetTokenQuantity()
 
     /**
+     * Returns the raw JSON value of [chainId].
+     *
+     * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _chainId(): JsonField<Chain> = body._chainId()
+
+    /**
      * Returns the raw JSON value of [limitPrice].
      *
      * Unlike [limitPrice], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _limitPrice(): JsonField<Double> = body._limitPrice()
+
+    /**
+     * Returns the raw JSON value of [paymentTokenAddress].
+     *
+     * Unlike [paymentTokenAddress], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    fun _paymentTokenAddress(): JsonField<String> = body._paymentTokenAddress()
 
     /**
      * Returns the raw JSON value of [paymentTokenQuantity].
@@ -131,8 +165,10 @@ private constructor(
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
@@ -183,7 +219,7 @@ private constructor(
          * - [orderType]
          * - [stockId]
          * - [assetTokenQuantity]
-         * - [limitPrice]
+         * - [chainId]
          * - etc.
          */
         fun body(body: Body) = apply { this.body = body.toBuilder() }
@@ -243,6 +279,20 @@ private constructor(
         }
 
         /**
+         * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not
+         * provided, the default chain ID (eip155:42161) will be used.
+         */
+        fun chainId(chainId: Chain) = apply { body.chainId(chainId) }
+
+        /**
+         * Sets [Builder.chainId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.chainId] with a well-typed [Chain] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun chainId(chainId: JsonField<Chain>) = apply { body.chainId(chainId) }
+
+        /**
          * Price per asset in the asset's native currency. USD for US equities and ETFs. Required
          * for limit `Order Requests`.
          */
@@ -256,6 +306,25 @@ private constructor(
          * value.
          */
         fun limitPrice(limitPrice: JsonField<Double>) = apply { body.limitPrice(limitPrice) }
+
+        /**
+         * Address of the payment token to be used for an order. If not provided, the default
+         * payment token (USD+) will be used.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: String) = apply {
+            body.paymentTokenAddress(paymentTokenAddress)
+        }
+
+        /**
+         * Sets [Builder.paymentTokenAddress] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.paymentTokenAddress] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: JsonField<String>) = apply {
+            body.paymentTokenAddress(paymentTokenAddress)
+        }
 
         /** Amount of payment tokens involved. Required for market buy `Order Requests`. */
         fun paymentTokenQuantity(paymentTokenQuantity: Double) = apply {
@@ -432,7 +501,9 @@ private constructor(
         private val orderType: JsonField<OrderType>,
         private val stockId: JsonField<String>,
         private val assetTokenQuantity: JsonField<Double>,
+        private val chainId: JsonField<Chain>,
         private val limitPrice: JsonField<Double>,
+        private val paymentTokenAddress: JsonField<String>,
         private val paymentTokenQuantity: JsonField<Double>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
@@ -449,9 +520,13 @@ private constructor(
             @JsonProperty("asset_token_quantity")
             @ExcludeMissing
             assetTokenQuantity: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("chain_id") @ExcludeMissing chainId: JsonField<Chain> = JsonMissing.of(),
             @JsonProperty("limit_price")
             @ExcludeMissing
             limitPrice: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("payment_token_address")
+            @ExcludeMissing
+            paymentTokenAddress: JsonField<String> = JsonMissing.of(),
             @JsonProperty("payment_token_quantity")
             @ExcludeMissing
             paymentTokenQuantity: JsonField<Double> = JsonMissing.of(),
@@ -460,7 +535,9 @@ private constructor(
             orderType,
             stockId,
             assetTokenQuantity,
+            chainId,
             limitPrice,
+            paymentTokenAddress,
             paymentTokenQuantity,
             mutableMapOf(),
         )
@@ -500,6 +577,15 @@ private constructor(
             assetTokenQuantity.getOptional("asset_token_quantity")
 
         /**
+         * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not
+         * provided, the default chain ID (eip155:42161) will be used.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun chainId(): Optional<Chain> = chainId.getOptional("chain_id")
+
+        /**
          * Price per asset in the asset's native currency. USD for US equities and ETFs. Required
          * for limit `Order Requests`.
          *
@@ -507,6 +593,16 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun limitPrice(): Optional<Double> = limitPrice.getOptional("limit_price")
+
+        /**
+         * Address of the payment token to be used for an order. If not provided, the default
+         * payment token (USD+) will be used.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun paymentTokenAddress(): Optional<String> =
+            paymentTokenAddress.getOptional("payment_token_address")
 
         /**
          * Amount of payment tokens involved. Required for market buy `Order Requests`.
@@ -553,6 +649,13 @@ private constructor(
         fun _assetTokenQuantity(): JsonField<Double> = assetTokenQuantity
 
         /**
+         * Returns the raw JSON value of [chainId].
+         *
+         * Unlike [chainId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("chain_id") @ExcludeMissing fun _chainId(): JsonField<Chain> = chainId
+
+        /**
          * Returns the raw JSON value of [limitPrice].
          *
          * Unlike [limitPrice], this method doesn't throw if the JSON field has an unexpected type.
@@ -560,6 +663,16 @@ private constructor(
         @JsonProperty("limit_price")
         @ExcludeMissing
         fun _limitPrice(): JsonField<Double> = limitPrice
+
+        /**
+         * Returns the raw JSON value of [paymentTokenAddress].
+         *
+         * Unlike [paymentTokenAddress], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("payment_token_address")
+        @ExcludeMissing
+        fun _paymentTokenAddress(): JsonField<String> = paymentTokenAddress
 
         /**
          * Returns the raw JSON value of [paymentTokenQuantity].
@@ -605,7 +718,9 @@ private constructor(
             private var orderType: JsonField<OrderType>? = null
             private var stockId: JsonField<String>? = null
             private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
+            private var chainId: JsonField<Chain> = JsonMissing.of()
             private var limitPrice: JsonField<Double> = JsonMissing.of()
+            private var paymentTokenAddress: JsonField<String> = JsonMissing.of()
             private var paymentTokenQuantity: JsonField<Double> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -615,7 +730,9 @@ private constructor(
                 orderType = body.orderType
                 stockId = body.stockId
                 assetTokenQuantity = body.assetTokenQuantity
+                chainId = body.chainId
                 limitPrice = body.limitPrice
+                paymentTokenAddress = body.paymentTokenAddress
                 paymentTokenQuantity = body.paymentTokenQuantity
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
@@ -675,6 +792,21 @@ private constructor(
             }
 
             /**
+             * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not
+             * provided, the default chain ID (eip155:42161) will be used.
+             */
+            fun chainId(chainId: Chain) = chainId(JsonField.of(chainId))
+
+            /**
+             * Sets [Builder.chainId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.chainId] with a well-typed [Chain] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun chainId(chainId: JsonField<Chain>) = apply { this.chainId = chainId }
+
+            /**
              * Price per asset in the asset's native currency. USD for US equities and ETFs.
              * Required for limit `Order Requests`.
              */
@@ -688,6 +820,24 @@ private constructor(
              * supported value.
              */
             fun limitPrice(limitPrice: JsonField<Double>) = apply { this.limitPrice = limitPrice }
+
+            /**
+             * Address of the payment token to be used for an order. If not provided, the default
+             * payment token (USD+) will be used.
+             */
+            fun paymentTokenAddress(paymentTokenAddress: String) =
+                paymentTokenAddress(JsonField.of(paymentTokenAddress))
+
+            /**
+             * Sets [Builder.paymentTokenAddress] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.paymentTokenAddress] with a well-typed [String]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun paymentTokenAddress(paymentTokenAddress: JsonField<String>) = apply {
+                this.paymentTokenAddress = paymentTokenAddress
+            }
 
             /** Amount of payment tokens involved. Required for market buy `Order Requests`. */
             fun paymentTokenQuantity(paymentTokenQuantity: Double) =
@@ -743,7 +893,9 @@ private constructor(
                     checkRequired("orderType", orderType),
                     checkRequired("stockId", stockId),
                     assetTokenQuantity,
+                    chainId,
                     limitPrice,
+                    paymentTokenAddress,
                     paymentTokenQuantity,
                     additionalProperties.toMutableMap(),
                 )
@@ -760,7 +912,9 @@ private constructor(
             orderType().validate()
             stockId()
             assetTokenQuantity()
+            chainId().ifPresent { it.validate() }
             limitPrice()
+            paymentTokenAddress()
             paymentTokenQuantity()
             validated = true
         }
@@ -785,7 +939,9 @@ private constructor(
                 (orderType.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (stockId.asKnown().isPresent) 1 else 0) +
                 (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
+                (chainId.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (limitPrice.asKnown().isPresent) 1 else 0) +
+                (if (paymentTokenAddress.asKnown().isPresent) 1 else 0) +
                 (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
@@ -793,17 +949,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && orderSide == other.orderSide && orderType == other.orderType && stockId == other.stockId && assetTokenQuantity == other.assetTokenQuantity && limitPrice == other.limitPrice && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
+            return /* spotless:off */ other is Body && orderSide == other.orderSide && orderType == other.orderType && stockId == other.stockId && assetTokenQuantity == other.assetTokenQuantity && chainId == other.chainId && limitPrice == other.limitPrice && paymentTokenAddress == other.paymentTokenAddress && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(orderSide, orderType, stockId, assetTokenQuantity, limitPrice, paymentTokenQuantity, additionalProperties) }
+        private val hashCode: Int by lazy { Objects.hash(orderSide, orderType, stockId, assetTokenQuantity, chainId, limitPrice, paymentTokenAddress, paymentTokenQuantity, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{orderSide=$orderSide, orderType=$orderType, stockId=$stockId, assetTokenQuantity=$assetTokenQuantity, limitPrice=$limitPrice, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+            "Body{orderSide=$orderSide, orderType=$orderType, stockId=$stockId, assetTokenQuantity=$assetTokenQuantity, chainId=$chainId, limitPrice=$limitPrice, paymentTokenAddress=$paymentTokenAddress, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

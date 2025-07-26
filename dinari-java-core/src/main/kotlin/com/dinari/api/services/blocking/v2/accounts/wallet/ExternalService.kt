@@ -30,17 +30,17 @@ interface ExternalService {
     fun connect(accountId: String, params: ExternalConnectParams): Wallet =
         connect(accountId, params, RequestOptions.none())
 
-    /** @see [connect] */
+    /** @see connect */
     fun connect(
         accountId: String,
         params: ExternalConnectParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Wallet = connect(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [connect] */
+    /** @see connect */
     fun connect(params: ExternalConnectParams): Wallet = connect(params, RequestOptions.none())
 
-    /** @see [connect] */
+    /** @see connect */
     fun connect(
         params: ExternalConnectParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -50,7 +50,7 @@ interface ExternalService {
     fun getNonce(accountId: String, params: ExternalGetNonceParams): ExternalGetNonceResponse =
         getNonce(accountId, params, RequestOptions.none())
 
-    /** @see [getNonce] */
+    /** @see getNonce */
     fun getNonce(
         accountId: String,
         params: ExternalGetNonceParams,
@@ -58,11 +58,11 @@ interface ExternalService {
     ): ExternalGetNonceResponse =
         getNonce(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getNonce] */
+    /** @see getNonce */
     fun getNonce(params: ExternalGetNonceParams): ExternalGetNonceResponse =
         getNonce(params, RequestOptions.none())
 
-    /** @see [getNonce] */
+    /** @see getNonce */
     fun getNonce(
         params: ExternalGetNonceParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -86,7 +86,7 @@ interface ExternalService {
         fun connect(accountId: String, params: ExternalConnectParams): HttpResponseFor<Wallet> =
             connect(accountId, params, RequestOptions.none())
 
-        /** @see [connect] */
+        /** @see connect */
         @MustBeClosed
         fun connect(
             accountId: String,
@@ -95,12 +95,12 @@ interface ExternalService {
         ): HttpResponseFor<Wallet> =
             connect(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [connect] */
+        /** @see connect */
         @MustBeClosed
         fun connect(params: ExternalConnectParams): HttpResponseFor<Wallet> =
             connect(params, RequestOptions.none())
 
-        /** @see [connect] */
+        /** @see connect */
         @MustBeClosed
         fun connect(
             params: ExternalConnectParams,
@@ -119,7 +119,7 @@ interface ExternalService {
         ): HttpResponseFor<ExternalGetNonceResponse> =
             getNonce(accountId, params, RequestOptions.none())
 
-        /** @see [getNonce] */
+        /** @see getNonce */
         @MustBeClosed
         fun getNonce(
             accountId: String,
@@ -128,12 +128,12 @@ interface ExternalService {
         ): HttpResponseFor<ExternalGetNonceResponse> =
             getNonce(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getNonce] */
+        /** @see getNonce */
         @MustBeClosed
         fun getNonce(params: ExternalGetNonceParams): HttpResponseFor<ExternalGetNonceResponse> =
             getNonce(params, RequestOptions.none())
 
-        /** @see [getNonce] */
+        /** @see getNonce */
         @MustBeClosed
         fun getNonce(
             params: ExternalGetNonceParams,

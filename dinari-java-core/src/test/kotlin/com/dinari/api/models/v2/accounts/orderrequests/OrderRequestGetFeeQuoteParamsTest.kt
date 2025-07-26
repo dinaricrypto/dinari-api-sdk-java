@@ -3,6 +3,7 @@
 package com.dinari.api.models.v2.accounts.orderrequests
 
 import com.dinari.api.core.JsonValue
+import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderType
 import org.assertj.core.api.Assertions.assertThat
@@ -20,7 +21,9 @@ internal class OrderRequestGetFeeQuoteParamsTest {
             .orderType(OrderType.MARKET)
             .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .assetTokenQuantity(JsonValue.from("0"))
+            .chainId(Chain.EIP155_1)
             .limitPrice(JsonValue.from("0"))
+            .paymentTokenAddress("payment_token_address")
             .paymentTokenQuantity(JsonValue.from("0"))
             .build()
     }
@@ -51,7 +54,9 @@ internal class OrderRequestGetFeeQuoteParamsTest {
                 .orderType(OrderType.MARKET)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetTokenQuantity(JsonValue.from("0"))
+                .chainId(Chain.EIP155_1)
                 .limitPrice(JsonValue.from("0"))
+                .paymentTokenAddress("payment_token_address")
                 .paymentTokenQuantity(JsonValue.from("0"))
                 .build()
 
@@ -61,7 +66,9 @@ internal class OrderRequestGetFeeQuoteParamsTest {
         assertThat(body.orderType()).isEqualTo(OrderType.MARKET)
         assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body._assetTokenQuantity()).isEqualTo(JsonValue.from("0"))
+        assertThat(body.chainId()).contains(Chain.EIP155_1)
         assertThat(body._limitPrice()).isEqualTo(JsonValue.from("0"))
+        assertThat(body.paymentTokenAddress()).contains("payment_token_address")
         assertThat(body._paymentTokenQuantity()).isEqualTo(JsonValue.from("0"))
     }
 

@@ -57,7 +57,7 @@ interface AccountServiceAsync {
     fun retrieve(accountId: String): CompletableFuture<Account> =
         retrieve(accountId, AccountRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         accountId: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
@@ -65,23 +65,23 @@ interface AccountServiceAsync {
     ): CompletableFuture<Account> =
         retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         accountId: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
     ): CompletableFuture<Account> = retrieve(accountId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: AccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Account>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: AccountRetrieveParams): CompletableFuture<Account> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(accountId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
         retrieve(accountId, AccountRetrieveParams.none(), requestOptions)
 
@@ -89,7 +89,7 @@ interface AccountServiceAsync {
     fun deactivate(accountId: String): CompletableFuture<Account> =
         deactivate(accountId, AccountDeactivateParams.none())
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(
         accountId: String,
         params: AccountDeactivateParams = AccountDeactivateParams.none(),
@@ -97,23 +97,23 @@ interface AccountServiceAsync {
     ): CompletableFuture<Account> =
         deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(
         accountId: String,
         params: AccountDeactivateParams = AccountDeactivateParams.none(),
     ): CompletableFuture<Account> = deactivate(accountId, params, RequestOptions.none())
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(
         params: AccountDeactivateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Account>
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(params: AccountDeactivateParams): CompletableFuture<Account> =
         deactivate(params, RequestOptions.none())
 
-    /** @see [deactivate] */
+    /** @see deactivate */
     fun deactivate(accountId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
         deactivate(accountId, AccountDeactivateParams.none(), requestOptions)
 
@@ -123,7 +123,7 @@ interface AccountServiceAsync {
     ): CompletableFuture<List<AccountGetCashBalancesResponse>> =
         getCashBalances(accountId, AccountGetCashBalancesParams.none())
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         accountId: String,
         params: AccountGetCashBalancesParams = AccountGetCashBalancesParams.none(),
@@ -131,26 +131,26 @@ interface AccountServiceAsync {
     ): CompletableFuture<List<AccountGetCashBalancesResponse>> =
         getCashBalances(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         accountId: String,
         params: AccountGetCashBalancesParams = AccountGetCashBalancesParams.none(),
     ): CompletableFuture<List<AccountGetCashBalancesResponse>> =
         getCashBalances(accountId, params, RequestOptions.none())
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         params: AccountGetCashBalancesParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<AccountGetCashBalancesResponse>>
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         params: AccountGetCashBalancesParams
     ): CompletableFuture<List<AccountGetCashBalancesResponse>> =
         getCashBalances(params, RequestOptions.none())
 
-    /** @see [getCashBalances] */
+    /** @see getCashBalances */
     fun getCashBalances(
         accountId: String,
         requestOptions: RequestOptions,
@@ -164,7 +164,7 @@ interface AccountServiceAsync {
     ): CompletableFuture<List<AccountGetDividendPaymentsResponse>> =
         getDividendPayments(accountId, params, RequestOptions.none())
 
-    /** @see [getDividendPayments] */
+    /** @see getDividendPayments */
     fun getDividendPayments(
         accountId: String,
         params: AccountGetDividendPaymentsParams,
@@ -172,13 +172,13 @@ interface AccountServiceAsync {
     ): CompletableFuture<List<AccountGetDividendPaymentsResponse>> =
         getDividendPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getDividendPayments] */
+    /** @see getDividendPayments */
     fun getDividendPayments(
         params: AccountGetDividendPaymentsParams
     ): CompletableFuture<List<AccountGetDividendPaymentsResponse>> =
         getDividendPayments(params, RequestOptions.none())
 
-    /** @see [getDividendPayments] */
+    /** @see getDividendPayments */
     fun getDividendPayments(
         params: AccountGetDividendPaymentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -196,7 +196,7 @@ interface AccountServiceAsync {
     ): CompletableFuture<List<AccountGetInterestPaymentsResponse>> =
         getInterestPayments(accountId, params, RequestOptions.none())
 
-    /** @see [getInterestPayments] */
+    /** @see getInterestPayments */
     fun getInterestPayments(
         accountId: String,
         params: AccountGetInterestPaymentsParams,
@@ -204,13 +204,13 @@ interface AccountServiceAsync {
     ): CompletableFuture<List<AccountGetInterestPaymentsResponse>> =
         getInterestPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getInterestPayments] */
+    /** @see getInterestPayments */
     fun getInterestPayments(
         params: AccountGetInterestPaymentsParams
     ): CompletableFuture<List<AccountGetInterestPaymentsResponse>> =
         getInterestPayments(params, RequestOptions.none())
 
-    /** @see [getInterestPayments] */
+    /** @see getInterestPayments */
     fun getInterestPayments(
         params: AccountGetInterestPaymentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -220,7 +220,7 @@ interface AccountServiceAsync {
     fun getPortfolio(accountId: String): CompletableFuture<AccountGetPortfolioResponse> =
         getPortfolio(accountId, AccountGetPortfolioParams.none())
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(
         accountId: String,
         params: AccountGetPortfolioParams = AccountGetPortfolioParams.none(),
@@ -228,25 +228,25 @@ interface AccountServiceAsync {
     ): CompletableFuture<AccountGetPortfolioResponse> =
         getPortfolio(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(
         accountId: String,
         params: AccountGetPortfolioParams = AccountGetPortfolioParams.none(),
     ): CompletableFuture<AccountGetPortfolioResponse> =
         getPortfolio(accountId, params, RequestOptions.none())
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(
         params: AccountGetPortfolioParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AccountGetPortfolioResponse>
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(
         params: AccountGetPortfolioParams
     ): CompletableFuture<AccountGetPortfolioResponse> = getPortfolio(params, RequestOptions.none())
 
-    /** @see [getPortfolio] */
+    /** @see getPortfolio */
     fun getPortfolio(
         accountId: String,
         requestOptions: RequestOptions,
@@ -261,7 +261,7 @@ interface AccountServiceAsync {
     fun mintSandboxTokens(accountId: String): CompletableFuture<Void?> =
         mintSandboxTokens(accountId, AccountMintSandboxTokensParams.none())
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(
         accountId: String,
         params: AccountMintSandboxTokensParams = AccountMintSandboxTokensParams.none(),
@@ -269,23 +269,23 @@ interface AccountServiceAsync {
     ): CompletableFuture<Void?> =
         mintSandboxTokens(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(
         accountId: String,
         params: AccountMintSandboxTokensParams = AccountMintSandboxTokensParams.none(),
     ): CompletableFuture<Void?> = mintSandboxTokens(accountId, params, RequestOptions.none())
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(
         params: AccountMintSandboxTokensParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Void?>
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(params: AccountMintSandboxTokensParams): CompletableFuture<Void?> =
         mintSandboxTokens(params, RequestOptions.none())
 
-    /** @see [mintSandboxTokens] */
+    /** @see mintSandboxTokens */
     fun mintSandboxTokens(
         accountId: String,
         requestOptions: RequestOptions,
@@ -325,7 +325,7 @@ interface AccountServiceAsync {
         fun retrieve(accountId: String): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(accountId, AccountRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             accountId: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
@@ -333,24 +333,24 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             accountId: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(accountId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: AccountRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Account>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(params: AccountRetrieveParams): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             accountId: String,
             requestOptions: RequestOptions,
@@ -364,7 +364,7 @@ interface AccountServiceAsync {
         fun deactivate(accountId: String): CompletableFuture<HttpResponseFor<Account>> =
             deactivate(accountId, AccountDeactivateParams.none())
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         fun deactivate(
             accountId: String,
             params: AccountDeactivateParams = AccountDeactivateParams.none(),
@@ -372,25 +372,25 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<Account>> =
             deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         fun deactivate(
             accountId: String,
             params: AccountDeactivateParams = AccountDeactivateParams.none(),
         ): CompletableFuture<HttpResponseFor<Account>> =
             deactivate(accountId, params, RequestOptions.none())
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         fun deactivate(
             params: AccountDeactivateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Account>>
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         fun deactivate(
             params: AccountDeactivateParams
         ): CompletableFuture<HttpResponseFor<Account>> = deactivate(params, RequestOptions.none())
 
-        /** @see [deactivate] */
+        /** @see deactivate */
         fun deactivate(
             accountId: String,
             requestOptions: RequestOptions,
@@ -406,7 +406,7 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<AccountGetCashBalancesResponse>>> =
             getCashBalances(accountId, AccountGetCashBalancesParams.none())
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         fun getCashBalances(
             accountId: String,
             params: AccountGetCashBalancesParams = AccountGetCashBalancesParams.none(),
@@ -414,26 +414,26 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<AccountGetCashBalancesResponse>>> =
             getCashBalances(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         fun getCashBalances(
             accountId: String,
             params: AccountGetCashBalancesParams = AccountGetCashBalancesParams.none(),
         ): CompletableFuture<HttpResponseFor<List<AccountGetCashBalancesResponse>>> =
             getCashBalances(accountId, params, RequestOptions.none())
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         fun getCashBalances(
             params: AccountGetCashBalancesParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<AccountGetCashBalancesResponse>>>
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         fun getCashBalances(
             params: AccountGetCashBalancesParams
         ): CompletableFuture<HttpResponseFor<List<AccountGetCashBalancesResponse>>> =
             getCashBalances(params, RequestOptions.none())
 
-        /** @see [getCashBalances] */
+        /** @see getCashBalances */
         fun getCashBalances(
             accountId: String,
             requestOptions: RequestOptions,
@@ -450,7 +450,7 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<AccountGetDividendPaymentsResponse>>> =
             getDividendPayments(accountId, params, RequestOptions.none())
 
-        /** @see [getDividendPayments] */
+        /** @see getDividendPayments */
         fun getDividendPayments(
             accountId: String,
             params: AccountGetDividendPaymentsParams,
@@ -458,13 +458,13 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<AccountGetDividendPaymentsResponse>>> =
             getDividendPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getDividendPayments] */
+        /** @see getDividendPayments */
         fun getDividendPayments(
             params: AccountGetDividendPaymentsParams
         ): CompletableFuture<HttpResponseFor<List<AccountGetDividendPaymentsResponse>>> =
             getDividendPayments(params, RequestOptions.none())
 
-        /** @see [getDividendPayments] */
+        /** @see getDividendPayments */
         fun getDividendPayments(
             params: AccountGetDividendPaymentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -480,7 +480,7 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<AccountGetInterestPaymentsResponse>>> =
             getInterestPayments(accountId, params, RequestOptions.none())
 
-        /** @see [getInterestPayments] */
+        /** @see getInterestPayments */
         fun getInterestPayments(
             accountId: String,
             params: AccountGetInterestPaymentsParams,
@@ -488,13 +488,13 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<AccountGetInterestPaymentsResponse>>> =
             getInterestPayments(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getInterestPayments] */
+        /** @see getInterestPayments */
         fun getInterestPayments(
             params: AccountGetInterestPaymentsParams
         ): CompletableFuture<HttpResponseFor<List<AccountGetInterestPaymentsResponse>>> =
             getInterestPayments(params, RequestOptions.none())
 
-        /** @see [getInterestPayments] */
+        /** @see getInterestPayments */
         fun getInterestPayments(
             params: AccountGetInterestPaymentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -509,7 +509,7 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<AccountGetPortfolioResponse>> =
             getPortfolio(accountId, AccountGetPortfolioParams.none())
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         fun getPortfolio(
             accountId: String,
             params: AccountGetPortfolioParams = AccountGetPortfolioParams.none(),
@@ -517,26 +517,26 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponseFor<AccountGetPortfolioResponse>> =
             getPortfolio(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         fun getPortfolio(
             accountId: String,
             params: AccountGetPortfolioParams = AccountGetPortfolioParams.none(),
         ): CompletableFuture<HttpResponseFor<AccountGetPortfolioResponse>> =
             getPortfolio(accountId, params, RequestOptions.none())
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         fun getPortfolio(
             params: AccountGetPortfolioParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<AccountGetPortfolioResponse>>
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         fun getPortfolio(
             params: AccountGetPortfolioParams
         ): CompletableFuture<HttpResponseFor<AccountGetPortfolioResponse>> =
             getPortfolio(params, RequestOptions.none())
 
-        /** @see [getPortfolio] */
+        /** @see getPortfolio */
         fun getPortfolio(
             accountId: String,
             requestOptions: RequestOptions,
@@ -550,7 +550,7 @@ interface AccountServiceAsync {
         fun mintSandboxTokens(accountId: String): CompletableFuture<HttpResponse> =
             mintSandboxTokens(accountId, AccountMintSandboxTokensParams.none())
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         fun mintSandboxTokens(
             accountId: String,
             params: AccountMintSandboxTokensParams = AccountMintSandboxTokensParams.none(),
@@ -558,25 +558,25 @@ interface AccountServiceAsync {
         ): CompletableFuture<HttpResponse> =
             mintSandboxTokens(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         fun mintSandboxTokens(
             accountId: String,
             params: AccountMintSandboxTokensParams = AccountMintSandboxTokensParams.none(),
         ): CompletableFuture<HttpResponse> =
             mintSandboxTokens(accountId, params, RequestOptions.none())
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         fun mintSandboxTokens(
             params: AccountMintSandboxTokensParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponse>
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         fun mintSandboxTokens(
             params: AccountMintSandboxTokensParams
         ): CompletableFuture<HttpResponse> = mintSandboxTokens(params, RequestOptions.none())
 
-        /** @see [mintSandboxTokens] */
+        /** @see mintSandboxTokens */
         fun mintSandboxTokens(
             accountId: String,
             requestOptions: RequestOptions,

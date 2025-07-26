@@ -3,14 +3,14 @@
 package com.dinari.api.services.blocking.v2.entities.kyc
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.multipartFormData
@@ -48,7 +48,8 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DocumentService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -58,7 +59,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
             )
 
         private val retrieveHandler: Handler<List<KycDocument>> =
-            jsonHandler<List<KycDocument>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<List<KycDocument>>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: DocumentRetrieveParams,
@@ -84,7 +85,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -96,7 +97,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         }
 
         private val uploadHandler: Handler<KycDocument> =
-            jsonHandler<KycDocument>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<KycDocument>(clientOptions.jsonMapper)
 
         override fun upload(
             params: DocumentUploadParams,
@@ -123,7 +124,7 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { uploadHandler.handle(it) }
                     .also {

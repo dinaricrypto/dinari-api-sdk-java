@@ -3,14 +3,14 @@
 package com.dinari.api.services.blocking.v2.marketdata
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
@@ -93,7 +93,8 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         StockService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val splits: SplitService.WithRawResponse by lazy {
             SplitServiceImpl.WithRawResponseImpl(clientOptions)
@@ -110,7 +111,6 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val listHandler: Handler<List<StockListResponse>> =
             jsonHandler<List<StockListResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: StockListParams,
@@ -125,7 +125,7 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
@@ -138,7 +138,6 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val retrieveCurrentPriceHandler: Handler<StockRetrieveCurrentPriceResponse> =
             jsonHandler<StockRetrieveCurrentPriceResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveCurrentPrice(
             params: StockRetrieveCurrentPriceParams,
@@ -163,7 +162,7 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveCurrentPriceHandler.handle(it) }
                     .also {
@@ -176,7 +175,6 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val retrieveCurrentQuoteHandler: Handler<StockRetrieveCurrentQuoteResponse> =
             jsonHandler<StockRetrieveCurrentQuoteResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveCurrentQuote(
             params: StockRetrieveCurrentQuoteParams,
@@ -201,7 +199,7 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveCurrentQuoteHandler.handle(it) }
                     .also {
@@ -214,7 +212,6 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val retrieveDividendsHandler: Handler<List<StockRetrieveDividendsResponse>> =
             jsonHandler<List<StockRetrieveDividendsResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveDividends(
             params: StockRetrieveDividendsParams,
@@ -239,7 +236,7 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveDividendsHandler.handle(it) }
                     .also {
@@ -253,7 +250,6 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val retrieveHistoricalPricesHandler:
             Handler<List<StockRetrieveHistoricalPricesResponse>> =
             jsonHandler<List<StockRetrieveHistoricalPricesResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveHistoricalPrices(
             params: StockRetrieveHistoricalPricesParams,
@@ -279,7 +275,7 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHistoricalPricesHandler.handle(it) }
                     .also {
@@ -292,7 +288,6 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val retrieveNewsHandler: Handler<List<StockRetrieveNewsResponse>> =
             jsonHandler<List<StockRetrieveNewsResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveNews(
             params: StockRetrieveNewsParams,
@@ -317,7 +312,7 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveNewsHandler.handle(it) }
                     .also {

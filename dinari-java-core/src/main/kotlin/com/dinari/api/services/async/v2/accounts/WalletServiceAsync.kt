@@ -34,7 +34,7 @@ interface WalletServiceAsync {
         params: WalletConnectInternalParams,
     ): CompletableFuture<Wallet> = connectInternal(accountId, params, RequestOptions.none())
 
-    /** @see [connectInternal] */
+    /** @see connectInternal */
     fun connectInternal(
         accountId: String,
         params: WalletConnectInternalParams,
@@ -42,11 +42,11 @@ interface WalletServiceAsync {
     ): CompletableFuture<Wallet> =
         connectInternal(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [connectInternal] */
+    /** @see connectInternal */
     fun connectInternal(params: WalletConnectInternalParams): CompletableFuture<Wallet> =
         connectInternal(params, RequestOptions.none())
 
-    /** @see [connectInternal] */
+    /** @see connectInternal */
     fun connectInternal(
         params: WalletConnectInternalParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -55,7 +55,7 @@ interface WalletServiceAsync {
     /** Get the wallet connected to the `Account`. */
     fun get(accountId: String): CompletableFuture<Wallet> = get(accountId, WalletGetParams.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(
         accountId: String,
         params: WalletGetParams = WalletGetParams.none(),
@@ -63,22 +63,22 @@ interface WalletServiceAsync {
     ): CompletableFuture<Wallet> =
         get(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [get] */
+    /** @see get */
     fun get(
         accountId: String,
         params: WalletGetParams = WalletGetParams.none(),
     ): CompletableFuture<Wallet> = get(accountId, params, RequestOptions.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(
         params: WalletGetParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<Wallet>
 
-    /** @see [get] */
+    /** @see get */
     fun get(params: WalletGetParams): CompletableFuture<Wallet> = get(params, RequestOptions.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(accountId: String, requestOptions: RequestOptions): CompletableFuture<Wallet> =
         get(accountId, WalletGetParams.none(), requestOptions)
 
@@ -108,7 +108,7 @@ interface WalletServiceAsync {
         ): CompletableFuture<HttpResponseFor<Wallet>> =
             connectInternal(accountId, params, RequestOptions.none())
 
-        /** @see [connectInternal] */
+        /** @see connectInternal */
         fun connectInternal(
             accountId: String,
             params: WalletConnectInternalParams,
@@ -116,13 +116,13 @@ interface WalletServiceAsync {
         ): CompletableFuture<HttpResponseFor<Wallet>> =
             connectInternal(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [connectInternal] */
+        /** @see connectInternal */
         fun connectInternal(
             params: WalletConnectInternalParams
         ): CompletableFuture<HttpResponseFor<Wallet>> =
             connectInternal(params, RequestOptions.none())
 
-        /** @see [connectInternal] */
+        /** @see connectInternal */
         fun connectInternal(
             params: WalletConnectInternalParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -135,7 +135,7 @@ interface WalletServiceAsync {
         fun get(accountId: String): CompletableFuture<HttpResponseFor<Wallet>> =
             get(accountId, WalletGetParams.none())
 
-        /** @see [get] */
+        /** @see get */
         fun get(
             accountId: String,
             params: WalletGetParams = WalletGetParams.none(),
@@ -143,24 +143,24 @@ interface WalletServiceAsync {
         ): CompletableFuture<HttpResponseFor<Wallet>> =
             get(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [get] */
+        /** @see get */
         fun get(
             accountId: String,
             params: WalletGetParams = WalletGetParams.none(),
         ): CompletableFuture<HttpResponseFor<Wallet>> =
             get(accountId, params, RequestOptions.none())
 
-        /** @see [get] */
+        /** @see get */
         fun get(
             params: WalletGetParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<Wallet>>
 
-        /** @see [get] */
+        /** @see get */
         fun get(params: WalletGetParams): CompletableFuture<HttpResponseFor<Wallet>> =
             get(params, RequestOptions.none())
 
-        /** @see [get] */
+        /** @see get */
         fun get(
             accountId: String,
             requestOptions: RequestOptions,

@@ -35,18 +35,18 @@ interface WithdrawalRequestService {
     fun create(accountId: String, params: WithdrawalRequestCreateParams): WithdrawalRequest =
         create(accountId, params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         accountId: String,
         params: WithdrawalRequestCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): WithdrawalRequest = create(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [create] */
+    /** @see create */
     fun create(params: WithdrawalRequestCreateParams): WithdrawalRequest =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: WithdrawalRequestCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -58,7 +58,7 @@ interface WithdrawalRequestService {
         params: WithdrawalRequestRetrieveParams,
     ): WithdrawalRequest = retrieve(withdrawalRequestId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         withdrawalRequestId: String,
         params: WithdrawalRequestRetrieveParams,
@@ -69,11 +69,11 @@ interface WithdrawalRequestService {
             requestOptions,
         )
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: WithdrawalRequestRetrieveParams): WithdrawalRequest =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: WithdrawalRequestRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -83,7 +83,7 @@ interface WithdrawalRequestService {
     fun list(accountId: String): List<WithdrawalRequest> =
         list(accountId, WithdrawalRequestListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         accountId: String,
         params: WithdrawalRequestListParams = WithdrawalRequestListParams.none(),
@@ -91,23 +91,23 @@ interface WithdrawalRequestService {
     ): List<WithdrawalRequest> =
         list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         accountId: String,
         params: WithdrawalRequestListParams = WithdrawalRequestListParams.none(),
     ): List<WithdrawalRequest> = list(accountId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: WithdrawalRequestListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<WithdrawalRequest>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: WithdrawalRequestListParams): List<WithdrawalRequest> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(accountId: String, requestOptions: RequestOptions): List<WithdrawalRequest> =
         list(accountId, WithdrawalRequestListParams.none(), requestOptions)
 
@@ -136,7 +136,7 @@ interface WithdrawalRequestService {
             params: WithdrawalRequestCreateParams,
         ): HttpResponseFor<WithdrawalRequest> = create(accountId, params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(
             accountId: String,
@@ -145,12 +145,12 @@ interface WithdrawalRequestService {
         ): HttpResponseFor<WithdrawalRequest> =
             create(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(params: WithdrawalRequestCreateParams): HttpResponseFor<WithdrawalRequest> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(
             params: WithdrawalRequestCreateParams,
@@ -169,7 +169,7 @@ interface WithdrawalRequestService {
         ): HttpResponseFor<WithdrawalRequest> =
             retrieve(withdrawalRequestId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             withdrawalRequestId: String,
@@ -181,12 +181,12 @@ interface WithdrawalRequestService {
                 requestOptions,
             )
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: WithdrawalRequestRetrieveParams): HttpResponseFor<WithdrawalRequest> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: WithdrawalRequestRetrieveParams,
@@ -201,7 +201,7 @@ interface WithdrawalRequestService {
         fun list(accountId: String): HttpResponseFor<List<WithdrawalRequest>> =
             list(accountId, WithdrawalRequestListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             accountId: String,
@@ -210,26 +210,26 @@ interface WithdrawalRequestService {
         ): HttpResponseFor<List<WithdrawalRequest>> =
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             accountId: String,
             params: WithdrawalRequestListParams = WithdrawalRequestListParams.none(),
         ): HttpResponseFor<List<WithdrawalRequest>> = list(accountId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: WithdrawalRequestListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<WithdrawalRequest>>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(params: WithdrawalRequestListParams): HttpResponseFor<List<WithdrawalRequest>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             accountId: String,

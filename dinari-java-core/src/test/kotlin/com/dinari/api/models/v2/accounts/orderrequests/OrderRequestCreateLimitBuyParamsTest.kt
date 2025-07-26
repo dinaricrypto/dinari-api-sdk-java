@@ -13,8 +13,8 @@ internal class OrderRequestCreateLimitBuyParamsTest {
     fun create() {
         OrderRequestCreateLimitBuyParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .createLimitOrderInput(
-                CreateLimitOrderInput.builder()
+            .createLimitBuyOrderInput(
+                CreateLimitBuyOrderInput.builder()
                     .assetQuantity(0.0)
                     .limitPrice(0.0)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -30,8 +30,8 @@ internal class OrderRequestCreateLimitBuyParamsTest {
         val params =
             OrderRequestCreateLimitBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .createLimitOrderInput(
-                    CreateLimitOrderInput.builder()
+                .createLimitBuyOrderInput(
+                    CreateLimitBuyOrderInput.builder()
                         .assetQuantity(0.0)
                         .limitPrice(0.0)
                         .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -50,8 +50,8 @@ internal class OrderRequestCreateLimitBuyParamsTest {
         val params =
             OrderRequestCreateLimitBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .createLimitOrderInput(
-                    CreateLimitOrderInput.builder()
+                .createLimitBuyOrderInput(
+                    CreateLimitBuyOrderInput.builder()
                         .assetQuantity(0.0)
                         .limitPrice(0.0)
                         .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -64,7 +64,7 @@ internal class OrderRequestCreateLimitBuyParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                CreateLimitOrderInput.builder()
+                CreateLimitBuyOrderInput.builder()
                     .assetQuantity(0.0)
                     .limitPrice(0.0)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -79,8 +79,8 @@ internal class OrderRequestCreateLimitBuyParamsTest {
         val params =
             OrderRequestCreateLimitBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .createLimitOrderInput(
-                    CreateLimitOrderInput.builder()
+                .createLimitBuyOrderInput(
+                    CreateLimitBuyOrderInput.builder()
                         .assetQuantity(0.0)
                         .limitPrice(0.0)
                         .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -92,7 +92,7 @@ internal class OrderRequestCreateLimitBuyParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                CreateLimitOrderInput.builder()
+                CreateLimitBuyOrderInput.builder()
                     .assetQuantity(0.0)
                     .limitPrice(0.0)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

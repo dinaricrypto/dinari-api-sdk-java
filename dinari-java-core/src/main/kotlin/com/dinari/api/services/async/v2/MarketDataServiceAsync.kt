@@ -31,19 +31,19 @@ interface MarketDataServiceAsync {
     fun retrieveMarketHours(): CompletableFuture<MarketDataRetrieveMarketHoursResponse> =
         retrieveMarketHours(MarketDataRetrieveMarketHoursParams.none())
 
-    /** @see [retrieveMarketHours] */
+    /** @see retrieveMarketHours */
     fun retrieveMarketHours(
         params: MarketDataRetrieveMarketHoursParams = MarketDataRetrieveMarketHoursParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<MarketDataRetrieveMarketHoursResponse>
 
-    /** @see [retrieveMarketHours] */
+    /** @see retrieveMarketHours */
     fun retrieveMarketHours(
         params: MarketDataRetrieveMarketHoursParams = MarketDataRetrieveMarketHoursParams.none()
     ): CompletableFuture<MarketDataRetrieveMarketHoursResponse> =
         retrieveMarketHours(params, RequestOptions.none())
 
-    /** @see [retrieveMarketHours] */
+    /** @see retrieveMarketHours */
     fun retrieveMarketHours(
         requestOptions: RequestOptions
     ): CompletableFuture<MarketDataRetrieveMarketHoursResponse> =
@@ -74,20 +74,20 @@ interface MarketDataServiceAsync {
             CompletableFuture<HttpResponseFor<MarketDataRetrieveMarketHoursResponse>> =
             retrieveMarketHours(MarketDataRetrieveMarketHoursParams.none())
 
-        /** @see [retrieveMarketHours] */
+        /** @see retrieveMarketHours */
         fun retrieveMarketHours(
             params: MarketDataRetrieveMarketHoursParams =
                 MarketDataRetrieveMarketHoursParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<MarketDataRetrieveMarketHoursResponse>>
 
-        /** @see [retrieveMarketHours] */
+        /** @see retrieveMarketHours */
         fun retrieveMarketHours(
             params: MarketDataRetrieveMarketHoursParams = MarketDataRetrieveMarketHoursParams.none()
         ): CompletableFuture<HttpResponseFor<MarketDataRetrieveMarketHoursResponse>> =
             retrieveMarketHours(params, RequestOptions.none())
 
-        /** @see [retrieveMarketHours] */
+        /** @see retrieveMarketHours */
         fun retrieveMarketHours(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<MarketDataRetrieveMarketHoursResponse>> =

@@ -3,14 +3,14 @@
 package com.dinari.api.services.blocking.v2.accounts.orderrequests.stocks
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -52,7 +52,8 @@ class Eip155ServiceImpl internal constructor(private val clientOptions: ClientOp
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         Eip155Service.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -62,7 +63,7 @@ class Eip155ServiceImpl internal constructor(private val clientOptions: ClientOp
             )
 
         private val createProxiedOrderHandler: Handler<OrderRequest> =
-            jsonHandler<OrderRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<OrderRequest>(clientOptions.jsonMapper)
 
         override fun createProxiedOrder(
             params: Eip155CreateProxiedOrderParams,
@@ -89,7 +90,7 @@ class Eip155ServiceImpl internal constructor(private val clientOptions: ClientOp
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createProxiedOrderHandler.handle(it) }
                     .also {
@@ -102,7 +103,6 @@ class Eip155ServiceImpl internal constructor(private val clientOptions: ClientOp
 
         private val prepareProxiedOrderHandler: Handler<Eip155PrepareProxiedOrderResponse> =
             jsonHandler<Eip155PrepareProxiedOrderResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun prepareProxiedOrder(
             params: Eip155PrepareProxiedOrderParams,
@@ -130,7 +130,7 @@ class Eip155ServiceImpl internal constructor(private val clientOptions: ClientOp
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { prepareProxiedOrderHandler.handle(it) }
                     .also {

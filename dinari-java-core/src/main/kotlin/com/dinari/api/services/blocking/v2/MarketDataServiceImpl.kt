@@ -3,13 +3,13 @@
 package com.dinari.api.services.blocking.v2
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
@@ -46,7 +46,8 @@ class MarketDataServiceImpl internal constructor(private val clientOptions: Clie
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         MarketDataService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val stocks: StockService.WithRawResponse by lazy {
             StockServiceImpl.WithRawResponseImpl(clientOptions)
@@ -63,7 +64,6 @@ class MarketDataServiceImpl internal constructor(private val clientOptions: Clie
 
         private val retrieveMarketHoursHandler: Handler<MarketDataRetrieveMarketHoursResponse> =
             jsonHandler<MarketDataRetrieveMarketHoursResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveMarketHours(
             params: MarketDataRetrieveMarketHoursParams,
@@ -78,7 +78,7 @@ class MarketDataServiceImpl internal constructor(private val clientOptions: Clie
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveMarketHoursHandler.handle(it) }
                     .also {

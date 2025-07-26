@@ -39,18 +39,18 @@ interface V2Service {
      */
     fun listOrders(): List<V2ListOrdersResponse> = listOrders(V2ListOrdersParams.none())
 
-    /** @see [listOrders] */
+    /** @see listOrders */
     fun listOrders(
         params: V2ListOrdersParams = V2ListOrdersParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<V2ListOrdersResponse>
 
-    /** @see [listOrders] */
+    /** @see listOrders */
     fun listOrders(
         params: V2ListOrdersParams = V2ListOrdersParams.none()
     ): List<V2ListOrdersResponse> = listOrders(params, RequestOptions.none())
 
-    /** @see [listOrders] */
+    /** @see listOrders */
     fun listOrders(requestOptions: RequestOptions): List<V2ListOrdersResponse> =
         listOrders(V2ListOrdersParams.none(), requestOptions)
 
@@ -78,20 +78,20 @@ interface V2Service {
         fun listOrders(): HttpResponseFor<List<V2ListOrdersResponse>> =
             listOrders(V2ListOrdersParams.none())
 
-        /** @see [listOrders] */
+        /** @see listOrders */
         @MustBeClosed
         fun listOrders(
             params: V2ListOrdersParams = V2ListOrdersParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<V2ListOrdersResponse>>
 
-        /** @see [listOrders] */
+        /** @see listOrders */
         @MustBeClosed
         fun listOrders(
             params: V2ListOrdersParams = V2ListOrdersParams.none()
         ): HttpResponseFor<List<V2ListOrdersResponse>> = listOrders(params, RequestOptions.none())
 
-        /** @see [listOrders] */
+        /** @see listOrders */
         @MustBeClosed
         fun listOrders(
             requestOptions: RequestOptions

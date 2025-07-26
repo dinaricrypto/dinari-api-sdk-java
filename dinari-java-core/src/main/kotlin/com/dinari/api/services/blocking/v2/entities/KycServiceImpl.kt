@@ -3,14 +3,14 @@
 package com.dinari.api.services.blocking.v2.entities
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -59,7 +59,8 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         KycService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val document: DocumentService.WithRawResponse by lazy {
             DocumentServiceImpl.WithRawResponseImpl(clientOptions)
@@ -75,7 +76,7 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
         override fun document(): DocumentService.WithRawResponse = document
 
         private val retrieveHandler: Handler<KycInfo> =
-            jsonHandler<KycInfo>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<KycInfo>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: KycRetrieveParams,
@@ -93,7 +94,7 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -106,7 +107,6 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
 
         private val createManagedCheckHandler: Handler<KycCreateManagedCheckResponse> =
             jsonHandler<KycCreateManagedCheckResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun createManagedCheck(
             params: KycCreateManagedCheckParams,
@@ -125,7 +125,7 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createManagedCheckHandler.handle(it) }
                     .also {
@@ -136,8 +136,7 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
             }
         }
 
-        private val submitHandler: Handler<KycInfo> =
-            jsonHandler<KycInfo>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val submitHandler: Handler<KycInfo> = jsonHandler<KycInfo>(clientOptions.jsonMapper)
 
         override fun submit(
             params: KycSubmitParams,
@@ -156,7 +155,7 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { submitHandler.handle(it) }
                     .also {
