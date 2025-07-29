@@ -3,6 +3,7 @@ package com.dinari.api.core.http
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
 import com.dinari.api.errors.DinariIoException
+import com.dinari.api.errors.DinariRetryableException
 import java.io.IOException
 import java.time.Clock
 import java.time.Duration
@@ -176,9 +177,10 @@ private constructor(
     }
 
     private fun shouldRetry(throwable: Throwable): Boolean =
-        // Only retry IOException and DinariIoException, other exceptions are not intended to be
-        // retried.
-        throwable is IOException || throwable is DinariIoException
+        // Only retry known retryable exceptions, other exceptions are not intended to be retried.
+        throwable is IOException ||
+            throwable is DinariIoException ||
+            throwable is DinariRetryableException
 
     private fun getRetryBackoffDuration(retries: Int, response: HttpResponse?): Duration {
         // About the Retry-After header:
