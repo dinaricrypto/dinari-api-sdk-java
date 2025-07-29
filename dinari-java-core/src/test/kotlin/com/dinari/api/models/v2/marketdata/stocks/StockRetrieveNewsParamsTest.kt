@@ -4,12 +4,10 @@ package com.dinari.api.models.v2.marketdata.stocks
 
 import com.dinari.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class StockRetrieveNewsParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         StockRetrieveNewsParams.builder()
@@ -18,7 +16,6 @@ internal class StockRetrieveNewsParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -31,7 +28,6 @@ internal class StockRetrieveNewsParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params =
@@ -45,7 +41,6 @@ internal class StockRetrieveNewsParamsTest {
         assertThat(queryParams).isEqualTo(QueryParams.builder().put("limit", "1").build())
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params =

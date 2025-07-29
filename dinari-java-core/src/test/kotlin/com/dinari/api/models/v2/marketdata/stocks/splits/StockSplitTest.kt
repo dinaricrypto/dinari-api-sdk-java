@@ -6,12 +6,10 @@ import com.dinari.api.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class StockSplitTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val stockSplit =
@@ -36,7 +34,6 @@ internal class StockSplitTest {
         assertThat(stockSplit.stockId()).isEqualTo("60cc8f91-21d0-4975-bb81-3d737fc2f923")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()

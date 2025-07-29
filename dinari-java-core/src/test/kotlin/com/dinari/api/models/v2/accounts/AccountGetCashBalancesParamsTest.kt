@@ -3,12 +3,10 @@
 package com.dinari.api.models.v2.accounts
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class AccountGetCashBalancesParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         AccountGetCashBalancesParams.builder()
@@ -16,7 +14,6 @@ internal class AccountGetCashBalancesParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =

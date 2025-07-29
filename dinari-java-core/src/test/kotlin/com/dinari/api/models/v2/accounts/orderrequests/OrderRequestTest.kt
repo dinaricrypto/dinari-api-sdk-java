@@ -9,12 +9,10 @@ import com.dinari.api.models.v2.accounts.orders.OrderType
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class OrderRequestTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val orderRequest =
@@ -43,7 +41,6 @@ internal class OrderRequestTest {
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()

@@ -9,7 +9,6 @@ import com.dinari.api.models.v2.marketdata.stocks.StockListResponse
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class ProGuardCompatibilityTest {
@@ -45,7 +44,6 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.v2()).isNotNull()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun stockListResponseRoundtrip() {
         val jsonMapper = jsonMapper()
@@ -74,7 +72,6 @@ internal class ProGuardCompatibilityTest {
         assertThat(roundtrippedStockListResponse).isEqualTo(stockListResponse)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun kycDocumentTypeRoundtrip() {
         val jsonMapper = jsonMapper()

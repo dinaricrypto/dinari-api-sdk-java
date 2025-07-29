@@ -4,12 +4,10 @@ package com.dinari.api.models.v2.entities.kyc
 
 import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class KycSubmitParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         KycSubmitParams.builder()
@@ -35,7 +33,6 @@ internal class KycSubmitParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -56,7 +53,6 @@ internal class KycSubmitParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -105,7 +101,6 @@ internal class KycSubmitParamsTest {
         assertThat(body.providerName()).isEqualTo("x")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =
