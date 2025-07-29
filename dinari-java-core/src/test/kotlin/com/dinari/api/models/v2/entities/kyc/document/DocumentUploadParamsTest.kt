@@ -6,12 +6,10 @@ import com.dinari.api.core.MultipartField
 import com.dinari.api.core.http.QueryParams
 import java.io.InputStream
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class DocumentUploadParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         DocumentUploadParams.builder()
@@ -22,7 +20,6 @@ internal class DocumentUploadParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -39,7 +36,6 @@ internal class DocumentUploadParamsTest {
         assertThat(params._pathParam(2)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params =
@@ -56,7 +52,6 @@ internal class DocumentUploadParamsTest {
             .isEqualTo(QueryParams.builder().put("document_type", "GOVERNMENT_ID").build())
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =

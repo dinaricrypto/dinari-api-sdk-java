@@ -5,12 +5,10 @@ package com.dinari.api.models.v2.accounts.orderrequests
 import com.dinari.api.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class CreateMarketBuyOrderInputTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val createMarketBuyOrderInput =
@@ -27,7 +25,6 @@ internal class CreateMarketBuyOrderInputTest {
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()

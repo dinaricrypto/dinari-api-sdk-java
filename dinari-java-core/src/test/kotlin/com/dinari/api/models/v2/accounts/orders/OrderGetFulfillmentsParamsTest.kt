@@ -4,12 +4,10 @@ package com.dinari.api.models.v2.accounts.orders
 
 import com.dinari.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class OrderGetFulfillmentsParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         OrderGetFulfillmentsParams.builder()
@@ -20,7 +18,6 @@ internal class OrderGetFulfillmentsParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -35,7 +32,6 @@ internal class OrderGetFulfillmentsParamsTest {
         assertThat(params._pathParam(2)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params =
@@ -52,7 +48,6 @@ internal class OrderGetFulfillmentsParamsTest {
             .isEqualTo(QueryParams.builder().put("page", "1").put("page_size", "1").build())
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params =
