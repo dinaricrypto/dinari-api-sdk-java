@@ -4,18 +4,15 @@ package com.dinari.api.models.v2.entities
 
 import com.dinari.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class EntityListParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         EntityListParams.builder().page(1L).pageSize(1L).referenceId("x").build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params = EntityListParams.builder().page(1L).pageSize(1L).referenceId("x").build()
@@ -32,7 +29,6 @@ internal class EntityListParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = EntityListParams.builder().build()

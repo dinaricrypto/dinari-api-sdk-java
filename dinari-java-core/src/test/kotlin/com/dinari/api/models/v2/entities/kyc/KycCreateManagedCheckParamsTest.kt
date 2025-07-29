@@ -3,12 +3,10 @@
 package com.dinari.api.models.v2.entities.kyc
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class KycCreateManagedCheckParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         KycCreateManagedCheckParams.builder()
@@ -16,7 +14,6 @@ internal class KycCreateManagedCheckParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =

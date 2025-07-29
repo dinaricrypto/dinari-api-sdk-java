@@ -8,12 +8,10 @@ import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderTif
 import com.dinari.api.models.v2.accounts.orders.OrderType
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class Eip155PrepareProxiedOrderParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         Eip155PrepareProxiedOrderParams.builder()
@@ -30,7 +28,6 @@ internal class Eip155PrepareProxiedOrderParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -49,7 +46,6 @@ internal class Eip155PrepareProxiedOrderParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -79,7 +75,6 @@ internal class Eip155PrepareProxiedOrderParamsTest {
         assertThat(body._paymentTokenQuantity()).isEqualTo(JsonValue.from("0"))
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =

@@ -3,12 +3,10 @@
 package com.dinari.api.models.v2.accounts.orderrequests
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class OrderRequestCreateMarketBuyParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         OrderRequestCreateMarketBuyParams.builder()
@@ -23,7 +21,6 @@ internal class OrderRequestCreateMarketBuyParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -42,7 +39,6 @@ internal class OrderRequestCreateMarketBuyParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -69,7 +65,6 @@ internal class OrderRequestCreateMarketBuyParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =

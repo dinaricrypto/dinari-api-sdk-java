@@ -4,12 +4,10 @@ package com.dinari.api.models.v2.accounts.wallet
 
 import com.dinari.api.models.v2.accounts.wallet.external.WalletChainId
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class WalletConnectInternalParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         WalletConnectInternalParams.builder()
@@ -20,7 +18,6 @@ internal class WalletConnectInternalParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -35,7 +32,6 @@ internal class WalletConnectInternalParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -53,7 +49,6 @@ internal class WalletConnectInternalParamsTest {
         assertThat(body.isShared()).contains(true)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =
