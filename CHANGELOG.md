@@ -1,5 +1,54 @@
 # Changelog
 
+## 0.4.0 (2025-08-02)
+
+Full Changelog: [v0.3.0...v0.4.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.3.0...v0.4.0)
+
+### Features
+
+* add retryable exception ([2212d69](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/2212d692f81f35f82bd2fefbef8784978fe7fbed))
+* **api:** api update ([7ee8937](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/7ee8937c7226dea9f006190b5b97fbff77d1a4c6))
+* **api:** api update ([c1b619e](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/c1b619e588e9aa4fffb76363409dd1f2a5b3d3ca))
+* **api:** api update ([66b4450](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/66b445086742bc097b937c161e005759ea9cef24))
+* **api:** manual updates ([25104b0](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/25104b02b264009cc13fb626203f47e9b88f0890))
+* **client:** add `{QueryParams,Headers}#put(String, JsonValue)` methods ([e2f8c2a](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/e2f8c2a0e3deaa44b3b0c4c1bbb1268e1095239f))
+* **client:** add https config options ([fc02795](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/fc027951e7066537b167ff1d22951fa1acf5a2e5))
+* **client:** allow configuring env via system properties ([a41e0fa](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/a41e0fa69f80111d981397b66aaf81a3247e5f69))
+* **client:** allow setting additional multipart body props ([25f8685](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/25f8685527fac299e765f67aedcdeb16ce9dcf34))
+* **client:** ensure compat with proguard ([f377de4](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/f377de4af556338ff9eb6f28c66385d3900e4979))
+
+
+### Bug Fixes
+
+* **client:** don't close client on `withOptions` usage when original is gc'd ([6327d0b](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/6327d0bfcf50b15dc7afefefec8a7df4246ab564))
+* **client:** ensure error handling always occurs ([c5e3ddf](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/c5e3ddf34a0ef9f9f171ef0f900e7ce0d86e82f4))
+* **client:** r8 support ([7e8697c](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/7e8697cbf1e9c72e55c3f3eaf1a2a995c877bf5b))
+* **client:** some bad `_additionalBodyProperties` serialization ([2c89911](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/2c89911d326e197eecf9c7467b1e6c164b69e93c))
+
+
+### Chores
+
+* **ci:** bump `actions/setup-java` to v4 ([29d18d3](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/29d18d3993c55577c54dcdd8e8d1a9390b96a928))
+* **ci:** ensure docs generation always succeeds ([52b3ca0](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/52b3ca057ced31f3f04e2b2bf5d3fba51c884e1f))
+* **ci:** only run for pushes and fork pull requests ([fb8836e](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/fb8836e0aa51291f2a37a77e4b22f3a7fe005fc4))
+* **internal:** allow running specific example from cli ([6ed7adf](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/6ed7adf71a86f3162886f473d830ffa56ddb2c05))
+* **internal:** bump ci test timeout ([a63a5fa](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/a63a5faa1db745ce8575bb779461bd95cb478869))
+* **internal:** reduce proguard ci logging ([7c37a1b](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/7c37a1bc609b98fee9dd348aeb89bb4f9bc13a31))
+* **internal:** refactor delegating from client to options ([b1c4067](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/b1c4067d90c6a2d32de9dd2785e9009b404c7ab7))
+* **internal:** remove unnecessary `[...]` in `[@see](https://github.com/see)` ([92e9afe](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/92e9afec1d145879d25bdae02b40016ad4f7be11))
+* **internal:** unskip some tests ([44b7756](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/44b77560168094df14afde421382d418d773015a))
+
+
+### Documentation
+
+* fix missing readme comment ([3caa5bc](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/3caa5bcc0fe0004f4d74bd1a37abc90dc5407aae))
+* more code comments ([5f7fcc1](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/5f7fcc1295eca6ce6985839f063c58f8e1e77c0f))
+
+
+### Refactors
+
+* **internal:** minor `ClientOptionsTest` change ([c3f4a48](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/c3f4a48244684f1bccce4ea5137ea0c07844f822))
+
 ## 0.3.0 (2025-06-27)
 
 Full Changelog: [v0.2.0...v0.3.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.2.0...v0.3.0)
