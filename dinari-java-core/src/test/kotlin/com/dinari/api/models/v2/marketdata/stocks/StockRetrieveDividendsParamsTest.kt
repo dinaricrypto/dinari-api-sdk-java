@@ -3,12 +3,10 @@
 package com.dinari.api.models.v2.marketdata.stocks
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class StockRetrieveDividendsParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         StockRetrieveDividendsParams.builder()
@@ -16,7 +14,6 @@ internal class StockRetrieveDividendsParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =

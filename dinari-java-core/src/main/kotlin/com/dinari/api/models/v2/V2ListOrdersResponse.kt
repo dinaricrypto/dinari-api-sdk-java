@@ -33,6 +33,7 @@ private constructor(
     private val orderTif: JsonField<OrderTif>,
     private val orderTransactionHash: JsonField<String>,
     private val orderType: JsonField<OrderType>,
+    private val paymentToken: JsonField<String>,
     private val status: JsonField<BrokerageOrderStatus>,
     private val stockId: JsonField<String>,
     private val accountId: JsonField<String>,
@@ -43,7 +44,6 @@ private constructor(
     private val fee: JsonField<Double>,
     private val limitPrice: JsonField<Double>,
     private val orderRequestId: JsonField<String>,
-    private val paymentToken: JsonField<String>,
     private val paymentTokenQuantity: JsonField<Double>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -68,6 +68,9 @@ private constructor(
         @JsonProperty("order_type")
         @ExcludeMissing
         orderType: JsonField<OrderType> = JsonMissing.of(),
+        @JsonProperty("payment_token")
+        @ExcludeMissing
+        paymentToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("status")
         @ExcludeMissing
         status: JsonField<BrokerageOrderStatus> = JsonMissing.of(),
@@ -90,9 +93,6 @@ private constructor(
         @JsonProperty("order_request_id")
         @ExcludeMissing
         orderRequestId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("payment_token")
-        @ExcludeMissing
-        paymentToken: JsonField<String> = JsonMissing.of(),
         @JsonProperty("payment_token_quantity")
         @ExcludeMissing
         paymentTokenQuantity: JsonField<Double> = JsonMissing.of(),
@@ -105,6 +105,7 @@ private constructor(
         orderTif,
         orderTransactionHash,
         orderType,
+        paymentToken,
         status,
         stockId,
         accountId,
@@ -115,7 +116,6 @@ private constructor(
         fee,
         limitPrice,
         orderRequestId,
-        paymentToken,
         paymentTokenQuantity,
         mutableMapOf(),
     )
@@ -183,6 +183,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun orderType(): OrderType = orderType.getRequired("order_type")
+
+    /**
+     * The payment token (stablecoin) address.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun paymentToken(): String = paymentToken.getRequired("payment_token")
 
     /**
      * Status of the `Order`.
@@ -268,14 +276,6 @@ private constructor(
     fun orderRequestId(): Optional<String> = orderRequestId.getOptional("order_request_id")
 
     /**
-     * The payment token (stablecoin) address.
-     *
-     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun paymentToken(): Optional<String> = paymentToken.getOptional("payment_token")
-
-    /**
      * Total amount of payment involved.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -347,6 +347,15 @@ private constructor(
      * Unlike [orderType], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("order_type") @ExcludeMissing fun _orderType(): JsonField<OrderType> = orderType
+
+    /**
+     * Returns the raw JSON value of [paymentToken].
+     *
+     * Unlike [paymentToken], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("payment_token")
+    @ExcludeMissing
+    fun _paymentToken(): JsonField<String> = paymentToken
 
     /**
      * Returns the raw JSON value of [status].
@@ -427,15 +436,6 @@ private constructor(
     fun _orderRequestId(): JsonField<String> = orderRequestId
 
     /**
-     * Returns the raw JSON value of [paymentToken].
-     *
-     * Unlike [paymentToken], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("payment_token")
-    @ExcludeMissing
-    fun _paymentToken(): JsonField<String> = paymentToken
-
-    /**
      * Returns the raw JSON value of [paymentTokenQuantity].
      *
      * Unlike [paymentTokenQuantity], this method doesn't throw if the JSON field has an unexpected
@@ -472,6 +472,7 @@ private constructor(
          * .orderTif()
          * .orderTransactionHash()
          * .orderType()
+         * .paymentToken()
          * .status()
          * .stockId()
          * ```
@@ -490,6 +491,7 @@ private constructor(
         private var orderTif: JsonField<OrderTif>? = null
         private var orderTransactionHash: JsonField<String>? = null
         private var orderType: JsonField<OrderType>? = null
+        private var paymentToken: JsonField<String>? = null
         private var status: JsonField<BrokerageOrderStatus>? = null
         private var stockId: JsonField<String>? = null
         private var accountId: JsonField<String> = JsonMissing.of()
@@ -500,7 +502,6 @@ private constructor(
         private var fee: JsonField<Double> = JsonMissing.of()
         private var limitPrice: JsonField<Double> = JsonMissing.of()
         private var orderRequestId: JsonField<String> = JsonMissing.of()
-        private var paymentToken: JsonField<String> = JsonMissing.of()
         private var paymentTokenQuantity: JsonField<Double> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -514,6 +515,7 @@ private constructor(
             orderTif = v2ListOrdersResponse.orderTif
             orderTransactionHash = v2ListOrdersResponse.orderTransactionHash
             orderType = v2ListOrdersResponse.orderType
+            paymentToken = v2ListOrdersResponse.paymentToken
             status = v2ListOrdersResponse.status
             stockId = v2ListOrdersResponse.stockId
             accountId = v2ListOrdersResponse.accountId
@@ -524,7 +526,6 @@ private constructor(
             fee = v2ListOrdersResponse.fee
             limitPrice = v2ListOrdersResponse.limitPrice
             orderRequestId = v2ListOrdersResponse.orderRequestId
-            paymentToken = v2ListOrdersResponse.paymentToken
             paymentTokenQuantity = v2ListOrdersResponse.paymentTokenQuantity
             additionalProperties = v2ListOrdersResponse.additionalProperties.toMutableMap()
         }
@@ -628,6 +629,20 @@ private constructor(
          * value.
          */
         fun orderType(orderType: JsonField<OrderType>) = apply { this.orderType = orderType }
+
+        /** The payment token (stablecoin) address. */
+        fun paymentToken(paymentToken: String) = paymentToken(JsonField.of(paymentToken))
+
+        /**
+         * Sets [Builder.paymentToken] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.paymentToken] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun paymentToken(paymentToken: JsonField<String>) = apply {
+            this.paymentToken = paymentToken
+        }
 
         /** Status of the `Order`. */
         fun status(status: BrokerageOrderStatus) = status(JsonField.of(status))
@@ -757,20 +772,6 @@ private constructor(
             this.orderRequestId = orderRequestId
         }
 
-        /** The payment token (stablecoin) address. */
-        fun paymentToken(paymentToken: String) = paymentToken(JsonField.of(paymentToken))
-
-        /**
-         * Sets [Builder.paymentToken] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.paymentToken] with a well-typed [String] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun paymentToken(paymentToken: JsonField<String>) = apply {
-            this.paymentToken = paymentToken
-        }
-
         /** Total amount of payment involved. */
         fun paymentTokenQuantity(paymentTokenQuantity: Double) =
             paymentTokenQuantity(JsonField.of(paymentTokenQuantity))
@@ -820,6 +821,7 @@ private constructor(
          * .orderTif()
          * .orderTransactionHash()
          * .orderType()
+         * .paymentToken()
          * .status()
          * .stockId()
          * ```
@@ -836,6 +838,7 @@ private constructor(
                 checkRequired("orderTif", orderTif),
                 checkRequired("orderTransactionHash", orderTransactionHash),
                 checkRequired("orderType", orderType),
+                checkRequired("paymentToken", paymentToken),
                 checkRequired("status", status),
                 checkRequired("stockId", stockId),
                 accountId,
@@ -846,7 +849,6 @@ private constructor(
                 fee,
                 limitPrice,
                 orderRequestId,
-                paymentToken,
                 paymentTokenQuantity,
                 additionalProperties.toMutableMap(),
             )
@@ -867,6 +869,7 @@ private constructor(
         orderTif().validate()
         orderTransactionHash()
         orderType().validate()
+        paymentToken()
         status().validate()
         stockId()
         accountId()
@@ -877,7 +880,6 @@ private constructor(
         fee()
         limitPrice()
         orderRequestId()
-        paymentToken()
         paymentTokenQuantity()
         validated = true
     }
@@ -905,6 +907,7 @@ private constructor(
             (orderTif.asKnown().getOrNull()?.validity() ?: 0) +
             (if (orderTransactionHash.asKnown().isPresent) 1 else 0) +
             (orderType.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (paymentToken.asKnown().isPresent) 1 else 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
             (if (stockId.asKnown().isPresent) 1 else 0) +
             (if (accountId.asKnown().isPresent) 1 else 0) +
@@ -915,7 +918,6 @@ private constructor(
             (if (fee.asKnown().isPresent) 1 else 0) +
             (if (limitPrice.asKnown().isPresent) 1 else 0) +
             (if (orderRequestId.asKnown().isPresent) 1 else 0) +
-            (if (paymentToken.asKnown().isPresent) 1 else 0) +
             (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
@@ -923,15 +925,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is V2ListOrdersResponse && id == other.id && chainId == other.chainId && createdDt == other.createdDt && orderContractAddress == other.orderContractAddress && orderSide == other.orderSide && orderTif == other.orderTif && orderTransactionHash == other.orderTransactionHash && orderType == other.orderType && status == other.status && stockId == other.stockId && accountId == other.accountId && assetToken == other.assetToken && assetTokenQuantity == other.assetTokenQuantity && cancelTransactionHash == other.cancelTransactionHash && entityId == other.entityId && fee == other.fee && limitPrice == other.limitPrice && orderRequestId == other.orderRequestId && paymentToken == other.paymentToken && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is V2ListOrdersResponse && id == other.id && chainId == other.chainId && createdDt == other.createdDt && orderContractAddress == other.orderContractAddress && orderSide == other.orderSide && orderTif == other.orderTif && orderTransactionHash == other.orderTransactionHash && orderType == other.orderType && paymentToken == other.paymentToken && status == other.status && stockId == other.stockId && accountId == other.accountId && assetToken == other.assetToken && assetTokenQuantity == other.assetTokenQuantity && cancelTransactionHash == other.cancelTransactionHash && entityId == other.entityId && fee == other.fee && limitPrice == other.limitPrice && orderRequestId == other.orderRequestId && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, chainId, createdDt, orderContractAddress, orderSide, orderTif, orderTransactionHash, orderType, status, stockId, accountId, assetToken, assetTokenQuantity, cancelTransactionHash, entityId, fee, limitPrice, orderRequestId, paymentToken, paymentTokenQuantity, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(id, chainId, createdDt, orderContractAddress, orderSide, orderTif, orderTransactionHash, orderType, paymentToken, status, stockId, accountId, assetToken, assetTokenQuantity, cancelTransactionHash, entityId, fee, limitPrice, orderRequestId, paymentTokenQuantity, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "V2ListOrdersResponse{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, status=$status, stockId=$stockId, accountId=$accountId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, entityId=$entityId, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentToken=$paymentToken, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+        "V2ListOrdersResponse{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, paymentToken=$paymentToken, status=$status, stockId=$stockId, accountId=$accountId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, entityId=$entityId, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
 }

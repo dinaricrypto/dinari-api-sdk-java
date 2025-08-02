@@ -32,18 +32,18 @@ interface WalletService {
     fun connectInternal(accountId: String, params: WalletConnectInternalParams): Wallet =
         connectInternal(accountId, params, RequestOptions.none())
 
-    /** @see [connectInternal] */
+    /** @see connectInternal */
     fun connectInternal(
         accountId: String,
         params: WalletConnectInternalParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Wallet = connectInternal(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [connectInternal] */
+    /** @see connectInternal */
     fun connectInternal(params: WalletConnectInternalParams): Wallet =
         connectInternal(params, RequestOptions.none())
 
-    /** @see [connectInternal] */
+    /** @see connectInternal */
     fun connectInternal(
         params: WalletConnectInternalParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -52,24 +52,24 @@ interface WalletService {
     /** Get the wallet connected to the `Account`. */
     fun get(accountId: String): Wallet = get(accountId, WalletGetParams.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(
         accountId: String,
         params: WalletGetParams = WalletGetParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): Wallet = get(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [get] */
+    /** @see get */
     fun get(accountId: String, params: WalletGetParams = WalletGetParams.none()): Wallet =
         get(accountId, params, RequestOptions.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(params: WalletGetParams, requestOptions: RequestOptions = RequestOptions.none()): Wallet
 
-    /** @see [get] */
+    /** @see get */
     fun get(params: WalletGetParams): Wallet = get(params, RequestOptions.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(accountId: String, requestOptions: RequestOptions): Wallet =
         get(accountId, WalletGetParams.none(), requestOptions)
 
@@ -95,7 +95,7 @@ interface WalletService {
             params: WalletConnectInternalParams,
         ): HttpResponseFor<Wallet> = connectInternal(accountId, params, RequestOptions.none())
 
-        /** @see [connectInternal] */
+        /** @see connectInternal */
         @MustBeClosed
         fun connectInternal(
             accountId: String,
@@ -104,12 +104,12 @@ interface WalletService {
         ): HttpResponseFor<Wallet> =
             connectInternal(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [connectInternal] */
+        /** @see connectInternal */
         @MustBeClosed
         fun connectInternal(params: WalletConnectInternalParams): HttpResponseFor<Wallet> =
             connectInternal(params, RequestOptions.none())
 
-        /** @see [connectInternal] */
+        /** @see connectInternal */
         @MustBeClosed
         fun connectInternal(
             params: WalletConnectInternalParams,
@@ -123,7 +123,7 @@ interface WalletService {
         @MustBeClosed
         fun get(accountId: String): HttpResponseFor<Wallet> = get(accountId, WalletGetParams.none())
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(
             accountId: String,
@@ -132,26 +132,26 @@ interface WalletService {
         ): HttpResponseFor<Wallet> =
             get(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(
             accountId: String,
             params: WalletGetParams = WalletGetParams.none(),
         ): HttpResponseFor<Wallet> = get(accountId, params, RequestOptions.none())
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(
             params: WalletGetParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<Wallet>
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(params: WalletGetParams): HttpResponseFor<Wallet> =
             get(params, RequestOptions.none())
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(accountId: String, requestOptions: RequestOptions): HttpResponseFor<Wallet> =
             get(accountId, WalletGetParams.none(), requestOptions)

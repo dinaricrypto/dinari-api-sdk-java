@@ -3,12 +3,10 @@
 package com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class Eip155CreateProxiedOrderParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         Eip155CreateProxiedOrderParams.builder()
@@ -19,7 +17,6 @@ internal class Eip155CreateProxiedOrderParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -35,7 +32,6 @@ internal class Eip155CreateProxiedOrderParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =

@@ -37,17 +37,17 @@ interface SplitService {
      */
     fun list(): List<StockSplit> = list(SplitListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: SplitListParams = SplitListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<StockSplit>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: SplitListParams = SplitListParams.none()): List<StockSplit> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): List<StockSplit> =
         list(SplitListParams.none(), requestOptions)
 
@@ -64,30 +64,30 @@ interface SplitService {
     fun listForStock(stockId: String): List<StockSplit> =
         listForStock(stockId, SplitListForStockParams.none())
 
-    /** @see [listForStock] */
+    /** @see listForStock */
     fun listForStock(
         stockId: String,
         params: SplitListForStockParams = SplitListForStockParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<StockSplit> = listForStock(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-    /** @see [listForStock] */
+    /** @see listForStock */
     fun listForStock(
         stockId: String,
         params: SplitListForStockParams = SplitListForStockParams.none(),
     ): List<StockSplit> = listForStock(stockId, params, RequestOptions.none())
 
-    /** @see [listForStock] */
+    /** @see listForStock */
     fun listForStock(
         params: SplitListForStockParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<StockSplit>
 
-    /** @see [listForStock] */
+    /** @see listForStock */
     fun listForStock(params: SplitListForStockParams): List<StockSplit> =
         listForStock(params, RequestOptions.none())
 
-    /** @see [listForStock] */
+    /** @see listForStock */
     fun listForStock(stockId: String, requestOptions: RequestOptions): List<StockSplit> =
         listForStock(stockId, SplitListForStockParams.none(), requestOptions)
 
@@ -107,20 +107,20 @@ interface SplitService {
          */
         @MustBeClosed fun list(): HttpResponseFor<List<StockSplit>> = list(SplitListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: SplitListParams = SplitListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<StockSplit>>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: SplitListParams = SplitListParams.none()
         ): HttpResponseFor<List<StockSplit>> = list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<List<StockSplit>> =
             list(SplitListParams.none(), requestOptions)
@@ -133,7 +133,7 @@ interface SplitService {
         fun listForStock(stockId: String): HttpResponseFor<List<StockSplit>> =
             listForStock(stockId, SplitListForStockParams.none())
 
-        /** @see [listForStock] */
+        /** @see listForStock */
         @MustBeClosed
         fun listForStock(
             stockId: String,
@@ -142,26 +142,26 @@ interface SplitService {
         ): HttpResponseFor<List<StockSplit>> =
             listForStock(params.toBuilder().stockId(stockId).build(), requestOptions)
 
-        /** @see [listForStock] */
+        /** @see listForStock */
         @MustBeClosed
         fun listForStock(
             stockId: String,
             params: SplitListForStockParams = SplitListForStockParams.none(),
         ): HttpResponseFor<List<StockSplit>> = listForStock(stockId, params, RequestOptions.none())
 
-        /** @see [listForStock] */
+        /** @see listForStock */
         @MustBeClosed
         fun listForStock(
             params: SplitListForStockParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<StockSplit>>
 
-        /** @see [listForStock] */
+        /** @see listForStock */
         @MustBeClosed
         fun listForStock(params: SplitListForStockParams): HttpResponseFor<List<StockSplit>> =
             listForStock(params, RequestOptions.none())
 
-        /** @see [listForStock] */
+        /** @see listForStock */
         @MustBeClosed
         fun listForStock(
             stockId: String,

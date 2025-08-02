@@ -3,12 +3,10 @@
 package com.dinari.api.models.v2.accounts.orders
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class OrderRetrieveParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         OrderRetrieveParams.builder()
@@ -17,7 +15,6 @@ internal class OrderRetrieveParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =

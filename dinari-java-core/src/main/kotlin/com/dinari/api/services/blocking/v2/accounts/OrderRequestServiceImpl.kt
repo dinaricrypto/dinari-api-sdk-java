@@ -3,14 +3,14 @@
 package com.dinari.api.services.blocking.v2.accounts
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -98,7 +98,8 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         OrderRequestService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val stocks: StockService.WithRawResponse by lazy {
             StockServiceImpl.WithRawResponseImpl(clientOptions)
@@ -114,7 +115,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
         override fun stocks(): StockService.WithRawResponse = stocks
 
         private val retrieveHandler: Handler<OrderRequest> =
-            jsonHandler<OrderRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<OrderRequest>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: OrderRequestRetrieveParams,
@@ -139,7 +140,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -151,7 +152,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
         }
 
         private val listHandler: Handler<List<OrderRequest>> =
-            jsonHandler<List<OrderRequest>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<List<OrderRequest>>(clientOptions.jsonMapper)
 
         override fun list(
             params: OrderRequestListParams,
@@ -175,7 +176,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
@@ -187,7 +188,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
         }
 
         private val createLimitBuyHandler: Handler<OrderRequest> =
-            jsonHandler<OrderRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<OrderRequest>(clientOptions.jsonMapper)
 
         override fun createLimitBuy(
             params: OrderRequestCreateLimitBuyParams,
@@ -213,7 +214,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createLimitBuyHandler.handle(it) }
                     .also {
@@ -225,7 +226,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
         }
 
         private val createLimitSellHandler: Handler<OrderRequest> =
-            jsonHandler<OrderRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<OrderRequest>(clientOptions.jsonMapper)
 
         override fun createLimitSell(
             params: OrderRequestCreateLimitSellParams,
@@ -251,7 +252,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createLimitSellHandler.handle(it) }
                     .also {
@@ -263,7 +264,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
         }
 
         private val createMarketBuyHandler: Handler<OrderRequest> =
-            jsonHandler<OrderRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<OrderRequest>(clientOptions.jsonMapper)
 
         override fun createMarketBuy(
             params: OrderRequestCreateMarketBuyParams,
@@ -289,7 +290,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createMarketBuyHandler.handle(it) }
                     .also {
@@ -301,7 +302,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
         }
 
         private val createMarketSellHandler: Handler<OrderRequest> =
-            jsonHandler<OrderRequest>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<OrderRequest>(clientOptions.jsonMapper)
 
         override fun createMarketSell(
             params: OrderRequestCreateMarketSellParams,
@@ -327,7 +328,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createMarketSellHandler.handle(it) }
                     .also {
@@ -340,7 +341,6 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
 
         private val getFeeQuoteHandler: Handler<OrderRequestGetFeeQuoteResponse> =
             jsonHandler<OrderRequestGetFeeQuoteResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun getFeeQuote(
             params: OrderRequestGetFeeQuoteParams,
@@ -366,7 +366,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { getFeeQuoteHandler.handle(it) }
                     .also {

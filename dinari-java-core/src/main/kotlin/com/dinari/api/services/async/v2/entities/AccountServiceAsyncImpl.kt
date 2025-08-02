@@ -3,14 +3,14 @@
 package com.dinari.api.services.async.v2.entities
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
@@ -52,7 +52,8 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AccountServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -61,8 +62,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val createHandler: Handler<Account> =
-            jsonHandler<Account>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+        private val createHandler: Handler<Account> = jsonHandler<Account>(clientOptions.jsonMapper)
 
         override fun create(
             params: AccountCreateParams,
@@ -83,7 +83,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { createHandler.handle(it) }
                             .also {
@@ -96,7 +96,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
         }
 
         private val listHandler: Handler<List<Account>> =
-            jsonHandler<List<Account>>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<List<Account>>(clientOptions.jsonMapper)
 
         override fun list(
             params: AccountListParams,
@@ -116,7 +116,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listHandler.handle(it) }
                             .also {

@@ -16,11 +16,10 @@ import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 
-/** Input parameters for creating a limit `OrderRequest`. */
-class CreateLimitOrderInput
+/** Input parameters for creating a market buy `OrderRequest`. */
+class CreateMarketBuyOrderInput
 private constructor(
-    private val assetQuantity: JsonField<Double>,
-    private val limitPrice: JsonField<Double>,
+    private val paymentAmount: JsonField<Double>,
     private val stockId: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -28,34 +27,23 @@ private constructor(
 
     @JsonCreator
     private constructor(
-        @JsonProperty("asset_quantity")
+        @JsonProperty("payment_amount")
         @ExcludeMissing
-        assetQuantity: JsonField<Double> = JsonMissing.of(),
-        @JsonProperty("limit_price")
-        @ExcludeMissing
-        limitPrice: JsonField<Double> = JsonMissing.of(),
+        paymentAmount: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("recipient_account_id")
         @ExcludeMissing
         recipientAccountId: JsonField<String> = JsonMissing.of(),
-    ) : this(assetQuantity, limitPrice, stockId, recipientAccountId, mutableMapOf())
+    ) : this(paymentAmount, stockId, recipientAccountId, mutableMapOf())
 
     /**
-     * Amount of dShare asset involved. Required for limit `Orders` and market sell `Orders`.
+     * Amount of currency (USD for US equities and ETFs) to pay for the order. Must be a positive
+     * number with a precision of up to 2 decimal places.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun assetQuantity(): Double = assetQuantity.getRequired("asset_quantity")
-
-    /**
-     * Price at which to execute the order. Must be a positive number with a precision of up to 2
-     * decimal places.
-     *
-     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-     */
-    fun limitPrice(): Double = limitPrice.getRequired("limit_price")
+    fun paymentAmount(): Double = paymentAmount.getRequired("payment_amount")
 
     /**
      * ID of `Stock`.
@@ -75,20 +63,13 @@ private constructor(
         recipientAccountId.getOptional("recipient_account_id")
 
     /**
-     * Returns the raw JSON value of [assetQuantity].
+     * Returns the raw JSON value of [paymentAmount].
      *
-     * Unlike [assetQuantity], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [paymentAmount], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("asset_quantity")
+    @JsonProperty("payment_amount")
     @ExcludeMissing
-    fun _assetQuantity(): JsonField<Double> = assetQuantity
-
-    /**
-     * Returns the raw JSON value of [limitPrice].
-     *
-     * Unlike [limitPrice], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("limit_price") @ExcludeMissing fun _limitPrice(): JsonField<Double> = limitPrice
+    fun _paymentAmount(): JsonField<Double> = paymentAmount
 
     /**
      * Returns the raw JSON value of [stockId].
@@ -122,66 +103,49 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [CreateLimitOrderInput].
+         * Returns a mutable builder for constructing an instance of [CreateMarketBuyOrderInput].
          *
          * The following fields are required:
          * ```java
-         * .assetQuantity()
-         * .limitPrice()
+         * .paymentAmount()
          * .stockId()
          * ```
          */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [CreateLimitOrderInput]. */
+    /** A builder for [CreateMarketBuyOrderInput]. */
     class Builder internal constructor() {
 
-        private var assetQuantity: JsonField<Double>? = null
-        private var limitPrice: JsonField<Double>? = null
+        private var paymentAmount: JsonField<Double>? = null
         private var stockId: JsonField<String>? = null
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(createLimitOrderInput: CreateLimitOrderInput) = apply {
-            assetQuantity = createLimitOrderInput.assetQuantity
-            limitPrice = createLimitOrderInput.limitPrice
-            stockId = createLimitOrderInput.stockId
-            recipientAccountId = createLimitOrderInput.recipientAccountId
-            additionalProperties = createLimitOrderInput.additionalProperties.toMutableMap()
+        internal fun from(createMarketBuyOrderInput: CreateMarketBuyOrderInput) = apply {
+            paymentAmount = createMarketBuyOrderInput.paymentAmount
+            stockId = createMarketBuyOrderInput.stockId
+            recipientAccountId = createMarketBuyOrderInput.recipientAccountId
+            additionalProperties = createMarketBuyOrderInput.additionalProperties.toMutableMap()
         }
 
         /**
-         * Amount of dShare asset involved. Required for limit `Orders` and market sell `Orders`.
+         * Amount of currency (USD for US equities and ETFs) to pay for the order. Must be a
+         * positive number with a precision of up to 2 decimal places.
          */
-        fun assetQuantity(assetQuantity: Double) = assetQuantity(JsonField.of(assetQuantity))
+        fun paymentAmount(paymentAmount: Double) = paymentAmount(JsonField.of(paymentAmount))
 
         /**
-         * Sets [Builder.assetQuantity] to an arbitrary JSON value.
+         * Sets [Builder.paymentAmount] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.assetQuantity] with a well-typed [Double] value instead.
+         * You should usually call [Builder.paymentAmount] with a well-typed [Double] value instead.
          * This method is primarily for setting the field to an undocumented or not yet supported
          * value.
          */
-        fun assetQuantity(assetQuantity: JsonField<Double>) = apply {
-            this.assetQuantity = assetQuantity
+        fun paymentAmount(paymentAmount: JsonField<Double>) = apply {
+            this.paymentAmount = paymentAmount
         }
-
-        /**
-         * Price at which to execute the order. Must be a positive number with a precision of up to
-         * 2 decimal places.
-         */
-        fun limitPrice(limitPrice: Double) = limitPrice(JsonField.of(limitPrice))
-
-        /**
-         * Sets [Builder.limitPrice] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.limitPrice] with a well-typed [Double] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun limitPrice(limitPrice: JsonField<Double>) = apply { this.limitPrice = limitPrice }
 
         /** ID of `Stock`. */
         fun stockId(stockId: String) = stockId(JsonField.of(stockId))
@@ -229,23 +193,21 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [CreateLimitOrderInput].
+         * Returns an immutable instance of [CreateMarketBuyOrderInput].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
          * The following fields are required:
          * ```java
-         * .assetQuantity()
-         * .limitPrice()
+         * .paymentAmount()
          * .stockId()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): CreateLimitOrderInput =
-            CreateLimitOrderInput(
-                checkRequired("assetQuantity", assetQuantity),
-                checkRequired("limitPrice", limitPrice),
+        fun build(): CreateMarketBuyOrderInput =
+            CreateMarketBuyOrderInput(
+                checkRequired("paymentAmount", paymentAmount),
                 checkRequired("stockId", stockId),
                 recipientAccountId,
                 additionalProperties.toMutableMap(),
@@ -254,13 +216,12 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): CreateLimitOrderInput = apply {
+    fun validate(): CreateMarketBuyOrderInput = apply {
         if (validated) {
             return@apply
         }
 
-        assetQuantity()
-        limitPrice()
+        paymentAmount()
         stockId()
         recipientAccountId()
         validated = true
@@ -281,8 +242,7 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (if (assetQuantity.asKnown().isPresent) 1 else 0) +
-            (if (limitPrice.asKnown().isPresent) 1 else 0) +
+        (if (paymentAmount.asKnown().isPresent) 1 else 0) +
             (if (stockId.asKnown().isPresent) 1 else 0) +
             (if (recipientAccountId.asKnown().isPresent) 1 else 0)
 
@@ -291,15 +251,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CreateLimitOrderInput && assetQuantity == other.assetQuantity && limitPrice == other.limitPrice && stockId == other.stockId && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is CreateMarketBuyOrderInput && paymentAmount == other.paymentAmount && stockId == other.stockId && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(assetQuantity, limitPrice, stockId, recipientAccountId, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(paymentAmount, stockId, recipientAccountId, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CreateLimitOrderInput{assetQuantity=$assetQuantity, limitPrice=$limitPrice, stockId=$stockId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
+        "CreateMarketBuyOrderInput{paymentAmount=$paymentAmount, stockId=$stockId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
 }

@@ -26,7 +26,6 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.entry
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.parallel.ResourceLock
@@ -60,7 +59,6 @@ internal class ErrorHandlingTest {
                 .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun stocksList400() {
         val stockService = client.v2().marketData().stocks()
@@ -83,7 +81,28 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun stocksList400WithRawResponse() {
+        val stockService = client.v2().marketData().stocks().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(400).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<BadRequestException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(400)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
     @Test
     fun stocksList401() {
         val stockService = client.v2().marketData().stocks()
@@ -106,7 +125,28 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun stocksList401WithRawResponse() {
+        val stockService = client.v2().marketData().stocks().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(401).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<UnauthorizedException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(401)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
     @Test
     fun stocksList403() {
         val stockService = client.v2().marketData().stocks()
@@ -129,7 +169,28 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun stocksList403WithRawResponse() {
+        val stockService = client.v2().marketData().stocks().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(403).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<PermissionDeniedException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(403)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
     @Test
     fun stocksList404() {
         val stockService = client.v2().marketData().stocks()
@@ -152,7 +213,28 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun stocksList404WithRawResponse() {
+        val stockService = client.v2().marketData().stocks().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(404).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<NotFoundException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(404)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
     @Test
     fun stocksList422() {
         val stockService = client.v2().marketData().stocks()
@@ -175,7 +257,28 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun stocksList422WithRawResponse() {
+        val stockService = client.v2().marketData().stocks().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(422).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<UnprocessableEntityException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(422)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
     @Test
     fun stocksList429() {
         val stockService = client.v2().marketData().stocks()
@@ -198,7 +301,28 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun stocksList429WithRawResponse() {
+        val stockService = client.v2().marketData().stocks().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(429).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<RateLimitException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(429)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
     @Test
     fun stocksList500() {
         val stockService = client.v2().marketData().stocks()
@@ -221,7 +345,28 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun stocksList500WithRawResponse() {
+        val stockService = client.v2().marketData().stocks().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(500).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<InternalServerException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(500)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
     @Test
     fun stocksList999() {
         val stockService = client.v2().marketData().stocks()
@@ -244,7 +389,28 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun stocksList999WithRawResponse() {
+        val stockService = client.v2().marketData().stocks().withRawResponse()
+        stubFor(
+            get(anyUrl())
+                .willReturn(
+                    status(999).withHeader(HEADER_NAME, HEADER_VALUE).withBody(ERROR_JSON_BYTES)
+                )
+        )
+
+        val e =
+            assertThrows<UnexpectedStatusCodeException> {
+                stockService.list(
+                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                )
+            }
+
+        assertThat(e.statusCode()).isEqualTo(999)
+        assertThat(e.headers().toMap()).contains(entry(HEADER_NAME, listOf(HEADER_VALUE)))
+        assertThat(e.body()).isEqualTo(ERROR_JSON)
+    }
+
     @Test
     fun stocksListInvalidJsonBody() {
         val stockService = client.v2().marketData().stocks()

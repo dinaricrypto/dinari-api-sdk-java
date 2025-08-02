@@ -35,7 +35,7 @@ interface Eip155Service {
         params: Eip155CreateProxiedOrderParams,
     ): OrderRequest = createProxiedOrder(accountId, params, RequestOptions.none())
 
-    /** @see [createProxiedOrder] */
+    /** @see createProxiedOrder */
     fun createProxiedOrder(
         accountId: String,
         params: Eip155CreateProxiedOrderParams,
@@ -43,11 +43,11 @@ interface Eip155Service {
     ): OrderRequest =
         createProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [createProxiedOrder] */
+    /** @see createProxiedOrder */
     fun createProxiedOrder(params: Eip155CreateProxiedOrderParams): OrderRequest =
         createProxiedOrder(params, RequestOptions.none())
 
-    /** @see [createProxiedOrder] */
+    /** @see createProxiedOrder */
     fun createProxiedOrder(
         params: Eip155CreateProxiedOrderParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -63,7 +63,7 @@ interface Eip155Service {
     ): Eip155PrepareProxiedOrderResponse =
         prepareProxiedOrder(accountId, params, RequestOptions.none())
 
-    /** @see [prepareProxiedOrder] */
+    /** @see prepareProxiedOrder */
     fun prepareProxiedOrder(
         accountId: String,
         params: Eip155PrepareProxiedOrderParams,
@@ -71,12 +71,12 @@ interface Eip155Service {
     ): Eip155PrepareProxiedOrderResponse =
         prepareProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-    /** @see [prepareProxiedOrder] */
+    /** @see prepareProxiedOrder */
     fun prepareProxiedOrder(
         params: Eip155PrepareProxiedOrderParams
     ): Eip155PrepareProxiedOrderResponse = prepareProxiedOrder(params, RequestOptions.none())
 
-    /** @see [prepareProxiedOrder] */
+    /** @see prepareProxiedOrder */
     fun prepareProxiedOrder(
         params: Eip155PrepareProxiedOrderParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -104,7 +104,7 @@ interface Eip155Service {
         ): HttpResponseFor<OrderRequest> =
             createProxiedOrder(accountId, params, RequestOptions.none())
 
-        /** @see [createProxiedOrder] */
+        /** @see createProxiedOrder */
         @MustBeClosed
         fun createProxiedOrder(
             accountId: String,
@@ -113,13 +113,13 @@ interface Eip155Service {
         ): HttpResponseFor<OrderRequest> =
             createProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [createProxiedOrder] */
+        /** @see createProxiedOrder */
         @MustBeClosed
         fun createProxiedOrder(
             params: Eip155CreateProxiedOrderParams
         ): HttpResponseFor<OrderRequest> = createProxiedOrder(params, RequestOptions.none())
 
-        /** @see [createProxiedOrder] */
+        /** @see createProxiedOrder */
         @MustBeClosed
         fun createProxiedOrder(
             params: Eip155CreateProxiedOrderParams,
@@ -138,7 +138,7 @@ interface Eip155Service {
         ): HttpResponseFor<Eip155PrepareProxiedOrderResponse> =
             prepareProxiedOrder(accountId, params, RequestOptions.none())
 
-        /** @see [prepareProxiedOrder] */
+        /** @see prepareProxiedOrder */
         @MustBeClosed
         fun prepareProxiedOrder(
             accountId: String,
@@ -147,14 +147,14 @@ interface Eip155Service {
         ): HttpResponseFor<Eip155PrepareProxiedOrderResponse> =
             prepareProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
-        /** @see [prepareProxiedOrder] */
+        /** @see prepareProxiedOrder */
         @MustBeClosed
         fun prepareProxiedOrder(
             params: Eip155PrepareProxiedOrderParams
         ): HttpResponseFor<Eip155PrepareProxiedOrderResponse> =
             prepareProxiedOrder(params, RequestOptions.none())
 
-        /** @see [prepareProxiedOrder] */
+        /** @see prepareProxiedOrder */
         @MustBeClosed
         fun prepareProxiedOrder(
             params: Eip155PrepareProxiedOrderParams,

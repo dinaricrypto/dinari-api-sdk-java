@@ -14,9 +14,10 @@ on:
 
 jobs:
   lint:
-    timeout-minutes: 10
+    timeout-minutes: 15
     name: lint
     runs-on: ${{ github.repository == 'stainless-sdks/dinari-java' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.fork
 
     steps:
       - uses: actions/checkout@v4
@@ -36,9 +37,10 @@ jobs:
       - name: Run lints
         run: ./scripts/lint
   test:
-    timeout-minutes: 10
+    timeout-minutes: 15
     name: test
     runs-on: ${{ github.repository == 'stainless-sdks/dinari-java' && 'depot-ubuntu-24.04' || 'ubuntu-latest' }}
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.fork
     steps:
       - uses: actions/checkout@v4
 

@@ -5,12 +5,10 @@ package com.dinari.api.models.v2.accounts
 import com.dinari.api.core.http.QueryParams
 import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class AccountGetInterestPaymentsParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         AccountGetInterestPaymentsParams.builder()
@@ -22,7 +20,6 @@ internal class AccountGetInterestPaymentsParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -37,7 +34,6 @@ internal class AccountGetInterestPaymentsParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params =
@@ -62,7 +58,6 @@ internal class AccountGetInterestPaymentsParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params =

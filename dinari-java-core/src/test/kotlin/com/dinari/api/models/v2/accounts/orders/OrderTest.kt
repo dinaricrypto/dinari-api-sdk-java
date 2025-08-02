@@ -7,12 +7,10 @@ import com.dinari.api.models.v2.accounts.Chain
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class OrderTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val order =
@@ -25,6 +23,7 @@ internal class OrderTest {
                 .orderTif(OrderTif.DAY)
                 .orderTransactionHash("0xeaF12bD1DfFd")
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .status(BrokerageOrderStatus.PENDING_SUBMIT)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetToken("asset_token")
@@ -33,7 +32,6 @@ internal class OrderTest {
                 .fee(0.0)
                 .limitPrice(0.0)
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .paymentToken("payment_token")
                 .paymentTokenQuantity(0.0)
                 .build()
 
@@ -45,6 +43,7 @@ internal class OrderTest {
         assertThat(order.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(order.orderTransactionHash()).isEqualTo("0xeaF12bD1DfFd")
         assertThat(order.orderType()).isEqualTo(OrderType.MARKET)
+        assertThat(order.paymentToken()).isEqualTo("payment_token")
         assertThat(order.status()).isEqualTo(BrokerageOrderStatus.PENDING_SUBMIT)
         assertThat(order.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(order.assetToken()).contains("asset_token")
@@ -53,11 +52,9 @@ internal class OrderTest {
         assertThat(order.fee()).contains(0.0)
         assertThat(order.limitPrice()).contains(0.0)
         assertThat(order.orderRequestId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(order.paymentToken()).contains("payment_token")
         assertThat(order.paymentTokenQuantity()).contains(0.0)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
@@ -71,6 +68,7 @@ internal class OrderTest {
                 .orderTif(OrderTif.DAY)
                 .orderTransactionHash("0xeaF12bD1DfFd")
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .status(BrokerageOrderStatus.PENDING_SUBMIT)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetToken("asset_token")
@@ -79,7 +77,6 @@ internal class OrderTest {
                 .fee(0.0)
                 .limitPrice(0.0)
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .paymentToken("payment_token")
                 .paymentTokenQuantity(0.0)
                 .build()
 

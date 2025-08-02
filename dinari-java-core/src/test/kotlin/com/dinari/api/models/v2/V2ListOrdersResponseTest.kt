@@ -11,12 +11,10 @@ import com.dinari.api.models.v2.accounts.orders.OrderType
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class V2ListOrdersResponseTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val v2ListOrdersResponse =
@@ -29,6 +27,7 @@ internal class V2ListOrdersResponseTest {
                 .orderTif(OrderTif.DAY)
                 .orderTransactionHash("0xeaF12bD1DfFd")
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .status(BrokerageOrderStatus.PENDING_SUBMIT)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -39,7 +38,6 @@ internal class V2ListOrdersResponseTest {
                 .fee(0.0)
                 .limitPrice(0.0)
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .paymentToken("payment_token")
                 .paymentTokenQuantity(0.0)
                 .build()
 
@@ -52,6 +50,7 @@ internal class V2ListOrdersResponseTest {
         assertThat(v2ListOrdersResponse.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(v2ListOrdersResponse.orderTransactionHash()).isEqualTo("0xeaF12bD1DfFd")
         assertThat(v2ListOrdersResponse.orderType()).isEqualTo(OrderType.MARKET)
+        assertThat(v2ListOrdersResponse.paymentToken()).isEqualTo("payment_token")
         assertThat(v2ListOrdersResponse.status()).isEqualTo(BrokerageOrderStatus.PENDING_SUBMIT)
         assertThat(v2ListOrdersResponse.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(v2ListOrdersResponse.accountId())
@@ -64,11 +63,9 @@ internal class V2ListOrdersResponseTest {
         assertThat(v2ListOrdersResponse.limitPrice()).contains(0.0)
         assertThat(v2ListOrdersResponse.orderRequestId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(v2ListOrdersResponse.paymentToken()).contains("payment_token")
         assertThat(v2ListOrdersResponse.paymentTokenQuantity()).contains(0.0)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
@@ -82,6 +79,7 @@ internal class V2ListOrdersResponseTest {
                 .orderTif(OrderTif.DAY)
                 .orderTransactionHash("0xeaF12bD1DfFd")
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .status(BrokerageOrderStatus.PENDING_SUBMIT)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -92,7 +90,6 @@ internal class V2ListOrdersResponseTest {
                 .fee(0.0)
                 .limitPrice(0.0)
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .paymentToken("payment_token")
                 .paymentTokenQuantity(0.0)
                 .build()
 

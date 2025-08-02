@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java/0.3.0)
-[![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/0.3.0/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.3.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java/0.4.0)
+[![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/0.4.0/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.4.0)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.dinari.com](https://docs.dinari.com/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.3.0).
+The REST API documentation can be found on [docs.dinari.com](https://docs.dinari.com/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.4.0).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ The REST API documentation can be found on [docs.dinari.com](https://docs.dinari
 ### Gradle
 
 ```kotlin
-implementation("com.dinari.api:dinari-java:0.3.0")
+implementation("com.dinari.api:dinari-java:0.4.0")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.dinari.api:dinari-java:0.3.0")
 <dependency>
   <groupId>com.dinari.api</groupId>
   <artifactId>dinari-java</artifactId>
-  <version>0.3.0</version>
+  <version>0.4.0</version>
 </dependency>
 ```
 
@@ -51,7 +51,8 @@ import com.dinari.api.client.okhttp.DinariOkHttpClient;
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+// Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+// Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 
 List<StockListResponse> stocks = client.v2().marketData().stocks().list();
@@ -59,13 +60,14 @@ List<StockListResponse> stocks = client.v2().marketData().stocks().list();
 
 ## Client configuration
 
-Configure the client using environment variables:
+Configure the client using system properties or environment variables:
 
 ```java
 import com.dinari.api.client.DinariClient;
 import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
-// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+// Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+// Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 ```
 
@@ -88,7 +90,8 @@ import com.dinari.api.client.DinariClient;
 import com.dinari.api.client.okhttp.DinariOkHttpClient;
 
 DinariClient client = DinariOkHttpClient.builder()
-    // Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+    // Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+    // Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
     .fromEnv()
     .apiKeyId("My API Key ID")
     .build();
@@ -96,11 +99,13 @@ DinariClient client = DinariOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter         | Environment variable    | Required | Default value                             |
-| -------------- | ----------------------- | -------- | ----------------------------------------- |
-| `apiKeyId`     | `DINARI_API_KEY_ID`     | true     | -                                         |
-| `apiSecretKey` | `DINARI_API_SECRET_KEY` | true     | -                                         |
-| `baseUrl`      | `DINARI_BASE_URL`       | true     | `"https://api-enterprise.sbt.dinari.com"` |
+| Setter         | System property       | Environment variable    | Required | Default value                             |
+| -------------- | --------------------- | ----------------------- | -------- | ----------------------------------------- |
+| `apiKeyId`     | `dinari.apiKeyId`     | `DINARI_API_KEY_ID`     | true     | -                                         |
+| `apiSecretKey` | `dinari.apiSecretKey` | `DINARI_API_SECRET_KEY` | true     | -                                         |
+| `baseUrl`      | `dinari.baseUrl`      | `DINARI_BASE_URL`       | true     | `"https://api-enterprise.sbt.dinari.com"` |
+
+System properties take precedence over environment variables.
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -146,7 +151,8 @@ import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+// Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+// Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 
 CompletableFuture<List<StockListResponse>> stocks = client.async().v2().marketData().stocks().list();
@@ -161,7 +167,8 @@ import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
+// Configures using the `dinari.apiKeyId`, `dinari.apiSecretKey` and `dinari.baseUrl` system properties
+// Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClientAsync client = DinariOkHttpClientAsync.fromEnv();
 
 CompletableFuture<List<StockListResponse>> stocks = client.v2().marketData().stocks().list();
@@ -290,6 +297,8 @@ The SDK throws custom unchecked exception types:
 
 - [`DinariIoException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/DinariIoException.kt): I/O networking errors.
 
+- [`DinariRetryableException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/DinariRetryableException.kt): Generic error indicating a failure that could be retried by the client.
+
 - [`DinariInvalidDataException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/DinariInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
 - [`DinariException`](dinari-java-core/src/main/kotlin/com/dinari/api/errors/DinariException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
@@ -310,6 +319,12 @@ Or to `debug` for more verbose logging:
 $ export DINARI_LOG=debug
 ```
 
+## ProGuard and R8
+
+Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `dinari-java-core` is published with a [configuration file](dinari-java-core/src/main/resources/META-INF/proguard/dinari-java-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
+
+ProGuard and R8 should automatically detect and use the published rules, but you can also manually copy the keep rules if necessary.
+
 ## Jackson
 
 The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON serialization/deserialization. It is compatible with version 2.13.4 or higher, but depends on version 2.18.2 by default.
@@ -325,7 +340,7 @@ If the SDK threw an exception, but you're _certain_ the version is compatible, t
 
 ### Retries
 
-The SDK automatically retries 2 times by default, with a short exponential backoff.
+The SDK automatically retries 2 times by default, with a short exponential backoff between requests.
 
 Only the following error types are retried:
 
@@ -335,7 +350,7 @@ Only the following error types are retried:
 - 429 Rate Limit
 - 5xx Internal
 
-The API may also explicitly instruct the SDK to retry or not retry a response.
+The API may also explicitly instruct the SDK to retry or not retry a request.
 
 To set a custom number of retries, configure the client using the `maxRetries` method:
 
@@ -391,6 +406,27 @@ DinariClient client = DinariOkHttpClient.builder()
         "https://example.com", 8080
       )
     ))
+    .build();
+```
+
+### HTTPS
+
+> [!NOTE]
+> Most applications should not call these methods, and instead use the system defaults. The defaults include
+> special optimizations that can be lost if the implementations are modified.
+
+To configure how HTTPS connections are secured, configure the client using the `sslSocketFactory`, `trustManager`, and `hostnameVerifier` methods:
+
+```java
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
+
+DinariClient client = DinariOkHttpClient.builder()
+    .fromEnv()
+    // If `sslSocketFactory` is set, then `trustManager` must be set, and vice versa.
+    .sslSocketFactory(yourSSLSocketFactory)
+    .trustManager(yourTrustManager)
+    .hostnameVerifier(yourHostnameVerifier)
     .build();
 ```
 

@@ -6,12 +6,10 @@ import com.dinari.api.core.jsonMapper
 import com.dinari.api.models.v2.accounts.Chain
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class Eip155GetFeeQuoteResponseTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val eip155GetFeeQuoteResponse =
@@ -71,7 +69,6 @@ internal class Eip155GetFeeQuoteResponseTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()

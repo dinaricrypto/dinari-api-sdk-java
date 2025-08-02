@@ -27,8 +27,10 @@ private constructor(
     /** List of `Stock` symbols to query. If not provided, all `Stocks` are returned. */
     fun symbols(): Optional<List<String>> = Optional.ofNullable(symbols)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)

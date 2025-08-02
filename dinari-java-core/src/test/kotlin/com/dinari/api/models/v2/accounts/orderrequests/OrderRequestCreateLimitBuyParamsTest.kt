@@ -3,18 +3,16 @@
 package com.dinari.api.models.v2.accounts.orderrequests
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class OrderRequestCreateLimitBuyParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         OrderRequestCreateLimitBuyParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .createLimitOrderInput(
-                CreateLimitOrderInput.builder()
+            .createLimitBuyOrderInput(
+                CreateLimitBuyOrderInput.builder()
                     .assetQuantity(0.0)
                     .limitPrice(0.0)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -24,14 +22,13 @@ internal class OrderRequestCreateLimitBuyParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
             OrderRequestCreateLimitBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .createLimitOrderInput(
-                    CreateLimitOrderInput.builder()
+                .createLimitBuyOrderInput(
+                    CreateLimitBuyOrderInput.builder()
                         .assetQuantity(0.0)
                         .limitPrice(0.0)
                         .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -44,14 +41,13 @@ internal class OrderRequestCreateLimitBuyParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
             OrderRequestCreateLimitBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .createLimitOrderInput(
-                    CreateLimitOrderInput.builder()
+                .createLimitBuyOrderInput(
+                    CreateLimitBuyOrderInput.builder()
                         .assetQuantity(0.0)
                         .limitPrice(0.0)
                         .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -64,7 +60,7 @@ internal class OrderRequestCreateLimitBuyParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                CreateLimitOrderInput.builder()
+                CreateLimitBuyOrderInput.builder()
                     .assetQuantity(0.0)
                     .limitPrice(0.0)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -73,14 +69,13 @@ internal class OrderRequestCreateLimitBuyParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =
             OrderRequestCreateLimitBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .createLimitOrderInput(
-                    CreateLimitOrderInput.builder()
+                .createLimitBuyOrderInput(
+                    CreateLimitBuyOrderInput.builder()
                         .assetQuantity(0.0)
                         .limitPrice(0.0)
                         .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -92,7 +87,7 @@ internal class OrderRequestCreateLimitBuyParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                CreateLimitOrderInput.builder()
+                CreateLimitBuyOrderInput.builder()
                     .assetQuantity(0.0)
                     .limitPrice(0.0)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

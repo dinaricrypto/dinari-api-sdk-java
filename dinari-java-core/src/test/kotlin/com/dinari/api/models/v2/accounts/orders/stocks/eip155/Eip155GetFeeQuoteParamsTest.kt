@@ -8,12 +8,10 @@ import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderTif
 import com.dinari.api.models.v2.accounts.orders.OrderType
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class Eip155GetFeeQuoteParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         Eip155GetFeeQuoteParams.builder()
@@ -22,15 +20,14 @@ internal class Eip155GetFeeQuoteParamsTest {
             .orderSide(OrderSide.BUY)
             .orderTif(OrderTif.DAY)
             .orderType(OrderType.MARKET)
+            .paymentToken("payment_token")
             .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .assetTokenQuantity(JsonValue.from("0"))
             .limitPrice(JsonValue.from("0"))
-            .paymentToken("payment_token")
             .paymentTokenQuantity(JsonValue.from("0"))
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -40,6 +37,7 @@ internal class Eip155GetFeeQuoteParamsTest {
                 .orderSide(OrderSide.BUY)
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
@@ -48,7 +46,6 @@ internal class Eip155GetFeeQuoteParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -58,10 +55,10 @@ internal class Eip155GetFeeQuoteParamsTest {
                 .orderSide(OrderSide.BUY)
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetTokenQuantity(JsonValue.from("0"))
                 .limitPrice(JsonValue.from("0"))
-                .paymentToken("payment_token")
                 .paymentTokenQuantity(JsonValue.from("0"))
                 .build()
 
@@ -71,14 +68,13 @@ internal class Eip155GetFeeQuoteParamsTest {
         assertThat(body.orderSide()).isEqualTo(OrderSide.BUY)
         assertThat(body.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(body.orderType()).isEqualTo(OrderType.MARKET)
+        assertThat(body.paymentToken()).isEqualTo("payment_token")
         assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body._assetTokenQuantity()).isEqualTo(JsonValue.from("0"))
         assertThat(body._limitPrice()).isEqualTo(JsonValue.from("0"))
-        assertThat(body.paymentToken()).contains("payment_token")
         assertThat(body._paymentTokenQuantity()).isEqualTo(JsonValue.from("0"))
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =
@@ -88,6 +84,7 @@ internal class Eip155GetFeeQuoteParamsTest {
                 .orderSide(OrderSide.BUY)
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
+                .paymentToken("payment_token")
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
@@ -97,6 +94,7 @@ internal class Eip155GetFeeQuoteParamsTest {
         assertThat(body.orderSide()).isEqualTo(OrderSide.BUY)
         assertThat(body.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(body.orderType()).isEqualTo(OrderType.MARKET)
+        assertThat(body.paymentToken()).isEqualTo("payment_token")
         assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

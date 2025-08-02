@@ -3,14 +3,14 @@
 package com.dinari.api.services.async.v2.marketdata
 
 import com.dinari.api.core.ClientOptions
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.checkRequired
+import com.dinari.api.core.handlers.errorBodyHandler
 import com.dinari.api.core.handlers.errorHandler
 import com.dinari.api.core.handlers.jsonHandler
-import com.dinari.api.core.handlers.withErrorHandler
 import com.dinari.api.core.http.HttpMethod
 import com.dinari.api.core.http.HttpRequest
+import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
@@ -94,7 +94,8 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         StockServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         private val splits: SplitServiceAsync.WithRawResponse by lazy {
             SplitServiceAsyncImpl.WithRawResponseImpl(clientOptions)
@@ -111,7 +112,6 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val listHandler: Handler<List<StockListResponse>> =
             jsonHandler<List<StockListResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: StockListParams,
@@ -128,7 +128,7 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listHandler.handle(it) }
                             .also {
@@ -142,7 +142,6 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val retrieveCurrentPriceHandler: Handler<StockRetrieveCurrentPriceResponse> =
             jsonHandler<StockRetrieveCurrentPriceResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveCurrentPrice(
             params: StockRetrieveCurrentPriceParams,
@@ -169,7 +168,7 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveCurrentPriceHandler.handle(it) }
                             .also {
@@ -183,7 +182,6 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val retrieveCurrentQuoteHandler: Handler<StockRetrieveCurrentQuoteResponse> =
             jsonHandler<StockRetrieveCurrentQuoteResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveCurrentQuote(
             params: StockRetrieveCurrentQuoteParams,
@@ -210,7 +208,7 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveCurrentQuoteHandler.handle(it) }
                             .also {
@@ -224,7 +222,6 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val retrieveDividendsHandler: Handler<List<StockRetrieveDividendsResponse>> =
             jsonHandler<List<StockRetrieveDividendsResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveDividends(
             params: StockRetrieveDividendsParams,
@@ -251,7 +248,7 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveDividendsHandler.handle(it) }
                             .also {
@@ -266,7 +263,6 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
         private val retrieveHistoricalPricesHandler:
             Handler<List<StockRetrieveHistoricalPricesResponse>> =
             jsonHandler<List<StockRetrieveHistoricalPricesResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveHistoricalPrices(
             params: StockRetrieveHistoricalPricesParams,
@@ -294,7 +290,7 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHistoricalPricesHandler.handle(it) }
                             .also {
@@ -308,7 +304,6 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val retrieveNewsHandler: Handler<List<StockRetrieveNewsResponse>> =
             jsonHandler<List<StockRetrieveNewsResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieveNews(
             params: StockRetrieveNewsParams,
@@ -335,7 +330,7 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveNewsHandler.handle(it) }
                             .also {

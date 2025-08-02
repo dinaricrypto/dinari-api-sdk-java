@@ -5,48 +5,45 @@ package com.dinari.api.models.v2.accounts.orderrequests
 import com.dinari.api.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
-internal class CreateLimitOrderInputTest {
+internal class CreateLimitBuyOrderInputTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
-        val createLimitOrderInput =
-            CreateLimitOrderInput.builder()
+        val createLimitBuyOrderInput =
+            CreateLimitBuyOrderInput.builder()
                 .assetQuantity(0.0)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
-        assertThat(createLimitOrderInput.assetQuantity()).isEqualTo(0.0)
-        assertThat(createLimitOrderInput.limitPrice()).isEqualTo(0.0)
-        assertThat(createLimitOrderInput.stockId())
+        assertThat(createLimitBuyOrderInput.assetQuantity()).isEqualTo(0.0)
+        assertThat(createLimitBuyOrderInput.limitPrice()).isEqualTo(0.0)
+        assertThat(createLimitBuyOrderInput.stockId())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(createLimitOrderInput.recipientAccountId())
+        assertThat(createLimitBuyOrderInput.recipientAccountId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val createLimitOrderInput =
-            CreateLimitOrderInput.builder()
+        val createLimitBuyOrderInput =
+            CreateLimitBuyOrderInput.builder()
                 .assetQuantity(0.0)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
-        val roundtrippedCreateLimitOrderInput =
+        val roundtrippedCreateLimitBuyOrderInput =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(createLimitOrderInput),
-                jacksonTypeRef<CreateLimitOrderInput>(),
+                jsonMapper.writeValueAsString(createLimitBuyOrderInput),
+                jacksonTypeRef<CreateLimitBuyOrderInput>(),
             )
 
-        assertThat(roundtrippedCreateLimitOrderInput).isEqualTo(createLimitOrderInput)
+        assertThat(roundtrippedCreateLimitBuyOrderInput).isEqualTo(createLimitBuyOrderInput)
     }
 }

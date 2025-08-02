@@ -3,12 +3,10 @@
 package com.dinari.api.models.v2.accounts.wallet.external
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class ExternalConnectParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         ExternalConnectParams.builder()
@@ -20,7 +18,6 @@ internal class ExternalConnectParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -37,7 +34,6 @@ internal class ExternalConnectParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
