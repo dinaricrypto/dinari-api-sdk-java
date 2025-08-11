@@ -35,7 +35,7 @@ internal class ServiceParamsTest {
                 .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun list() {
         val stockService = client.v2().marketData().stocks()

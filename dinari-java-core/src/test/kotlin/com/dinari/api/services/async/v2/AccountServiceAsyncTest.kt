@@ -16,7 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class AccountServiceAsyncTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -33,7 +33,7 @@ internal class AccountServiceAsyncTest {
         account.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun deactivate() {
         val client =
@@ -50,7 +50,7 @@ internal class AccountServiceAsyncTest {
         account.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun getCashBalances() {
         val client =
@@ -68,7 +68,7 @@ internal class AccountServiceAsyncTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun getDividendPayments() {
         val client =
@@ -95,7 +95,7 @@ internal class AccountServiceAsyncTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun getInterestPayments() {
         val client =
@@ -121,7 +121,7 @@ internal class AccountServiceAsyncTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun getPortfolio() {
         val client =
@@ -139,7 +139,7 @@ internal class AccountServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun mintSandboxTokens() {
         val client =
