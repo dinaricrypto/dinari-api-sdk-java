@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class WalletServiceAsyncTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun connectInternal() {
         val client =
@@ -38,7 +38,7 @@ internal class WalletServiceAsyncTest {
         wallet.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun get() {
         val client =

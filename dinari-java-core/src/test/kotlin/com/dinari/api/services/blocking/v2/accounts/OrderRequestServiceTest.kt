@@ -26,7 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class OrderRequestServiceTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -48,7 +48,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun list() {
         val client =
@@ -71,7 +71,7 @@ internal class OrderRequestServiceTest {
         orderRequests.forEach { it.validate() }
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun createLimitBuy() {
         val client =
@@ -100,7 +100,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun createLimitSell() {
         val client =
@@ -130,7 +130,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun createMarketBuy() {
         val client =
@@ -158,7 +158,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun createMarketSell() {
         val client =
@@ -187,7 +187,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun getFeeQuote() {
         val client =

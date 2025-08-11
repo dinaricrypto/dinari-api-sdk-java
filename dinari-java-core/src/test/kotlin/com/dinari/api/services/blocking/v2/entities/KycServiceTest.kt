@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class KycServiceTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -30,7 +30,7 @@ internal class KycServiceTest {
         kycInfo.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun createManagedCheck() {
         val client =
@@ -46,7 +46,7 @@ internal class KycServiceTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun submit() {
         val client =

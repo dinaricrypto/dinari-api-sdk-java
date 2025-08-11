@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class DocumentServiceAsyncTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -37,7 +37,7 @@ internal class DocumentServiceAsyncTest {
         kycDocuments.forEach { it.validate() }
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun upload() {
         val client =

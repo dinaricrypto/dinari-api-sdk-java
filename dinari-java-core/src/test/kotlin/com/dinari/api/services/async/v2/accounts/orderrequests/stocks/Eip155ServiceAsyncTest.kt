@@ -18,7 +18,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class Eip155ServiceAsyncTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun createProxiedOrder() {
         val client =
@@ -43,7 +43,7 @@ internal class Eip155ServiceAsyncTest {
         orderRequest.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun prepareProxiedOrder() {
         val client =

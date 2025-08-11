@@ -13,7 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class WithdrawalServiceAsyncTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -36,7 +36,7 @@ internal class WithdrawalServiceAsyncTest {
         withdrawal.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun list() {
         val client =

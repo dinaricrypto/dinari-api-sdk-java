@@ -14,7 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith
 @ExtendWith(TestServerExtension::class)
 internal class StockServiceTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun list() {
         val client =
@@ -33,7 +33,7 @@ internal class StockServiceTest {
         stocks.forEach { it.validate() }
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieveCurrentPrice() {
         val client =
@@ -49,7 +49,7 @@ internal class StockServiceTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieveCurrentQuote() {
         val client =
@@ -65,7 +65,7 @@ internal class StockServiceTest {
         response.validate()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieveDividends() {
         val client =
@@ -81,7 +81,7 @@ internal class StockServiceTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieveHistoricalPrices() {
         val client =
@@ -103,7 +103,7 @@ internal class StockServiceTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
+    @Disabled("Prism tests are disabled")
     @Test
     fun retrieveNews() {
         val client =
