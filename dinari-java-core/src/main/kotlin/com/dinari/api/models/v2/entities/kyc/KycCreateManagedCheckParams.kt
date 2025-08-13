@@ -223,10 +223,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is KycCreateManagedCheckParams && entityId == other.entityId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return other is KycCreateManagedCheckParams &&
+            entityId == other.entityId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(entityId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(entityId, additionalHeaders, additionalQueryParams, additionalBodyProperties)
 
     override fun toString() =
         "KycCreateManagedCheckParams{entityId=$entityId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

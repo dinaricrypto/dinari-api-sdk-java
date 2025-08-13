@@ -162,12 +162,12 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is OrderRequestGetFeeQuoteResponse && fee == other.fee && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is OrderRequestGetFeeQuoteResponse &&
+            fee == other.fee &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(fee, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

@@ -195,7 +195,7 @@ class WalletChainId @JsonCreator private constructor(private val value: JsonFiel
             return true
         }
 
-        return /* spotless:off */ other is WalletChainId && value == other.value /* spotless:on */
+        return other is WalletChainId && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

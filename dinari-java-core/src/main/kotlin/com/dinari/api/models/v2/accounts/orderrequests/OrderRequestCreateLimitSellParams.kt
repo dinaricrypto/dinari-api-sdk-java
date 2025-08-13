@@ -216,10 +216,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is OrderRequestCreateLimitSellParams && accountId == other.accountId && createLimitSellOrderInput == other.createLimitSellOrderInput && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is OrderRequestCreateLimitSellParams &&
+            accountId == other.accountId &&
+            createLimitSellOrderInput == other.createLimitSellOrderInput &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, createLimitSellOrderInput, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountId, createLimitSellOrderInput, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "OrderRequestCreateLimitSellParams{accountId=$accountId, createLimitSellOrderInput=$createLimitSellOrderInput, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

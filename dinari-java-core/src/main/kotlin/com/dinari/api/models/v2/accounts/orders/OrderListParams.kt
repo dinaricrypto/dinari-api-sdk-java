@@ -261,10 +261,26 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is OrderListParams && accountId == other.accountId && chainId == other.chainId && orderTransactionHash == other.orderTransactionHash && page == other.page && pageSize == other.pageSize && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is OrderListParams &&
+            accountId == other.accountId &&
+            chainId == other.chainId &&
+            orderTransactionHash == other.orderTransactionHash &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, chainId, orderTransactionHash, page, pageSize, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            accountId,
+            chainId,
+            orderTransactionHash,
+            page,
+            pageSize,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "OrderListParams{accountId=$accountId, chainId=$chainId, orderTransactionHash=$orderTransactionHash, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -201,12 +201,17 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EvmTypedData && domain == other.domain && message == other.message && primaryType == other.primaryType && types == other.types && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is EvmTypedData &&
+            domain == other.domain &&
+            message == other.message &&
+            primaryType == other.primaryType &&
+            types == other.types &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(domain, message, primaryType, types, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(domain, message, primaryType, types, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

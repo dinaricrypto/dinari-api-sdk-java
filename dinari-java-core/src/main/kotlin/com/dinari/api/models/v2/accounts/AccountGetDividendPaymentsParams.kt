@@ -278,10 +278,28 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountGetDividendPaymentsParams && accountId == other.accountId && endDate == other.endDate && startDate == other.startDate && page == other.page && pageSize == other.pageSize && stockId == other.stockId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AccountGetDividendPaymentsParams &&
+            accountId == other.accountId &&
+            endDate == other.endDate &&
+            startDate == other.startDate &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            stockId == other.stockId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, endDate, startDate, page, pageSize, stockId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            accountId,
+            endDate,
+            startDate,
+            page,
+            pageSize,
+            stockId,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "AccountGetDividendPaymentsParams{accountId=$accountId, endDate=$endDate, startDate=$startDate, page=$page, pageSize=$pageSize, stockId=$stockId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

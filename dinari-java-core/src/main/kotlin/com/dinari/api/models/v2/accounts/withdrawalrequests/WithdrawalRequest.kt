@@ -544,7 +544,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+            return other is Status && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -557,12 +557,29 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is WithdrawalRequest && id == other.id && accountId == other.accountId && createdDt == other.createdDt && paymentTokenAmount == other.paymentTokenAmount && recipientAccountId == other.recipientAccountId && status == other.status && updatedDt == other.updatedDt && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is WithdrawalRequest &&
+            id == other.id &&
+            accountId == other.accountId &&
+            createdDt == other.createdDt &&
+            paymentTokenAmount == other.paymentTokenAmount &&
+            recipientAccountId == other.recipientAccountId &&
+            status == other.status &&
+            updatedDt == other.updatedDt &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, accountId, createdDt, paymentTokenAmount, recipientAccountId, status, updatedDt, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            accountId,
+            createdDt,
+            paymentTokenAmount,
+            recipientAccountId,
+            status,
+            updatedDt,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

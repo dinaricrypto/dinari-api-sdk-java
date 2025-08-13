@@ -347,12 +347,25 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CreateLimitSellOrderInput && assetQuantity == other.assetQuantity && limitPrice == other.limitPrice && stockId == other.stockId && paymentTokenAddress == other.paymentTokenAddress && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is CreateLimitSellOrderInput &&
+            assetQuantity == other.assetQuantity &&
+            limitPrice == other.limitPrice &&
+            stockId == other.stockId &&
+            paymentTokenAddress == other.paymentTokenAddress &&
+            recipientAccountId == other.recipientAccountId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(assetQuantity, limitPrice, stockId, paymentTokenAddress, recipientAccountId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            assetQuantity,
+            limitPrice,
+            stockId,
+            paymentTokenAddress,
+            recipientAccountId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

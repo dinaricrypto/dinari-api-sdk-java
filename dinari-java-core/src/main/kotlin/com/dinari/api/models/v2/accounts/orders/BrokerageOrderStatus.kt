@@ -179,7 +179,7 @@ class BrokerageOrderStatus @JsonCreator private constructor(private val value: J
             return true
         }
 
-        return /* spotless:off */ other is BrokerageOrderStatus && value == other.value /* spotless:on */
+        return other is BrokerageOrderStatus && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

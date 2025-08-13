@@ -925,12 +925,55 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is V2ListOrdersResponse && id == other.id && chainId == other.chainId && createdDt == other.createdDt && orderContractAddress == other.orderContractAddress && orderSide == other.orderSide && orderTif == other.orderTif && orderTransactionHash == other.orderTransactionHash && orderType == other.orderType && paymentToken == other.paymentToken && status == other.status && stockId == other.stockId && accountId == other.accountId && assetToken == other.assetToken && assetTokenQuantity == other.assetTokenQuantity && cancelTransactionHash == other.cancelTransactionHash && entityId == other.entityId && fee == other.fee && limitPrice == other.limitPrice && orderRequestId == other.orderRequestId && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is V2ListOrdersResponse &&
+            id == other.id &&
+            chainId == other.chainId &&
+            createdDt == other.createdDt &&
+            orderContractAddress == other.orderContractAddress &&
+            orderSide == other.orderSide &&
+            orderTif == other.orderTif &&
+            orderTransactionHash == other.orderTransactionHash &&
+            orderType == other.orderType &&
+            paymentToken == other.paymentToken &&
+            status == other.status &&
+            stockId == other.stockId &&
+            accountId == other.accountId &&
+            assetToken == other.assetToken &&
+            assetTokenQuantity == other.assetTokenQuantity &&
+            cancelTransactionHash == other.cancelTransactionHash &&
+            entityId == other.entityId &&
+            fee == other.fee &&
+            limitPrice == other.limitPrice &&
+            orderRequestId == other.orderRequestId &&
+            paymentTokenQuantity == other.paymentTokenQuantity &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, chainId, createdDt, orderContractAddress, orderSide, orderTif, orderTransactionHash, orderType, paymentToken, status, stockId, accountId, assetToken, assetTokenQuantity, cancelTransactionHash, entityId, fee, limitPrice, orderRequestId, paymentTokenQuantity, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            chainId,
+            createdDt,
+            orderContractAddress,
+            orderSide,
+            orderTif,
+            orderTransactionHash,
+            orderType,
+            paymentToken,
+            status,
+            stockId,
+            accountId,
+            assetToken,
+            assetTokenQuantity,
+            cancelTransactionHash,
+            entityId,
+            fee,
+            limitPrice,
+            orderRequestId,
+            paymentTokenQuantity,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

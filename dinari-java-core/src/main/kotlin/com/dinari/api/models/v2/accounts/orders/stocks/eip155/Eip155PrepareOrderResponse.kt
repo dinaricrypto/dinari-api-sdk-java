@@ -469,12 +469,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TransactionData && abi == other.abi && args == other.args && contractAddress == other.contractAddress && data == other.data && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is TransactionData &&
+                abi == other.abi &&
+                args == other.args &&
+                contractAddress == other.contractAddress &&
+                data == other.data &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(abi, args, contractAddress, data, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(abi, args, contractAddress, data, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -487,12 +492,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Eip155PrepareOrderResponse && fees == other.fees && transactionData == other.transactionData && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Eip155PrepareOrderResponse &&
+            fees == other.fees &&
+            transactionData == other.transactionData &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(fees, transactionData, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
