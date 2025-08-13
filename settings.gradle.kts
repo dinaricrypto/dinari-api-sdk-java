@@ -1,7 +1,14 @@
 rootProject.name = "dinari-java-root"
 
-include("dinari-java")
-include("dinari-java-client-okhttp")
-include("dinari-java-core")
-include("dinari-java-proguard-test")
-include("dinari-java-example")
+val projectNames = rootDir.listFiles()
+    ?.asSequence()
+    .orEmpty()
+    .filter { file ->
+        file.isDirectory &&
+        file.name.startsWith("dinari-java") &&
+        file.listFiles()?.asSequence().orEmpty().any { it.name == "build.gradle.kts" }
+    }
+    .map { it.name }
+    .toList()
+println("projects: $projectNames")
+projectNames.forEach { include(it) }
