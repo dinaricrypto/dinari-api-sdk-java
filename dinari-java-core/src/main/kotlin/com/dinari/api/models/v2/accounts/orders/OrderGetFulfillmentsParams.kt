@@ -245,10 +245,17 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is OrderGetFulfillmentsParams && accountId == other.accountId && orderId == other.orderId && page == other.page && pageSize == other.pageSize && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is OrderGetFulfillmentsParams &&
+            accountId == other.accountId &&
+            orderId == other.orderId &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, orderId, page, pageSize, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountId, orderId, page, pageSize, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "OrderGetFulfillmentsParams{accountId=$accountId, orderId=$orderId, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

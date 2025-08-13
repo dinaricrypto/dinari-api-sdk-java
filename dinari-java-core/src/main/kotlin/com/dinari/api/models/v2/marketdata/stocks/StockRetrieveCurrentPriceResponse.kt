@@ -610,12 +610,41 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockRetrieveCurrentPriceResponse && price == other.price && stockId == other.stockId && timestamp == other.timestamp && change == other.change && changePercent == other.changePercent && close == other.close && high == other.high && low == other.low && marketCap == other.marketCap && open == other.open && previousClose == other.previousClose && volume == other.volume && weightedSharesOutstanding == other.weightedSharesOutstanding && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StockRetrieveCurrentPriceResponse &&
+            price == other.price &&
+            stockId == other.stockId &&
+            timestamp == other.timestamp &&
+            change == other.change &&
+            changePercent == other.changePercent &&
+            close == other.close &&
+            high == other.high &&
+            low == other.low &&
+            marketCap == other.marketCap &&
+            open == other.open &&
+            previousClose == other.previousClose &&
+            volume == other.volume &&
+            weightedSharesOutstanding == other.weightedSharesOutstanding &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(price, stockId, timestamp, change, changePercent, close, high, low, marketCap, open, previousClose, volume, weightedSharesOutstanding, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            price,
+            stockId,
+            timestamp,
+            change,
+            changePercent,
+            close,
+            high,
+            low,
+            marketCap,
+            open,
+            previousClose,
+            volume,
+            weightedSharesOutstanding,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

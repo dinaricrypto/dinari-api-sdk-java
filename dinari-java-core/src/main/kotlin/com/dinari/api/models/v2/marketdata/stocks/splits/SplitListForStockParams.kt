@@ -232,10 +232,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is SplitListForStockParams && stockId == other.stockId && page == other.page && pageSize == other.pageSize && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is SplitListForStockParams &&
+            stockId == other.stockId &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stockId, page, pageSize, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(stockId, page, pageSize, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "SplitListForStockParams{stockId=$stockId, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

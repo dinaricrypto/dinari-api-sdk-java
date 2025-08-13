@@ -633,12 +633,39 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockListResponse && id == other.id && isFractionable == other.isFractionable && isTradable == other.isTradable && name == other.name && symbol == other.symbol && tokens == other.tokens && cik == other.cik && compositeFigi == other.compositeFigi && cusip == other.cusip && description == other.description && displayName == other.displayName && logoUrl == other.logoUrl && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StockListResponse &&
+            id == other.id &&
+            isFractionable == other.isFractionable &&
+            isTradable == other.isTradable &&
+            name == other.name &&
+            symbol == other.symbol &&
+            tokens == other.tokens &&
+            cik == other.cik &&
+            compositeFigi == other.compositeFigi &&
+            cusip == other.cusip &&
+            description == other.description &&
+            displayName == other.displayName &&
+            logoUrl == other.logoUrl &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, isFractionable, isTradable, name, symbol, tokens, cik, compositeFigi, cusip, description, displayName, logoUrl, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            isFractionable,
+            isTradable,
+            name,
+            symbol,
+            tokens,
+            cik,
+            compositeFigi,
+            cusip,
+            description,
+            displayName,
+            logoUrl,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

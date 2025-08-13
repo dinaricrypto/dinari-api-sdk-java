@@ -251,12 +251,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is CreateMarketBuyOrderInput && paymentAmount == other.paymentAmount && stockId == other.stockId && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is CreateMarketBuyOrderInput &&
+            paymentAmount == other.paymentAmount &&
+            stockId == other.stockId &&
+            recipientAccountId == other.recipientAccountId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(paymentAmount, stockId, recipientAccountId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(paymentAmount, stockId, recipientAccountId, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

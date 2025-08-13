@@ -221,10 +221,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is OrderRequestCreateMarketBuyParams && accountId == other.accountId && createMarketBuyOrderInput == other.createMarketBuyOrderInput && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is OrderRequestCreateMarketBuyParams &&
+            accountId == other.accountId &&
+            createMarketBuyOrderInput == other.createMarketBuyOrderInput &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, createMarketBuyOrderInput, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountId, createMarketBuyOrderInput, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "OrderRequestCreateMarketBuyParams{accountId=$accountId, createMarketBuyOrderInput=$createMarketBuyOrderInput, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

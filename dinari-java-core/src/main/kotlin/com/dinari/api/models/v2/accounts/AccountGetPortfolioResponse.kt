@@ -473,12 +473,18 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Asset && amount == other.amount && chainId == other.chainId && stockId == other.stockId && symbol == other.symbol && tokenAddress == other.tokenAddress && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Asset &&
+                amount == other.amount &&
+                chainId == other.chainId &&
+                stockId == other.stockId &&
+                symbol == other.symbol &&
+                tokenAddress == other.tokenAddress &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, chainId, stockId, symbol, tokenAddress, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(amount, chainId, stockId, symbol, tokenAddress, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -491,12 +497,12 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountGetPortfolioResponse && assets == other.assets && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AccountGetPortfolioResponse &&
+            assets == other.assets &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(assets, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

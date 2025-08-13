@@ -346,12 +346,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Eip155PrepareProxiedOrderResponse && id == other.id && deadline == other.deadline && fees == other.fees && orderTypedData == other.orderTypedData && permitTypedData == other.permitTypedData && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Eip155PrepareProxiedOrderResponse &&
+            id == other.id &&
+            deadline == other.deadline &&
+            fees == other.fees &&
+            orderTypedData == other.orderTypedData &&
+            permitTypedData == other.permitTypedData &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, deadline, fees, orderTypedData, permitTypedData, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(id, deadline, fees, orderTypedData, permitTypedData, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

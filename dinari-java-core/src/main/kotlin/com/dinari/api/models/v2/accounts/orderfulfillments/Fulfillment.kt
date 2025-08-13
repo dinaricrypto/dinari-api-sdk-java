@@ -552,12 +552,35 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Fulfillment && id == other.id && assetTokenFilled == other.assetTokenFilled && assetTokenSpent == other.assetTokenSpent && chainId == other.chainId && orderId == other.orderId && paymentTokenFilled == other.paymentTokenFilled && paymentTokenSpent == other.paymentTokenSpent && transactionDt == other.transactionDt && transactionHash == other.transactionHash && paymentTokenFee == other.paymentTokenFee && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Fulfillment &&
+            id == other.id &&
+            assetTokenFilled == other.assetTokenFilled &&
+            assetTokenSpent == other.assetTokenSpent &&
+            chainId == other.chainId &&
+            orderId == other.orderId &&
+            paymentTokenFilled == other.paymentTokenFilled &&
+            paymentTokenSpent == other.paymentTokenSpent &&
+            transactionDt == other.transactionDt &&
+            transactionHash == other.transactionHash &&
+            paymentTokenFee == other.paymentTokenFee &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, assetTokenFilled, assetTokenSpent, chainId, orderId, paymentTokenFilled, paymentTokenSpent, transactionDt, transactionHash, paymentTokenFee, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            assetTokenFilled,
+            assetTokenSpent,
+            chainId,
+            orderId,
+            paymentTokenFilled,
+            paymentTokenSpent,
+            transactionDt,
+            transactionHash,
+            paymentTokenFee,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

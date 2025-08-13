@@ -711,7 +711,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is ChainId && value == other.value /* spotless:on */
+                return other is ChainId && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -1017,12 +1017,18 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is FeeQuote && deadline == other.deadline && fee == other.fee && orderId == other.orderId && requester == other.requester && timestamp == other.timestamp && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is FeeQuote &&
+                    deadline == other.deadline &&
+                    fee == other.fee &&
+                    orderId == other.orderId &&
+                    requester == other.requester &&
+                    timestamp == other.timestamp &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(deadline, fee, orderId, requester, timestamp, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(deadline, fee, orderId, requester, timestamp, additionalProperties)
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1035,12 +1041,25 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is OrderFeeContractObject && chainId == other.chainId && feeQuote == other.feeQuote && feeQuoteSignature == other.feeQuoteSignature && fees == other.fees && paymentToken == other.paymentToken && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is OrderFeeContractObject &&
+                chainId == other.chainId &&
+                feeQuote == other.feeQuote &&
+                feeQuoteSignature == other.feeQuoteSignature &&
+                fees == other.fees &&
+                paymentToken == other.paymentToken &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(chainId, feeQuote, feeQuoteSignature, fees, paymentToken, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                chainId,
+                feeQuote,
+                feeQuoteSignature,
+                fees,
+                paymentToken,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1053,12 +1072,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Eip155GetFeeQuoteResponse && chainId == other.chainId && fee == other.fee && orderFeeContractObject == other.orderFeeContractObject && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Eip155GetFeeQuoteResponse &&
+            chainId == other.chainId &&
+            fee == other.fee &&
+            orderFeeContractObject == other.orderFeeContractObject &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(chainId, fee, orderFeeContractObject, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(chainId, fee, orderFeeContractObject, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -582,7 +582,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+            return other is Status && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -595,12 +595,31 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockSplit && id == other.id && exDate == other.exDate && payableDate == other.payableDate && recordDate == other.recordDate && splitFrom == other.splitFrom && splitTo == other.splitTo && status == other.status && stockId == other.stockId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StockSplit &&
+            id == other.id &&
+            exDate == other.exDate &&
+            payableDate == other.payableDate &&
+            recordDate == other.recordDate &&
+            splitFrom == other.splitFrom &&
+            splitTo == other.splitTo &&
+            status == other.status &&
+            stockId == other.stockId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, exDate, payableDate, recordDate, splitFrom, splitTo, status, stockId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            exDate,
+            payableDate,
+            recordDate,
+            splitFrom,
+            splitTo,
+            status,
+            stockId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

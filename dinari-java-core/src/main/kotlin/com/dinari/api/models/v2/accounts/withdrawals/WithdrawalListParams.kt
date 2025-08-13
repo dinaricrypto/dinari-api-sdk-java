@@ -242,10 +242,24 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is WithdrawalListParams && accountId == other.accountId && page == other.page && pageSize == other.pageSize && withdrawalRequestId == other.withdrawalRequestId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is WithdrawalListParams &&
+            accountId == other.accountId &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            withdrawalRequestId == other.withdrawalRequestId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, page, pageSize, withdrawalRequestId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            accountId,
+            page,
+            pageSize,
+            withdrawalRequestId,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "WithdrawalListParams{accountId=$accountId, page=$page, pageSize=$pageSize, withdrawalRequestId=$withdrawalRequestId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -344,12 +344,19 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockRetrieveCurrentQuoteResponse && askPrice == other.askPrice && askSize == other.askSize && bidPrice == other.bidPrice && bidSize == other.bidSize && stockId == other.stockId && timestamp == other.timestamp && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StockRetrieveCurrentQuoteResponse &&
+            askPrice == other.askPrice &&
+            askSize == other.askSize &&
+            bidPrice == other.bidPrice &&
+            bidSize == other.bidSize &&
+            stockId == other.stockId &&
+            timestamp == other.timestamp &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(askPrice, askSize, bidPrice, bidSize, stockId, timestamp, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(askPrice, askSize, bidPrice, bidSize, stockId, timestamp, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

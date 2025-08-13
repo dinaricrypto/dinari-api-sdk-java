@@ -282,10 +282,28 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is V2ListOrdersParams && chainId == other.chainId && orderFulfillmentTransactionHash == other.orderFulfillmentTransactionHash && orderRequestId == other.orderRequestId && orderTransactionHash == other.orderTransactionHash && page == other.page && pageSize == other.pageSize && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is V2ListOrdersParams &&
+            chainId == other.chainId &&
+            orderFulfillmentTransactionHash == other.orderFulfillmentTransactionHash &&
+            orderRequestId == other.orderRequestId &&
+            orderTransactionHash == other.orderTransactionHash &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(chainId, orderFulfillmentTransactionHash, orderRequestId, orderTransactionHash, page, pageSize, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            chainId,
+            orderFulfillmentTransactionHash,
+            orderRequestId,
+            orderTransactionHash,
+            page,
+            pageSize,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "V2ListOrdersParams{chainId=$chainId, orderFulfillmentTransactionHash=$orderFulfillmentTransactionHash, orderRequestId=$orderRequestId, orderTransactionHash=$orderTransactionHash, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

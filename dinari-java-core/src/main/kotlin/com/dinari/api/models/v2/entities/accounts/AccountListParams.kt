@@ -226,10 +226,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountListParams && entityId == other.entityId && page == other.page && pageSize == other.pageSize && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AccountListParams &&
+            entityId == other.entityId &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(entityId, page, pageSize, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(entityId, page, pageSize, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AccountListParams{entityId=$entityId, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

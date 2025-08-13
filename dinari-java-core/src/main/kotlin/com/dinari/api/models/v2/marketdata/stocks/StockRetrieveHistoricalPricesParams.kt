@@ -345,7 +345,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Timespan && value == other.value /* spotless:on */
+            return other is Timespan && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -358,10 +358,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockRetrieveHistoricalPricesParams && stockId == other.stockId && timespan == other.timespan && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is StockRetrieveHistoricalPricesParams &&
+            stockId == other.stockId &&
+            timespan == other.timespan &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stockId, timespan, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(stockId, timespan, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "StockRetrieveHistoricalPricesParams{stockId=$stockId, timespan=$timespan, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

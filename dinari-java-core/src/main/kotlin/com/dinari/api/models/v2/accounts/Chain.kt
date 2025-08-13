@@ -187,7 +187,7 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
             return true
         }
 
-        return /* spotless:off */ other is Chain && value == other.value /* spotless:on */
+        return other is Chain && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

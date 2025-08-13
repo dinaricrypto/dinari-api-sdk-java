@@ -641,12 +641,37 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is MarketDataRetrieveMarketHoursResponse && isMarketOpen == other.isMarketOpen && nextSessionCloseDt == other.nextSessionCloseDt && nextSessionOpenDt == other.nextSessionOpenDt && currentSessionAfterHoursCloseTimeDt == other.currentSessionAfterHoursCloseTimeDt && currentSessionCloseDt == other.currentSessionCloseDt && currentSessionOpenDt == other.currentSessionOpenDt && currentSessionOvernightOpenTimeDt == other.currentSessionOvernightOpenTimeDt && currentSessionPreMarketOpenTimeDt == other.currentSessionPreMarketOpenTimeDt && nextSessionAfterHoursCloseTimeDt == other.nextSessionAfterHoursCloseTimeDt && nextSessionOvernightOpenTimeDt == other.nextSessionOvernightOpenTimeDt && nextSessionPreMarketOpenTimeDt == other.nextSessionPreMarketOpenTimeDt && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is MarketDataRetrieveMarketHoursResponse &&
+            isMarketOpen == other.isMarketOpen &&
+            nextSessionCloseDt == other.nextSessionCloseDt &&
+            nextSessionOpenDt == other.nextSessionOpenDt &&
+            currentSessionAfterHoursCloseTimeDt == other.currentSessionAfterHoursCloseTimeDt &&
+            currentSessionCloseDt == other.currentSessionCloseDt &&
+            currentSessionOpenDt == other.currentSessionOpenDt &&
+            currentSessionOvernightOpenTimeDt == other.currentSessionOvernightOpenTimeDt &&
+            currentSessionPreMarketOpenTimeDt == other.currentSessionPreMarketOpenTimeDt &&
+            nextSessionAfterHoursCloseTimeDt == other.nextSessionAfterHoursCloseTimeDt &&
+            nextSessionOvernightOpenTimeDt == other.nextSessionOvernightOpenTimeDt &&
+            nextSessionPreMarketOpenTimeDt == other.nextSessionPreMarketOpenTimeDt &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(isMarketOpen, nextSessionCloseDt, nextSessionOpenDt, currentSessionAfterHoursCloseTimeDt, currentSessionCloseDt, currentSessionOpenDt, currentSessionOvernightOpenTimeDt, currentSessionPreMarketOpenTimeDt, nextSessionAfterHoursCloseTimeDt, nextSessionOvernightOpenTimeDt, nextSessionPreMarketOpenTimeDt, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            isMarketOpen,
+            nextSessionCloseDt,
+            nextSessionOpenDt,
+            currentSessionAfterHoursCloseTimeDt,
+            currentSessionCloseDt,
+            currentSessionOpenDt,
+            currentSessionOvernightOpenTimeDt,
+            currentSessionPreMarketOpenTimeDt,
+            nextSessionAfterHoursCloseTimeDt,
+            nextSessionOvernightOpenTimeDt,
+            nextSessionPreMarketOpenTimeDt,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -649,12 +649,41 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is KycData && addressCountryCode == other.addressCountryCode && countryCode == other.countryCode && lastName == other.lastName && addressCity == other.addressCity && addressPostalCode == other.addressPostalCode && addressStreet1 == other.addressStreet1 && addressStreet2 == other.addressStreet2 && addressSubdivision == other.addressSubdivision && birthDate == other.birthDate && email == other.email && firstName == other.firstName && middleName == other.middleName && taxIdNumber == other.taxIdNumber && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is KycData &&
+            addressCountryCode == other.addressCountryCode &&
+            countryCode == other.countryCode &&
+            lastName == other.lastName &&
+            addressCity == other.addressCity &&
+            addressPostalCode == other.addressPostalCode &&
+            addressStreet1 == other.addressStreet1 &&
+            addressStreet2 == other.addressStreet2 &&
+            addressSubdivision == other.addressSubdivision &&
+            birthDate == other.birthDate &&
+            email == other.email &&
+            firstName == other.firstName &&
+            middleName == other.middleName &&
+            taxIdNumber == other.taxIdNumber &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(addressCountryCode, countryCode, lastName, addressCity, addressPostalCode, addressStreet1, addressStreet2, addressSubdivision, birthDate, email, firstName, middleName, taxIdNumber, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            addressCountryCode,
+            countryCode,
+            lastName,
+            addressCity,
+            addressPostalCode,
+            addressStreet1,
+            addressStreet2,
+            addressSubdivision,
+            birthDate,
+            email,
+            firstName,
+            middleName,
+            taxIdNumber,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

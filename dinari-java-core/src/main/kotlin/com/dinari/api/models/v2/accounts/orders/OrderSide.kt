@@ -121,7 +121,7 @@ class OrderSide @JsonCreator private constructor(private val value: JsonField<St
             return true
         }
 
-        return /* spotless:off */ other is OrderSide && value == other.value /* spotless:on */
+        return other is OrderSide && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

@@ -195,12 +195,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalGetNonceResponse && message == other.message && nonce == other.nonce && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ExternalGetNonceResponse &&
+            message == other.message &&
+            nonce == other.nonce &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(message, nonce, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

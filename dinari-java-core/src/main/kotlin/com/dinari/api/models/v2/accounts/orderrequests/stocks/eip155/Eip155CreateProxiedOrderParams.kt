@@ -597,12 +597,21 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && orderSignature == other.orderSignature && permitSignature == other.permitSignature && preparedProxiedOrderId == other.preparedProxiedOrderId && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                orderSignature == other.orderSignature &&
+                permitSignature == other.permitSignature &&
+                preparedProxiedOrderId == other.preparedProxiedOrderId &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(orderSignature, permitSignature, preparedProxiedOrderId, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                orderSignature,
+                permitSignature,
+                preparedProxiedOrderId,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -615,10 +624,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Eip155CreateProxiedOrderParams && accountId == other.accountId && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is Eip155CreateProxiedOrderParams &&
+            accountId == other.accountId &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "Eip155CreateProxiedOrderParams{accountId=$accountId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
