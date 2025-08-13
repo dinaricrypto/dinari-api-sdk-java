@@ -228,10 +228,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ExternalGetNonceParams && accountId == other.accountId && chainId == other.chainId && walletAddress == other.walletAddress && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is ExternalGetNonceParams &&
+            accountId == other.accountId &&
+            chainId == other.chainId &&
+            walletAddress == other.walletAddress &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, chainId, walletAddress, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountId, chainId, walletAddress, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "ExternalGetNonceParams{accountId=$accountId, chainId=$chainId, walletAddress=$walletAddress, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

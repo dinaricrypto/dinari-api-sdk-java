@@ -136,7 +136,7 @@ class KycDocumentType @JsonCreator private constructor(private val value: JsonFi
             return true
         }
 
-        return /* spotless:off */ other is KycDocumentType && value == other.value /* spotless:on */
+        return other is KycDocumentType && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

@@ -353,12 +353,27 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockRetrieveNewsResponse && articleUrl == other.articleUrl && description == other.description && imageUrl == other.imageUrl && publishedDt == other.publishedDt && publisher == other.publisher && ampUrl == other.ampUrl && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StockRetrieveNewsResponse &&
+            articleUrl == other.articleUrl &&
+            description == other.description &&
+            imageUrl == other.imageUrl &&
+            publishedDt == other.publishedDt &&
+            publisher == other.publisher &&
+            ampUrl == other.ampUrl &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(articleUrl, description, imageUrl, publishedDt, publisher, ampUrl, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            articleUrl,
+            description,
+            imageUrl,
+            publishedDt,
+            publisher,
+            ampUrl,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

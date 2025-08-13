@@ -479,7 +479,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is EntityType && value == other.value /* spotless:on */
+            return other is EntityType && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -492,12 +492,27 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Entity && id == other.id && entityType == other.entityType && isKycComplete == other.isKycComplete && name == other.name && nationality == other.nationality && referenceId == other.referenceId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Entity &&
+            id == other.id &&
+            entityType == other.entityType &&
+            isKycComplete == other.isKycComplete &&
+            name == other.name &&
+            nationality == other.nationality &&
+            referenceId == other.referenceId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, entityType, isKycComplete, name, nationality, referenceId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            entityType,
+            isKycComplete,
+            name,
+            nationality,
+            referenceId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

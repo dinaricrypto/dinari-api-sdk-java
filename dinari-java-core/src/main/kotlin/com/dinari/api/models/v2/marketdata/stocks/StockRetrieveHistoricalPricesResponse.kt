@@ -305,12 +305,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockRetrieveHistoricalPricesResponse && close == other.close && high == other.high && low == other.low && open == other.open && timestamp == other.timestamp && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is StockRetrieveHistoricalPricesResponse &&
+            close == other.close &&
+            high == other.high &&
+            low == other.low &&
+            open == other.open &&
+            timestamp == other.timestamp &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(close, high, low, open, timestamp, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(close, high, low, open, timestamp, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

@@ -210,10 +210,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is WithdrawalRequestRetrieveParams && accountId == other.accountId && withdrawalRequestId == other.withdrawalRequestId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is WithdrawalRequestRetrieveParams &&
+            accountId == other.accountId &&
+            withdrawalRequestId == other.withdrawalRequestId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, withdrawalRequestId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountId, withdrawalRequestId, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "WithdrawalRequestRetrieveParams{accountId=$accountId, withdrawalRequestId=$withdrawalRequestId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

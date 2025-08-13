@@ -242,12 +242,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AccountGetInterestPaymentsResponse && amount == other.amount && currency == other.currency && paymentDate == other.paymentDate && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is AccountGetInterestPaymentsResponse &&
+            amount == other.amount &&
+            currency == other.currency &&
+            paymentDate == other.paymentDate &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(amount, currency, paymentDate, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(amount, currency, paymentDate, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

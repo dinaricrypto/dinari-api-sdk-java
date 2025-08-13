@@ -230,10 +230,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockListParams && page == other.page && pageSize == other.pageSize && symbols == other.symbols && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is StockListParams &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            symbols == other.symbols &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(page, pageSize, symbols, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(page, pageSize, symbols, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "StockListParams{page=$page, pageSize=$pageSize, symbols=$symbols, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

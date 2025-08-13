@@ -1008,12 +1008,33 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && chainId == other.chainId && orderSide == other.orderSide && orderTif == other.orderTif && orderType == other.orderType && paymentToken == other.paymentToken && stockId == other.stockId && assetTokenQuantity == other.assetTokenQuantity && limitPrice == other.limitPrice && paymentTokenQuantity == other.paymentTokenQuantity && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Body &&
+                chainId == other.chainId &&
+                orderSide == other.orderSide &&
+                orderTif == other.orderTif &&
+                orderType == other.orderType &&
+                paymentToken == other.paymentToken &&
+                stockId == other.stockId &&
+                assetTokenQuantity == other.assetTokenQuantity &&
+                limitPrice == other.limitPrice &&
+                paymentTokenQuantity == other.paymentTokenQuantity &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(chainId, orderSide, orderTif, orderType, paymentToken, stockId, assetTokenQuantity, limitPrice, paymentTokenQuantity, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                chainId,
+                orderSide,
+                orderTif,
+                orderType,
+                paymentToken,
+                stockId,
+                assetTokenQuantity,
+                limitPrice,
+                paymentTokenQuantity,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1026,10 +1047,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Eip155GetFeeQuoteParams && accountId == other.accountId && body == other.body && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is Eip155GetFeeQuoteParams &&
+            accountId == other.accountId &&
+            body == other.body &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(accountId, body, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(accountId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "Eip155GetFeeQuoteParams{accountId=$accountId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

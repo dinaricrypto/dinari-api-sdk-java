@@ -209,10 +209,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is StockRetrieveNewsParams && stockId == other.stockId && limit == other.limit && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is StockRetrieveNewsParams &&
+            stockId == other.stockId &&
+            limit == other.limit &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(stockId, limit, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(stockId, limit, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "StockRetrieveNewsParams{stockId=$stockId, limit=$limit, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

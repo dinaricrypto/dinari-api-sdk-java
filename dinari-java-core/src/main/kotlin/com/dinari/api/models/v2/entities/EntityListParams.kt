@@ -223,10 +223,16 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is EntityListParams && page == other.page && pageSize == other.pageSize && referenceId == other.referenceId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is EntityListParams &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            referenceId == other.referenceId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(page, pageSize, referenceId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(page, pageSize, referenceId, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "EntityListParams{page=$page, pageSize=$pageSize, referenceId=$referenceId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

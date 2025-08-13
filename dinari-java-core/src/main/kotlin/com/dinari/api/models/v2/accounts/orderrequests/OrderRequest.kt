@@ -617,7 +617,7 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Status && value == other.value /* spotless:on */
+            return other is Status && value == other.value
         }
 
         override fun hashCode() = value.hashCode()
@@ -630,12 +630,33 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is OrderRequest && id == other.id && accountId == other.accountId && createdDt == other.createdDt && orderSide == other.orderSide && orderTif == other.orderTif && orderType == other.orderType && status == other.status && orderId == other.orderId && recipientAccountId == other.recipientAccountId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is OrderRequest &&
+            id == other.id &&
+            accountId == other.accountId &&
+            createdDt == other.createdDt &&
+            orderSide == other.orderSide &&
+            orderTif == other.orderTif &&
+            orderType == other.orderType &&
+            status == other.status &&
+            orderId == other.orderId &&
+            recipientAccountId == other.recipientAccountId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, accountId, createdDt, orderSide, orderTif, orderType, status, orderId, recipientAccountId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            accountId,
+            createdDt,
+            orderSide,
+            orderTif,
+            orderType,
+            status,
+            orderId,
+            recipientAccountId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

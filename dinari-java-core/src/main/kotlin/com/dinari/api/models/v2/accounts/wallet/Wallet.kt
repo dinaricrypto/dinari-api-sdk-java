@@ -290,12 +290,17 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is Wallet && address == other.address && chainId == other.chainId && isAmlFlagged == other.isAmlFlagged && isManagedWallet == other.isManagedWallet && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is Wallet &&
+            address == other.address &&
+            chainId == other.chainId &&
+            isAmlFlagged == other.isAmlFlagged &&
+            isManagedWallet == other.isManagedWallet &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(address, chainId, isAmlFlagged, isManagedWallet, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(address, chainId, isAmlFlagged, isManagedWallet, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 
