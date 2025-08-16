@@ -48,6 +48,12 @@ class WalletChainId @JsonCreator private constructor(private val value: JsonFiel
 
         @JvmField val EIP155_1337 = of("eip155:1337")
 
+        @JvmField val EIP155_202110 = of("eip155:202110")
+
+        @JvmField val EIP155_179205 = of("eip155:179205")
+
+        @JvmField val EIP155_179202 = of("eip155:179202")
+
         @JvmStatic fun of(value: String) = WalletChainId(JsonField.of(value))
     }
 
@@ -67,6 +73,9 @@ class WalletChainId @JsonCreator private constructor(private val value: JsonFiel
         EIP155_98867,
         EIP155_31337,
         EIP155_1337,
+        EIP155_202110,
+        EIP155_179205,
+        EIP155_179202,
     }
 
     /**
@@ -93,6 +102,9 @@ class WalletChainId @JsonCreator private constructor(private val value: JsonFiel
         EIP155_98867,
         EIP155_31337,
         EIP155_1337,
+        EIP155_202110,
+        EIP155_179205,
+        EIP155_179202,
         /**
          * An enum member indicating that [WalletChainId] was instantiated with an unknown value.
          */
@@ -122,6 +134,9 @@ class WalletChainId @JsonCreator private constructor(private val value: JsonFiel
             EIP155_98867 -> Value.EIP155_98867
             EIP155_31337 -> Value.EIP155_31337
             EIP155_1337 -> Value.EIP155_1337
+            EIP155_202110 -> Value.EIP155_202110
+            EIP155_179205 -> Value.EIP155_179205
+            EIP155_179202 -> Value.EIP155_179202
             else -> Value._UNKNOWN
         }
 
@@ -149,6 +164,9 @@ class WalletChainId @JsonCreator private constructor(private val value: JsonFiel
             EIP155_98867 -> Known.EIP155_98867
             EIP155_31337 -> Known.EIP155_31337
             EIP155_1337 -> Known.EIP155_1337
+            EIP155_202110 -> Known.EIP155_202110
+            EIP155_179205 -> Known.EIP155_179205
+            EIP155_179202 -> Known.EIP155_179202
             else -> throw DinariInvalidDataException("Unknown WalletChainId: $value")
         }
 
