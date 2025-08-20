@@ -21,6 +21,7 @@ import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.services.async.v2.accounts.OrderFulfillmentServiceAsync
 import com.dinari.api.services.async.v2.accounts.OrderRequestServiceAsync
 import com.dinari.api.services.async.v2.accounts.OrderServiceAsync
+import com.dinari.api.services.async.v2.accounts.TokenTransferServiceAsync
 import com.dinari.api.services.async.v2.accounts.WalletServiceAsync
 import com.dinari.api.services.async.v2.accounts.WithdrawalRequestServiceAsync
 import com.dinari.api.services.async.v2.accounts.WithdrawalServiceAsync
@@ -52,6 +53,8 @@ interface AccountServiceAsync {
     fun withdrawalRequests(): WithdrawalRequestServiceAsync
 
     fun withdrawals(): WithdrawalServiceAsync
+
+    fun tokenTransfers(): TokenTransferServiceAsync
 
     /** Get a specific `Account` by its ID. */
     fun retrieve(accountId: String): CompletableFuture<Account> =
@@ -317,6 +320,8 @@ interface AccountServiceAsync {
         fun withdrawalRequests(): WithdrawalRequestServiceAsync.WithRawResponse
 
         fun withdrawals(): WithdrawalServiceAsync.WithRawResponse
+
+        fun tokenTransfers(): TokenTransferServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}`, but is otherwise the

@@ -35,6 +35,8 @@ import com.dinari.api.services.blocking.v2.accounts.OrderRequestService
 import com.dinari.api.services.blocking.v2.accounts.OrderRequestServiceImpl
 import com.dinari.api.services.blocking.v2.accounts.OrderService
 import com.dinari.api.services.blocking.v2.accounts.OrderServiceImpl
+import com.dinari.api.services.blocking.v2.accounts.TokenTransferService
+import com.dinari.api.services.blocking.v2.accounts.TokenTransferServiceImpl
 import com.dinari.api.services.blocking.v2.accounts.WalletService
 import com.dinari.api.services.blocking.v2.accounts.WalletServiceImpl
 import com.dinari.api.services.blocking.v2.accounts.WithdrawalRequestService
@@ -69,6 +71,10 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
 
     private val withdrawals: WithdrawalService by lazy { WithdrawalServiceImpl(clientOptions) }
 
+    private val tokenTransfers: TokenTransferService by lazy {
+        TokenTransferServiceImpl(clientOptions)
+    }
+
     override fun withRawResponse(): AccountService.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountService =
@@ -85,6 +91,8 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
     override fun withdrawalRequests(): WithdrawalRequestService = withdrawalRequests
 
     override fun withdrawals(): WithdrawalService = withdrawals
+
+    override fun tokenTransfers(): TokenTransferService = tokenTransfers
 
     override fun retrieve(params: AccountRetrieveParams, requestOptions: RequestOptions): Account =
         // get /api/v2/accounts/{account_id}
@@ -163,6 +171,10 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             WithdrawalServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val tokenTransfers: TokenTransferService.WithRawResponse by lazy {
+            TokenTransferServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): AccountService.WithRawResponse =
@@ -183,6 +195,8 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             withdrawalRequests
 
         override fun withdrawals(): WithdrawalService.WithRawResponse = withdrawals
+
+        override fun tokenTransfers(): TokenTransferService.WithRawResponse = tokenTransfers
 
         private val retrieveHandler: Handler<Account> =
             jsonHandler<Account>(clientOptions.jsonMapper)
