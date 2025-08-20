@@ -148,7 +148,7 @@ private constructor(
          * File to be uploaded. Must be a valid image or PDF file (jpg, jpeg, png, pdf) less than
          * 10MB in size.
          */
-        fun file(file: Path) = apply { body.file(file) }
+        fun file(path: Path) = apply { body.file(path) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -399,11 +399,11 @@ private constructor(
              * File to be uploaded. Must be a valid image or PDF file (jpg, jpeg, png, pdf) less
              * than 10MB in size.
              */
-            fun file(file: Path) =
+            fun file(path: Path) =
                 file(
                     MultipartField.builder<InputStream>()
-                        .value(file.inputStream())
-                        .filename(file.name)
+                        .value(path.inputStream())
+                        .filename(path.name)
                         .build()
                 )
 
