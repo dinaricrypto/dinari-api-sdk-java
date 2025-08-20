@@ -36,7 +36,7 @@ class DinariClientAsyncImpl(private val clientOptions: ClientOptions) : DinariCl
 
     override fun v2(): V2ServiceAsync = v2
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DinariClientAsync.WithRawResponse {
