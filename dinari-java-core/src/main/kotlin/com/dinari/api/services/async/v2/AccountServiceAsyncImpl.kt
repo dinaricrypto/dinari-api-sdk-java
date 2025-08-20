@@ -35,6 +35,8 @@ import com.dinari.api.services.async.v2.accounts.OrderRequestServiceAsync
 import com.dinari.api.services.async.v2.accounts.OrderRequestServiceAsyncImpl
 import com.dinari.api.services.async.v2.accounts.OrderServiceAsync
 import com.dinari.api.services.async.v2.accounts.OrderServiceAsyncImpl
+import com.dinari.api.services.async.v2.accounts.TokenTransferServiceAsync
+import com.dinari.api.services.async.v2.accounts.TokenTransferServiceAsyncImpl
 import com.dinari.api.services.async.v2.accounts.WalletServiceAsync
 import com.dinari.api.services.async.v2.accounts.WalletServiceAsyncImpl
 import com.dinari.api.services.async.v2.accounts.WithdrawalRequestServiceAsync
@@ -72,6 +74,10 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
         WithdrawalServiceAsyncImpl(clientOptions)
     }
 
+    private val tokenTransfers: TokenTransferServiceAsync by lazy {
+        TokenTransferServiceAsyncImpl(clientOptions)
+    }
+
     override fun withRawResponse(): AccountServiceAsync.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountServiceAsync =
@@ -88,6 +94,8 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     override fun withdrawalRequests(): WithdrawalRequestServiceAsync = withdrawalRequests
 
     override fun withdrawals(): WithdrawalServiceAsync = withdrawals
+
+    override fun tokenTransfers(): TokenTransferServiceAsync = tokenTransfers
 
     override fun retrieve(
         params: AccountRetrieveParams,
@@ -168,6 +176,10 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             WithdrawalServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val tokenTransfers: TokenTransferServiceAsync.WithRawResponse by lazy {
+            TokenTransferServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): AccountServiceAsync.WithRawResponse =
@@ -188,6 +200,8 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             withdrawalRequests
 
         override fun withdrawals(): WithdrawalServiceAsync.WithRawResponse = withdrawals
+
+        override fun tokenTransfers(): TokenTransferServiceAsync.WithRawResponse = tokenTransfers
 
         private val retrieveHandler: Handler<Account> =
             jsonHandler<Account>(clientOptions.jsonMapper)
