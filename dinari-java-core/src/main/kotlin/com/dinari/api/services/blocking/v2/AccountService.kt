@@ -21,6 +21,7 @@ import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.services.blocking.v2.accounts.OrderFulfillmentService
 import com.dinari.api.services.blocking.v2.accounts.OrderRequestService
 import com.dinari.api.services.blocking.v2.accounts.OrderService
+import com.dinari.api.services.blocking.v2.accounts.TokenTransferService
 import com.dinari.api.services.blocking.v2.accounts.WalletService
 import com.dinari.api.services.blocking.v2.accounts.WithdrawalRequestService
 import com.dinari.api.services.blocking.v2.accounts.WithdrawalService
@@ -52,6 +53,8 @@ interface AccountService {
     fun withdrawalRequests(): WithdrawalRequestService
 
     fun withdrawals(): WithdrawalService
+
+    fun tokenTransfers(): TokenTransferService
 
     /** Get a specific `Account` by its ID. */
     fun retrieve(accountId: String): Account = retrieve(accountId, AccountRetrieveParams.none())
@@ -298,6 +301,8 @@ interface AccountService {
         fun withdrawalRequests(): WithdrawalRequestService.WithRawResponse
 
         fun withdrawals(): WithdrawalService.WithRawResponse
+
+        fun tokenTransfers(): TokenTransferService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}`, but is otherwise the
