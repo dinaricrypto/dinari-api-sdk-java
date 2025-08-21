@@ -42,10 +42,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
 
         @JvmField val EIP155_98867 = of("eip155:98867")
 
-        @JvmField val EIP155_31337 = of("eip155:31337")
-
-        @JvmField val EIP155_1337 = of("eip155:1337")
-
         @JvmField val EIP155_202110 = of("eip155:202110")
 
         @JvmField val EIP155_179205 = of("eip155:179205")
@@ -68,8 +64,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
         EIP155_84532,
         EIP155_168587773,
         EIP155_98867,
-        EIP155_31337,
-        EIP155_1337,
         EIP155_202110,
         EIP155_179205,
         EIP155_179202,
@@ -96,8 +90,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
         EIP155_84532,
         EIP155_168587773,
         EIP155_98867,
-        EIP155_31337,
-        EIP155_1337,
         EIP155_202110,
         EIP155_179205,
         EIP155_179202,
@@ -125,8 +117,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
             EIP155_84532 -> Value.EIP155_84532
             EIP155_168587773 -> Value.EIP155_168587773
             EIP155_98867 -> Value.EIP155_98867
-            EIP155_31337 -> Value.EIP155_31337
-            EIP155_1337 -> Value.EIP155_1337
             EIP155_202110 -> Value.EIP155_202110
             EIP155_179205 -> Value.EIP155_179205
             EIP155_179202 -> Value.EIP155_179202
@@ -154,8 +144,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
             EIP155_84532 -> Known.EIP155_84532
             EIP155_168587773 -> Known.EIP155_168587773
             EIP155_98867 -> Known.EIP155_98867
-            EIP155_31337 -> Known.EIP155_31337
-            EIP155_1337 -> Known.EIP155_1337
             EIP155_202110 -> Known.EIP155_202110
             EIP155_179205 -> Known.EIP155_179205
             EIP155_179202 -> Known.EIP155_179202
