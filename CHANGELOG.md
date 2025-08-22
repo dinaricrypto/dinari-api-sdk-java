@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.6.0 (2025-08-22)
+
+Full Changelog: [v0.5.0...v0.6.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.5.0...v0.6.0)
+
+### Features
+
+* **api:** api update ([11b6e5f](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/11b6e5f3e803856fa6989f786374dc29a0f2f4cb))
+
+
+### Chores
+
+* **ci:** reduce log noise ([7db049b](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/7db049bf50f91aa20474818901e4b59e922a5446))
+* remove memory upper bound from publishing step ([4446883](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/4446883f4b2ada156ae84625b04d99a878ee1ee3))
+
 ## 0.5.0 (2025-08-20)
 
 Full Changelog: [v0.3.0...v0.5.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.3.0...v0.5.0)
