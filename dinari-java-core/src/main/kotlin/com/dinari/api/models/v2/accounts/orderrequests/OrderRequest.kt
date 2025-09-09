@@ -502,7 +502,11 @@ private constructor(
 
         companion object {
 
+            @JvmField val QUOTED = of("QUOTED")
+
             @JvmField val PENDING = of("PENDING")
+
+            @JvmField val PENDING_BRIDGE = of("PENDING_BRIDGE")
 
             @JvmField val SUBMITTED = of("SUBMITTED")
 
@@ -515,7 +519,9 @@ private constructor(
 
         /** An enum containing [Status]'s known values. */
         enum class Known {
+            QUOTED,
             PENDING,
+            PENDING_BRIDGE,
             SUBMITTED,
             ERROR,
             CANCELLED,
@@ -531,7 +537,9 @@ private constructor(
          * - It was constructed with an arbitrary value using the [of] method.
          */
         enum class Value {
+            QUOTED,
             PENDING,
+            PENDING_BRIDGE,
             SUBMITTED,
             ERROR,
             CANCELLED,
@@ -548,7 +556,9 @@ private constructor(
          */
         fun value(): Value =
             when (this) {
+                QUOTED -> Value.QUOTED
                 PENDING -> Value.PENDING
+                PENDING_BRIDGE -> Value.PENDING_BRIDGE
                 SUBMITTED -> Value.SUBMITTED
                 ERROR -> Value.ERROR
                 CANCELLED -> Value.CANCELLED
@@ -566,7 +576,9 @@ private constructor(
          */
         fun known(): Known =
             when (this) {
+                QUOTED -> Known.QUOTED
                 PENDING -> Known.PENDING
+                PENDING_BRIDGE -> Known.PENDING_BRIDGE
                 SUBMITTED -> Known.SUBMITTED
                 ERROR -> Known.ERROR
                 CANCELLED -> Known.CANCELLED
