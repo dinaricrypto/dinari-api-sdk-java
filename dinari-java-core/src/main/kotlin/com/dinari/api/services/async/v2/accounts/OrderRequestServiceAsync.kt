@@ -200,6 +200,10 @@ interface OrderRequestServiceAsync {
     /**
      * Get fee quote data for an `Order Request`. This is provided primarily for informational
      * purposes.
+     *
+     * For market buy orders, the notional amount of the order includes the fees. For market and
+     * limit sell orders, fees are deducted from the proceeds of the sale. For limit buy orders, the
+     * fees are added to the total cost of the order.
      */
     fun getFeeQuote(
         accountId: String,
