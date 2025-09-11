@@ -4,7 +4,6 @@ package com.dinari.api.services.blocking.v2.accounts
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
-import com.dinari.api.core.JsonValue
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestCreateParams
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestListParams
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestRetrieveParams
@@ -30,7 +29,7 @@ internal class WithdrawalRequestServiceTest {
             withdrawalRequestService.create(
                 WithdrawalRequestCreateParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .paymentTokenQuantity(JsonValue.from("0"))
+                    .paymentTokenQuantity(0.0)
                     .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )

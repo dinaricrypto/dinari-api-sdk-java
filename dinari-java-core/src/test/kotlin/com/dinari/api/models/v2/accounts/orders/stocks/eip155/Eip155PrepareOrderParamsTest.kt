@@ -2,7 +2,6 @@
 
 package com.dinari.api.models.v2.accounts.orders.stocks.eip155
 
-import com.dinari.api.core.JsonValue
 import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderTif
@@ -22,9 +21,9 @@ internal class Eip155PrepareOrderParamsTest {
             .orderType(OrderType.MARKET)
             .paymentToken("payment_token")
             .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .assetTokenQuantity(JsonValue.from("0"))
-            .limitPrice(JsonValue.from("0"))
-            .paymentTokenQuantity(JsonValue.from("0"))
+            .assetTokenQuantity(0.0)
+            .limitPrice(0.0)
+            .paymentTokenQuantity(0.0)
             .build()
     }
 
@@ -57,9 +56,9 @@ internal class Eip155PrepareOrderParamsTest {
                 .orderType(OrderType.MARKET)
                 .paymentToken("payment_token")
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .assetTokenQuantity(JsonValue.from("0"))
-                .limitPrice(JsonValue.from("0"))
-                .paymentTokenQuantity(JsonValue.from("0"))
+                .assetTokenQuantity(0.0)
+                .limitPrice(0.0)
+                .paymentTokenQuantity(0.0)
                 .build()
 
         val body = params._body()
@@ -70,9 +69,9 @@ internal class Eip155PrepareOrderParamsTest {
         assertThat(body.orderType()).isEqualTo(OrderType.MARKET)
         assertThat(body.paymentToken()).isEqualTo("payment_token")
         assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body._assetTokenQuantity()).isEqualTo(JsonValue.from("0"))
-        assertThat(body._limitPrice()).isEqualTo(JsonValue.from("0"))
-        assertThat(body._paymentTokenQuantity()).isEqualTo(JsonValue.from("0"))
+        assertThat(body.assetTokenQuantity()).contains(0.0)
+        assertThat(body.limitPrice()).contains(0.0)
+        assertThat(body.paymentTokenQuantity()).contains(0.0)
     }
 
     @Test

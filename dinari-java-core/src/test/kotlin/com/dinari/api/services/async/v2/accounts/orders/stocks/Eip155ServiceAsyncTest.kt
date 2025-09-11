@@ -4,7 +4,6 @@ package com.dinari.api.services.async.v2.accounts.orders.stocks
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
-import com.dinari.api.core.JsonValue
 import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderTif
@@ -39,9 +38,9 @@ internal class Eip155ServiceAsyncTest {
                     .orderType(OrderType.MARKET)
                     .paymentToken("payment_token")
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .assetTokenQuantity(JsonValue.from("0"))
-                    .limitPrice(JsonValue.from("0"))
-                    .paymentTokenQuantity(JsonValue.from("0"))
+                    .assetTokenQuantity(0.0)
+                    .limitPrice(0.0)
+                    .paymentTokenQuantity(0.0)
                     .build()
             )
 
@@ -70,9 +69,9 @@ internal class Eip155ServiceAsyncTest {
                     .orderType(OrderType.MARKET)
                     .paymentToken("payment_token")
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .assetTokenQuantity(JsonValue.from("0"))
-                    .limitPrice(JsonValue.from("0"))
-                    .paymentTokenQuantity(JsonValue.from("0"))
+                    .assetTokenQuantity(0.0)
+                    .limitPrice(0.0)
+                    .paymentTokenQuantity(0.0)
                     .build()
             )
 
