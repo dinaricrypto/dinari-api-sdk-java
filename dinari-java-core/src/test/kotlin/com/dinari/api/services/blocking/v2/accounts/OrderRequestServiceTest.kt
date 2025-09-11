@@ -4,7 +4,6 @@ package com.dinari.api.services.blocking.v2.accounts
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
-import com.dinari.api.core.JsonValue
 import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orderrequests.CreateLimitBuyOrderInput
 import com.dinari.api.models.v2.accounts.orderrequests.CreateLimitSellOrderInput
@@ -205,11 +204,11 @@ internal class OrderRequestServiceTest {
                     .orderSide(OrderSide.BUY)
                     .orderType(OrderType.MARKET)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .assetTokenQuantity(JsonValue.from("0"))
+                    .assetTokenQuantity(0.0)
                     .chainId(Chain.EIP155_1)
-                    .limitPrice(JsonValue.from("0"))
+                    .limitPrice(0.0)
                     .paymentTokenAddress("payment_token_address")
-                    .paymentTokenQuantity(JsonValue.from("0"))
+                    .paymentTokenQuantity(0.0)
                     .build()
             )
 

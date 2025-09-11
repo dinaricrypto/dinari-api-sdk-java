@@ -2,7 +2,6 @@
 
 package com.dinari.api.models.v2.accounts.tokentransfers
 
-import com.dinari.api.core.JsonValue
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -12,7 +11,7 @@ internal class TokenTransferCreateParamsTest {
     fun create() {
         TokenTransferCreateParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .quantity(JsonValue.from("0"))
+            .quantity(0.0)
             .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .tokenAddress("token_address")
             .build()
@@ -23,7 +22,7 @@ internal class TokenTransferCreateParamsTest {
         val params =
             TokenTransferCreateParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .quantity(JsonValue.from("0"))
+                .quantity(0.0)
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .tokenAddress("token_address")
                 .build()
@@ -38,14 +37,14 @@ internal class TokenTransferCreateParamsTest {
         val params =
             TokenTransferCreateParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .quantity(JsonValue.from("0"))
+                .quantity(0.0)
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .tokenAddress("token_address")
                 .build()
 
         val body = params._body()
 
-        assertThat(body._quantity()).isEqualTo(JsonValue.from("0"))
+        assertThat(body.quantity()).isEqualTo(0.0)
         assertThat(body.recipientAccountId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.tokenAddress()).isEqualTo("token_address")
     }
