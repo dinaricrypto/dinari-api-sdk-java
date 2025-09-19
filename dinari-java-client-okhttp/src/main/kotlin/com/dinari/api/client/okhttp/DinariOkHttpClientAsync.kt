@@ -5,6 +5,7 @@ package com.dinari.api.client.okhttp
 import com.dinari.api.client.DinariClientAsync
 import com.dinari.api.client.DinariClientAsyncImpl
 import com.dinari.api.core.ClientOptions
+import com.dinari.api.core.Sleeper
 import com.dinari.api.core.Timeout
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.HttpClient
@@ -119,6 +120,17 @@ class DinariOkHttpClientAsync private constructor() {
          * rarely needs to be overridden.
          */
         fun jsonMapper(jsonMapper: JsonMapper) = apply { clientOptions.jsonMapper(jsonMapper) }
+
+        /**
+         * The interface to use for delaying execution, like during retries.
+         *
+         * This is primarily useful for using fake delays in tests.
+         *
+         * Defaults to real execution delays.
+         *
+         * This class takes ownership of the sleeper and closes it when closed.
+         */
+        fun sleeper(sleeper: Sleeper) = apply { clientOptions.sleeper(sleeper) }
 
         /**
          * The clock to use for operations that require timing, like retries.
