@@ -143,7 +143,7 @@ interface OrderRequestServiceAsync {
     ): CompletableFuture<OrderRequest>
 
     /**
-     * Create a managed `OrderRequest` to place a market buy `Order`. Fees for the `Order` are
+     * Create a managed `OrderRequest` to place a market buy `Order`.<br>Fees for the `Order` are
      * included in the transaction. Refer to our
      * [Fee Quote API](https://docs.dinari.com/reference/createproxiedorderfeequote#/) for fee
      * estimation.

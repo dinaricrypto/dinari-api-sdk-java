@@ -11,7 +11,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Get a list of all `Orders` under the `Entity`. Optionally `Orders` can be transaction hash or
+ * Get a list of all `Orders` under the `Entity`.<br>Optionally `Orders` can be transaction hash or
  * fulfillment transaction hash.
  */
 class V2ListOrdersParams
