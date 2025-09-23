@@ -34,8 +34,8 @@ interface V2Service {
     fun accounts(): AccountService
 
     /**
-     * Get a list of all `Orders` under the `Entity`. Optionally `Orders` can be transaction hash or
-     * fulfillment transaction hash.
+     * Get a list of all `Orders` under the `Entity`.<br>Optionally `Orders` can be transaction hash
+     * or fulfillment transaction hash.
      */
     fun listOrders(): List<V2ListOrdersResponse> = listOrders(V2ListOrdersParams.none())
 
