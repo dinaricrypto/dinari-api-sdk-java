@@ -18,6 +18,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Balance of a payment token in an `Account`. */
 class AccountGetCashBalancesResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val amount: JsonField<Double>,
     private val chainId: JsonField<Chain>,

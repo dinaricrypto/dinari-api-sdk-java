@@ -17,6 +17,7 @@ import java.util.Objects
 
 /** [EIP-712](https://eips.ethereum.org/EIPS/eip-712) typed data to be signed with a wallet. */
 class EvmTypedData
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val domain: JsonValue,
     private val message: JsonValue,

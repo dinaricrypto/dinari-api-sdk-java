@@ -22,6 +22,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Prepared data for creating an `OrderRequest` through the EVM proxied order API route. */
 class Eip155PrepareProxiedOrderResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val deadline: JsonField<OffsetDateTime>,

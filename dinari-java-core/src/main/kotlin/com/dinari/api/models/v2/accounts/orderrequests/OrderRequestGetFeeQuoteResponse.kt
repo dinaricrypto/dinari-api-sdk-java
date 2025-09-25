@@ -17,6 +17,7 @@ import java.util.Objects
 
 /** A preview of the fee that would be collected when placing an Order Request. */
 class OrderRequestGetFeeQuoteResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val fee: JsonField<Double>,
     private val additionalProperties: MutableMap<String, JsonValue>,

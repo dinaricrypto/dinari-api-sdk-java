@@ -22,6 +22,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Information about a token transfer between accounts. */
 class TokenTransfer
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val chainId: JsonField<Chain>,

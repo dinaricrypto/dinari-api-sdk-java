@@ -262,6 +262,7 @@ private constructor(
 
     /** Input parameters for minting sandbox payment tokens. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val chainId: JsonField<Chain>,
         private val additionalProperties: MutableMap<String, JsonValue>,

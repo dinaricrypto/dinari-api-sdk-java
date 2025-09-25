@@ -18,6 +18,7 @@ import java.util.Optional
 
 /** Information about a dividend announcement for a `Stock`. */
 class StockRetrieveDividendsResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val cashAmount: JsonField<Double>,
     private val currency: JsonField<String>,
