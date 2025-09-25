@@ -500,6 +500,7 @@ private constructor(
 
     /** Input parameters for requesting a fee quote for an `Order Request`. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val orderSide: JsonField<OrderSide>,
         private val orderType: JsonField<OrderType>,

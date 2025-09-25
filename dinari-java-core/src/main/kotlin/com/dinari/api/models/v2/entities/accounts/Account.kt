@@ -18,6 +18,7 @@ import java.util.Objects
 
 /** Information about an `Account` owned by an `Entity`. */
 class Account
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val createdDt: JsonField<OffsetDateTime>,

@@ -20,6 +20,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Information about an `Entity`, which can be either an individual or an organization. */
 class Entity
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val entityType: JsonField<EntityType>,

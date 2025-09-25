@@ -18,6 +18,7 @@ import java.util.Optional
 
 /** Input parameters for creating a market buy `OrderRequest`. */
 class CreateMarketBuyOrderInput
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val paymentAmount: JsonField<Double>,
     private val stockId: JsonField<String>,

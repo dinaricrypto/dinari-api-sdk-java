@@ -18,6 +18,7 @@ import java.util.Objects
 import java.util.Optional
 
 class StockRetrieveCurrentPriceResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val price: JsonField<Double>,
     private val stockId: JsonField<String>,

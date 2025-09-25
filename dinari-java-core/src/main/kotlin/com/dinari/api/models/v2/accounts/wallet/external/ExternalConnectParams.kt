@@ -358,6 +358,7 @@ private constructor(
 
     /** Input parameters for connecting an `Account` to a `Wallet` owned by the `Entity`. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val chainId: JsonField<WalletChainId>,
         private val nonce: JsonField<String>,

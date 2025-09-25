@@ -17,6 +17,7 @@ import java.util.Objects
 
 /** Connection message to sign to prove ownership of the `Wallet`. */
 class ExternalGetNonceResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val message: JsonField<String>,
     private val nonce: JsonField<String>,

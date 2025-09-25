@@ -299,6 +299,7 @@ private constructor(
 
     /** Input parameters for providing KYC information for an `Entity`. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val data: JsonField<KycData>,
         private val providerName: JsonField<String>,

@@ -20,6 +20,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Prepared transactions to place an order on an EIP-155 (EVM) chain. */
 class Eip155PrepareOrderResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val fees: JsonField<List<OrderFeeAmount>>,
     private val transactionData: JsonField<List<TransactionData>>,
@@ -241,6 +242,7 @@ private constructor(
      * followed by a transaction to call the Dinari smart contract to create an `Order`.
      */
     class TransactionData
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val abi: JsonValue,
         private val args: JsonValue,

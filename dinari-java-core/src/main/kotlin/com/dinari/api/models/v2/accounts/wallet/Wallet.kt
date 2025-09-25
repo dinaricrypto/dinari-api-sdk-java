@@ -19,6 +19,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Information about a blockchain `Wallet`. */
 class Wallet
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val address: JsonField<String>,
     private val chainId: JsonField<WalletChainId>,

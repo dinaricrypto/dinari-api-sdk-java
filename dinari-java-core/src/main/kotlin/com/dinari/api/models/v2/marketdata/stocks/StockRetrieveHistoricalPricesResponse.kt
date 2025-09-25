@@ -17,6 +17,7 @@ import java.util.Objects
 
 /** Datapoint of historical price data for a `Stock`. */
 class StockRetrieveHistoricalPricesResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val close: JsonField<Double>,
     private val high: JsonField<Double>,

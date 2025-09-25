@@ -346,6 +346,7 @@ private constructor(
 
     /** Input parameters for creating a proxied `OrderRequest` from a `EvmPreparedProxiedOrder`. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val orderSignature: JsonField<String>,
         private val permitSignature: JsonField<String>,

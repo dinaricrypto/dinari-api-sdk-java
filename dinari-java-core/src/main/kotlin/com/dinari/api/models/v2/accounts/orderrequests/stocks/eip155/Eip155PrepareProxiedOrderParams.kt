@@ -521,6 +521,7 @@ private constructor(
 
     /** Input parameters for building typed data involved in creating a proxied `OrderRequest`. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val chainId: JsonField<Chain>,
         private val orderSide: JsonField<OrderSide>,

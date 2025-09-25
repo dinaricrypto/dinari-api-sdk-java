@@ -522,6 +522,7 @@ private constructor(
 
     /** Input parameters for building transactions to create `Orders` using Dinari's APIs. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val chainId: JsonField<Chain>,
         private val orderSide: JsonField<OrderSide>,
