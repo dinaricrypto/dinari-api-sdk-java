@@ -32,6 +32,7 @@ import kotlin.jvm.optionals.getOrNull
  * actual transaction that occurs on the blockchain.
  */
 class OrderRequest
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val accountId: JsonField<String>,

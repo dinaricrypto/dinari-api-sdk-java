@@ -18,6 +18,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** A document associated with KYC for an `Entity`. */
 class KycDocument
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val documentType: JsonField<KycDocumentType>,

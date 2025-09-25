@@ -316,6 +316,7 @@ private constructor(
      * `Wallet`.
      */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val paymentTokenQuantity: JsonField<Double>,
         private val recipientAccountId: JsonField<String>,

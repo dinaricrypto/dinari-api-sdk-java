@@ -279,6 +279,7 @@ private constructor(
 
     /** Input parameters for creating an `Entity`. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val name: JsonField<String>,
         private val referenceId: JsonField<String>,

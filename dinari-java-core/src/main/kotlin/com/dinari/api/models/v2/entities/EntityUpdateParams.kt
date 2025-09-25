@@ -254,6 +254,7 @@ private constructor(
 
     /** Input parameters for updating an `Entity`. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val referenceId: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,

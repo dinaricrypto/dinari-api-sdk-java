@@ -18,6 +18,7 @@ import java.util.Objects
 
 /** URL for a managed KYC flow for an `Entity`. */
 class KycCreateManagedCheckResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val embedUrl: JsonField<String>,
     private val expirationDt: JsonField<OffsetDateTime>,

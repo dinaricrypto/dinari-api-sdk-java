@@ -18,6 +18,7 @@ import java.util.Objects
 import java.util.Optional
 
 class MarketDataRetrieveMarketHoursResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val isMarketOpen: JsonField<Boolean>,
     private val nextSessionCloseDt: JsonField<OffsetDateTime>,

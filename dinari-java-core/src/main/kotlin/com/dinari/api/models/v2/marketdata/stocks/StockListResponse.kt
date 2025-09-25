@@ -21,6 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Information about stock available for trading. */
 class StockListResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val isFractionable: JsonField<Boolean>,

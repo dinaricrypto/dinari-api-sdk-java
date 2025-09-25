@@ -22,6 +22,7 @@ import java.util.Optional
  * original source.
  */
 class StockRetrieveNewsResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val articleUrl: JsonField<String>,
     private val description: JsonField<String>,

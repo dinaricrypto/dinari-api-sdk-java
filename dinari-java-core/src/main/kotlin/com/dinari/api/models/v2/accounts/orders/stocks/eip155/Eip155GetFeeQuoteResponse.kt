@@ -21,6 +21,7 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 class Eip155GetFeeQuoteResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val chainId: JsonField<Chain>,
     private val fee: JsonField<Double>,
@@ -250,6 +251,7 @@ private constructor(
      * Dinari's smart contracts.
      */
     class OrderFeeContractObject
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val chainId: JsonField<ChainId>,
         private val feeQuote: JsonField<FeeQuote>,
@@ -721,6 +723,7 @@ private constructor(
 
         /** `FeeQuote` structure to pass into contracts. */
         class FeeQuote
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val deadline: JsonField<Long>,
             private val fee: JsonField<String>,

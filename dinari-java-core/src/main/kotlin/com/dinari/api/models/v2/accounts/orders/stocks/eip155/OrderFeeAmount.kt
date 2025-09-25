@@ -18,6 +18,7 @@ import java.util.Objects
 import kotlin.jvm.optionals.getOrNull
 
 class OrderFeeAmount
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val feeInEth: JsonField<Double>,
     private val feeInWei: JsonField<String>,

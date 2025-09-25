@@ -19,6 +19,7 @@ import java.util.Optional
 
 /** KYC data for an `Entity`. */
 class KycData
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val addressCountryCode: JsonField<String>,
     private val countryCode: JsonField<String>,

@@ -18,6 +18,7 @@ import java.util.Optional
 
 /** Input parameters for creating a limit sell `OrderRequest`. */
 class CreateLimitSellOrderInput
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val assetQuantity: JsonField<Double>,
     private val limitPrice: JsonField<Double>,

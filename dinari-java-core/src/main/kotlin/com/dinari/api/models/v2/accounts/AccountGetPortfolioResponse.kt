@@ -20,6 +20,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Balance information of `Stock` assets in your `Account`. */
 class AccountGetPortfolioResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val assets: JsonField<List<Asset>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -176,6 +177,7 @@ private constructor(
 
     /** Balance of a dShare in an `Account`. */
     class Asset
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val amount: JsonField<Double>,
         private val chainId: JsonField<Chain>,

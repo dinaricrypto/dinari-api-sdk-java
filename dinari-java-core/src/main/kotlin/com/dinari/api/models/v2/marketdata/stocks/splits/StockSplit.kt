@@ -23,6 +23,7 @@ import kotlin.jvm.optionals.getOrNull
  * the split, the record date, payable date, ex-date, and the status of the split.
  */
 class StockSplit
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val exDate: JsonField<LocalDate>,

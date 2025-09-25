@@ -335,6 +335,7 @@ private constructor(
 
     /** Input parameters for creating a token transfer from a managed account. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val quantity: JsonField<Double>,
         private val recipientAccountId: JsonField<String>,

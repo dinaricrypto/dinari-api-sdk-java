@@ -17,6 +17,7 @@ import java.util.Collections
 import java.util.Objects
 
 class StockRetrieveCurrentQuoteResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val askPrice: JsonField<Double>,
     private val askSize: JsonField<Double>,

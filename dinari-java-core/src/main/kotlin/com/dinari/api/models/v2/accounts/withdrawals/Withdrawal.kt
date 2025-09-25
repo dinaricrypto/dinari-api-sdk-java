@@ -24,6 +24,7 @@ import kotlin.jvm.optionals.getOrNull
  * `Wallet`.
  */
 class Withdrawal
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val accountId: JsonField<String>,

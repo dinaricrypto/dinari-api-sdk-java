@@ -18,6 +18,7 @@ import java.util.Objects
 
 /** Represents a dividend payment event for an `Account`. */
 class AccountGetDividendPaymentsResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val amount: JsonField<Double>,
     private val currency: JsonField<String>,
