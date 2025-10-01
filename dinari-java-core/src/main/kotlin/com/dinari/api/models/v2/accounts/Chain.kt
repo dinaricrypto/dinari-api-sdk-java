@@ -28,8 +28,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
 
         @JvmField val EIP155_81457 = of("eip155:81457")
 
-        @JvmField val EIP155_7887 = of("eip155:7887")
-
         @JvmField val EIP155_98866 = of("eip155:98866")
 
         @JvmField val EIP155_11155111 = of("eip155:11155111")
@@ -50,6 +48,8 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
 
         @JvmField val EIP155_98865 = of("eip155:98865")
 
+        @JvmField val EIP155_7887 = of("eip155:7887")
+
         @JvmStatic fun of(value: String) = Chain(JsonField.of(value))
     }
 
@@ -59,7 +59,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
         EIP155_42161,
         EIP155_8453,
         EIP155_81457,
-        EIP155_7887,
         EIP155_98866,
         EIP155_11155111,
         EIP155_421614,
@@ -70,6 +69,7 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
         EIP155_179205,
         EIP155_179202,
         EIP155_98865,
+        EIP155_7887,
     }
 
     /**
@@ -86,7 +86,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
         EIP155_42161,
         EIP155_8453,
         EIP155_81457,
-        EIP155_7887,
         EIP155_98866,
         EIP155_11155111,
         EIP155_421614,
@@ -97,6 +96,7 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
         EIP155_179205,
         EIP155_179202,
         EIP155_98865,
+        EIP155_7887,
         /** An enum member indicating that [Chain] was instantiated with an unknown value. */
         _UNKNOWN,
     }
@@ -114,7 +114,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
             EIP155_42161 -> Value.EIP155_42161
             EIP155_8453 -> Value.EIP155_8453
             EIP155_81457 -> Value.EIP155_81457
-            EIP155_7887 -> Value.EIP155_7887
             EIP155_98866 -> Value.EIP155_98866
             EIP155_11155111 -> Value.EIP155_11155111
             EIP155_421614 -> Value.EIP155_421614
@@ -125,6 +124,7 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
             EIP155_179205 -> Value.EIP155_179205
             EIP155_179202 -> Value.EIP155_179202
             EIP155_98865 -> Value.EIP155_98865
+            EIP155_7887 -> Value.EIP155_7887
             else -> Value._UNKNOWN
         }
 
@@ -142,7 +142,6 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
             EIP155_42161 -> Known.EIP155_42161
             EIP155_8453 -> Known.EIP155_8453
             EIP155_81457 -> Known.EIP155_81457
-            EIP155_7887 -> Known.EIP155_7887
             EIP155_98866 -> Known.EIP155_98866
             EIP155_11155111 -> Known.EIP155_11155111
             EIP155_421614 -> Known.EIP155_421614
@@ -153,6 +152,7 @@ class Chain @JsonCreator private constructor(private val value: JsonField<String
             EIP155_179205 -> Known.EIP155_179205
             EIP155_179202 -> Known.EIP155_179202
             EIP155_98865 -> Known.EIP155_98865
+            EIP155_7887 -> Known.EIP155_7887
             else -> throw DinariInvalidDataException("Unknown Chain: $value")
         }
 
