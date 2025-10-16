@@ -18,12 +18,14 @@ internal class AccountTest {
                 .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .isActive(true)
+                .brokerageAccountId("brokerage_account_id")
                 .build()
 
         assertThat(account.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(account.createdDt()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(account.entityId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(account.isActive()).isEqualTo(true)
+        assertThat(account.brokerageAccountId()).contains("brokerage_account_id")
     }
 
     @Test
@@ -35,6 +37,7 @@ internal class AccountTest {
                 .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .isActive(true)
+                .brokerageAccountId("brokerage_account_id")
                 .build()
 
         val roundtrippedAccount =
