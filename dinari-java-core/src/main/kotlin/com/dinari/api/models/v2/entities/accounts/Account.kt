@@ -15,6 +15,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Information about an `Account` owned by an `Entity`. */
 class Account
@@ -24,6 +26,7 @@ private constructor(
     private val createdDt: JsonField<OffsetDateTime>,
     private val entityId: JsonField<String>,
     private val isActive: JsonField<Boolean>,
+    private val brokerageAccountId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -35,7 +38,10 @@ private constructor(
         createdDt: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("entity_id") @ExcludeMissing entityId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("is_active") @ExcludeMissing isActive: JsonField<Boolean> = JsonMissing.of(),
-    ) : this(id, createdDt, entityId, isActive, mutableMapOf())
+        @JsonProperty("brokerage_account_id")
+        @ExcludeMissing
+        brokerageAccountId: JsonField<String> = JsonMissing.of(),
+    ) : this(id, createdDt, entityId, isActive, brokerageAccountId, mutableMapOf())
 
     /**
      * Unique ID for the `Account`.
@@ -70,6 +76,15 @@ private constructor(
     fun isActive(): Boolean = isActive.getRequired("is_active")
 
     /**
+     * ID of the brokerage account associated with the `Account`.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun brokerageAccountId(): Optional<String> =
+        brokerageAccountId.getOptional("brokerage_account_id")
+
+    /**
      * Returns the raw JSON value of [id].
      *
      * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
@@ -98,6 +113,16 @@ private constructor(
      * Unlike [isActive], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("is_active") @ExcludeMissing fun _isActive(): JsonField<Boolean> = isActive
+
+    /**
+     * Returns the raw JSON value of [brokerageAccountId].
+     *
+     * Unlike [brokerageAccountId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("brokerage_account_id")
+    @ExcludeMissing
+    fun _brokerageAccountId(): JsonField<String> = brokerageAccountId
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -134,6 +159,7 @@ private constructor(
         private var createdDt: JsonField<OffsetDateTime>? = null
         private var entityId: JsonField<String>? = null
         private var isActive: JsonField<Boolean>? = null
+        private var brokerageAccountId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -142,6 +168,7 @@ private constructor(
             createdDt = account.createdDt
             entityId = account.entityId
             isActive = account.isActive
+            brokerageAccountId = account.brokerageAccountId
             additionalProperties = account.additionalProperties.toMutableMap()
         }
 
@@ -191,6 +218,27 @@ private constructor(
          */
         fun isActive(isActive: JsonField<Boolean>) = apply { this.isActive = isActive }
 
+        /** ID of the brokerage account associated with the `Account`. */
+        fun brokerageAccountId(brokerageAccountId: String?) =
+            brokerageAccountId(JsonField.ofNullable(brokerageAccountId))
+
+        /**
+         * Alias for calling [Builder.brokerageAccountId] with `brokerageAccountId.orElse(null)`.
+         */
+        fun brokerageAccountId(brokerageAccountId: Optional<String>) =
+            brokerageAccountId(brokerageAccountId.getOrNull())
+
+        /**
+         * Sets [Builder.brokerageAccountId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.brokerageAccountId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun brokerageAccountId(brokerageAccountId: JsonField<String>) = apply {
+            this.brokerageAccountId = brokerageAccountId
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -231,6 +279,7 @@ private constructor(
                 checkRequired("createdDt", createdDt),
                 checkRequired("entityId", entityId),
                 checkRequired("isActive", isActive),
+                brokerageAccountId,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -246,6 +295,7 @@ private constructor(
         createdDt()
         entityId()
         isActive()
+        brokerageAccountId()
         validated = true
     }
 
@@ -267,7 +317,8 @@ private constructor(
         (if (id.asKnown().isPresent) 1 else 0) +
             (if (createdDt.asKnown().isPresent) 1 else 0) +
             (if (entityId.asKnown().isPresent) 1 else 0) +
-            (if (isActive.asKnown().isPresent) 1 else 0)
+            (if (isActive.asKnown().isPresent) 1 else 0) +
+            (if (brokerageAccountId.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -279,15 +330,16 @@ private constructor(
             createdDt == other.createdDt &&
             entityId == other.entityId &&
             isActive == other.isActive &&
+            brokerageAccountId == other.brokerageAccountId &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(id, createdDt, entityId, isActive, additionalProperties)
+        Objects.hash(id, createdDt, entityId, isActive, brokerageAccountId, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Account{id=$id, createdDt=$createdDt, entityId=$entityId, isActive=$isActive, additionalProperties=$additionalProperties}"
+        "Account{id=$id, createdDt=$createdDt, entityId=$entityId, isActive=$isActive, brokerageAccountId=$brokerageAccountId, additionalProperties=$additionalProperties}"
 }
