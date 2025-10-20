@@ -595,6 +595,8 @@ private constructor(
 
                 @JvmField val _98866 = of(98866L)
 
+                @JvmField val _202110 = of(202110L)
+
                 @JvmStatic fun of(value: Long) = ChainId(JsonField.of(value))
             }
 
@@ -605,6 +607,7 @@ private constructor(
                 _8453,
                 _81457,
                 _98866,
+                _202110,
             }
 
             /**
@@ -622,6 +625,7 @@ private constructor(
                 _8453,
                 _81457,
                 _98866,
+                _202110,
                 /**
                  * An enum member indicating that [ChainId] was instantiated with an unknown value.
                  */
@@ -642,6 +646,7 @@ private constructor(
                     _8453 -> Value._8453
                     _81457 -> Value._81457
                     _98866 -> Value._98866
+                    _202110 -> Value._202110
                     else -> Value._UNKNOWN
                 }
 
@@ -661,6 +666,7 @@ private constructor(
                     _8453 -> Known._8453
                     _81457 -> Known._81457
                     _98866 -> Known._98866
+                    _202110 -> Known._202110
                     else -> throw DinariInvalidDataException("Unknown ChainId: $value")
                 }
 
