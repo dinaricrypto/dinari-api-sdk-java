@@ -6,6 +6,7 @@ import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.accounts.AccountGetDividendPaymentsParams
 import com.dinari.api.models.v2.accounts.AccountGetInterestPaymentsParams
+import com.dinari.api.models.v2.accounts.AccountGetPortfolioParams
 import com.dinari.api.models.v2.accounts.AccountMintSandboxTokensParams
 import com.dinari.api.models.v2.accounts.Chain
 import java.time.LocalDate
@@ -133,7 +134,13 @@ internal class AccountServiceAsyncTest {
         val accountServiceAsync = client.v2().accounts()
 
         val responseFuture =
-            accountServiceAsync.getPortfolio("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            accountServiceAsync.getPortfolio(
+                AccountGetPortfolioParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .page(1L)
+                    .pageSize(1L)
+                    .build()
+            )
 
         val response = responseFuture.get()
         response.validate()
