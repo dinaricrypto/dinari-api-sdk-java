@@ -98,7 +98,10 @@ private constructor(
          * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the
          * unique ID of the `Entity` in your system.
          */
-        fun referenceId(referenceId: String) = apply { body.referenceId(referenceId) }
+        fun referenceId(referenceId: String?) = apply { body.referenceId(referenceId) }
+
+        /** Alias for calling [Builder.referenceId] with `referenceId.orElse(null)`. */
+        fun referenceId(referenceId: Optional<String>) = referenceId(referenceId.getOrNull())
 
         /**
          * Sets [Builder.referenceId] to an arbitrary JSON value.
@@ -319,7 +322,10 @@ private constructor(
              * Case sensitive unique reference ID for the `Entity`. We recommend setting this to the
              * unique ID of the `Entity` in your system.
              */
-            fun referenceId(referenceId: String) = referenceId(JsonField.of(referenceId))
+            fun referenceId(referenceId: String?) = referenceId(JsonField.ofNullable(referenceId))
+
+            /** Alias for calling [Builder.referenceId] with `referenceId.orElse(null)`. */
+            fun referenceId(referenceId: Optional<String>) = referenceId(referenceId.getOrNull())
 
             /**
              * Sets [Builder.referenceId] to an arbitrary JSON value.

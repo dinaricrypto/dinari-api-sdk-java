@@ -15,6 +15,7 @@ import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Information about a dividend announcement for a `Stock`. */
 class StockRetrieveDividendsResponse
@@ -221,7 +222,17 @@ private constructor(
         }
 
         /** Cash amount of the dividend per share owned. */
-        fun cashAmount(cashAmount: Double) = cashAmount(JsonField.of(cashAmount))
+        fun cashAmount(cashAmount: Double?) = cashAmount(JsonField.ofNullable(cashAmount))
+
+        /**
+         * Alias for [Builder.cashAmount].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun cashAmount(cashAmount: Double) = cashAmount(cashAmount as Double?)
+
+        /** Alias for calling [Builder.cashAmount] with `cashAmount.orElse(null)`. */
+        fun cashAmount(cashAmount: Optional<Double>) = cashAmount(cashAmount.getOrNull())
 
         /**
          * Sets [Builder.cashAmount] to an arbitrary JSON value.
@@ -233,7 +244,10 @@ private constructor(
         fun cashAmount(cashAmount: JsonField<Double>) = apply { this.cashAmount = cashAmount }
 
         /** Currency in which the dividend is paid. */
-        fun currency(currency: String) = currency(JsonField.of(currency))
+        fun currency(currency: String?) = currency(JsonField.ofNullable(currency))
+
+        /** Alias for calling [Builder.currency] with `currency.orElse(null)`. */
+        fun currency(currency: Optional<String>) = currency(currency.getOrNull())
 
         /**
          * Sets [Builder.currency] to an arbitrary JSON value.
@@ -249,7 +263,10 @@ private constructor(
          * are infrequent or unusual, and/or can not be expected to occur in the future are denoted
          * as `SC`.
          */
-        fun dividendType(dividendType: String) = dividendType(JsonField.of(dividendType))
+        fun dividendType(dividendType: String?) = dividendType(JsonField.ofNullable(dividendType))
+
+        /** Alias for calling [Builder.dividendType] with `dividendType.orElse(null)`. */
+        fun dividendType(dividendType: Optional<String>) = dividendType(dividendType.getOrNull())
 
         /**
          * Sets [Builder.dividendType] to an arbitrary JSON value.
@@ -267,7 +284,12 @@ private constructor(
          * payment. If you purchase a `Stock` on or after the ex-dividend date, you will not receive
          * the upcoming dividend. In ISO 8601 format, YYYY-MM-DD.
          */
-        fun exDividendDate(exDividendDate: LocalDate) = exDividendDate(JsonField.of(exDividendDate))
+        fun exDividendDate(exDividendDate: LocalDate?) =
+            exDividendDate(JsonField.ofNullable(exDividendDate))
+
+        /** Alias for calling [Builder.exDividendDate] with `exDividendDate.orElse(null)`. */
+        fun exDividendDate(exDividendDate: Optional<LocalDate>) =
+            exDividendDate(exDividendDate.getOrNull())
 
         /**
          * Sets [Builder.exDividendDate] to an arbitrary JSON value.
@@ -281,7 +303,10 @@ private constructor(
         }
 
         /** Date on which the dividend is paid out. In ISO 8601 format, YYYY-MM-DD. */
-        fun payDate(payDate: LocalDate) = payDate(JsonField.of(payDate))
+        fun payDate(payDate: LocalDate?) = payDate(JsonField.ofNullable(payDate))
+
+        /** Alias for calling [Builder.payDate] with `payDate.orElse(null)`. */
+        fun payDate(payDate: Optional<LocalDate>) = payDate(payDate.getOrNull())
 
         /**
          * Sets [Builder.payDate] to an arbitrary JSON value.
@@ -296,7 +321,10 @@ private constructor(
          * Date that the shares must be held to receive the dividend; set by the company. In ISO
          * 8601 format, YYYY-MM-DD.
          */
-        fun recordDate(recordDate: LocalDate) = recordDate(JsonField.of(recordDate))
+        fun recordDate(recordDate: LocalDate?) = recordDate(JsonField.ofNullable(recordDate))
+
+        /** Alias for calling [Builder.recordDate] with `recordDate.orElse(null)`. */
+        fun recordDate(recordDate: Optional<LocalDate>) = recordDate(recordDate.getOrNull())
 
         /**
          * Sets [Builder.recordDate] to an arbitrary JSON value.
@@ -308,7 +336,10 @@ private constructor(
         fun recordDate(recordDate: JsonField<LocalDate>) = apply { this.recordDate = recordDate }
 
         /** Ticker symbol of the `Stock`. */
-        fun ticker(ticker: String) = ticker(JsonField.of(ticker))
+        fun ticker(ticker: String?) = ticker(JsonField.ofNullable(ticker))
+
+        /** Alias for calling [Builder.ticker] with `ticker.orElse(null)`. */
+        fun ticker(ticker: Optional<String>) = ticker(ticker.getOrNull())
 
         /**
          * Sets [Builder.ticker] to an arbitrary JSON value.

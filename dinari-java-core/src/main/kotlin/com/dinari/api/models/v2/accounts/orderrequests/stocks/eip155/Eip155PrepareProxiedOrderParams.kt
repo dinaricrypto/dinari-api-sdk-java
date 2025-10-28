@@ -318,9 +318,23 @@ private constructor(
          * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
          * `Orders`.
          */
-        fun assetTokenQuantity(assetTokenQuantity: Double) = apply {
+        fun assetTokenQuantity(assetTokenQuantity: Double?) = apply {
             body.assetTokenQuantity(assetTokenQuantity)
         }
+
+        /**
+         * Alias for [Builder.assetTokenQuantity].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun assetTokenQuantity(assetTokenQuantity: Double) =
+            assetTokenQuantity(assetTokenQuantity as Double?)
+
+        /**
+         * Alias for calling [Builder.assetTokenQuantity] with `assetTokenQuantity.orElse(null)`.
+         */
+        fun assetTokenQuantity(assetTokenQuantity: Optional<Double>) =
+            assetTokenQuantity(assetTokenQuantity.getOrNull())
 
         /**
          * Sets [Builder.assetTokenQuantity] to an arbitrary JSON value.
@@ -337,7 +351,17 @@ private constructor(
          * Price per asset in the asset's native currency. USD for US equities and ETFs. Required
          * for limit `Orders`.
          */
-        fun limitPrice(limitPrice: Double) = apply { body.limitPrice(limitPrice) }
+        fun limitPrice(limitPrice: Double?) = apply { body.limitPrice(limitPrice) }
+
+        /**
+         * Alias for [Builder.limitPrice].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun limitPrice(limitPrice: Double) = limitPrice(limitPrice as Double?)
+
+        /** Alias for calling [Builder.limitPrice] with `limitPrice.orElse(null)`. */
+        fun limitPrice(limitPrice: Optional<Double>) = limitPrice(limitPrice.getOrNull())
 
         /**
          * Sets [Builder.limitPrice] to an arbitrary JSON value.
@@ -349,9 +373,24 @@ private constructor(
         fun limitPrice(limitPrice: JsonField<Double>) = apply { body.limitPrice(limitPrice) }
 
         /** Amount of payment tokens involved. Required for market buy `Orders`. */
-        fun paymentTokenQuantity(paymentTokenQuantity: Double) = apply {
+        fun paymentTokenQuantity(paymentTokenQuantity: Double?) = apply {
             body.paymentTokenQuantity(paymentTokenQuantity)
         }
+
+        /**
+         * Alias for [Builder.paymentTokenQuantity].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun paymentTokenQuantity(paymentTokenQuantity: Double) =
+            paymentTokenQuantity(paymentTokenQuantity as Double?)
+
+        /**
+         * Alias for calling [Builder.paymentTokenQuantity] with
+         * `paymentTokenQuantity.orElse(null)`.
+         */
+        fun paymentTokenQuantity(paymentTokenQuantity: Optional<Double>) =
+            paymentTokenQuantity(paymentTokenQuantity.getOrNull())
 
         /**
          * Sets [Builder.paymentTokenQuantity] to an arbitrary JSON value.
@@ -863,8 +902,23 @@ private constructor(
              * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
              * `Orders`.
              */
+            fun assetTokenQuantity(assetTokenQuantity: Double?) =
+                assetTokenQuantity(JsonField.ofNullable(assetTokenQuantity))
+
+            /**
+             * Alias for [Builder.assetTokenQuantity].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
             fun assetTokenQuantity(assetTokenQuantity: Double) =
-                assetTokenQuantity(JsonField.of(assetTokenQuantity))
+                assetTokenQuantity(assetTokenQuantity as Double?)
+
+            /**
+             * Alias for calling [Builder.assetTokenQuantity] with
+             * `assetTokenQuantity.orElse(null)`.
+             */
+            fun assetTokenQuantity(assetTokenQuantity: Optional<Double>) =
+                assetTokenQuantity(assetTokenQuantity.getOrNull())
 
             /**
              * Sets [Builder.assetTokenQuantity] to an arbitrary JSON value.
@@ -881,7 +935,17 @@ private constructor(
              * Price per asset in the asset's native currency. USD for US equities and ETFs.
              * Required for limit `Orders`.
              */
-            fun limitPrice(limitPrice: Double) = limitPrice(JsonField.of(limitPrice))
+            fun limitPrice(limitPrice: Double?) = limitPrice(JsonField.ofNullable(limitPrice))
+
+            /**
+             * Alias for [Builder.limitPrice].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun limitPrice(limitPrice: Double) = limitPrice(limitPrice as Double?)
+
+            /** Alias for calling [Builder.limitPrice] with `limitPrice.orElse(null)`. */
+            fun limitPrice(limitPrice: Optional<Double>) = limitPrice(limitPrice.getOrNull())
 
             /**
              * Sets [Builder.limitPrice] to an arbitrary JSON value.
@@ -893,8 +957,23 @@ private constructor(
             fun limitPrice(limitPrice: JsonField<Double>) = apply { this.limitPrice = limitPrice }
 
             /** Amount of payment tokens involved. Required for market buy `Orders`. */
+            fun paymentTokenQuantity(paymentTokenQuantity: Double?) =
+                paymentTokenQuantity(JsonField.ofNullable(paymentTokenQuantity))
+
+            /**
+             * Alias for [Builder.paymentTokenQuantity].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
             fun paymentTokenQuantity(paymentTokenQuantity: Double) =
-                paymentTokenQuantity(JsonField.of(paymentTokenQuantity))
+                paymentTokenQuantity(paymentTokenQuantity as Double?)
+
+            /**
+             * Alias for calling [Builder.paymentTokenQuantity] with
+             * `paymentTokenQuantity.orElse(null)`.
+             */
+            fun paymentTokenQuantity(paymentTokenQuantity: Optional<Double>) =
+                paymentTokenQuantity(paymentTokenQuantity.getOrNull())
 
             /**
              * Sets [Builder.paymentTokenQuantity] to an arbitrary JSON value.

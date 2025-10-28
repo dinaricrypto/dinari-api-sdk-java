@@ -16,6 +16,7 @@ import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /**
  * A news article relating to a `Stock` which includes a summary of the article and a link to the
@@ -254,7 +255,10 @@ private constructor(
         fun publisher(publisher: JsonField<String>) = apply { this.publisher = publisher }
 
         /** Mobile-friendly Accelerated Mobile Page (AMP) URL of the news article, if available */
-        fun ampUrl(ampUrl: String) = ampUrl(JsonField.of(ampUrl))
+        fun ampUrl(ampUrl: String?) = ampUrl(JsonField.ofNullable(ampUrl))
+
+        /** Alias for calling [Builder.ampUrl] with `ampUrl.orElse(null)`. */
+        fun ampUrl(ampUrl: Optional<String>) = ampUrl(ampUrl.getOrNull())
 
         /**
          * Sets [Builder.ampUrl] to an arbitrary JSON value.

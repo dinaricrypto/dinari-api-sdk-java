@@ -164,7 +164,17 @@ private constructor(
         }
 
         /** Is the linked Wallet shared or not */
-        fun isShared(isShared: Boolean) = apply { body.isShared(isShared) }
+        fun isShared(isShared: Boolean?) = apply { body.isShared(isShared) }
+
+        /**
+         * Alias for [Builder.isShared].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun isShared(isShared: Boolean) = isShared(isShared as Boolean?)
+
+        /** Alias for calling [Builder.isShared] with `isShared.orElse(null)`. */
+        fun isShared(isShared: Optional<Boolean>) = isShared(isShared.getOrNull())
 
         /**
          * Sets [Builder.isShared] to an arbitrary JSON value.
@@ -470,7 +480,17 @@ private constructor(
             }
 
             /** Is the linked Wallet shared or not */
-            fun isShared(isShared: Boolean) = isShared(JsonField.of(isShared))
+            fun isShared(isShared: Boolean?) = isShared(JsonField.ofNullable(isShared))
+
+            /**
+             * Alias for [Builder.isShared].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun isShared(isShared: Boolean) = isShared(isShared as Boolean?)
+
+            /** Alias for calling [Builder.isShared] with `isShared.orElse(null)`. */
+            fun isShared(isShared: Optional<Boolean>) = isShared(isShared.getOrNull())
 
             /**
              * Sets [Builder.isShared] to an arbitrary JSON value.
