@@ -433,8 +433,19 @@ private constructor(
         }
 
         /** Fee amount, in payment tokens. */
-        fun paymentTokenFee(paymentTokenFee: Double) =
-            paymentTokenFee(JsonField.of(paymentTokenFee))
+        fun paymentTokenFee(paymentTokenFee: Double?) =
+            paymentTokenFee(JsonField.ofNullable(paymentTokenFee))
+
+        /**
+         * Alias for [Builder.paymentTokenFee].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun paymentTokenFee(paymentTokenFee: Double) = paymentTokenFee(paymentTokenFee as Double?)
+
+        /** Alias for calling [Builder.paymentTokenFee] with `paymentTokenFee.orElse(null)`. */
+        fun paymentTokenFee(paymentTokenFee: Optional<Double>) =
+            paymentTokenFee(paymentTokenFee.getOrNull())
 
         /**
          * Sets [Builder.paymentTokenFee] to an arbitrary JSON value.

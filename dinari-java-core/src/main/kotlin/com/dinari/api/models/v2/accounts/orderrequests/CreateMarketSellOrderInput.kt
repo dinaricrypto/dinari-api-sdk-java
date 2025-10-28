@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Input parameters for creating a market sell `OrderRequest`. */
 class CreateMarketSellOrderInput
@@ -191,8 +192,14 @@ private constructor(
          * payment token (USD+) will be used. Should only be specified if `recipient_account_id` for
          * a non-managed wallet account is also provided.
          */
-        fun paymentTokenAddress(paymentTokenAddress: String) =
-            paymentTokenAddress(JsonField.of(paymentTokenAddress))
+        fun paymentTokenAddress(paymentTokenAddress: String?) =
+            paymentTokenAddress(JsonField.ofNullable(paymentTokenAddress))
+
+        /**
+         * Alias for calling [Builder.paymentTokenAddress] with `paymentTokenAddress.orElse(null)`.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: Optional<String>) =
+            paymentTokenAddress(paymentTokenAddress.getOrNull())
 
         /**
          * Sets [Builder.paymentTokenAddress] to an arbitrary JSON value.
@@ -206,8 +213,14 @@ private constructor(
         }
 
         /** ID of `Account` to receive the `Order`. */
-        fun recipientAccountId(recipientAccountId: String) =
-            recipientAccountId(JsonField.of(recipientAccountId))
+        fun recipientAccountId(recipientAccountId: String?) =
+            recipientAccountId(JsonField.ofNullable(recipientAccountId))
+
+        /**
+         * Alias for calling [Builder.recipientAccountId] with `recipientAccountId.orElse(null)`.
+         */
+        fun recipientAccountId(recipientAccountId: Optional<String>) =
+            recipientAccountId(recipientAccountId.getOrNull())
 
         /**
          * Sets [Builder.recipientAccountId] to an arbitrary JSON value.

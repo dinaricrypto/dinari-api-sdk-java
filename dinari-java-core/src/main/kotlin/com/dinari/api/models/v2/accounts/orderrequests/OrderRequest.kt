@@ -367,7 +367,10 @@ private constructor(
          * ID of `Order` created from the `OrderRequest`. This is the primary identifier for the
          * `/orders` routes.
          */
-        fun orderId(orderId: String) = orderId(JsonField.of(orderId))
+        fun orderId(orderId: String?) = orderId(JsonField.ofNullable(orderId))
+
+        /** Alias for calling [Builder.orderId] with `orderId.orElse(null)`. */
+        fun orderId(orderId: Optional<String>) = orderId(orderId.getOrNull())
 
         /**
          * Sets [Builder.orderId] to an arbitrary JSON value.
@@ -378,8 +381,14 @@ private constructor(
         fun orderId(orderId: JsonField<String>) = apply { this.orderId = orderId }
 
         /** ID of recipient `Account`. */
-        fun recipientAccountId(recipientAccountId: String) =
-            recipientAccountId(JsonField.of(recipientAccountId))
+        fun recipientAccountId(recipientAccountId: String?) =
+            recipientAccountId(JsonField.ofNullable(recipientAccountId))
+
+        /**
+         * Alias for calling [Builder.recipientAccountId] with `recipientAccountId.orElse(null)`.
+         */
+        fun recipientAccountId(recipientAccountId: Optional<String>) =
+            recipientAccountId(recipientAccountId.getOrNull())
 
         /**
          * Sets [Builder.recipientAccountId] to an arbitrary JSON value.
@@ -515,6 +524,8 @@ private constructor(
 
             @JvmField val CANCELLED = of("CANCELLED")
 
+            @JvmField val EXPIRED = of("EXPIRED")
+
             @JvmStatic fun of(value: String) = Status(JsonField.of(value))
         }
 
@@ -526,6 +537,7 @@ private constructor(
             SUBMITTED,
             ERROR,
             CANCELLED,
+            EXPIRED,
         }
 
         /**
@@ -544,6 +556,7 @@ private constructor(
             SUBMITTED,
             ERROR,
             CANCELLED,
+            EXPIRED,
             /** An enum member indicating that [Status] was instantiated with an unknown value. */
             _UNKNOWN,
         }
@@ -563,6 +576,7 @@ private constructor(
                 SUBMITTED -> Value.SUBMITTED
                 ERROR -> Value.ERROR
                 CANCELLED -> Value.CANCELLED
+                EXPIRED -> Value.EXPIRED
                 else -> Value._UNKNOWN
             }
 
@@ -583,6 +597,7 @@ private constructor(
                 SUBMITTED -> Known.SUBMITTED
                 ERROR -> Known.ERROR
                 CANCELLED -> Known.CANCELLED
+                EXPIRED -> Known.EXPIRED
                 else -> throw DinariInvalidDataException("Unknown Status: $value")
             }
 

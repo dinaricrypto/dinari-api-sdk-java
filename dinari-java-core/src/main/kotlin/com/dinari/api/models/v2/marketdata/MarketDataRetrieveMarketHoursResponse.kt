@@ -16,6 +16,7 @@ import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class MarketDataRetrieveMarketHoursResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -414,8 +415,19 @@ private constructor(
 
         /** Time at which the current session after-hours end. */
         fun currentSessionAfterHoursCloseTimeDt(
-            currentSessionAfterHoursCloseTimeDt: OffsetDateTime
-        ) = currentSessionAfterHoursCloseTimeDt(JsonField.of(currentSessionAfterHoursCloseTimeDt))
+            currentSessionAfterHoursCloseTimeDt: OffsetDateTime?
+        ) =
+            currentSessionAfterHoursCloseTimeDt(
+                JsonField.ofNullable(currentSessionAfterHoursCloseTimeDt)
+            )
+
+        /**
+         * Alias for calling [Builder.currentSessionAfterHoursCloseTimeDt] with
+         * `currentSessionAfterHoursCloseTimeDt.orElse(null)`.
+         */
+        fun currentSessionAfterHoursCloseTimeDt(
+            currentSessionAfterHoursCloseTimeDt: Optional<OffsetDateTime>
+        ) = currentSessionAfterHoursCloseTimeDt(currentSessionAfterHoursCloseTimeDt.getOrNull())
 
         /**
          * Sets [Builder.currentSessionAfterHoursCloseTimeDt] to an arbitrary JSON value.
@@ -432,8 +444,15 @@ private constructor(
          * Datetime at which the current session closes. `null` if the market is currently closed.
          * ISO 8601 timestamp.
          */
-        fun currentSessionCloseDt(currentSessionCloseDt: OffsetDateTime) =
-            currentSessionCloseDt(JsonField.of(currentSessionCloseDt))
+        fun currentSessionCloseDt(currentSessionCloseDt: OffsetDateTime?) =
+            currentSessionCloseDt(JsonField.ofNullable(currentSessionCloseDt))
+
+        /**
+         * Alias for calling [Builder.currentSessionCloseDt] with
+         * `currentSessionCloseDt.orElse(null)`.
+         */
+        fun currentSessionCloseDt(currentSessionCloseDt: Optional<OffsetDateTime>) =
+            currentSessionCloseDt(currentSessionCloseDt.getOrNull())
 
         /**
          * Sets [Builder.currentSessionCloseDt] to an arbitrary JSON value.
@@ -450,8 +469,15 @@ private constructor(
          * Datetime at which the current session opened. `null` if the market is currently closed.
          * ISO 8601 timestamp.
          */
-        fun currentSessionOpenDt(currentSessionOpenDt: OffsetDateTime) =
-            currentSessionOpenDt(JsonField.of(currentSessionOpenDt))
+        fun currentSessionOpenDt(currentSessionOpenDt: OffsetDateTime?) =
+            currentSessionOpenDt(JsonField.ofNullable(currentSessionOpenDt))
+
+        /**
+         * Alias for calling [Builder.currentSessionOpenDt] with
+         * `currentSessionOpenDt.orElse(null)`.
+         */
+        fun currentSessionOpenDt(currentSessionOpenDt: Optional<OffsetDateTime>) =
+            currentSessionOpenDt(currentSessionOpenDt.getOrNull())
 
         /**
          * Sets [Builder.currentSessionOpenDt] to an arbitrary JSON value.
@@ -465,8 +491,18 @@ private constructor(
         }
 
         /** Time at which the current session overnight starts. */
-        fun currentSessionOvernightOpenTimeDt(currentSessionOvernightOpenTimeDt: OffsetDateTime) =
-            currentSessionOvernightOpenTimeDt(JsonField.of(currentSessionOvernightOpenTimeDt))
+        fun currentSessionOvernightOpenTimeDt(currentSessionOvernightOpenTimeDt: OffsetDateTime?) =
+            currentSessionOvernightOpenTimeDt(
+                JsonField.ofNullable(currentSessionOvernightOpenTimeDt)
+            )
+
+        /**
+         * Alias for calling [Builder.currentSessionOvernightOpenTimeDt] with
+         * `currentSessionOvernightOpenTimeDt.orElse(null)`.
+         */
+        fun currentSessionOvernightOpenTimeDt(
+            currentSessionOvernightOpenTimeDt: Optional<OffsetDateTime>
+        ) = currentSessionOvernightOpenTimeDt(currentSessionOvernightOpenTimeDt.getOrNull())
 
         /**
          * Sets [Builder.currentSessionOvernightOpenTimeDt] to an arbitrary JSON value.
@@ -480,8 +516,18 @@ private constructor(
         ) = apply { this.currentSessionOvernightOpenTimeDt = currentSessionOvernightOpenTimeDt }
 
         /** Time at which the current session pre-market hours start. */
-        fun currentSessionPreMarketOpenTimeDt(currentSessionPreMarketOpenTimeDt: OffsetDateTime) =
-            currentSessionPreMarketOpenTimeDt(JsonField.of(currentSessionPreMarketOpenTimeDt))
+        fun currentSessionPreMarketOpenTimeDt(currentSessionPreMarketOpenTimeDt: OffsetDateTime?) =
+            currentSessionPreMarketOpenTimeDt(
+                JsonField.ofNullable(currentSessionPreMarketOpenTimeDt)
+            )
+
+        /**
+         * Alias for calling [Builder.currentSessionPreMarketOpenTimeDt] with
+         * `currentSessionPreMarketOpenTimeDt.orElse(null)`.
+         */
+        fun currentSessionPreMarketOpenTimeDt(
+            currentSessionPreMarketOpenTimeDt: Optional<OffsetDateTime>
+        ) = currentSessionPreMarketOpenTimeDt(currentSessionPreMarketOpenTimeDt.getOrNull())
 
         /**
          * Sets [Builder.currentSessionPreMarketOpenTimeDt] to an arbitrary JSON value.

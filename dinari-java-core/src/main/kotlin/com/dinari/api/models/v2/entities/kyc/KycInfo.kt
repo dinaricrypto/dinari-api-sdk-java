@@ -169,7 +169,10 @@ private constructor(
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
         /** Datetime when the KYC was last checked. ISO 8601 timestamp. */
-        fun checkedDt(checkedDt: OffsetDateTime) = checkedDt(JsonField.of(checkedDt))
+        fun checkedDt(checkedDt: OffsetDateTime?) = checkedDt(JsonField.ofNullable(checkedDt))
+
+        /** Alias for calling [Builder.checkedDt] with `checkedDt.orElse(null)`. */
+        fun checkedDt(checkedDt: Optional<OffsetDateTime>) = checkedDt(checkedDt.getOrNull())
 
         /**
          * Sets [Builder.checkedDt] to an arbitrary JSON value.
@@ -181,7 +184,10 @@ private constructor(
         fun checkedDt(checkedDt: JsonField<OffsetDateTime>) = apply { this.checkedDt = checkedDt }
 
         /** KYC data for an `Entity`. */
-        fun data(data: KycData) = data(JsonField.of(data))
+        fun data(data: KycData?) = data(JsonField.ofNullable(data))
+
+        /** Alias for calling [Builder.data] with `data.orElse(null)`. */
+        fun data(data: Optional<KycData>) = data(data.getOrNull())
 
         /**
          * Sets [Builder.data] to an arbitrary JSON value.

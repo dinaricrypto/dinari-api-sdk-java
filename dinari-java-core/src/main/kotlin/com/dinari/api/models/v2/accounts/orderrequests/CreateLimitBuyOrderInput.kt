@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** Input parameters for creating a limit buy `OrderRequest`. */
 class CreateLimitBuyOrderInput
@@ -196,8 +197,14 @@ private constructor(
         fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
 
         /** ID of `Account` to receive the `Order`. */
-        fun recipientAccountId(recipientAccountId: String) =
-            recipientAccountId(JsonField.of(recipientAccountId))
+        fun recipientAccountId(recipientAccountId: String?) =
+            recipientAccountId(JsonField.ofNullable(recipientAccountId))
+
+        /**
+         * Alias for calling [Builder.recipientAccountId] with `recipientAccountId.orElse(null)`.
+         */
+        fun recipientAccountId(recipientAccountId: Optional<String>) =
+            recipientAccountId(recipientAccountId.getOrNull())
 
         /**
          * Sets [Builder.recipientAccountId] to an arbitrary JSON value.
