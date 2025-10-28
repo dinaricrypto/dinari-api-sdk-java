@@ -16,6 +16,7 @@ import java.time.LocalDate
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 /** KYC data for an `Entity`. */
 class KycData
@@ -410,7 +411,10 @@ private constructor(
         fun lastName(lastName: JsonField<String>) = apply { this.lastName = lastName }
 
         /** City of address. Not all international addresses use this attribute. */
-        fun addressCity(addressCity: String) = addressCity(JsonField.of(addressCity))
+        fun addressCity(addressCity: String?) = addressCity(JsonField.ofNullable(addressCity))
+
+        /** Alias for calling [Builder.addressCity] with `addressCity.orElse(null)`. */
+        fun addressCity(addressCity: Optional<String>) = addressCity(addressCity.getOrNull())
 
         /**
          * Sets [Builder.addressCity] to an arbitrary JSON value.
@@ -422,8 +426,12 @@ private constructor(
         fun addressCity(addressCity: JsonField<String>) = apply { this.addressCity = addressCity }
 
         /** Postal code of residence address. Not all international addresses use this attribute. */
-        fun addressPostalCode(addressPostalCode: String) =
-            addressPostalCode(JsonField.of(addressPostalCode))
+        fun addressPostalCode(addressPostalCode: String?) =
+            addressPostalCode(JsonField.ofNullable(addressPostalCode))
+
+        /** Alias for calling [Builder.addressPostalCode] with `addressPostalCode.orElse(null)`. */
+        fun addressPostalCode(addressPostalCode: Optional<String>) =
+            addressPostalCode(addressPostalCode.getOrNull())
 
         /**
          * Sets [Builder.addressPostalCode] to an arbitrary JSON value.
@@ -437,7 +445,12 @@ private constructor(
         }
 
         /** Street address of address. */
-        fun addressStreet1(addressStreet1: String) = addressStreet1(JsonField.of(addressStreet1))
+        fun addressStreet1(addressStreet1: String?) =
+            addressStreet1(JsonField.ofNullable(addressStreet1))
+
+        /** Alias for calling [Builder.addressStreet1] with `addressStreet1.orElse(null)`. */
+        fun addressStreet1(addressStreet1: Optional<String>) =
+            addressStreet1(addressStreet1.getOrNull())
 
         /**
          * Sets [Builder.addressStreet1] to an arbitrary JSON value.
@@ -451,7 +464,12 @@ private constructor(
         }
 
         /** Extension of address, usually apartment or suite number. */
-        fun addressStreet2(addressStreet2: String) = addressStreet2(JsonField.of(addressStreet2))
+        fun addressStreet2(addressStreet2: String?) =
+            addressStreet2(JsonField.ofNullable(addressStreet2))
+
+        /** Alias for calling [Builder.addressStreet2] with `addressStreet2.orElse(null)`. */
+        fun addressStreet2(addressStreet2: Optional<String>) =
+            addressStreet2(addressStreet2.getOrNull())
 
         /**
          * Sets [Builder.addressStreet2] to an arbitrary JSON value.
@@ -468,8 +486,14 @@ private constructor(
          * State or subdivision of address. In the US, this should be the unabbreviated name of the
          * state. Not all international addresses use this attribute.
          */
-        fun addressSubdivision(addressSubdivision: String) =
-            addressSubdivision(JsonField.of(addressSubdivision))
+        fun addressSubdivision(addressSubdivision: String?) =
+            addressSubdivision(JsonField.ofNullable(addressSubdivision))
+
+        /**
+         * Alias for calling [Builder.addressSubdivision] with `addressSubdivision.orElse(null)`.
+         */
+        fun addressSubdivision(addressSubdivision: Optional<String>) =
+            addressSubdivision(addressSubdivision.getOrNull())
 
         /**
          * Sets [Builder.addressSubdivision] to an arbitrary JSON value.
@@ -483,7 +507,10 @@ private constructor(
         }
 
         /** Birth date of the individual. In ISO 8601 format, YYYY-MM-DD. */
-        fun birthDate(birthDate: LocalDate) = birthDate(JsonField.of(birthDate))
+        fun birthDate(birthDate: LocalDate?) = birthDate(JsonField.ofNullable(birthDate))
+
+        /** Alias for calling [Builder.birthDate] with `birthDate.orElse(null)`. */
+        fun birthDate(birthDate: Optional<LocalDate>) = birthDate(birthDate.getOrNull())
 
         /**
          * Sets [Builder.birthDate] to an arbitrary JSON value.
@@ -495,7 +522,10 @@ private constructor(
         fun birthDate(birthDate: JsonField<LocalDate>) = apply { this.birthDate = birthDate }
 
         /** Email address. */
-        fun email(email: String) = email(JsonField.of(email))
+        fun email(email: String?) = email(JsonField.ofNullable(email))
+
+        /** Alias for calling [Builder.email] with `email.orElse(null)`. */
+        fun email(email: Optional<String>) = email(email.getOrNull())
 
         /**
          * Sets [Builder.email] to an arbitrary JSON value.
@@ -506,7 +536,10 @@ private constructor(
         fun email(email: JsonField<String>) = apply { this.email = email }
 
         /** First name of the person. */
-        fun firstName(firstName: String) = firstName(JsonField.of(firstName))
+        fun firstName(firstName: String?) = firstName(JsonField.ofNullable(firstName))
+
+        /** Alias for calling [Builder.firstName] with `firstName.orElse(null)`. */
+        fun firstName(firstName: Optional<String>) = firstName(firstName.getOrNull())
 
         /**
          * Sets [Builder.firstName] to an arbitrary JSON value.
@@ -518,7 +551,10 @@ private constructor(
         fun firstName(firstName: JsonField<String>) = apply { this.firstName = firstName }
 
         /** Middle name of the user */
-        fun middleName(middleName: String) = middleName(JsonField.of(middleName))
+        fun middleName(middleName: String?) = middleName(JsonField.ofNullable(middleName))
+
+        /** Alias for calling [Builder.middleName] with `middleName.orElse(null)`. */
+        fun middleName(middleName: Optional<String>) = middleName(middleName.getOrNull())
 
         /**
          * Sets [Builder.middleName] to an arbitrary JSON value.
@@ -530,7 +566,10 @@ private constructor(
         fun middleName(middleName: JsonField<String>) = apply { this.middleName = middleName }
 
         /** ID number of the official tax document of the country the entity belongs to. */
-        fun taxIdNumber(taxIdNumber: String) = taxIdNumber(JsonField.of(taxIdNumber))
+        fun taxIdNumber(taxIdNumber: String?) = taxIdNumber(JsonField.ofNullable(taxIdNumber))
+
+        /** Alias for calling [Builder.taxIdNumber] with `taxIdNumber.orElse(null)`. */
+        fun taxIdNumber(taxIdNumber: Optional<String>) = taxIdNumber(taxIdNumber.getOrNull())
 
         /**
          * Sets [Builder.taxIdNumber] to an arbitrary JSON value.

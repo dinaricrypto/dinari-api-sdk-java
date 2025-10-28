@@ -625,7 +625,10 @@ private constructor(
         fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
 
         /** The dShare asset token address. */
-        fun assetToken(assetToken: String) = assetToken(JsonField.of(assetToken))
+        fun assetToken(assetToken: String?) = assetToken(JsonField.ofNullable(assetToken))
+
+        /** Alias for calling [Builder.assetToken] with `assetToken.orElse(null)`. */
+        fun assetToken(assetToken: Optional<String>) = assetToken(assetToken.getOrNull())
 
         /**
          * Sets [Builder.assetToken] to an arbitrary JSON value.
@@ -637,8 +640,22 @@ private constructor(
         fun assetToken(assetToken: JsonField<String>) = apply { this.assetToken = assetToken }
 
         /** Total amount of assets involved. */
+        fun assetTokenQuantity(assetTokenQuantity: Double?) =
+            assetTokenQuantity(JsonField.ofNullable(assetTokenQuantity))
+
+        /**
+         * Alias for [Builder.assetTokenQuantity].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun assetTokenQuantity(assetTokenQuantity: Double) =
-            assetTokenQuantity(JsonField.of(assetTokenQuantity))
+            assetTokenQuantity(assetTokenQuantity as Double?)
+
+        /**
+         * Alias for calling [Builder.assetTokenQuantity] with `assetTokenQuantity.orElse(null)`.
+         */
+        fun assetTokenQuantity(assetTokenQuantity: Optional<Double>) =
+            assetTokenQuantity(assetTokenQuantity.getOrNull())
 
         /**
          * Sets [Builder.assetTokenQuantity] to an arbitrary JSON value.
@@ -652,8 +669,15 @@ private constructor(
         }
 
         /** Transaction hash for cancellation of `Order`, if the `Order` was cancelled. */
-        fun cancelTransactionHash(cancelTransactionHash: String) =
-            cancelTransactionHash(JsonField.of(cancelTransactionHash))
+        fun cancelTransactionHash(cancelTransactionHash: String?) =
+            cancelTransactionHash(JsonField.ofNullable(cancelTransactionHash))
+
+        /**
+         * Alias for calling [Builder.cancelTransactionHash] with
+         * `cancelTransactionHash.orElse(null)`.
+         */
+        fun cancelTransactionHash(cancelTransactionHash: Optional<String>) =
+            cancelTransactionHash(cancelTransactionHash.getOrNull())
 
         /**
          * Sets [Builder.cancelTransactionHash] to an arbitrary JSON value.
@@ -667,7 +691,17 @@ private constructor(
         }
 
         /** Fee amount associated with `Order`. */
-        fun fee(fee: Double) = fee(JsonField.of(fee))
+        fun fee(fee: Double?) = fee(JsonField.ofNullable(fee))
+
+        /**
+         * Alias for [Builder.fee].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun fee(fee: Double) = fee(fee as Double?)
+
+        /** Alias for calling [Builder.fee] with `fee.orElse(null)`. */
+        fun fee(fee: Optional<Double>) = fee(fee.getOrNull())
 
         /**
          * Sets [Builder.fee] to an arbitrary JSON value.
@@ -681,7 +715,17 @@ private constructor(
          * For limit `Orders`, the price per asset, specified in the `Stock`'s native currency (USD
          * for US equities and ETFs).
          */
-        fun limitPrice(limitPrice: Double) = limitPrice(JsonField.of(limitPrice))
+        fun limitPrice(limitPrice: Double?) = limitPrice(JsonField.ofNullable(limitPrice))
+
+        /**
+         * Alias for [Builder.limitPrice].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun limitPrice(limitPrice: Double) = limitPrice(limitPrice as Double?)
+
+        /** Alias for calling [Builder.limitPrice] with `limitPrice.orElse(null)`. */
+        fun limitPrice(limitPrice: Optional<Double>) = limitPrice(limitPrice.getOrNull())
 
         /**
          * Sets [Builder.limitPrice] to an arbitrary JSON value.
@@ -693,7 +737,12 @@ private constructor(
         fun limitPrice(limitPrice: JsonField<Double>) = apply { this.limitPrice = limitPrice }
 
         /** Order Request ID for the `Order` */
-        fun orderRequestId(orderRequestId: String) = orderRequestId(JsonField.of(orderRequestId))
+        fun orderRequestId(orderRequestId: String?) =
+            orderRequestId(JsonField.ofNullable(orderRequestId))
+
+        /** Alias for calling [Builder.orderRequestId] with `orderRequestId.orElse(null)`. */
+        fun orderRequestId(orderRequestId: Optional<String>) =
+            orderRequestId(orderRequestId.getOrNull())
 
         /**
          * Sets [Builder.orderRequestId] to an arbitrary JSON value.
@@ -707,8 +756,23 @@ private constructor(
         }
 
         /** Total amount of payment involved. */
+        fun paymentTokenQuantity(paymentTokenQuantity: Double?) =
+            paymentTokenQuantity(JsonField.ofNullable(paymentTokenQuantity))
+
+        /**
+         * Alias for [Builder.paymentTokenQuantity].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun paymentTokenQuantity(paymentTokenQuantity: Double) =
-            paymentTokenQuantity(JsonField.of(paymentTokenQuantity))
+            paymentTokenQuantity(paymentTokenQuantity as Double?)
+
+        /**
+         * Alias for calling [Builder.paymentTokenQuantity] with
+         * `paymentTokenQuantity.orElse(null)`.
+         */
+        fun paymentTokenQuantity(paymentTokenQuantity: Optional<Double>) =
+            paymentTokenQuantity(paymentTokenQuantity.getOrNull())
 
         /**
          * Sets [Builder.paymentTokenQuantity] to an arbitrary JSON value.

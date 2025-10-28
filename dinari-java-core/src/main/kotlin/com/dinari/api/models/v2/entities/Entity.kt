@@ -237,7 +237,10 @@ private constructor(
         }
 
         /** Name of `Entity`. */
-        fun name(name: String) = name(JsonField.of(name))
+        fun name(name: String?) = name(JsonField.ofNullable(name))
+
+        /** Alias for calling [Builder.name] with `name.orElse(null)`. */
+        fun name(name: Optional<String>) = name(name.getOrNull())
 
         /**
          * Sets [Builder.name] to an arbitrary JSON value.
@@ -248,7 +251,10 @@ private constructor(
         fun name(name: JsonField<String>) = apply { this.name = name }
 
         /** Nationality or home country of the `Entity`. */
-        fun nationality(nationality: String) = nationality(JsonField.of(nationality))
+        fun nationality(nationality: String?) = nationality(JsonField.ofNullable(nationality))
+
+        /** Alias for calling [Builder.nationality] with `nationality.orElse(null)`. */
+        fun nationality(nationality: Optional<String>) = nationality(nationality.getOrNull())
 
         /**
          * Sets [Builder.nationality] to an arbitrary JSON value.
@@ -263,7 +269,10 @@ private constructor(
          * Case sensitive unique reference ID that you can set for the `Entity`. We recommend
          * setting this to the unique ID of the `Entity` in your system.
          */
-        fun referenceId(referenceId: String) = referenceId(JsonField.of(referenceId))
+        fun referenceId(referenceId: String?) = referenceId(JsonField.ofNullable(referenceId))
+
+        /** Alias for calling [Builder.referenceId] with `referenceId.orElse(null)`. */
+        fun referenceId(referenceId: Optional<String>) = referenceId(referenceId.getOrNull())
 
         /**
          * Sets [Builder.referenceId] to an arbitrary JSON value.

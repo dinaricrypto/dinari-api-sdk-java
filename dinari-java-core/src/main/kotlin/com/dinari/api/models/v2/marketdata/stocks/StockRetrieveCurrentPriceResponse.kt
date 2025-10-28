@@ -16,6 +16,7 @@ import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 class StockRetrieveCurrentPriceResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
@@ -383,7 +384,17 @@ private constructor(
         fun timestamp(timestamp: JsonField<OffsetDateTime>) = apply { this.timestamp = timestamp }
 
         /** The change in price from the previous close. */
-        fun change(change: Double) = change(JsonField.of(change))
+        fun change(change: Double?) = change(JsonField.ofNullable(change))
+
+        /**
+         * Alias for [Builder.change].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun change(change: Double) = change(change as Double?)
+
+        /** Alias for calling [Builder.change] with `change.orElse(null)`. */
+        fun change(change: Optional<Double>) = change(change.getOrNull())
 
         /**
          * Sets [Builder.change] to an arbitrary JSON value.
@@ -394,7 +405,19 @@ private constructor(
         fun change(change: JsonField<Double>) = apply { this.change = change }
 
         /** The percentage change in price from the previous close. */
-        fun changePercent(changePercent: Double) = changePercent(JsonField.of(changePercent))
+        fun changePercent(changePercent: Double?) =
+            changePercent(JsonField.ofNullable(changePercent))
+
+        /**
+         * Alias for [Builder.changePercent].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun changePercent(changePercent: Double) = changePercent(changePercent as Double?)
+
+        /** Alias for calling [Builder.changePercent] with `changePercent.orElse(null)`. */
+        fun changePercent(changePercent: Optional<Double>) =
+            changePercent(changePercent.getOrNull())
 
         /**
          * Sets [Builder.changePercent] to an arbitrary JSON value.
@@ -408,7 +431,17 @@ private constructor(
         }
 
         /** The close price from the given time period. */
-        fun close(close: Double) = close(JsonField.of(close))
+        fun close(close: Double?) = close(JsonField.ofNullable(close))
+
+        /**
+         * Alias for [Builder.close].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun close(close: Double) = close(close as Double?)
+
+        /** Alias for calling [Builder.close] with `close.orElse(null)`. */
+        fun close(close: Optional<Double>) = close(close.getOrNull())
 
         /**
          * Sets [Builder.close] to an arbitrary JSON value.
@@ -419,7 +452,17 @@ private constructor(
         fun close(close: JsonField<Double>) = apply { this.close = close }
 
         /** The highest price from the given time period */
-        fun high(high: Double) = high(JsonField.of(high))
+        fun high(high: Double?) = high(JsonField.ofNullable(high))
+
+        /**
+         * Alias for [Builder.high].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun high(high: Double) = high(high as Double?)
+
+        /** Alias for calling [Builder.high] with `high.orElse(null)`. */
+        fun high(high: Optional<Double>) = high(high.getOrNull())
 
         /**
          * Sets [Builder.high] to an arbitrary JSON value.
@@ -430,7 +473,17 @@ private constructor(
         fun high(high: JsonField<Double>) = apply { this.high = high }
 
         /** The lowest price from the given time period. */
-        fun low(low: Double) = low(JsonField.of(low))
+        fun low(low: Double?) = low(JsonField.ofNullable(low))
+
+        /**
+         * Alias for [Builder.low].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun low(low: Double) = low(low as Double?)
+
+        /** Alias for calling [Builder.low] with `low.orElse(null)`. */
+        fun low(low: Optional<Double>) = low(low.getOrNull())
 
         /**
          * Sets [Builder.low] to an arbitrary JSON value.
@@ -441,7 +494,17 @@ private constructor(
         fun low(low: JsonField<Double>) = apply { this.low = low }
 
         /** The most recent close price of the ticker multiplied by weighted outstanding shares. */
-        fun marketCap(marketCap: Long) = marketCap(JsonField.of(marketCap))
+        fun marketCap(marketCap: Long?) = marketCap(JsonField.ofNullable(marketCap))
+
+        /**
+         * Alias for [Builder.marketCap].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun marketCap(marketCap: Long) = marketCap(marketCap as Long?)
+
+        /** Alias for calling [Builder.marketCap] with `marketCap.orElse(null)`. */
+        fun marketCap(marketCap: Optional<Long>) = marketCap(marketCap.getOrNull())
 
         /**
          * Sets [Builder.marketCap] to an arbitrary JSON value.
@@ -452,7 +515,17 @@ private constructor(
         fun marketCap(marketCap: JsonField<Long>) = apply { this.marketCap = marketCap }
 
         /** The open price from the given time period. */
-        fun open(open: Double) = open(JsonField.of(open))
+        fun open(open: Double?) = open(JsonField.ofNullable(open))
+
+        /**
+         * Alias for [Builder.open].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun open(open: Double) = open(open as Double?)
+
+        /** Alias for calling [Builder.open] with `open.orElse(null)`. */
+        fun open(open: Optional<Double>) = open(open.getOrNull())
 
         /**
          * Sets [Builder.open] to an arbitrary JSON value.
@@ -463,7 +536,19 @@ private constructor(
         fun open(open: JsonField<Double>) = apply { this.open = open }
 
         /** The close price for the `Stock` from the previous trading session. */
-        fun previousClose(previousClose: Double) = previousClose(JsonField.of(previousClose))
+        fun previousClose(previousClose: Double?) =
+            previousClose(JsonField.ofNullable(previousClose))
+
+        /**
+         * Alias for [Builder.previousClose].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun previousClose(previousClose: Double) = previousClose(previousClose as Double?)
+
+        /** Alias for calling [Builder.previousClose] with `previousClose.orElse(null)`. */
+        fun previousClose(previousClose: Optional<Double>) =
+            previousClose(previousClose.getOrNull())
 
         /**
          * Sets [Builder.previousClose] to an arbitrary JSON value.
@@ -477,7 +562,17 @@ private constructor(
         }
 
         /** The trading volume from the given time period. */
-        fun volume(volume: Double) = volume(JsonField.of(volume))
+        fun volume(volume: Double?) = volume(JsonField.ofNullable(volume))
+
+        /**
+         * Alias for [Builder.volume].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun volume(volume: Double) = volume(volume as Double?)
+
+        /** Alias for calling [Builder.volume] with `volume.orElse(null)`. */
+        fun volume(volume: Optional<Double>) = volume(volume.getOrNull())
 
         /**
          * Sets [Builder.volume] to an arbitrary JSON value.
@@ -488,8 +583,23 @@ private constructor(
         fun volume(volume: JsonField<Double>) = apply { this.volume = volume }
 
         /** The number of shares outstanding in the given time period. */
+        fun weightedSharesOutstanding(weightedSharesOutstanding: Long?) =
+            weightedSharesOutstanding(JsonField.ofNullable(weightedSharesOutstanding))
+
+        /**
+         * Alias for [Builder.weightedSharesOutstanding].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
         fun weightedSharesOutstanding(weightedSharesOutstanding: Long) =
-            weightedSharesOutstanding(JsonField.of(weightedSharesOutstanding))
+            weightedSharesOutstanding(weightedSharesOutstanding as Long?)
+
+        /**
+         * Alias for calling [Builder.weightedSharesOutstanding] with
+         * `weightedSharesOutstanding.orElse(null)`.
+         */
+        fun weightedSharesOutstanding(weightedSharesOutstanding: Optional<Long>) =
+            weightedSharesOutstanding(weightedSharesOutstanding.getOrNull())
 
         /**
          * Sets [Builder.weightedSharesOutstanding] to an arbitrary JSON value.

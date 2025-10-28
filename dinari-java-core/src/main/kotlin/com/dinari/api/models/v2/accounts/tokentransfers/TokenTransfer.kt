@@ -418,8 +418,12 @@ private constructor(
          * Transaction hash of the transfer on the blockchain, if applicable. This is only present
          * if the transfer has been executed on-chain.
          */
-        fun transactionHash(transactionHash: String) =
-            transactionHash(JsonField.of(transactionHash))
+        fun transactionHash(transactionHash: String?) =
+            transactionHash(JsonField.ofNullable(transactionHash))
+
+        /** Alias for calling [Builder.transactionHash] with `transactionHash.orElse(null)`. */
+        fun transactionHash(transactionHash: Optional<String>) =
+            transactionHash(transactionHash.getOrNull())
 
         /**
          * Sets [Builder.transactionHash] to an arbitrary JSON value.
