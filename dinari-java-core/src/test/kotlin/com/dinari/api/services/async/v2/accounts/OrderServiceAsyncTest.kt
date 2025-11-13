@@ -55,6 +55,7 @@ internal class OrderServiceAsyncTest {
                 OrderListParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .chainId(Chain.EIP155_1)
+                    .clientOrderId("client_order_id")
                     .orderTransactionHash("order_transaction_hash")
                     .page(1L)
                     .pageSize(1L)

@@ -36,6 +36,7 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): Eip155ServiceAsync =
         Eip155ServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    @Deprecated("deprecated")
     override fun getFeeQuote(
         params: Eip155GetFeeQuoteParams,
         requestOptions: RequestOptions,
@@ -43,6 +44,7 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
         // post /api/v2/accounts/{account_id}/orders/stocks/eip155/fee_quote
         withRawResponse().getFeeQuote(params, requestOptions).thenApply { it.parse() }
 
+    @Deprecated("deprecated")
     override fun prepareOrder(
         params: Eip155PrepareOrderParams,
         requestOptions: RequestOptions,
@@ -66,6 +68,7 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
         private val getFeeQuoteHandler: Handler<Eip155GetFeeQuoteResponse> =
             jsonHandler<Eip155GetFeeQuoteResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun getFeeQuote(
             params: Eip155GetFeeQuoteParams,
             requestOptions: RequestOptions,
@@ -109,6 +112,7 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
         private val prepareOrderHandler: Handler<Eip155PrepareOrderResponse> =
             jsonHandler<Eip155PrepareOrderResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun prepareOrder(
             params: Eip155PrepareOrderParams,
             requestOptions: RequestOptions,
