@@ -20,10 +20,12 @@ internal class Eip155PrepareOrderParamsTest {
             .orderTif(OrderTif.DAY)
             .orderType(OrderType.MARKET)
             .paymentToken("payment_token")
-            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .assetTokenQuantity(0.0)
+            .clientOrderId("client_order_id")
             .limitPrice(0.0)
             .paymentTokenQuantity(0.0)
+            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .tokenId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
 
@@ -37,7 +39,6 @@ internal class Eip155PrepareOrderParamsTest {
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
                 .paymentToken("payment_token")
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -55,10 +56,12 @@ internal class Eip155PrepareOrderParamsTest {
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
                 .paymentToken("payment_token")
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetTokenQuantity(0.0)
+                .clientOrderId("client_order_id")
                 .limitPrice(0.0)
                 .paymentTokenQuantity(0.0)
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .tokenId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val body = params._body()
@@ -68,10 +71,12 @@ internal class Eip155PrepareOrderParamsTest {
         assertThat(body.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(body.orderType()).isEqualTo(OrderType.MARKET)
         assertThat(body.paymentToken()).isEqualTo("payment_token")
-        assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(body.assetTokenQuantity()).contains(0.0)
+        assertThat(body.clientOrderId()).contains("client_order_id")
         assertThat(body.limitPrice()).contains(0.0)
         assertThat(body.paymentTokenQuantity()).contains(0.0)
+        assertThat(body.stockId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(body.tokenId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
@@ -84,7 +89,6 @@ internal class Eip155PrepareOrderParamsTest {
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
                 .paymentToken("payment_token")
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val body = params._body()
@@ -94,6 +98,5 @@ internal class Eip155PrepareOrderParamsTest {
         assertThat(body.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(body.orderType()).isEqualTo(OrderType.MARKET)
         assertThat(body.paymentToken()).isEqualTo("payment_token")
-        assertThat(body.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 }

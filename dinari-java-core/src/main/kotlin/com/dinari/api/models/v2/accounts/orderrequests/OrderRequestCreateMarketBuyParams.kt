@@ -12,10 +12,14 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Create a managed `OrderRequest` to place a market buy `Order`.<br>Fees for the `Order` are
- * included in the transaction. Refer to our
+ * Create a managed `OrderRequest` to place a market buy `Order`.
+ *
+ * Fees for the `Order` are included in the transaction. Refer to our
  * [Fee Quote API](https://docs.dinari.com/reference/createproxiedorderfeequote#/) for fee
  * estimation.
+ *
+ * If an `OrderRequest` with the same `client_order_id` already exists for the given account, the
+ * existing `OrderRequest` will be returned instead of creating a new one.
  */
 class OrderRequestCreateMarketBuyParams
 private constructor(

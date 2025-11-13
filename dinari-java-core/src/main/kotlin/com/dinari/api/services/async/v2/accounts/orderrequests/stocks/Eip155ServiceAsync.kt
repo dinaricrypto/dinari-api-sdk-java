@@ -5,8 +5,6 @@ package com.dinari.api.services.async.v2.accounts.orderrequests.stocks
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
-import com.dinari.api.models.v2.accounts.orderrequests.OrderRequest
-import com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155.Eip155CreateProxiedOrderParams
 import com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155.Eip155PrepareProxiedOrderParams
 import com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155.Eip155PrepareProxiedOrderResponse
 import java.util.concurrent.CompletableFuture
@@ -27,38 +25,12 @@ interface Eip155ServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): Eip155ServiceAsync
 
     /**
-     * Create a proxied order on EVM from a prepared proxied order. An `OrderRequest` representing
-     * the proxied order is returned.
-     */
-    fun createProxiedOrder(
-        accountId: String,
-        params: Eip155CreateProxiedOrderParams,
-    ): CompletableFuture<OrderRequest> =
-        createProxiedOrder(accountId, params, RequestOptions.none())
-
-    /** @see createProxiedOrder */
-    fun createProxiedOrder(
-        accountId: String,
-        params: Eip155CreateProxiedOrderParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderRequest> =
-        createProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-    /** @see createProxiedOrder */
-    fun createProxiedOrder(
-        params: Eip155CreateProxiedOrderParams
-    ): CompletableFuture<OrderRequest> = createProxiedOrder(params, RequestOptions.none())
-
-    /** @see createProxiedOrder */
-    fun createProxiedOrder(
-        params: Eip155CreateProxiedOrderParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderRequest>
-
-    /**
      * Prepare a proxied order to be placed on EVM. The returned structure contains the necessary
      * data to create an `OrderRequest` with a `Wallet` that is not Dinari-managed.
+     *
+     * **⚠️ This endpoint will be deprecated on 2025-12-15.**
      */
+    @Deprecated("deprecated")
     fun prepareProxiedOrder(
         accountId: String,
         params: Eip155PrepareProxiedOrderParams,
@@ -66,6 +38,7 @@ interface Eip155ServiceAsync {
         prepareProxiedOrder(accountId, params, RequestOptions.none())
 
     /** @see prepareProxiedOrder */
+    @Deprecated("deprecated")
     fun prepareProxiedOrder(
         accountId: String,
         params: Eip155PrepareProxiedOrderParams,
@@ -74,12 +47,14 @@ interface Eip155ServiceAsync {
         prepareProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see prepareProxiedOrder */
+    @Deprecated("deprecated")
     fun prepareProxiedOrder(
         params: Eip155PrepareProxiedOrderParams
     ): CompletableFuture<Eip155PrepareProxiedOrderResponse> =
         prepareProxiedOrder(params, RequestOptions.none())
 
     /** @see prepareProxiedOrder */
+    @Deprecated("deprecated")
     fun prepareProxiedOrder(
         params: Eip155PrepareProxiedOrderParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -101,40 +76,10 @@ interface Eip155ServiceAsync {
 
         /**
          * Returns a raw HTTP response for `post
-         * /api/v2/accounts/{account_id}/order_requests/stocks/eip155`, but is otherwise the same as
-         * [Eip155ServiceAsync.createProxiedOrder].
-         */
-        fun createProxiedOrder(
-            accountId: String,
-            params: Eip155CreateProxiedOrderParams,
-        ): CompletableFuture<HttpResponseFor<OrderRequest>> =
-            createProxiedOrder(accountId, params, RequestOptions.none())
-
-        /** @see createProxiedOrder */
-        fun createProxiedOrder(
-            accountId: String,
-            params: Eip155CreateProxiedOrderParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderRequest>> =
-            createProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-        /** @see createProxiedOrder */
-        fun createProxiedOrder(
-            params: Eip155CreateProxiedOrderParams
-        ): CompletableFuture<HttpResponseFor<OrderRequest>> =
-            createProxiedOrder(params, RequestOptions.none())
-
-        /** @see createProxiedOrder */
-        fun createProxiedOrder(
-            params: Eip155CreateProxiedOrderParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderRequest>>
-
-        /**
-         * Returns a raw HTTP response for `post
          * /api/v2/accounts/{account_id}/order_requests/stocks/eip155/prepare`, but is otherwise the
          * same as [Eip155ServiceAsync.prepareProxiedOrder].
          */
+        @Deprecated("deprecated")
         fun prepareProxiedOrder(
             accountId: String,
             params: Eip155PrepareProxiedOrderParams,
@@ -142,6 +87,7 @@ interface Eip155ServiceAsync {
             prepareProxiedOrder(accountId, params, RequestOptions.none())
 
         /** @see prepareProxiedOrder */
+        @Deprecated("deprecated")
         fun prepareProxiedOrder(
             accountId: String,
             params: Eip155PrepareProxiedOrderParams,
@@ -150,12 +96,14 @@ interface Eip155ServiceAsync {
             prepareProxiedOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see prepareProxiedOrder */
+        @Deprecated("deprecated")
         fun prepareProxiedOrder(
             params: Eip155PrepareProxiedOrderParams
         ): CompletableFuture<HttpResponseFor<Eip155PrepareProxiedOrderResponse>> =
             prepareProxiedOrder(params, RequestOptions.none())
 
         /** @see prepareProxiedOrder */
+        @Deprecated("deprecated")
         fun prepareProxiedOrder(
             params: Eip155PrepareProxiedOrderParams,
             requestOptions: RequestOptions = RequestOptions.none(),

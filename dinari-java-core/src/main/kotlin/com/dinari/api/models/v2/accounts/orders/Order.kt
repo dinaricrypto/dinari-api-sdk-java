@@ -36,6 +36,7 @@ private constructor(
     private val assetToken: JsonField<String>,
     private val assetTokenQuantity: JsonField<Double>,
     private val cancelTransactionHash: JsonField<String>,
+    private val clientOrderId: JsonField<String>,
     private val fee: JsonField<Double>,
     private val limitPrice: JsonField<Double>,
     private val orderRequestId: JsonField<String>,
@@ -79,6 +80,9 @@ private constructor(
         @JsonProperty("cancel_transaction_hash")
         @ExcludeMissing
         cancelTransactionHash: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("client_order_id")
+        @ExcludeMissing
+        clientOrderId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("fee") @ExcludeMissing fee: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("limit_price")
         @ExcludeMissing
@@ -104,6 +108,7 @@ private constructor(
         assetToken,
         assetTokenQuantity,
         cancelTransactionHash,
+        clientOrderId,
         fee,
         limitPrice,
         orderRequestId,
@@ -224,6 +229,15 @@ private constructor(
      */
     fun cancelTransactionHash(): Optional<String> =
         cancelTransactionHash.getOptional("cancel_transaction_hash")
+
+    /**
+     * Customer-supplied unique identifier to map this `Order` to an order in the customer's
+     * systems.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun clientOrderId(): Optional<String> = clientOrderId.getOptional("client_order_id")
 
     /**
      * Fee amount associated with `Order`.
@@ -374,6 +388,15 @@ private constructor(
     fun _cancelTransactionHash(): JsonField<String> = cancelTransactionHash
 
     /**
+     * Returns the raw JSON value of [clientOrderId].
+     *
+     * Unlike [clientOrderId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("client_order_id")
+    @ExcludeMissing
+    fun _clientOrderId(): JsonField<String> = clientOrderId
+
+    /**
      * Returns the raw JSON value of [fee].
      *
      * Unlike [fee], this method doesn't throw if the JSON field has an unexpected type.
@@ -458,6 +481,7 @@ private constructor(
         private var assetToken: JsonField<String> = JsonMissing.of()
         private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
         private var cancelTransactionHash: JsonField<String> = JsonMissing.of()
+        private var clientOrderId: JsonField<String> = JsonMissing.of()
         private var fee: JsonField<Double> = JsonMissing.of()
         private var limitPrice: JsonField<Double> = JsonMissing.of()
         private var orderRequestId: JsonField<String> = JsonMissing.of()
@@ -480,6 +504,7 @@ private constructor(
             assetToken = order.assetToken
             assetTokenQuantity = order.assetTokenQuantity
             cancelTransactionHash = order.cancelTransactionHash
+            clientOrderId = order.clientOrderId
             fee = order.fee
             limitPrice = order.limitPrice
             orderRequestId = order.orderRequestId
@@ -690,6 +715,28 @@ private constructor(
             this.cancelTransactionHash = cancelTransactionHash
         }
 
+        /**
+         * Customer-supplied unique identifier to map this `Order` to an order in the customer's
+         * systems.
+         */
+        fun clientOrderId(clientOrderId: String?) =
+            clientOrderId(JsonField.ofNullable(clientOrderId))
+
+        /** Alias for calling [Builder.clientOrderId] with `clientOrderId.orElse(null)`. */
+        fun clientOrderId(clientOrderId: Optional<String>) =
+            clientOrderId(clientOrderId.getOrNull())
+
+        /**
+         * Sets [Builder.clientOrderId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.clientOrderId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun clientOrderId(clientOrderId: JsonField<String>) = apply {
+            this.clientOrderId = clientOrderId
+        }
+
         /** Fee amount associated with `Order`. */
         fun fee(fee: Double?) = fee(JsonField.ofNullable(fee))
 
@@ -842,6 +889,7 @@ private constructor(
                 assetToken,
                 assetTokenQuantity,
                 cancelTransactionHash,
+                clientOrderId,
                 fee,
                 limitPrice,
                 orderRequestId,
@@ -871,6 +919,7 @@ private constructor(
         assetToken()
         assetTokenQuantity()
         cancelTransactionHash()
+        clientOrderId()
         fee()
         limitPrice()
         orderRequestId()
@@ -907,6 +956,7 @@ private constructor(
             (if (assetToken.asKnown().isPresent) 1 else 0) +
             (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
             (if (cancelTransactionHash.asKnown().isPresent) 1 else 0) +
+            (if (clientOrderId.asKnown().isPresent) 1 else 0) +
             (if (fee.asKnown().isPresent) 1 else 0) +
             (if (limitPrice.asKnown().isPresent) 1 else 0) +
             (if (orderRequestId.asKnown().isPresent) 1 else 0) +
@@ -932,6 +982,7 @@ private constructor(
             assetToken == other.assetToken &&
             assetTokenQuantity == other.assetTokenQuantity &&
             cancelTransactionHash == other.cancelTransactionHash &&
+            clientOrderId == other.clientOrderId &&
             fee == other.fee &&
             limitPrice == other.limitPrice &&
             orderRequestId == other.orderRequestId &&
@@ -955,6 +1006,7 @@ private constructor(
             assetToken,
             assetTokenQuantity,
             cancelTransactionHash,
+            clientOrderId,
             fee,
             limitPrice,
             orderRequestId,
@@ -966,5 +1018,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Order{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, paymentToken=$paymentToken, status=$status, stockId=$stockId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+        "Order{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, paymentToken=$paymentToken, status=$status, stockId=$stockId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, clientOrderId=$clientOrderId, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
 }

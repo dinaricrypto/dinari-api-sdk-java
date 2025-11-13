@@ -12,12 +12,13 @@ import kotlin.jvm.optionals.getOrNull
 
 /**
  * Get a list of all `Orders` under the `Account`.<br>Optionally `Orders` can be filtered by chain
- * ID or transaction hash.
+ * ID, transaction hash, or client order ID.
  */
 class OrderListParams
 private constructor(
     private val accountId: String?,
     private val chainId: Chain?,
+    private val clientOrderId: String?,
     private val orderTransactionHash: String?,
     private val page: Long?,
     private val pageSize: Long?,
@@ -29,6 +30,9 @@ private constructor(
 
     /** CAIP-2 formatted chain ID of the blockchain the `Order` was made on. */
     fun chainId(): Optional<Chain> = Optional.ofNullable(chainId)
+
+    /** Customer-supplied identifier to search for `Order`s. */
+    fun clientOrderId(): Optional<String> = Optional.ofNullable(clientOrderId)
 
     /** Transaction hash of the `Order`. */
     fun orderTransactionHash(): Optional<String> = Optional.ofNullable(orderTransactionHash)
@@ -58,6 +62,7 @@ private constructor(
 
         private var accountId: String? = null
         private var chainId: Chain? = null
+        private var clientOrderId: String? = null
         private var orderTransactionHash: String? = null
         private var page: Long? = null
         private var pageSize: Long? = null
@@ -68,6 +73,7 @@ private constructor(
         internal fun from(orderListParams: OrderListParams) = apply {
             accountId = orderListParams.accountId
             chainId = orderListParams.chainId
+            clientOrderId = orderListParams.clientOrderId
             orderTransactionHash = orderListParams.orderTransactionHash
             page = orderListParams.page
             pageSize = orderListParams.pageSize
@@ -85,6 +91,13 @@ private constructor(
 
         /** Alias for calling [Builder.chainId] with `chainId.orElse(null)`. */
         fun chainId(chainId: Optional<Chain>) = chainId(chainId.getOrNull())
+
+        /** Customer-supplied identifier to search for `Order`s. */
+        fun clientOrderId(clientOrderId: String?) = apply { this.clientOrderId = clientOrderId }
+
+        /** Alias for calling [Builder.clientOrderId] with `clientOrderId.orElse(null)`. */
+        fun clientOrderId(clientOrderId: Optional<String>) =
+            clientOrderId(clientOrderId.getOrNull())
 
         /** Transaction hash of the `Order`. */
         fun orderTransactionHash(orderTransactionHash: String?) = apply {
@@ -229,6 +242,7 @@ private constructor(
             OrderListParams(
                 accountId,
                 chainId,
+                clientOrderId,
                 orderTransactionHash,
                 page,
                 pageSize,
@@ -249,6 +263,7 @@ private constructor(
         QueryParams.builder()
             .apply {
                 chainId?.let { put("chain_id", it.toString()) }
+                clientOrderId?.let { put("client_order_id", it) }
                 orderTransactionHash?.let { put("order_transaction_hash", it) }
                 page?.let { put("page", it.toString()) }
                 pageSize?.let { put("page_size", it.toString()) }
@@ -264,6 +279,7 @@ private constructor(
         return other is OrderListParams &&
             accountId == other.accountId &&
             chainId == other.chainId &&
+            clientOrderId == other.clientOrderId &&
             orderTransactionHash == other.orderTransactionHash &&
             page == other.page &&
             pageSize == other.pageSize &&
@@ -275,6 +291,7 @@ private constructor(
         Objects.hash(
             accountId,
             chainId,
+            clientOrderId,
             orderTransactionHash,
             page,
             pageSize,
@@ -283,5 +300,5 @@ private constructor(
         )
 
     override fun toString() =
-        "OrderListParams{accountId=$accountId, chainId=$chainId, orderTransactionHash=$orderTransactionHash, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "OrderListParams{accountId=$accountId, chainId=$chainId, clientOrderId=$clientOrderId, orderTransactionHash=$orderTransactionHash, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

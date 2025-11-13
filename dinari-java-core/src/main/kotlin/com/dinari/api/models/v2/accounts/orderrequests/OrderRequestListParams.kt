@@ -9,10 +9,13 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Lists `OrderRequests`. */
+/** Lists `OrderRequests`.<br>Optionally `OrderRequests` can be filtered by certain parameters. */
 class OrderRequestListParams
 private constructor(
     private val accountId: String?,
+    private val clientOrderId: String?,
+    private val orderId: String?,
+    private val orderRequestId: String?,
     private val page: Long?,
     private val pageSize: Long?,
     private val additionalHeaders: Headers,
@@ -20,6 +23,15 @@ private constructor(
 ) : Params {
 
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
+
+    /** Customer-supplied ID to map this `OrderRequest` to an order in their own systems. */
+    fun clientOrderId(): Optional<String> = Optional.ofNullable(clientOrderId)
+
+    /** Order ID for the `OrderRequest` */
+    fun orderId(): Optional<String> = Optional.ofNullable(orderId)
+
+    /** Order Request ID for the `OrderRequest` */
+    fun orderRequestId(): Optional<String> = Optional.ofNullable(orderRequestId)
 
     fun page(): Optional<Long> = Optional.ofNullable(page)
 
@@ -45,6 +57,9 @@ private constructor(
     class Builder internal constructor() {
 
         private var accountId: String? = null
+        private var clientOrderId: String? = null
+        private var orderId: String? = null
+        private var orderRequestId: String? = null
         private var page: Long? = null
         private var pageSize: Long? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -53,6 +68,9 @@ private constructor(
         @JvmSynthetic
         internal fun from(orderRequestListParams: OrderRequestListParams) = apply {
             accountId = orderRequestListParams.accountId
+            clientOrderId = orderRequestListParams.clientOrderId
+            orderId = orderRequestListParams.orderId
+            orderRequestId = orderRequestListParams.orderRequestId
             page = orderRequestListParams.page
             pageSize = orderRequestListParams.pageSize
             additionalHeaders = orderRequestListParams.additionalHeaders.toBuilder()
@@ -63,6 +81,26 @@ private constructor(
 
         /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
         fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
+
+        /** Customer-supplied ID to map this `OrderRequest` to an order in their own systems. */
+        fun clientOrderId(clientOrderId: String?) = apply { this.clientOrderId = clientOrderId }
+
+        /** Alias for calling [Builder.clientOrderId] with `clientOrderId.orElse(null)`. */
+        fun clientOrderId(clientOrderId: Optional<String>) =
+            clientOrderId(clientOrderId.getOrNull())
+
+        /** Order ID for the `OrderRequest` */
+        fun orderId(orderId: String?) = apply { this.orderId = orderId }
+
+        /** Alias for calling [Builder.orderId] with `orderId.orElse(null)`. */
+        fun orderId(orderId: Optional<String>) = orderId(orderId.getOrNull())
+
+        /** Order Request ID for the `OrderRequest` */
+        fun orderRequestId(orderRequestId: String?) = apply { this.orderRequestId = orderRequestId }
+
+        /** Alias for calling [Builder.orderRequestId] with `orderRequestId.orElse(null)`. */
+        fun orderRequestId(orderRequestId: Optional<String>) =
+            orderRequestId(orderRequestId.getOrNull())
 
         fun page(page: Long?) = apply { this.page = page }
 
@@ -194,6 +232,9 @@ private constructor(
         fun build(): OrderRequestListParams =
             OrderRequestListParams(
                 accountId,
+                clientOrderId,
+                orderId,
+                orderRequestId,
                 page,
                 pageSize,
                 additionalHeaders.build(),
@@ -212,6 +253,9 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
+                clientOrderId?.let { put("client_order_id", it) }
+                orderId?.let { put("order_id", it) }
+                orderRequestId?.let { put("order_request_id", it) }
                 page?.let { put("page", it.toString()) }
                 pageSize?.let { put("page_size", it.toString()) }
                 putAll(additionalQueryParams)
@@ -225,6 +269,9 @@ private constructor(
 
         return other is OrderRequestListParams &&
             accountId == other.accountId &&
+            clientOrderId == other.clientOrderId &&
+            orderId == other.orderId &&
+            orderRequestId == other.orderRequestId &&
             page == other.page &&
             pageSize == other.pageSize &&
             additionalHeaders == other.additionalHeaders &&
@@ -232,8 +279,17 @@ private constructor(
     }
 
     override fun hashCode(): Int =
-        Objects.hash(accountId, page, pageSize, additionalHeaders, additionalQueryParams)
+        Objects.hash(
+            accountId,
+            clientOrderId,
+            orderId,
+            orderRequestId,
+            page,
+            pageSize,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
-        "OrderRequestListParams{accountId=$accountId, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "OrderRequestListParams{accountId=$accountId, clientOrderId=$clientOrderId, orderId=$orderId, orderRequestId=$orderRequestId, page=$page, pageSize=$pageSize, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
