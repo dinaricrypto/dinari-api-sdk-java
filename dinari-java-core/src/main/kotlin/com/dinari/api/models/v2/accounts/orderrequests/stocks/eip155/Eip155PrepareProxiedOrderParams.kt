@@ -27,7 +27,10 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * Prepare a proxied order to be placed on EVM. The returned structure contains the necessary data
  * to create an `OrderRequest` with a `Wallet` that is not Dinari-managed.
+ *
+ * **⚠️ This endpoint will be deprecated on 2025-12-15.**
  */
+@Deprecated("deprecated")
 class Eip155PrepareProxiedOrderParams
 private constructor(
     private val accountId: String?,
@@ -79,20 +82,21 @@ private constructor(
     fun paymentToken(): String = body.paymentToken()
 
     /**
-     * The ID of the `Stock` for which the `Order` is being placed.
-     *
-     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-     */
-    fun stockId(): String = body.stockId()
-
-    /**
      * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell `Orders`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun assetTokenQuantity(): Optional<Double> = body.assetTokenQuantity()
+
+    /**
+     * Customer-supplied unique identifier to map this `Order` to an order in the customer's
+     * systems.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun clientOrderId(): Optional<String> = body.clientOrderId()
 
     /**
      * Price per asset in the asset's native currency. USD for US equities and ETFs. Required for
@@ -110,6 +114,22 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun paymentTokenQuantity(): Optional<Double> = body.paymentTokenQuantity()
+
+    /**
+     * The ID of the `Stock` for which the `Order` is being placed.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun stockId(): Optional<String> = body.stockId()
+
+    /**
+     * The ID of the `Token` for which the `Order` is being placed.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun tokenId(): Optional<String> = body.tokenId()
 
     /**
      * Returns the raw JSON value of [chainId].
@@ -147,19 +167,19 @@ private constructor(
     fun _paymentToken(): JsonField<String> = body._paymentToken()
 
     /**
-     * Returns the raw JSON value of [stockId].
-     *
-     * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    fun _stockId(): JsonField<String> = body._stockId()
-
-    /**
      * Returns the raw JSON value of [assetTokenQuantity].
      *
      * Unlike [assetTokenQuantity], this method doesn't throw if the JSON field has an unexpected
      * type.
      */
     fun _assetTokenQuantity(): JsonField<Double> = body._assetTokenQuantity()
+
+    /**
+     * Returns the raw JSON value of [clientOrderId].
+     *
+     * Unlike [clientOrderId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _clientOrderId(): JsonField<String> = body._clientOrderId()
 
     /**
      * Returns the raw JSON value of [limitPrice].
@@ -175,6 +195,20 @@ private constructor(
      * type.
      */
     fun _paymentTokenQuantity(): JsonField<Double> = body._paymentTokenQuantity()
+
+    /**
+     * Returns the raw JSON value of [stockId].
+     *
+     * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _stockId(): JsonField<String> = body._stockId()
+
+    /**
+     * Returns the raw JSON value of [tokenId].
+     *
+     * Unlike [tokenId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _tokenId(): JsonField<String> = body._tokenId()
 
     fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
@@ -199,7 +233,6 @@ private constructor(
          * .orderTif()
          * .orderType()
          * .paymentToken()
-         * .stockId()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -303,17 +336,6 @@ private constructor(
             body.paymentToken(paymentToken)
         }
 
-        /** The ID of the `Stock` for which the `Order` is being placed. */
-        fun stockId(stockId: String) = apply { body.stockId(stockId) }
-
-        /**
-         * Sets [Builder.stockId] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.stockId] with a well-typed [String] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        fun stockId(stockId: JsonField<String>) = apply { body.stockId(stockId) }
-
         /**
          * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
          * `Orders`.
@@ -345,6 +367,27 @@ private constructor(
          */
         fun assetTokenQuantity(assetTokenQuantity: JsonField<Double>) = apply {
             body.assetTokenQuantity(assetTokenQuantity)
+        }
+
+        /**
+         * Customer-supplied unique identifier to map this `Order` to an order in the customer's
+         * systems.
+         */
+        fun clientOrderId(clientOrderId: String?) = apply { body.clientOrderId(clientOrderId) }
+
+        /** Alias for calling [Builder.clientOrderId] with `clientOrderId.orElse(null)`. */
+        fun clientOrderId(clientOrderId: Optional<String>) =
+            clientOrderId(clientOrderId.getOrNull())
+
+        /**
+         * Sets [Builder.clientOrderId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.clientOrderId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun clientOrderId(clientOrderId: JsonField<String>) = apply {
+            body.clientOrderId(clientOrderId)
         }
 
         /**
@@ -402,6 +445,34 @@ private constructor(
         fun paymentTokenQuantity(paymentTokenQuantity: JsonField<Double>) = apply {
             body.paymentTokenQuantity(paymentTokenQuantity)
         }
+
+        /** The ID of the `Stock` for which the `Order` is being placed. */
+        fun stockId(stockId: String?) = apply { body.stockId(stockId) }
+
+        /** Alias for calling [Builder.stockId] with `stockId.orElse(null)`. */
+        fun stockId(stockId: Optional<String>) = stockId(stockId.getOrNull())
+
+        /**
+         * Sets [Builder.stockId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.stockId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun stockId(stockId: JsonField<String>) = apply { body.stockId(stockId) }
+
+        /** The ID of the `Token` for which the `Order` is being placed. */
+        fun tokenId(tokenId: String?) = apply { body.tokenId(tokenId) }
+
+        /** Alias for calling [Builder.tokenId] with `tokenId.orElse(null)`. */
+        fun tokenId(tokenId: Optional<String>) = tokenId(tokenId.getOrNull())
+
+        /**
+         * Sets [Builder.tokenId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.tokenId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun tokenId(tokenId: JsonField<String>) = apply { body.tokenId(tokenId) }
 
         fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
             body.additionalProperties(additionalBodyProperties)
@@ -532,7 +603,6 @@ private constructor(
          * .orderTif()
          * .orderType()
          * .paymentToken()
-         * .stockId()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -567,10 +637,12 @@ private constructor(
         private val orderTif: JsonField<OrderTif>,
         private val orderType: JsonField<OrderType>,
         private val paymentToken: JsonField<String>,
-        private val stockId: JsonField<String>,
         private val assetTokenQuantity: JsonField<Double>,
+        private val clientOrderId: JsonField<String>,
         private val limitPrice: JsonField<Double>,
         private val paymentTokenQuantity: JsonField<Double>,
+        private val stockId: JsonField<String>,
+        private val tokenId: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -589,26 +661,32 @@ private constructor(
             @JsonProperty("payment_token")
             @ExcludeMissing
             paymentToken: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("asset_token_quantity")
             @ExcludeMissing
             assetTokenQuantity: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("client_order_id")
+            @ExcludeMissing
+            clientOrderId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("limit_price")
             @ExcludeMissing
             limitPrice: JsonField<Double> = JsonMissing.of(),
             @JsonProperty("payment_token_quantity")
             @ExcludeMissing
             paymentTokenQuantity: JsonField<Double> = JsonMissing.of(),
+            @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("token_id") @ExcludeMissing tokenId: JsonField<String> = JsonMissing.of(),
         ) : this(
             chainId,
             orderSide,
             orderTif,
             orderType,
             paymentToken,
-            stockId,
             assetTokenQuantity,
+            clientOrderId,
             limitPrice,
             paymentTokenQuantity,
+            stockId,
+            tokenId,
             mutableMapOf(),
         )
 
@@ -653,14 +731,6 @@ private constructor(
         fun paymentToken(): String = paymentToken.getRequired("payment_token")
 
         /**
-         * The ID of the `Stock` for which the `Order` is being placed.
-         *
-         * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
-         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-         */
-        fun stockId(): String = stockId.getRequired("stock_id")
-
-        /**
          * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
          * `Orders`.
          *
@@ -669,6 +739,15 @@ private constructor(
          */
         fun assetTokenQuantity(): Optional<Double> =
             assetTokenQuantity.getOptional("asset_token_quantity")
+
+        /**
+         * Customer-supplied unique identifier to map this `Order` to an order in the customer's
+         * systems.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun clientOrderId(): Optional<String> = clientOrderId.getOptional("client_order_id")
 
         /**
          * Price per asset in the asset's native currency. USD for US equities and ETFs. Required
@@ -687,6 +766,22 @@ private constructor(
          */
         fun paymentTokenQuantity(): Optional<Double> =
             paymentTokenQuantity.getOptional("payment_token_quantity")
+
+        /**
+         * The ID of the `Stock` for which the `Order` is being placed.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun stockId(): Optional<String> = stockId.getOptional("stock_id")
+
+        /**
+         * The ID of the `Token` for which the `Order` is being placed.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun tokenId(): Optional<String> = tokenId.getOptional("token_id")
 
         /**
          * Returns the raw JSON value of [chainId].
@@ -731,13 +826,6 @@ private constructor(
         fun _paymentToken(): JsonField<String> = paymentToken
 
         /**
-         * Returns the raw JSON value of [stockId].
-         *
-         * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
-         */
-        @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
-
-        /**
          * Returns the raw JSON value of [assetTokenQuantity].
          *
          * Unlike [assetTokenQuantity], this method doesn't throw if the JSON field has an
@@ -746,6 +834,16 @@ private constructor(
         @JsonProperty("asset_token_quantity")
         @ExcludeMissing
         fun _assetTokenQuantity(): JsonField<Double> = assetTokenQuantity
+
+        /**
+         * Returns the raw JSON value of [clientOrderId].
+         *
+         * Unlike [clientOrderId], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("client_order_id")
+        @ExcludeMissing
+        fun _clientOrderId(): JsonField<String> = clientOrderId
 
         /**
          * Returns the raw JSON value of [limitPrice].
@@ -765,6 +863,20 @@ private constructor(
         @JsonProperty("payment_token_quantity")
         @ExcludeMissing
         fun _paymentTokenQuantity(): JsonField<Double> = paymentTokenQuantity
+
+        /**
+         * Returns the raw JSON value of [stockId].
+         *
+         * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
+
+        /**
+         * Returns the raw JSON value of [tokenId].
+         *
+         * Unlike [tokenId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("token_id") @ExcludeMissing fun _tokenId(): JsonField<String> = tokenId
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -790,7 +902,6 @@ private constructor(
              * .orderTif()
              * .orderType()
              * .paymentToken()
-             * .stockId()
              * ```
              */
             @JvmStatic fun builder() = Builder()
@@ -804,10 +915,12 @@ private constructor(
             private var orderTif: JsonField<OrderTif>? = null
             private var orderType: JsonField<OrderType>? = null
             private var paymentToken: JsonField<String>? = null
-            private var stockId: JsonField<String>? = null
             private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
+            private var clientOrderId: JsonField<String> = JsonMissing.of()
             private var limitPrice: JsonField<Double> = JsonMissing.of()
             private var paymentTokenQuantity: JsonField<Double> = JsonMissing.of()
+            private var stockId: JsonField<String> = JsonMissing.of()
+            private var tokenId: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -817,10 +930,12 @@ private constructor(
                 orderTif = body.orderTif
                 orderType = body.orderType
                 paymentToken = body.paymentToken
-                stockId = body.stockId
                 assetTokenQuantity = body.assetTokenQuantity
+                clientOrderId = body.clientOrderId
                 limitPrice = body.limitPrice
                 paymentTokenQuantity = body.paymentTokenQuantity
+                stockId = body.stockId
+                tokenId = body.tokenId
                 additionalProperties = body.additionalProperties.toMutableMap()
             }
 
@@ -886,18 +1001,6 @@ private constructor(
                 this.paymentToken = paymentToken
             }
 
-            /** The ID of the `Stock` for which the `Order` is being placed. */
-            fun stockId(stockId: String) = stockId(JsonField.of(stockId))
-
-            /**
-             * Sets [Builder.stockId] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.stockId] with a well-typed [String] value instead.
-             * This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
-
             /**
              * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
              * `Orders`.
@@ -929,6 +1032,28 @@ private constructor(
              */
             fun assetTokenQuantity(assetTokenQuantity: JsonField<Double>) = apply {
                 this.assetTokenQuantity = assetTokenQuantity
+            }
+
+            /**
+             * Customer-supplied unique identifier to map this `Order` to an order in the customer's
+             * systems.
+             */
+            fun clientOrderId(clientOrderId: String?) =
+                clientOrderId(JsonField.ofNullable(clientOrderId))
+
+            /** Alias for calling [Builder.clientOrderId] with `clientOrderId.orElse(null)`. */
+            fun clientOrderId(clientOrderId: Optional<String>) =
+                clientOrderId(clientOrderId.getOrNull())
+
+            /**
+             * Sets [Builder.clientOrderId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.clientOrderId] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun clientOrderId(clientOrderId: JsonField<String>) = apply {
+                this.clientOrderId = clientOrderId
             }
 
             /**
@@ -986,6 +1111,36 @@ private constructor(
                 this.paymentTokenQuantity = paymentTokenQuantity
             }
 
+            /** The ID of the `Stock` for which the `Order` is being placed. */
+            fun stockId(stockId: String?) = stockId(JsonField.ofNullable(stockId))
+
+            /** Alias for calling [Builder.stockId] with `stockId.orElse(null)`. */
+            fun stockId(stockId: Optional<String>) = stockId(stockId.getOrNull())
+
+            /**
+             * Sets [Builder.stockId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.stockId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+
+            /** The ID of the `Token` for which the `Order` is being placed. */
+            fun tokenId(tokenId: String?) = tokenId(JsonField.ofNullable(tokenId))
+
+            /** Alias for calling [Builder.tokenId] with `tokenId.orElse(null)`. */
+            fun tokenId(tokenId: Optional<String>) = tokenId(tokenId.getOrNull())
+
+            /**
+             * Sets [Builder.tokenId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.tokenId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun tokenId(tokenId: JsonField<String>) = apply { this.tokenId = tokenId }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -1017,7 +1172,6 @@ private constructor(
              * .orderTif()
              * .orderType()
              * .paymentToken()
-             * .stockId()
              * ```
              *
              * @throws IllegalStateException if any required field is unset.
@@ -1029,10 +1183,12 @@ private constructor(
                     checkRequired("orderTif", orderTif),
                     checkRequired("orderType", orderType),
                     checkRequired("paymentToken", paymentToken),
-                    checkRequired("stockId", stockId),
                     assetTokenQuantity,
+                    clientOrderId,
                     limitPrice,
                     paymentTokenQuantity,
+                    stockId,
+                    tokenId,
                     additionalProperties.toMutableMap(),
                 )
         }
@@ -1049,10 +1205,12 @@ private constructor(
             orderTif().validate()
             orderType().validate()
             paymentToken()
-            stockId()
             assetTokenQuantity()
+            clientOrderId()
             limitPrice()
             paymentTokenQuantity()
+            stockId()
+            tokenId()
             validated = true
         }
 
@@ -1077,10 +1235,12 @@ private constructor(
                 (orderTif.asKnown().getOrNull()?.validity() ?: 0) +
                 (orderType.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (paymentToken.asKnown().isPresent) 1 else 0) +
-                (if (stockId.asKnown().isPresent) 1 else 0) +
                 (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
+                (if (clientOrderId.asKnown().isPresent) 1 else 0) +
                 (if (limitPrice.asKnown().isPresent) 1 else 0) +
-                (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0)
+                (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0) +
+                (if (stockId.asKnown().isPresent) 1 else 0) +
+                (if (tokenId.asKnown().isPresent) 1 else 0)
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -1093,10 +1253,12 @@ private constructor(
                 orderTif == other.orderTif &&
                 orderType == other.orderType &&
                 paymentToken == other.paymentToken &&
-                stockId == other.stockId &&
                 assetTokenQuantity == other.assetTokenQuantity &&
+                clientOrderId == other.clientOrderId &&
                 limitPrice == other.limitPrice &&
                 paymentTokenQuantity == other.paymentTokenQuantity &&
+                stockId == other.stockId &&
+                tokenId == other.tokenId &&
                 additionalProperties == other.additionalProperties
         }
 
@@ -1107,10 +1269,12 @@ private constructor(
                 orderTif,
                 orderType,
                 paymentToken,
-                stockId,
                 assetTokenQuantity,
+                clientOrderId,
                 limitPrice,
                 paymentTokenQuantity,
+                stockId,
+                tokenId,
                 additionalProperties,
             )
         }
@@ -1118,7 +1282,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{chainId=$chainId, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, paymentToken=$paymentToken, stockId=$stockId, assetTokenQuantity=$assetTokenQuantity, limitPrice=$limitPrice, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+            "Body{chainId=$chainId, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, paymentToken=$paymentToken, assetTokenQuantity=$assetTokenQuantity, clientOrderId=$clientOrderId, limitPrice=$limitPrice, paymentTokenQuantity=$paymentTokenQuantity, stockId=$stockId, tokenId=$tokenId, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

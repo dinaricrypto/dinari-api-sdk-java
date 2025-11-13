@@ -53,7 +53,7 @@ interface OrderService {
 
     /**
      * Get a list of all `Orders` under the `Account`.<br>Optionally `Orders` can be filtered by
-     * chain ID or transaction hash.
+     * chain ID, transaction hash, or client order ID.
      */
     fun list(accountId: String): List<Order> = list(accountId, OrderListParams.none())
 

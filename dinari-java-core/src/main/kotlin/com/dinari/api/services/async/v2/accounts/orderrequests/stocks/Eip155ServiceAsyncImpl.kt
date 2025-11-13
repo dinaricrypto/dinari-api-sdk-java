@@ -16,8 +16,6 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepareAsync
-import com.dinari.api.models.v2.accounts.orderrequests.OrderRequest
-import com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155.Eip155CreateProxiedOrderParams
 import com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155.Eip155PrepareProxiedOrderParams
 import com.dinari.api.models.v2.accounts.orderrequests.stocks.eip155.Eip155PrepareProxiedOrderResponse
 import java.util.concurrent.CompletableFuture
@@ -36,13 +34,7 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): Eip155ServiceAsync =
         Eip155ServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
-    override fun createProxiedOrder(
-        params: Eip155CreateProxiedOrderParams,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<OrderRequest> =
-        // post /api/v2/accounts/{account_id}/order_requests/stocks/eip155
-        withRawResponse().createProxiedOrder(params, requestOptions).thenApply { it.parse() }
-
+    @Deprecated("deprecated")
     override fun prepareProxiedOrder(
         params: Eip155PrepareProxiedOrderParams,
         requestOptions: RequestOptions,
@@ -63,51 +55,10 @@ class Eip155ServiceAsyncImpl internal constructor(private val clientOptions: Cli
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val createProxiedOrderHandler: Handler<OrderRequest> =
-            jsonHandler<OrderRequest>(clientOptions.jsonMapper)
-
-        override fun createProxiedOrder(
-            params: Eip155CreateProxiedOrderParams,
-            requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<OrderRequest>> {
-            // We check here instead of in the params builder because this can be specified
-            // positionally or in the params class.
-            checkRequired("accountId", params.accountId().getOrNull())
-            val request =
-                HttpRequest.builder()
-                    .method(HttpMethod.POST)
-                    .baseUrl(clientOptions.baseUrl())
-                    .addPathSegments(
-                        "api",
-                        "v2",
-                        "accounts",
-                        params._pathParam(0),
-                        "order_requests",
-                        "stocks",
-                        "eip155",
-                    )
-                    .body(json(clientOptions.jsonMapper, params._body()))
-                    .build()
-                    .prepareAsync(clientOptions, params)
-            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
-            return request
-                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
-                .thenApply { response ->
-                    errorHandler.handle(response).parseable {
-                        response
-                            .use { createProxiedOrderHandler.handle(it) }
-                            .also {
-                                if (requestOptions.responseValidation!!) {
-                                    it.validate()
-                                }
-                            }
-                    }
-                }
-        }
-
         private val prepareProxiedOrderHandler: Handler<Eip155PrepareProxiedOrderResponse> =
             jsonHandler<Eip155PrepareProxiedOrderResponse>(clientOptions.jsonMapper)
 
+        @Deprecated("deprecated")
         override fun prepareProxiedOrder(
             params: Eip155PrepareProxiedOrderParams,
             requestOptions: RequestOptions,

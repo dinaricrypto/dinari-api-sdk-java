@@ -14,6 +14,7 @@ internal class OrderListParamsTest {
         OrderListParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .chainId(Chain.EIP155_1)
+            .clientOrderId("client_order_id")
             .orderTransactionHash("order_transaction_hash")
             .page(1L)
             .pageSize(1L)
@@ -36,6 +37,7 @@ internal class OrderListParamsTest {
             OrderListParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .chainId(Chain.EIP155_1)
+                .clientOrderId("client_order_id")
                 .orderTransactionHash("order_transaction_hash")
                 .page(1L)
                 .pageSize(1L)
@@ -47,6 +49,7 @@ internal class OrderListParamsTest {
             .isEqualTo(
                 QueryParams.builder()
                     .put("chain_id", "eip155:1")
+                    .put("client_order_id", "client_order_id")
                     .put("order_transaction_hash", "order_transaction_hash")
                     .put("page", "1")
                     .put("page_size", "1")

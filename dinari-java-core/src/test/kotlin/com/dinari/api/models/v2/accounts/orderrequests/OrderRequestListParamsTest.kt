@@ -12,6 +12,9 @@ internal class OrderRequestListParamsTest {
     fun create() {
         OrderRequestListParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .clientOrderId("client_order_id")
+            .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .page(1L)
             .pageSize(1L)
             .build()
@@ -34,6 +37,9 @@ internal class OrderRequestListParamsTest {
         val params =
             OrderRequestListParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .clientOrderId("client_order_id")
+                .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .page(1L)
                 .pageSize(1L)
                 .build()
@@ -41,7 +47,15 @@ internal class OrderRequestListParamsTest {
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("page", "1").put("page_size", "1").build())
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("client_order_id", "client_order_id")
+                    .put("order_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("order_request_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .put("page", "1")
+                    .put("page_size", "1")
+                    .build()
+            )
     }
 
     @Test

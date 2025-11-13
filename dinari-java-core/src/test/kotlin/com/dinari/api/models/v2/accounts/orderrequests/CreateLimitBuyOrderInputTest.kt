@@ -16,6 +16,7 @@ internal class CreateLimitBuyOrderInputTest {
                 .assetQuantity(0.0)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .clientOrderId("client_order_id")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
@@ -23,6 +24,7 @@ internal class CreateLimitBuyOrderInputTest {
         assertThat(createLimitBuyOrderInput.limitPrice()).isEqualTo(0.0)
         assertThat(createLimitBuyOrderInput.stockId())
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(createLimitBuyOrderInput.clientOrderId()).contains("client_order_id")
         assertThat(createLimitBuyOrderInput.recipientAccountId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
@@ -35,6 +37,7 @@ internal class CreateLimitBuyOrderInputTest {
                 .assetQuantity(0.0)
                 .limitPrice(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .clientOrderId("client_order_id")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 

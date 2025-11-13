@@ -33,11 +33,15 @@ interface Eip155Service {
      * this method to retrieve the quote.
      *
      * The `order_fee_contract_object` property contains the opaque fee quote structure to be used.
+     *
+     * **⚠️ This endpoint will be deprecated on 2025-12-15.**
      */
+    @Deprecated("deprecated")
     fun getFeeQuote(accountId: String, params: Eip155GetFeeQuoteParams): Eip155GetFeeQuoteResponse =
         getFeeQuote(accountId, params, RequestOptions.none())
 
     /** @see getFeeQuote */
+    @Deprecated("deprecated")
     fun getFeeQuote(
         accountId: String,
         params: Eip155GetFeeQuoteParams,
@@ -46,10 +50,12 @@ interface Eip155Service {
         getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see getFeeQuote */
+    @Deprecated("deprecated")
     fun getFeeQuote(params: Eip155GetFeeQuoteParams): Eip155GetFeeQuoteResponse =
         getFeeQuote(params, RequestOptions.none())
 
     /** @see getFeeQuote */
+    @Deprecated("deprecated")
     fun getFeeQuote(
         params: Eip155GetFeeQuoteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -62,13 +68,17 @@ interface Eip155Service {
      * Dinari's EVM smart contracts. Once signed, the transactions can be sent to the EVM network to
      * create the order. Note that the fee quote is already included in the transactions, so no
      * additional fee quote lookup is needed.
+     *
+     * **⚠️ This endpoint will be deprecated on 2025-12-15.**
      */
+    @Deprecated("deprecated")
     fun prepareOrder(
         accountId: String,
         params: Eip155PrepareOrderParams,
     ): Eip155PrepareOrderResponse = prepareOrder(accountId, params, RequestOptions.none())
 
     /** @see prepareOrder */
+    @Deprecated("deprecated")
     fun prepareOrder(
         accountId: String,
         params: Eip155PrepareOrderParams,
@@ -77,10 +87,12 @@ interface Eip155Service {
         prepareOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see prepareOrder */
+    @Deprecated("deprecated")
     fun prepareOrder(params: Eip155PrepareOrderParams): Eip155PrepareOrderResponse =
         prepareOrder(params, RequestOptions.none())
 
     /** @see prepareOrder */
+    @Deprecated("deprecated")
     fun prepareOrder(
         params: Eip155PrepareOrderParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -101,6 +113,7 @@ interface Eip155Service {
          * /api/v2/accounts/{account_id}/orders/stocks/eip155/fee_quote`, but is otherwise the same
          * as [Eip155Service.getFeeQuote].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getFeeQuote(
             accountId: String,
@@ -109,6 +122,7 @@ interface Eip155Service {
             getFeeQuote(accountId, params, RequestOptions.none())
 
         /** @see getFeeQuote */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getFeeQuote(
             accountId: String,
@@ -118,12 +132,14 @@ interface Eip155Service {
             getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see getFeeQuote */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getFeeQuote(
             params: Eip155GetFeeQuoteParams
         ): HttpResponseFor<Eip155GetFeeQuoteResponse> = getFeeQuote(params, RequestOptions.none())
 
         /** @see getFeeQuote */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun getFeeQuote(
             params: Eip155GetFeeQuoteParams,
@@ -135,6 +151,7 @@ interface Eip155Service {
          * /api/v2/accounts/{account_id}/orders/stocks/eip155/prepare`, but is otherwise the same as
          * [Eip155Service.prepareOrder].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun prepareOrder(
             accountId: String,
@@ -143,6 +160,7 @@ interface Eip155Service {
             prepareOrder(accountId, params, RequestOptions.none())
 
         /** @see prepareOrder */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun prepareOrder(
             accountId: String,
@@ -152,12 +170,14 @@ interface Eip155Service {
             prepareOrder(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see prepareOrder */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun prepareOrder(
             params: Eip155PrepareOrderParams
         ): HttpResponseFor<Eip155PrepareOrderResponse> = prepareOrder(params, RequestOptions.none())
 
         /** @see prepareOrder */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun prepareOrder(
             params: Eip155PrepareOrderParams,

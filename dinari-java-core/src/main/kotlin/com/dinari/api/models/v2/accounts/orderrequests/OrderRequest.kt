@@ -41,6 +41,7 @@ private constructor(
     private val orderTif: JsonField<OrderTif>,
     private val orderType: JsonField<OrderType>,
     private val status: JsonField<Status>,
+    private val clientOrderId: JsonField<String>,
     private val orderId: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -61,6 +62,9 @@ private constructor(
         @ExcludeMissing
         orderType: JsonField<OrderType> = JsonMissing.of(),
         @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("client_order_id")
+        @ExcludeMissing
+        clientOrderId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("order_id") @ExcludeMissing orderId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("recipient_account_id")
         @ExcludeMissing
@@ -73,6 +77,7 @@ private constructor(
         orderTif,
         orderType,
         status,
+        clientOrderId,
         orderId,
         recipientAccountId,
         mutableMapOf(),
@@ -133,6 +138,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun status(): Status = status.getRequired("status")
+
+    /**
+     * Customer-supplied ID to map this `OrderRequest` to an order in their own systems.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun clientOrderId(): Optional<String> = clientOrderId.getOptional("client_order_id")
 
     /**
      * ID of `Order` created from the `OrderRequest`. This is the primary identifier for the
@@ -204,6 +217,15 @@ private constructor(
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
 
     /**
+     * Returns the raw JSON value of [clientOrderId].
+     *
+     * Unlike [clientOrderId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("client_order_id")
+    @ExcludeMissing
+    fun _clientOrderId(): JsonField<String> = clientOrderId
+
+    /**
      * Returns the raw JSON value of [orderId].
      *
      * Unlike [orderId], this method doesn't throw if the JSON field has an unexpected type.
@@ -261,6 +283,7 @@ private constructor(
         private var orderTif: JsonField<OrderTif>? = null
         private var orderType: JsonField<OrderType>? = null
         private var status: JsonField<Status>? = null
+        private var clientOrderId: JsonField<String> = JsonMissing.of()
         private var orderId: JsonField<String> = JsonMissing.of()
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -274,6 +297,7 @@ private constructor(
             orderTif = orderRequest.orderTif
             orderType = orderRequest.orderType
             status = orderRequest.status
+            clientOrderId = orderRequest.clientOrderId
             orderId = orderRequest.orderId
             recipientAccountId = orderRequest.recipientAccountId
             additionalProperties = orderRequest.additionalProperties.toMutableMap()
@@ -363,6 +387,25 @@ private constructor(
          */
         fun status(status: JsonField<Status>) = apply { this.status = status }
 
+        /** Customer-supplied ID to map this `OrderRequest` to an order in their own systems. */
+        fun clientOrderId(clientOrderId: String?) =
+            clientOrderId(JsonField.ofNullable(clientOrderId))
+
+        /** Alias for calling [Builder.clientOrderId] with `clientOrderId.orElse(null)`. */
+        fun clientOrderId(clientOrderId: Optional<String>) =
+            clientOrderId(clientOrderId.getOrNull())
+
+        /**
+         * Sets [Builder.clientOrderId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.clientOrderId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun clientOrderId(clientOrderId: JsonField<String>) = apply {
+            this.clientOrderId = clientOrderId
+        }
+
         /**
          * ID of `Order` created from the `OrderRequest`. This is the primary identifier for the
          * `/orders` routes.
@@ -447,6 +490,7 @@ private constructor(
                 checkRequired("orderTif", orderTif),
                 checkRequired("orderType", orderType),
                 checkRequired("status", status),
+                clientOrderId,
                 orderId,
                 recipientAccountId,
                 additionalProperties.toMutableMap(),
@@ -467,6 +511,7 @@ private constructor(
         orderTif().validate()
         orderType().validate()
         status().validate()
+        clientOrderId()
         orderId()
         recipientAccountId()
         validated = true
@@ -494,6 +539,7 @@ private constructor(
             (orderTif.asKnown().getOrNull()?.validity() ?: 0) +
             (orderType.asKnown().getOrNull()?.validity() ?: 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (clientOrderId.asKnown().isPresent) 1 else 0) +
             (if (orderId.asKnown().isPresent) 1 else 0) +
             (if (recipientAccountId.asKnown().isPresent) 1 else 0)
 
@@ -666,6 +712,7 @@ private constructor(
             orderTif == other.orderTif &&
             orderType == other.orderType &&
             status == other.status &&
+            clientOrderId == other.clientOrderId &&
             orderId == other.orderId &&
             recipientAccountId == other.recipientAccountId &&
             additionalProperties == other.additionalProperties
@@ -680,6 +727,7 @@ private constructor(
             orderTif,
             orderType,
             status,
+            clientOrderId,
             orderId,
             recipientAccountId,
             additionalProperties,
@@ -689,5 +737,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "OrderRequest{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, orderId=$orderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
+        "OrderRequest{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, clientOrderId=$clientOrderId, orderId=$orderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
 }

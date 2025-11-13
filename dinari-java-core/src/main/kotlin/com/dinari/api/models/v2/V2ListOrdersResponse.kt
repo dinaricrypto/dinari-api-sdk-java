@@ -41,6 +41,7 @@ private constructor(
     private val assetToken: JsonField<String>,
     private val assetTokenQuantity: JsonField<Double>,
     private val cancelTransactionHash: JsonField<String>,
+    private val clientOrderId: JsonField<String>,
     private val entityId: JsonField<String>,
     private val fee: JsonField<Double>,
     private val limitPrice: JsonField<Double>,
@@ -86,6 +87,9 @@ private constructor(
         @JsonProperty("cancel_transaction_hash")
         @ExcludeMissing
         cancelTransactionHash: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("client_order_id")
+        @ExcludeMissing
+        clientOrderId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("entity_id") @ExcludeMissing entityId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("fee") @ExcludeMissing fee: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("limit_price")
@@ -113,6 +117,7 @@ private constructor(
         assetToken,
         assetTokenQuantity,
         cancelTransactionHash,
+        clientOrderId,
         entityId,
         fee,
         limitPrice,
@@ -242,6 +247,15 @@ private constructor(
      */
     fun cancelTransactionHash(): Optional<String> =
         cancelTransactionHash.getOptional("cancel_transaction_hash")
+
+    /**
+     * Customer-supplied unique identifier to map this `Order` to an order in the customer's
+     * systems.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun clientOrderId(): Optional<String> = clientOrderId.getOptional("client_order_id")
 
     /**
      * Entity ID of the Order
@@ -407,6 +421,15 @@ private constructor(
     fun _cancelTransactionHash(): JsonField<String> = cancelTransactionHash
 
     /**
+     * Returns the raw JSON value of [clientOrderId].
+     *
+     * Unlike [clientOrderId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("client_order_id")
+    @ExcludeMissing
+    fun _clientOrderId(): JsonField<String> = clientOrderId
+
+    /**
      * Returns the raw JSON value of [entityId].
      *
      * Unlike [entityId], this method doesn't throw if the JSON field has an unexpected type.
@@ -499,6 +522,7 @@ private constructor(
         private var assetToken: JsonField<String> = JsonMissing.of()
         private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
         private var cancelTransactionHash: JsonField<String> = JsonMissing.of()
+        private var clientOrderId: JsonField<String> = JsonMissing.of()
         private var entityId: JsonField<String> = JsonMissing.of()
         private var fee: JsonField<Double> = JsonMissing.of()
         private var limitPrice: JsonField<Double> = JsonMissing.of()
@@ -523,6 +547,7 @@ private constructor(
             assetToken = v2ListOrdersResponse.assetToken
             assetTokenQuantity = v2ListOrdersResponse.assetTokenQuantity
             cancelTransactionHash = v2ListOrdersResponse.cancelTransactionHash
+            clientOrderId = v2ListOrdersResponse.clientOrderId
             entityId = v2ListOrdersResponse.entityId
             fee = v2ListOrdersResponse.fee
             limitPrice = v2ListOrdersResponse.limitPrice
@@ -749,6 +774,28 @@ private constructor(
             this.cancelTransactionHash = cancelTransactionHash
         }
 
+        /**
+         * Customer-supplied unique identifier to map this `Order` to an order in the customer's
+         * systems.
+         */
+        fun clientOrderId(clientOrderId: String?) =
+            clientOrderId(JsonField.ofNullable(clientOrderId))
+
+        /** Alias for calling [Builder.clientOrderId] with `clientOrderId.orElse(null)`. */
+        fun clientOrderId(clientOrderId: Optional<String>) =
+            clientOrderId(clientOrderId.getOrNull())
+
+        /**
+         * Sets [Builder.clientOrderId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.clientOrderId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun clientOrderId(clientOrderId: JsonField<String>) = apply {
+            this.clientOrderId = clientOrderId
+        }
+
         /** Entity ID of the Order */
         fun entityId(entityId: String?) = entityId(JsonField.ofNullable(entityId))
 
@@ -916,6 +963,7 @@ private constructor(
                 assetToken,
                 assetTokenQuantity,
                 cancelTransactionHash,
+                clientOrderId,
                 entityId,
                 fee,
                 limitPrice,
@@ -947,6 +995,7 @@ private constructor(
         assetToken()
         assetTokenQuantity()
         cancelTransactionHash()
+        clientOrderId()
         entityId()
         fee()
         limitPrice()
@@ -985,6 +1034,7 @@ private constructor(
             (if (assetToken.asKnown().isPresent) 1 else 0) +
             (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
             (if (cancelTransactionHash.asKnown().isPresent) 1 else 0) +
+            (if (clientOrderId.asKnown().isPresent) 1 else 0) +
             (if (entityId.asKnown().isPresent) 1 else 0) +
             (if (fee.asKnown().isPresent) 1 else 0) +
             (if (limitPrice.asKnown().isPresent) 1 else 0) +
@@ -1012,6 +1062,7 @@ private constructor(
             assetToken == other.assetToken &&
             assetTokenQuantity == other.assetTokenQuantity &&
             cancelTransactionHash == other.cancelTransactionHash &&
+            clientOrderId == other.clientOrderId &&
             entityId == other.entityId &&
             fee == other.fee &&
             limitPrice == other.limitPrice &&
@@ -1037,6 +1088,7 @@ private constructor(
             assetToken,
             assetTokenQuantity,
             cancelTransactionHash,
+            clientOrderId,
             entityId,
             fee,
             limitPrice,
@@ -1049,5 +1101,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "V2ListOrdersResponse{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, paymentToken=$paymentToken, status=$status, stockId=$stockId, accountId=$accountId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, entityId=$entityId, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+        "V2ListOrdersResponse{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, paymentToken=$paymentToken, status=$status, stockId=$stockId, accountId=$accountId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, clientOrderId=$clientOrderId, entityId=$entityId, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
 }
