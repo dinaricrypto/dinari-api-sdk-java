@@ -14,6 +14,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuotePa
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import com.dinari.api.services.blocking.v2.accounts.orderrequests.Eip155Service
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.StockService
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
@@ -33,6 +34,8 @@ interface OrderRequestService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestService
 
     fun stocks(): StockService
+
+    fun eip155(): Eip155Service
 
     /** Get a specific `OrderRequest` by its ID. */
     fun retrieve(orderRequestId: String, params: OrderRequestRetrieveParams): OrderRequest =
@@ -264,6 +267,8 @@ interface OrderRequestService {
         ): OrderRequestService.WithRawResponse
 
         fun stocks(): StockService.WithRawResponse
+
+        fun eip155(): Eip155Service.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

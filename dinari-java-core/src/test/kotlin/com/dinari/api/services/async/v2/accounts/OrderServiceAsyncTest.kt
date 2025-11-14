@@ -5,6 +5,7 @@ package com.dinari.api.services.async.v2.accounts
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.accounts.Chain
+import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
@@ -64,6 +65,29 @@ internal class OrderServiceAsyncTest {
 
         val orders = ordersFuture.get()
         orders.forEach { it.validate() }
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun batchCancel() {
+        val client =
+            DinariOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKeyId("My API Key ID")
+                .apiSecretKey("My API Secret Key")
+                .build()
+        val orderServiceAsync = client.v2().accounts().orders()
+
+        val responseFuture =
+            orderServiceAsync.batchCancel(
+                OrderBatchCancelParams.builder()
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .addOrderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
     }
 
     @Disabled("Prism tests are disabled")

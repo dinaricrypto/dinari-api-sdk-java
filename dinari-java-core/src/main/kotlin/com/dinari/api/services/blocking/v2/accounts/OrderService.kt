@@ -7,6 +7,8 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orders.Order
+import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
+import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelResponse
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
@@ -80,6 +82,40 @@ interface OrderService {
     /** @see list */
     fun list(accountId: String, requestOptions: RequestOptions): List<Order> =
         list(accountId, OrderListParams.none(), requestOptions)
+
+    /**
+     * Cancel multiple `Orders` by their IDs in a single request. Note that this requires the
+     * `Order` IDs, not the `OrderRequest` IDs. Once you submit a cancellation request, it cannot be
+     * undone. Be advised that orders with a status of PENDING_FILL, PENDING_ESCROW, FILLED,
+     * REJECTED, or CANCELLED cannot be cancelled.
+     *
+     * `Order` cancellation is not guaranteed nor is it immediate. The `Orders` may still be
+     * executed if the cancellation request is not received in time.
+     *
+     * The response will indicate which orders were successfully queued to cancel and which failed
+     * to queue. Check the status using the "Get Order by ID" endpoint to confirm whether individual
+     * `Orders` have been cancelled.
+     */
+    fun batchCancel(accountId: String, params: OrderBatchCancelParams): OrderBatchCancelResponse =
+        batchCancel(accountId, params, RequestOptions.none())
+
+    /** @see batchCancel */
+    fun batchCancel(
+        accountId: String,
+        params: OrderBatchCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): OrderBatchCancelResponse =
+        batchCancel(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+    /** @see batchCancel */
+    fun batchCancel(params: OrderBatchCancelParams): OrderBatchCancelResponse =
+        batchCancel(params, RequestOptions.none())
+
+    /** @see batchCancel */
+    fun batchCancel(
+        params: OrderBatchCancelParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): OrderBatchCancelResponse
 
     /**
      * Cancel an `Order` by its ID. Note that this requires the `Order` ID, not the `OrderRequest`
@@ -214,6 +250,38 @@ interface OrderService {
         @MustBeClosed
         fun list(accountId: String, requestOptions: RequestOptions): HttpResponseFor<List<Order>> =
             list(accountId, OrderListParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/orders/cancel`, but
+         * is otherwise the same as [OrderService.batchCancel].
+         */
+        @MustBeClosed
+        fun batchCancel(
+            accountId: String,
+            params: OrderBatchCancelParams,
+        ): HttpResponseFor<OrderBatchCancelResponse> =
+            batchCancel(accountId, params, RequestOptions.none())
+
+        /** @see batchCancel */
+        @MustBeClosed
+        fun batchCancel(
+            accountId: String,
+            params: OrderBatchCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<OrderBatchCancelResponse> =
+            batchCancel(params.toBuilder().accountId(accountId).build(), requestOptions)
+
+        /** @see batchCancel */
+        @MustBeClosed
+        fun batchCancel(params: OrderBatchCancelParams): HttpResponseFor<OrderBatchCancelResponse> =
+            batchCancel(params, RequestOptions.none())
+
+        /** @see batchCancel */
+        @MustBeClosed
+        fun batchCancel(
+            params: OrderBatchCancelParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<OrderBatchCancelResponse>
 
         /**
          * Returns a raw HTTP response for `post

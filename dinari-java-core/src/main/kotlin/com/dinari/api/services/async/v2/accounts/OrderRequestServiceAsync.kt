@@ -14,6 +14,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuotePa
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import com.dinari.api.services.async.v2.accounts.orderrequests.Eip155ServiceAsync
 import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -33,6 +34,8 @@ interface OrderRequestServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestServiceAsync
 
     fun stocks(): StockServiceAsync
+
+    fun eip155(): Eip155ServiceAsync
 
     /** Get a specific `OrderRequest` by its ID. */
     fun retrieve(
@@ -280,6 +283,8 @@ interface OrderRequestServiceAsync {
         ): OrderRequestServiceAsync.WithRawResponse
 
         fun stocks(): StockServiceAsync.WithRawResponse
+
+        fun eip155(): Eip155ServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get

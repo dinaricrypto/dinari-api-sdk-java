@@ -25,6 +25,8 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuotePa
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import com.dinari.api.services.async.v2.accounts.orderrequests.Eip155ServiceAsync
+import com.dinari.api.services.async.v2.accounts.orderrequests.Eip155ServiceAsyncImpl
 import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsync
 import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
@@ -40,12 +42,16 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
 
     private val stocks: StockServiceAsync by lazy { StockServiceAsyncImpl(clientOptions) }
 
+    private val eip155: Eip155ServiceAsync by lazy { Eip155ServiceAsyncImpl(clientOptions) }
+
     override fun withRawResponse(): OrderRequestServiceAsync.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestServiceAsync =
         OrderRequestServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun stocks(): StockServiceAsync = stocks
+
+    override fun eip155(): Eip155ServiceAsync = eip155
 
     override fun retrieve(
         params: OrderRequestRetrieveParams,
@@ -106,6 +112,10 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
             StockServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val eip155: Eip155ServiceAsync.WithRawResponse by lazy {
+            Eip155ServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): OrderRequestServiceAsync.WithRawResponse =
@@ -114,6 +124,8 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
             )
 
         override fun stocks(): StockServiceAsync.WithRawResponse = stocks
+
+        override fun eip155(): Eip155ServiceAsync.WithRawResponse = eip155
 
         private val retrieveHandler: Handler<OrderRequest> =
             jsonHandler<OrderRequest>(clientOptions.jsonMapper)
