@@ -25,6 +25,8 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuotePa
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
+import com.dinari.api.services.blocking.v2.accounts.orderrequests.Eip155Service
+import com.dinari.api.services.blocking.v2.accounts.orderrequests.Eip155ServiceImpl
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.StockService
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.StockServiceImpl
 import java.util.function.Consumer
@@ -39,12 +41,16 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
 
     private val stocks: StockService by lazy { StockServiceImpl(clientOptions) }
 
+    private val eip155: Eip155Service by lazy { Eip155ServiceImpl(clientOptions) }
+
     override fun withRawResponse(): OrderRequestService.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestService =
         OrderRequestServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun stocks(): StockService = stocks
+
+    override fun eip155(): Eip155Service = eip155
 
     override fun retrieve(
         params: OrderRequestRetrieveParams,
@@ -105,6 +111,10 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             StockServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val eip155: Eip155Service.WithRawResponse by lazy {
+            Eip155ServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): OrderRequestService.WithRawResponse =
@@ -113,6 +123,8 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             )
 
         override fun stocks(): StockService.WithRawResponse = stocks
+
+        override fun eip155(): Eip155Service.WithRawResponse = eip155
 
         private val retrieveHandler: Handler<OrderRequest> =
             jsonHandler<OrderRequest>(clientOptions.jsonMapper)

@@ -18,6 +18,8 @@ import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orders.Order
+import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
+import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelResponse
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
@@ -50,6 +52,13 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
     override fun list(params: OrderListParams, requestOptions: RequestOptions): List<Order> =
         // get /api/v2/accounts/{account_id}/orders
         withRawResponse().list(params, requestOptions).parse()
+
+    override fun batchCancel(
+        params: OrderBatchCancelParams,
+        requestOptions: RequestOptions,
+    ): OrderBatchCancelResponse =
+        // post /api/v2/accounts/{account_id}/orders/cancel
+        withRawResponse().batchCancel(params, requestOptions).parse()
 
     override fun cancel(params: OrderCancelParams, requestOptions: RequestOptions): Order =
         // post /api/v2/accounts/{account_id}/orders/{order_id}/cancel
@@ -142,6 +151,44 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.forEach { it.validate() }
+                        }
+                    }
+            }
+        }
+
+        private val batchCancelHandler: Handler<OrderBatchCancelResponse> =
+            jsonHandler<OrderBatchCancelResponse>(clientOptions.jsonMapper)
+
+        override fun batchCancel(
+            params: OrderBatchCancelParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<OrderBatchCancelResponse> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("accountId", params.accountId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments(
+                        "api",
+                        "v2",
+                        "accounts",
+                        params._pathParam(0),
+                        "orders",
+                        "cancel",
+                    )
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { batchCancelHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
                         }
                     }
             }
