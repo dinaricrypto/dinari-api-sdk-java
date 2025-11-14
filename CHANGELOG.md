@@ -1,5 +1,46 @@
 # Changelog
 
+## 0.6.0 (2025-11-14)
+
+Full Changelog: [v0.5.0...v0.6.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.5.0...v0.6.0)
+
+### Features
+
+* **api:** api update ([436b733](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/436b7331bfc4f5544f2de6f82e2e4ce4129170b5))
+* **api:** api update ([8d15090](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/8d15090d1ba4f88b4a528155120b3953dbb34060))
+* **api:** api update ([57e6700](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/57e6700e6e2a1ef771f96b10e1b20b72989c301e))
+* **api:** api update ([9a2599f](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/9a2599ff103cccc5748efa0d00cd35560de79f3a))
+* **api:** api update ([7e96012](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/7e96012300c9c62267ebef679755066fe2f698d1))
+* **api:** api update ([a89a3b4](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/a89a3b484be1c63791a12fd6c65181a50aa7b686))
+* **api:** api update ([d49bf2f](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/d49bf2fe7340fbc29897dd9528ea9509e58f81ff))
+* **api:** api update ([53954ae](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/53954ae76221a88b392e93f9680eb40953488127))
+* **api:** api update ([11b6e5f](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/11b6e5f3e803856fa6989f786374dc29a0f2f4cb))
+* **api:** permit, permit transaction, batch cancel ([7e31bb2](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/7e31bb20f5267d4c136bffa38b70b97b32a41727))
+* **client:** expose sleeper option ([c72e2cb](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/c72e2cb4d2bf0634f23e4279cc32bdaeb49a2e63))
+
+
+### Bug Fixes
+
+* **ci:** use java-version 21 for publish step ([3587222](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/35872223e6aaa7ea7ab02bbf86fa877de720aa5f))
+* **client:** deserialization of empty objects ([42f7daf](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/42f7daf4b26106090966d5c8397447121952f14b))
+* **client:** ensure single timer is created per client ([c72e2cb](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/c72e2cb4d2bf0634f23e4279cc32bdaeb49a2e63))
+* **client:** incorrect `getPackageVersion` impl ([d1e14ad](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/d1e14ad8f43a6c7029f7f836e2e3c0ba8c0f7ca2))
+* **client:** multi-value header serialization ([8cc7594](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/8cc75946417722bce35d3123160a2105057f4852))
+* fix casing issue ([44a1b6d](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/44a1b6ddbfeaf58e21c962925f17cffbfb23cc1a))
+* update singularization rules ([ea1c448](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/ea1c4487155325180c1d379d3b98669cfe09d0ec))
+
+
+### Chores
+
+* **ci:** reduce log noise ([7db049b](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/7db049bf50f91aa20474818901e4b59e922a5446))
+* improve formatter performance ([79d5d5e](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/79d5d5ebe5f6c340558aff95e979dbe5c51a6be7))
+* improve formatter performance ([a6a8b43](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/a6a8b43e62909c28b96dd433143becb87e33c49f))
+* **internal:** change some comment formatting ([fb3ce6a](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/fb3ce6a13a21e1f80381f1bbd4524159255efc3b))
+* **internal:** codegen related update ([69ba06b](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/69ba06b1ba3d047dabec10065f07976ce22c7764))
+* **internal:** codegen related update ([cd15f31](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/cd15f31cbdf9d8f7284a1c156630505f32cdbfe6))
+* **internal:** codegen related update ([8deac9c](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/8deac9ca0593561c0cf3fda77362324c837a853b))
+* remove memory upper bound from publishing step ([4446883](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/4446883f4b2ada156ae84625b04d99a878ee1ee3))
+
 ## 0.5.0 (2025-08-20)
 
 Full Changelog: [v0.3.0...v0.5.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.3.0...v0.5.0)
