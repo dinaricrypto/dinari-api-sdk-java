@@ -7,6 +7,7 @@ import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orderrequests.eip155.Eip155CreatePermitParams
 import com.dinari.api.models.v2.accounts.orderrequests.eip155.Eip155CreatePermitTransactionParams
+import com.dinari.api.models.v2.accounts.orderrequests.eip155.Eip155OrderRequestPermitTransaction
 import com.dinari.api.models.v2.accounts.orderrequests.eip155.Eip155SubmitParams
 import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderTif
@@ -66,8 +67,12 @@ internal class Eip155ServiceAsyncTest {
             eip155ServiceAsync.createPermitTransaction(
                 Eip155CreatePermitTransactionParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .permitSignature("0xeaF12bD1DfFd")
+                    .eip155OrderRequestPermitTransaction(
+                        Eip155OrderRequestPermitTransaction.builder()
+                            .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .permitSignature("0xeaF12bD1DfFd")
+                            .build()
+                    )
                     .build()
             )
 
@@ -90,8 +95,12 @@ internal class Eip155ServiceAsyncTest {
             eip155ServiceAsync.submit(
                 Eip155SubmitParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .permitSignature("0xeaF12bD1DfFd")
+                    .eip155OrderRequestPermitTransaction(
+                        Eip155OrderRequestPermitTransaction.builder()
+                            .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .permitSignature("0xeaF12bD1DfFd")
+                            .build()
+                    )
                     .build()
             )
 

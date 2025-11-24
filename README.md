@@ -501,22 +501,6 @@ StockListParams params = StockListParams.builder()
 
 These can be accessed on the built object later using the `_additionalHeaders()`, `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.
 
-To set undocumented parameters on _nested_ headers, query params, or body classes, call the `putAdditionalProperty` method on the nested class:
-
-```java
-import com.dinari.api.core.JsonValue;
-import com.dinari.api.models.v2.entities.kyc.KycData;
-import com.dinari.api.models.v2.entities.kyc.KycSubmitParams;
-
-KycSubmitParams params = KycSubmitParams.builder()
-    .data(KycData.builder()
-        .putAdditionalProperty("secretProperty", JsonValue.from("42"))
-        .build())
-    .build();
-```
-
-These properties can be accessed on the nested built object later using the `_additionalProperties()` method.
-
 To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](dinari-java-core/src/main/kotlin/com/dinari/api/core/Values.kt) object to its setter:
 
 ```java
