@@ -1,10 +1,8 @@
 // File generated from our OpenAPI spec by Stainless.
 
-package com.dinari.api.models.v2.accounts.orderrequests.eip155
+package com.dinari.api.models.v2.accounts.activities
 
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.Params
-import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
 import java.util.Objects
@@ -12,27 +10,29 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 /**
- * Submits a transaction for an EIP155 Order Request given the EIP155OrderRequest ID and Permit
- * Signature.
+ * Get a list of brokerage activities tied to the specified `Account`.
  *
- * An `EIP155OrderRequest` representing the proxied order is returned.
+ * **⚠️ ALPHA: This endpoint is in early development and subject to breaking changes.**
  */
-class Eip155SubmitParams
+class ActivityRetrieveBrokerageParams
 private constructor(
     private val accountId: String?,
-    private val eip155OrderRequestPermitTransaction: Eip155OrderRequestPermitTransaction,
+    private val pageSize: Long?,
+    private val pageToken: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
 
     fun accountId(): Optional<String> = Optional.ofNullable(accountId)
 
-    /** Input parameters for creating a proxied `EIP155OrderRequestPermitTransaction`. */
-    fun eip155OrderRequestPermitTransaction(): Eip155OrderRequestPermitTransaction =
-        eip155OrderRequestPermitTransaction
+    /** The maximum number of entries to return in the response. Defaults to 100. */
+    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
-    fun _additionalBodyProperties(): Map<String, JsonValue> =
-        eip155OrderRequestPermitTransaction._additionalProperties()
+    /**
+     * Pagination token. Set to the `id` field of the last Activity returned in the previous page to
+     * get the next page of results.
+     */
+    fun pageToken(): Optional<String> = Optional.ofNullable(pageToken)
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -44,43 +44,61 @@ private constructor(
 
     companion object {
 
+        @JvmStatic fun none(): ActivityRetrieveBrokerageParams = builder().build()
+
         /**
-         * Returns a mutable builder for constructing an instance of [Eip155SubmitParams].
-         *
-         * The following fields are required:
-         * ```java
-         * .eip155OrderRequestPermitTransaction()
-         * ```
+         * Returns a mutable builder for constructing an instance of
+         * [ActivityRetrieveBrokerageParams].
          */
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [Eip155SubmitParams]. */
+    /** A builder for [ActivityRetrieveBrokerageParams]. */
     class Builder internal constructor() {
 
         private var accountId: String? = null
-        private var eip155OrderRequestPermitTransaction: Eip155OrderRequestPermitTransaction? = null
+        private var pageSize: Long? = null
+        private var pageToken: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
-        internal fun from(eip155SubmitParams: Eip155SubmitParams) = apply {
-            accountId = eip155SubmitParams.accountId
-            eip155OrderRequestPermitTransaction =
-                eip155SubmitParams.eip155OrderRequestPermitTransaction
-            additionalHeaders = eip155SubmitParams.additionalHeaders.toBuilder()
-            additionalQueryParams = eip155SubmitParams.additionalQueryParams.toBuilder()
-        }
+        internal fun from(activityRetrieveBrokerageParams: ActivityRetrieveBrokerageParams) =
+            apply {
+                accountId = activityRetrieveBrokerageParams.accountId
+                pageSize = activityRetrieveBrokerageParams.pageSize
+                pageToken = activityRetrieveBrokerageParams.pageToken
+                additionalHeaders = activityRetrieveBrokerageParams.additionalHeaders.toBuilder()
+                additionalQueryParams =
+                    activityRetrieveBrokerageParams.additionalQueryParams.toBuilder()
+            }
 
         fun accountId(accountId: String?) = apply { this.accountId = accountId }
 
         /** Alias for calling [Builder.accountId] with `accountId.orElse(null)`. */
         fun accountId(accountId: Optional<String>) = accountId(accountId.getOrNull())
 
-        /** Input parameters for creating a proxied `EIP155OrderRequestPermitTransaction`. */
-        fun eip155OrderRequestPermitTransaction(
-            eip155OrderRequestPermitTransaction: Eip155OrderRequestPermitTransaction
-        ) = apply { this.eip155OrderRequestPermitTransaction = eip155OrderRequestPermitTransaction }
+        /** The maximum number of entries to return in the response. Defaults to 100. */
+        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
+
+        /**
+         * Alias for [Builder.pageSize].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
+
+        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
+        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
+
+        /**
+         * Pagination token. Set to the `id` field of the last Activity returned in the previous
+         * page to get the next page of results.
+         */
+        fun pageToken(pageToken: String?) = apply { this.pageToken = pageToken }
+
+        /** Alias for calling [Builder.pageToken] with `pageToken.orElse(null)`. */
+        fun pageToken(pageToken: Optional<String>) = pageToken(pageToken.getOrNull())
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -181,30 +199,19 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [Eip155SubmitParams].
+         * Returns an immutable instance of [ActivityRetrieveBrokerageParams].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
-         *
-         * The following fields are required:
-         * ```java
-         * .eip155OrderRequestPermitTransaction()
-         * ```
-         *
-         * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): Eip155SubmitParams =
-            Eip155SubmitParams(
+        fun build(): ActivityRetrieveBrokerageParams =
+            ActivityRetrieveBrokerageParams(
                 accountId,
-                checkRequired(
-                    "eip155OrderRequestPermitTransaction",
-                    eip155OrderRequestPermitTransaction,
-                ),
+                pageSize,
+                pageToken,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
             )
     }
-
-    fun _body(): Eip155OrderRequestPermitTransaction = eip155OrderRequestPermitTransaction
 
     fun _pathParam(index: Int): String =
         when (index) {
@@ -214,28 +221,31 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams = additionalQueryParams
+    override fun _queryParams(): QueryParams =
+        QueryParams.builder()
+            .apply {
+                pageSize?.let { put("page_size", it.toString()) }
+                pageToken?.let { put("page_token", it) }
+                putAll(additionalQueryParams)
+            }
+            .build()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
         }
 
-        return other is Eip155SubmitParams &&
+        return other is ActivityRetrieveBrokerageParams &&
             accountId == other.accountId &&
-            eip155OrderRequestPermitTransaction == other.eip155OrderRequestPermitTransaction &&
+            pageSize == other.pageSize &&
+            pageToken == other.pageToken &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(
-            accountId,
-            eip155OrderRequestPermitTransaction,
-            additionalHeaders,
-            additionalQueryParams,
-        )
+        Objects.hash(accountId, pageSize, pageToken, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "Eip155SubmitParams{accountId=$accountId, eip155OrderRequestPermitTransaction=$eip155OrderRequestPermitTransaction, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "ActivityRetrieveBrokerageParams{accountId=$accountId, pageSize=$pageSize, pageToken=$pageToken, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

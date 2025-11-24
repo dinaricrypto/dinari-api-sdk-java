@@ -4,9 +4,14 @@ package com.dinari.api.proguard
 
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.core.jsonMapper
-import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType
+import com.dinari.api.models.v2.entities.accounts.Jurisdiction
+import com.dinari.api.models.v2.entities.kyc.BaselineKycCheckData
+import com.dinari.api.models.v2.entities.kyc.KycInfo
+import com.dinari.api.models.v2.entities.kyc.KycStatus
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
+import java.time.LocalDate
+import java.time.OffsetDateTime
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.jvm.javaMethod
 import org.assertj.core.api.Assertions.assertThat
@@ -84,16 +89,52 @@ internal class ProGuardCompatibilityTest {
     }
 
     @Test
-    fun kycDocumentTypeRoundtrip() {
+    fun kycInfoRoundtrip() {
         val jsonMapper = jsonMapper()
-        val kycDocumentType = KycDocumentType.GOVERNMENT_ID
-
-        val roundtrippedKycDocumentType =
-            jsonMapper.readValue(
-                jsonMapper.writeValueAsString(kycDocumentType),
-                jacksonTypeRef<KycDocumentType>(),
+        val kycInfo =
+            KycInfo.ofBaseline(
+                KycInfo.Baseline.builder()
+                    .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .status(KycStatus.PASS)
+                    .checkedDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .data(
+                        BaselineKycCheckData.builder()
+                            .addressCountryCode("SG")
+                            .countryCode("SG")
+                            .lastName("Doe")
+                            .addressCity("San Francisco")
+                            .addressPostalCode("94111")
+                            .addressStreet1("123 Main St.")
+                            .addressStreet2("Apt. 123")
+                            .addressSubdivision("California")
+                            .birthDate(LocalDate.parse("2019-12-27"))
+                            .email("johndoe@website.com")
+                            .firstName("John")
+                            .middleName("x")
+                            .taxIdNumber("12-3456789")
+                            .build()
+                    )
+                    .jurisdiction(KycInfo.Baseline.Jurisdiction.BASELINE)
+                    .build()
             )
 
-        assertThat(roundtrippedKycDocumentType).isEqualTo(kycDocumentType)
+        val roundtrippedKycInfo =
+            jsonMapper.readValue(jsonMapper.writeValueAsString(kycInfo), jacksonTypeRef<KycInfo>())
+
+        assertThat(roundtrippedKycInfo).isEqualTo(kycInfo)
+    }
+
+    @Test
+    fun jurisdictionRoundtrip() {
+        val jsonMapper = jsonMapper()
+        val jurisdiction = Jurisdiction.BASELINE
+
+        val roundtrippedJurisdiction =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(jurisdiction),
+                jacksonTypeRef<Jurisdiction>(),
+            )
+
+        assertThat(roundtrippedJurisdiction).isEqualTo(jurisdiction)
     }
 }

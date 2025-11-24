@@ -11,8 +11,12 @@ internal class Eip155CreatePermitTransactionParamsTest {
     fun create() {
         Eip155CreatePermitTransactionParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .permitSignature("0xeaF12bD1DfFd")
+            .eip155OrderRequestPermitTransaction(
+                Eip155OrderRequestPermitTransaction.builder()
+                    .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .permitSignature("0xeaF12bD1DfFd")
+                    .build()
+            )
             .build()
     }
 
@@ -21,8 +25,12 @@ internal class Eip155CreatePermitTransactionParamsTest {
         val params =
             Eip155CreatePermitTransactionParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .permitSignature("0xeaF12bD1DfFd")
+                .eip155OrderRequestPermitTransaction(
+                    Eip155OrderRequestPermitTransaction.builder()
+                        .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .permitSignature("0xeaF12bD1DfFd")
+                        .build()
+                )
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -35,13 +43,22 @@ internal class Eip155CreatePermitTransactionParamsTest {
         val params =
             Eip155CreatePermitTransactionParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .permitSignature("0xeaF12bD1DfFd")
+                .eip155OrderRequestPermitTransaction(
+                    Eip155OrderRequestPermitTransaction.builder()
+                        .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .permitSignature("0xeaF12bD1DfFd")
+                        .build()
+                )
                 .build()
 
         val body = params._body()
 
-        assertThat(body.orderRequestId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(body.permitSignature()).isEqualTo("0xeaF12bD1DfFd")
+        assertThat(body)
+            .isEqualTo(
+                Eip155OrderRequestPermitTransaction.builder()
+                    .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .permitSignature("0xeaF12bD1DfFd")
+                    .build()
+            )
     }
 }
