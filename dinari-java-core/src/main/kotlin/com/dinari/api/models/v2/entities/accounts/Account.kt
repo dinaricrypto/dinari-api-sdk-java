@@ -26,6 +26,7 @@ private constructor(
     private val createdDt: JsonField<OffsetDateTime>,
     private val entityId: JsonField<String>,
     private val isActive: JsonField<Boolean>,
+    private val jurisdiction: JsonField<Jurisdiction>,
     private val brokerageAccountId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -38,10 +39,13 @@ private constructor(
         createdDt: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("entity_id") @ExcludeMissing entityId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("is_active") @ExcludeMissing isActive: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("jurisdiction")
+        @ExcludeMissing
+        jurisdiction: JsonField<Jurisdiction> = JsonMissing.of(),
         @JsonProperty("brokerage_account_id")
         @ExcludeMissing
         brokerageAccountId: JsonField<String> = JsonMissing.of(),
-    ) : this(id, createdDt, entityId, isActive, brokerageAccountId, mutableMapOf())
+    ) : this(id, createdDt, entityId, isActive, jurisdiction, brokerageAccountId, mutableMapOf())
 
     /**
      * Unique ID for the `Account`.
@@ -74,6 +78,14 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun isActive(): Boolean = isActive.getRequired("is_active")
+
+    /**
+     * Jurisdiction of the `Account`.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun jurisdiction(): Jurisdiction = jurisdiction.getRequired("jurisdiction")
 
     /**
      * ID of the brokerage account associated with the `Account`.
@@ -115,6 +127,15 @@ private constructor(
     @JsonProperty("is_active") @ExcludeMissing fun _isActive(): JsonField<Boolean> = isActive
 
     /**
+     * Returns the raw JSON value of [jurisdiction].
+     *
+     * Unlike [jurisdiction], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("jurisdiction")
+    @ExcludeMissing
+    fun _jurisdiction(): JsonField<Jurisdiction> = jurisdiction
+
+    /**
      * Returns the raw JSON value of [brokerageAccountId].
      *
      * Unlike [brokerageAccountId], this method doesn't throw if the JSON field has an unexpected
@@ -147,6 +168,7 @@ private constructor(
          * .createdDt()
          * .entityId()
          * .isActive()
+         * .jurisdiction()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -159,6 +181,7 @@ private constructor(
         private var createdDt: JsonField<OffsetDateTime>? = null
         private var entityId: JsonField<String>? = null
         private var isActive: JsonField<Boolean>? = null
+        private var jurisdiction: JsonField<Jurisdiction>? = null
         private var brokerageAccountId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -168,6 +191,7 @@ private constructor(
             createdDt = account.createdDt
             entityId = account.entityId
             isActive = account.isActive
+            jurisdiction = account.jurisdiction
             brokerageAccountId = account.brokerageAccountId
             additionalProperties = account.additionalProperties.toMutableMap()
         }
@@ -217,6 +241,20 @@ private constructor(
          * value.
          */
         fun isActive(isActive: JsonField<Boolean>) = apply { this.isActive = isActive }
+
+        /** Jurisdiction of the `Account`. */
+        fun jurisdiction(jurisdiction: Jurisdiction) = jurisdiction(JsonField.of(jurisdiction))
+
+        /**
+         * Sets [Builder.jurisdiction] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.jurisdiction] with a well-typed [Jurisdiction] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun jurisdiction(jurisdiction: JsonField<Jurisdiction>) = apply {
+            this.jurisdiction = jurisdiction
+        }
 
         /** ID of the brokerage account associated with the `Account`. */
         fun brokerageAccountId(brokerageAccountId: String?) =
@@ -269,6 +307,7 @@ private constructor(
          * .createdDt()
          * .entityId()
          * .isActive()
+         * .jurisdiction()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -279,6 +318,7 @@ private constructor(
                 checkRequired("createdDt", createdDt),
                 checkRequired("entityId", entityId),
                 checkRequired("isActive", isActive),
+                checkRequired("jurisdiction", jurisdiction),
                 brokerageAccountId,
                 additionalProperties.toMutableMap(),
             )
@@ -295,6 +335,7 @@ private constructor(
         createdDt()
         entityId()
         isActive()
+        jurisdiction().validate()
         brokerageAccountId()
         validated = true
     }
@@ -318,6 +359,7 @@ private constructor(
             (if (createdDt.asKnown().isPresent) 1 else 0) +
             (if (entityId.asKnown().isPresent) 1 else 0) +
             (if (isActive.asKnown().isPresent) 1 else 0) +
+            (jurisdiction.asKnown().getOrNull()?.validity() ?: 0) +
             (if (brokerageAccountId.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
@@ -330,16 +372,25 @@ private constructor(
             createdDt == other.createdDt &&
             entityId == other.entityId &&
             isActive == other.isActive &&
+            jurisdiction == other.jurisdiction &&
             brokerageAccountId == other.brokerageAccountId &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(id, createdDt, entityId, isActive, brokerageAccountId, additionalProperties)
+        Objects.hash(
+            id,
+            createdDt,
+            entityId,
+            isActive,
+            jurisdiction,
+            brokerageAccountId,
+            additionalProperties,
+        )
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Account{id=$id, createdDt=$createdDt, entityId=$entityId, isActive=$isActive, brokerageAccountId=$brokerageAccountId, additionalProperties=$additionalProperties}"
+        "Account{id=$id, createdDt=$createdDt, entityId=$entityId, isActive=$isActive, jurisdiction=$jurisdiction, brokerageAccountId=$brokerageAccountId, additionalProperties=$additionalProperties}"
 }

@@ -2,11 +2,19 @@
 
 package com.dinari.api.models.v2.entities.accounts
 
+import com.dinari.api.core.ExcludeMissing
+import com.dinari.api.core.JsonField
+import com.dinari.api.core.JsonMissing
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.Params
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.QueryParams
-import com.dinari.api.core.toImmutable
+import com.dinari.api.errors.DinariInvalidDataException
+import com.fasterxml.jackson.annotation.JsonAnyGetter
+import com.fasterxml.jackson.annotation.JsonAnySetter
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
@@ -18,15 +26,29 @@ import kotlin.jvm.optionals.getOrNull
 class AccountCreateParams
 private constructor(
     private val entityId: String?,
+    private val body: Body,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
-    private val additionalBodyProperties: Map<String, JsonValue>,
 ) : Params {
 
     fun entityId(): Optional<String> = Optional.ofNullable(entityId)
 
-    /** Additional body properties to send with the request. */
-    fun _additionalBodyProperties(): Map<String, JsonValue> = additionalBodyProperties
+    /**
+     * Jurisdiction of the `Account`.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun jurisdiction(): Optional<Jurisdiction> = body.jurisdiction()
+
+    /**
+     * Returns the raw JSON value of [jurisdiction].
+     *
+     * Unlike [jurisdiction], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _jurisdiction(): JsonField<Jurisdiction> = body._jurisdiction()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
@@ -48,22 +70,64 @@ private constructor(
     class Builder internal constructor() {
 
         private var entityId: String? = null
+        private var body: Body.Builder = Body.builder()
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
-        private var additionalBodyProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(accountCreateParams: AccountCreateParams) = apply {
             entityId = accountCreateParams.entityId
+            body = accountCreateParams.body.toBuilder()
             additionalHeaders = accountCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = accountCreateParams.additionalQueryParams.toBuilder()
-            additionalBodyProperties = accountCreateParams.additionalBodyProperties.toMutableMap()
         }
 
         fun entityId(entityId: String?) = apply { this.entityId = entityId }
 
         /** Alias for calling [Builder.entityId] with `entityId.orElse(null)`. */
         fun entityId(entityId: Optional<String>) = entityId(entityId.getOrNull())
+
+        /**
+         * Sets the entire request body.
+         *
+         * This is generally only useful if you are already constructing the body separately.
+         * Otherwise, it's more convenient to use the top-level setters instead:
+         * - [jurisdiction]
+         */
+        fun body(body: Body) = apply { this.body = body.toBuilder() }
+
+        /** Jurisdiction of the `Account`. */
+        fun jurisdiction(jurisdiction: Jurisdiction) = apply { body.jurisdiction(jurisdiction) }
+
+        /**
+         * Sets [Builder.jurisdiction] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.jurisdiction] with a well-typed [Jurisdiction] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun jurisdiction(jurisdiction: JsonField<Jurisdiction>) = apply {
+            body.jurisdiction(jurisdiction)
+        }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -163,28 +227,6 @@ private constructor(
             additionalQueryParams.removeAll(keys)
         }
 
-        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
-            this.additionalBodyProperties.clear()
-            putAllAdditionalBodyProperties(additionalBodyProperties)
-        }
-
-        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
-            additionalBodyProperties.put(key, value)
-        }
-
-        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
-            apply {
-                this.additionalBodyProperties.putAll(additionalBodyProperties)
-            }
-
-        fun removeAdditionalBodyProperty(key: String) = apply {
-            additionalBodyProperties.remove(key)
-        }
-
-        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
-            keys.forEach(::removeAdditionalBodyProperty)
-        }
-
         /**
          * Returns an immutable instance of [AccountCreateParams].
          *
@@ -193,14 +235,13 @@ private constructor(
         fun build(): AccountCreateParams =
             AccountCreateParams(
                 entityId,
+                body.build(),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
-                additionalBodyProperties.toImmutable(),
             )
     }
 
-    fun _body(): Optional<Map<String, JsonValue>> =
-        Optional.ofNullable(additionalBodyProperties.ifEmpty { null })
+    fun _body(): Body = body
 
     fun _pathParam(index: Int): String =
         when (index) {
@@ -212,6 +253,156 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
+    /** Input parameters for creating an `Account`. */
+    class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val jurisdiction: JsonField<Jurisdiction>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("jurisdiction")
+            @ExcludeMissing
+            jurisdiction: JsonField<Jurisdiction> = JsonMissing.of()
+        ) : this(jurisdiction, mutableMapOf())
+
+        /**
+         * Jurisdiction of the `Account`.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun jurisdiction(): Optional<Jurisdiction> = jurisdiction.getOptional("jurisdiction")
+
+        /**
+         * Returns the raw JSON value of [jurisdiction].
+         *
+         * Unlike [jurisdiction], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("jurisdiction")
+        @ExcludeMissing
+        fun _jurisdiction(): JsonField<Jurisdiction> = jurisdiction
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Body]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Body]. */
+        class Builder internal constructor() {
+
+            private var jurisdiction: JsonField<Jurisdiction> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                jurisdiction = body.jurisdiction
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
+
+            /** Jurisdiction of the `Account`. */
+            fun jurisdiction(jurisdiction: Jurisdiction) = jurisdiction(JsonField.of(jurisdiction))
+
+            /**
+             * Sets [Builder.jurisdiction] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.jurisdiction] with a well-typed [Jurisdiction] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun jurisdiction(jurisdiction: JsonField<Jurisdiction>) = apply {
+                this.jurisdiction = jurisdiction
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Body].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Body = Body(jurisdiction, additionalProperties.toMutableMap())
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Body = apply {
+            if (validated) {
+                return@apply
+            }
+
+            jurisdiction().ifPresent { it.validate() }
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: DinariInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int = (jurisdiction.asKnown().getOrNull()?.validity() ?: 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Body &&
+                jurisdiction == other.jurisdiction &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy { Objects.hash(jurisdiction, additionalProperties) }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Body{jurisdiction=$jurisdiction, additionalProperties=$additionalProperties}"
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -219,14 +410,14 @@ private constructor(
 
         return other is AccountCreateParams &&
             entityId == other.entityId &&
+            body == other.body &&
             additionalHeaders == other.additionalHeaders &&
-            additionalQueryParams == other.additionalQueryParams &&
-            additionalBodyProperties == other.additionalBodyProperties
+            additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(entityId, additionalHeaders, additionalQueryParams, additionalBodyProperties)
+        Objects.hash(entityId, body, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "AccountCreateParams{entityId=$entityId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
+        "AccountCreateParams{entityId=$entityId, body=$body, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

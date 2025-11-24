@@ -18,6 +18,7 @@ import com.dinari.api.models.v2.accounts.AccountGetPortfolioResponse
 import com.dinari.api.models.v2.accounts.AccountMintSandboxTokensParams
 import com.dinari.api.models.v2.accounts.AccountRetrieveParams
 import com.dinari.api.models.v2.entities.accounts.Account
+import com.dinari.api.services.blocking.v2.accounts.ActivityService
 import com.dinari.api.services.blocking.v2.accounts.OrderFulfillmentService
 import com.dinari.api.services.blocking.v2.accounts.OrderRequestService
 import com.dinari.api.services.blocking.v2.accounts.OrderService
@@ -55,6 +56,8 @@ interface AccountService {
     fun withdrawals(): WithdrawalService
 
     fun tokenTransfers(): TokenTransferService
+
+    fun activities(): ActivityService
 
     /** Get a specific `Account` by its ID. */
     fun retrieve(accountId: String): Account = retrieve(accountId, AccountRetrieveParams.none())
@@ -303,6 +306,8 @@ interface AccountService {
         fun withdrawals(): WithdrawalService.WithRawResponse
 
         fun tokenTransfers(): TokenTransferService.WithRawResponse
+
+        fun activities(): ActivityService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}`, but is otherwise the

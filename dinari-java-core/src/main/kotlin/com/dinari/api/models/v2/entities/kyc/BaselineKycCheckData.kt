@@ -18,8 +18,8 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** KYC data for an `Entity`. */
-class KycData
+/** KYC data for an `Entity` in the BASELINE jurisdiction. */
+class BaselineKycCheckData
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val addressCountryCode: JsonField<String>,
@@ -321,7 +321,7 @@ private constructor(
     companion object {
 
         /**
-         * Returns a mutable builder for constructing an instance of [KycData].
+         * Returns a mutable builder for constructing an instance of [BaselineKycCheckData].
          *
          * The following fields are required:
          * ```java
@@ -333,7 +333,7 @@ private constructor(
         @JvmStatic fun builder() = Builder()
     }
 
-    /** A builder for [KycData]. */
+    /** A builder for [BaselineKycCheckData]. */
     class Builder internal constructor() {
 
         private var addressCountryCode: JsonField<String>? = null
@@ -352,21 +352,21 @@ private constructor(
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
-        internal fun from(kycData: KycData) = apply {
-            addressCountryCode = kycData.addressCountryCode
-            countryCode = kycData.countryCode
-            lastName = kycData.lastName
-            addressCity = kycData.addressCity
-            addressPostalCode = kycData.addressPostalCode
-            addressStreet1 = kycData.addressStreet1
-            addressStreet2 = kycData.addressStreet2
-            addressSubdivision = kycData.addressSubdivision
-            birthDate = kycData.birthDate
-            email = kycData.email
-            firstName = kycData.firstName
-            middleName = kycData.middleName
-            taxIdNumber = kycData.taxIdNumber
-            additionalProperties = kycData.additionalProperties.toMutableMap()
+        internal fun from(baselineKycCheckData: BaselineKycCheckData) = apply {
+            addressCountryCode = baselineKycCheckData.addressCountryCode
+            countryCode = baselineKycCheckData.countryCode
+            lastName = baselineKycCheckData.lastName
+            addressCity = baselineKycCheckData.addressCity
+            addressPostalCode = baselineKycCheckData.addressPostalCode
+            addressStreet1 = baselineKycCheckData.addressStreet1
+            addressStreet2 = baselineKycCheckData.addressStreet2
+            addressSubdivision = baselineKycCheckData.addressSubdivision
+            birthDate = baselineKycCheckData.birthDate
+            email = baselineKycCheckData.email
+            firstName = baselineKycCheckData.firstName
+            middleName = baselineKycCheckData.middleName
+            taxIdNumber = baselineKycCheckData.taxIdNumber
+            additionalProperties = baselineKycCheckData.additionalProperties.toMutableMap()
         }
 
         /** Country of residence. ISO 3166-1 alpha 2 country code. */
@@ -600,7 +600,7 @@ private constructor(
         }
 
         /**
-         * Returns an immutable instance of [KycData].
+         * Returns an immutable instance of [BaselineKycCheckData].
          *
          * Further updates to this [Builder] will not mutate the returned instance.
          *
@@ -613,8 +613,8 @@ private constructor(
          *
          * @throws IllegalStateException if any required field is unset.
          */
-        fun build(): KycData =
-            KycData(
+        fun build(): BaselineKycCheckData =
+            BaselineKycCheckData(
                 checkRequired("addressCountryCode", addressCountryCode),
                 checkRequired("countryCode", countryCode),
                 checkRequired("lastName", lastName),
@@ -634,7 +634,7 @@ private constructor(
 
     private var validated: Boolean = false
 
-    fun validate(): KycData = apply {
+    fun validate(): BaselineKycCheckData = apply {
         if (validated) {
             return@apply
         }
@@ -689,7 +689,7 @@ private constructor(
             return true
         }
 
-        return other is KycData &&
+        return other is BaselineKycCheckData &&
             addressCountryCode == other.addressCountryCode &&
             countryCode == other.countryCode &&
             lastName == other.lastName &&
@@ -728,5 +728,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "KycData{addressCountryCode=$addressCountryCode, countryCode=$countryCode, lastName=$lastName, addressCity=$addressCity, addressPostalCode=$addressPostalCode, addressStreet1=$addressStreet1, addressStreet2=$addressStreet2, addressSubdivision=$addressSubdivision, birthDate=$birthDate, email=$email, firstName=$firstName, middleName=$middleName, taxIdNumber=$taxIdNumber, additionalProperties=$additionalProperties}"
+        "BaselineKycCheckData{addressCountryCode=$addressCountryCode, countryCode=$countryCode, lastName=$lastName, addressCity=$addressCity, addressPostalCode=$addressPostalCode, addressStreet1=$addressStreet1, addressStreet2=$addressStreet2, addressSubdivision=$addressSubdivision, birthDate=$birthDate, email=$email, firstName=$firstName, middleName=$middleName, taxIdNumber=$taxIdNumber, additionalProperties=$additionalProperties}"
 }

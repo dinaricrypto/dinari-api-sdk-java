@@ -8,12 +8,12 @@ import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class KycDataTest {
+internal class BaselineKycCheckDataTest {
 
     @Test
     fun create() {
-        val kycData =
-            KycData.builder()
+        val baselineKycCheckData =
+            BaselineKycCheckData.builder()
                 .addressCountryCode("SG")
                 .countryCode("SG")
                 .lastName("Doe")
@@ -29,26 +29,26 @@ internal class KycDataTest {
                 .taxIdNumber("12-3456789")
                 .build()
 
-        assertThat(kycData.addressCountryCode()).isEqualTo("SG")
-        assertThat(kycData.countryCode()).isEqualTo("SG")
-        assertThat(kycData.lastName()).isEqualTo("Doe")
-        assertThat(kycData.addressCity()).contains("San Francisco")
-        assertThat(kycData.addressPostalCode()).contains("94111")
-        assertThat(kycData.addressStreet1()).contains("123 Main St.")
-        assertThat(kycData.addressStreet2()).contains("Apt. 123")
-        assertThat(kycData.addressSubdivision()).contains("California")
-        assertThat(kycData.birthDate()).contains(LocalDate.parse("2019-12-27"))
-        assertThat(kycData.email()).contains("johndoe@website.com")
-        assertThat(kycData.firstName()).contains("John")
-        assertThat(kycData.middleName()).contains("x")
-        assertThat(kycData.taxIdNumber()).contains("12-3456789")
+        assertThat(baselineKycCheckData.addressCountryCode()).isEqualTo("SG")
+        assertThat(baselineKycCheckData.countryCode()).isEqualTo("SG")
+        assertThat(baselineKycCheckData.lastName()).isEqualTo("Doe")
+        assertThat(baselineKycCheckData.addressCity()).contains("San Francisco")
+        assertThat(baselineKycCheckData.addressPostalCode()).contains("94111")
+        assertThat(baselineKycCheckData.addressStreet1()).contains("123 Main St.")
+        assertThat(baselineKycCheckData.addressStreet2()).contains("Apt. 123")
+        assertThat(baselineKycCheckData.addressSubdivision()).contains("California")
+        assertThat(baselineKycCheckData.birthDate()).contains(LocalDate.parse("2019-12-27"))
+        assertThat(baselineKycCheckData.email()).contains("johndoe@website.com")
+        assertThat(baselineKycCheckData.firstName()).contains("John")
+        assertThat(baselineKycCheckData.middleName()).contains("x")
+        assertThat(baselineKycCheckData.taxIdNumber()).contains("12-3456789")
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val kycData =
-            KycData.builder()
+        val baselineKycCheckData =
+            BaselineKycCheckData.builder()
                 .addressCountryCode("SG")
                 .countryCode("SG")
                 .lastName("Doe")
@@ -64,9 +64,12 @@ internal class KycDataTest {
                 .taxIdNumber("12-3456789")
                 .build()
 
-        val roundtrippedKycData =
-            jsonMapper.readValue(jsonMapper.writeValueAsString(kycData), jacksonTypeRef<KycData>())
+        val roundtrippedBaselineKycCheckData =
+            jsonMapper.readValue(
+                jsonMapper.writeValueAsString(baselineKycCheckData),
+                jacksonTypeRef<BaselineKycCheckData>(),
+            )
 
-        assertThat(roundtrippedKycData).isEqualTo(kycData)
+        assertThat(roundtrippedBaselineKycCheckData).isEqualTo(baselineKycCheckData)
     }
 }

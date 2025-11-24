@@ -3,6 +3,7 @@
 package com.dinari.api.models.v2.accounts.orderrequests.eip155
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestStatus
 import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderTif
 import com.dinari.api.models.v2.accounts.orders.OrderType
@@ -23,7 +24,7 @@ internal class Eip155SubmitResponseTest {
                 .orderSide(OrderSide.BUY)
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
-                .status(Eip155SubmitResponse.Status.QUOTED)
+                .status(OrderRequestStatus.QUOTED)
                 .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
@@ -36,7 +37,7 @@ internal class Eip155SubmitResponseTest {
         assertThat(eip155SubmitResponse.orderSide()).isEqualTo(OrderSide.BUY)
         assertThat(eip155SubmitResponse.orderTif()).isEqualTo(OrderTif.DAY)
         assertThat(eip155SubmitResponse.orderType()).isEqualTo(OrderType.MARKET)
-        assertThat(eip155SubmitResponse.status()).isEqualTo(Eip155SubmitResponse.Status.QUOTED)
+        assertThat(eip155SubmitResponse.status()).isEqualTo(OrderRequestStatus.QUOTED)
         assertThat(eip155SubmitResponse.orderId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(eip155SubmitResponse.recipientAccountId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -53,7 +54,7 @@ internal class Eip155SubmitResponseTest {
                 .orderSide(OrderSide.BUY)
                 .orderTif(OrderTif.DAY)
                 .orderType(OrderType.MARKET)
-                .status(Eip155SubmitResponse.Status.QUOTED)
+                .status(OrderRequestStatus.QUOTED)
                 .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()

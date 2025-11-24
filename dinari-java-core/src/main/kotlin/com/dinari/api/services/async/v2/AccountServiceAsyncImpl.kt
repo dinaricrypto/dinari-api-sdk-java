@@ -29,6 +29,8 @@ import com.dinari.api.models.v2.accounts.AccountGetPortfolioResponse
 import com.dinari.api.models.v2.accounts.AccountMintSandboxTokensParams
 import com.dinari.api.models.v2.accounts.AccountRetrieveParams
 import com.dinari.api.models.v2.entities.accounts.Account
+import com.dinari.api.services.async.v2.accounts.ActivityServiceAsync
+import com.dinari.api.services.async.v2.accounts.ActivityServiceAsyncImpl
 import com.dinari.api.services.async.v2.accounts.OrderFulfillmentServiceAsync
 import com.dinari.api.services.async.v2.accounts.OrderFulfillmentServiceAsyncImpl
 import com.dinari.api.services.async.v2.accounts.OrderRequestServiceAsync
@@ -78,6 +80,8 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
         TokenTransferServiceAsyncImpl(clientOptions)
     }
 
+    private val activities: ActivityServiceAsync by lazy { ActivityServiceAsyncImpl(clientOptions) }
+
     override fun withRawResponse(): AccountServiceAsync.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountServiceAsync =
@@ -96,6 +100,8 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     override fun withdrawals(): WithdrawalServiceAsync = withdrawals
 
     override fun tokenTransfers(): TokenTransferServiceAsync = tokenTransfers
+
+    override fun activities(): ActivityServiceAsync = activities
 
     override fun retrieve(
         params: AccountRetrieveParams,
@@ -180,6 +186,10 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
             TokenTransferServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val activities: ActivityServiceAsync.WithRawResponse by lazy {
+            ActivityServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): AccountServiceAsync.WithRawResponse =
@@ -202,6 +212,8 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
         override fun withdrawals(): WithdrawalServiceAsync.WithRawResponse = withdrawals
 
         override fun tokenTransfers(): TokenTransferServiceAsync.WithRawResponse = tokenTransfers
+
+        override fun activities(): ActivityServiceAsync.WithRawResponse = activities
 
         private val retrieveHandler: Handler<Account> =
             jsonHandler<Account>(clientOptions.jsonMapper)

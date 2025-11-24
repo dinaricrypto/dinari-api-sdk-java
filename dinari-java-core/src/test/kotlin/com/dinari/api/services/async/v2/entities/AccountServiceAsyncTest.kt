@@ -4,7 +4,9 @@ package com.dinari.api.services.async.v2.entities
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
+import com.dinari.api.models.v2.entities.accounts.AccountCreateParams
 import com.dinari.api.models.v2.entities.accounts.AccountListParams
+import com.dinari.api.models.v2.entities.accounts.Jurisdiction
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -23,7 +25,13 @@ internal class AccountServiceAsyncTest {
                 .build()
         val accountServiceAsync = client.v2().entities().accounts()
 
-        val accountFuture = accountServiceAsync.create("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val accountFuture =
+            accountServiceAsync.create(
+                AccountCreateParams.builder()
+                    .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .jurisdiction(Jurisdiction.BASELINE)
+                    .build()
+            )
 
         val account = accountFuture.get()
         account.validate()

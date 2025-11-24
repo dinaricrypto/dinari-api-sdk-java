@@ -4,7 +4,7 @@ package com.dinari.api.services.async.v2.entities
 
 import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
-import com.dinari.api.models.v2.entities.kyc.KycData
+import com.dinari.api.models.v2.entities.kyc.BaselineKycCheckData
 import com.dinari.api.models.v2.entities.kyc.KycSubmitParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
@@ -64,24 +64,29 @@ internal class KycServiceAsyncTest {
             kycServiceAsync.submit(
                 KycSubmitParams.builder()
                     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .data(
-                        KycData.builder()
-                            .addressCountryCode("SG")
-                            .countryCode("SG")
-                            .lastName("Doe")
-                            .addressCity("San Francisco")
-                            .addressPostalCode("94111")
-                            .addressStreet1("123 Main St.")
-                            .addressStreet2("Apt. 123")
-                            .addressSubdivision("California")
-                            .birthDate(LocalDate.parse("2019-12-27"))
-                            .email("johndoe@website.com")
-                            .firstName("John")
-                            .middleName("x")
-                            .taxIdNumber("12-3456789")
+                    .body(
+                        KycSubmitParams.Body.Baseline.builder()
+                            .data(
+                                BaselineKycCheckData.builder()
+                                    .addressCountryCode("SG")
+                                    .countryCode("SG")
+                                    .lastName("Doe")
+                                    .addressCity("San Francisco")
+                                    .addressPostalCode("94111")
+                                    .addressStreet1("123 Main St.")
+                                    .addressStreet2("Apt. 123")
+                                    .addressSubdivision("California")
+                                    .birthDate(LocalDate.parse("2019-12-27"))
+                                    .email("johndoe@website.com")
+                                    .firstName("John")
+                                    .middleName("x")
+                                    .taxIdNumber("12-3456789")
+                                    .build()
+                            )
+                            .providerName("x")
+                            .jurisdiction(KycSubmitParams.Body.Baseline.Jurisdiction.BASELINE)
                             .build()
                     )
-                    .providerName("x")
                     .build()
             )
 

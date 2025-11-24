@@ -29,6 +29,8 @@ import com.dinari.api.models.v2.accounts.AccountGetPortfolioResponse
 import com.dinari.api.models.v2.accounts.AccountMintSandboxTokensParams
 import com.dinari.api.models.v2.accounts.AccountRetrieveParams
 import com.dinari.api.models.v2.entities.accounts.Account
+import com.dinari.api.services.blocking.v2.accounts.ActivityService
+import com.dinari.api.services.blocking.v2.accounts.ActivityServiceImpl
 import com.dinari.api.services.blocking.v2.accounts.OrderFulfillmentService
 import com.dinari.api.services.blocking.v2.accounts.OrderFulfillmentServiceImpl
 import com.dinari.api.services.blocking.v2.accounts.OrderRequestService
@@ -75,6 +77,8 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
         TokenTransferServiceImpl(clientOptions)
     }
 
+    private val activities: ActivityService by lazy { ActivityServiceImpl(clientOptions) }
+
     override fun withRawResponse(): AccountService.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountService =
@@ -93,6 +97,8 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
     override fun withdrawals(): WithdrawalService = withdrawals
 
     override fun tokenTransfers(): TokenTransferService = tokenTransfers
+
+    override fun activities(): ActivityService = activities
 
     override fun retrieve(params: AccountRetrieveParams, requestOptions: RequestOptions): Account =
         // get /api/v2/accounts/{account_id}
@@ -175,6 +181,10 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             TokenTransferServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val activities: ActivityService.WithRawResponse by lazy {
+            ActivityServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): AccountService.WithRawResponse =
@@ -197,6 +207,8 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
         override fun withdrawals(): WithdrawalService.WithRawResponse = withdrawals
 
         override fun tokenTransfers(): TokenTransferService.WithRawResponse = tokenTransfers
+
+        override fun activities(): ActivityService.WithRawResponse = activities
 
         private val retrieveHandler: Handler<Account> =
             jsonHandler<Account>(clientOptions.jsonMapper)
