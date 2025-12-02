@@ -237,7 +237,7 @@ private constructor(
     override fun _queryParams(): QueryParams =
         QueryParams.builder()
             .apply {
-                orderIds?.let { put("order_ids", it.joinToString(",")) }
+                orderIds?.forEach { put("order_ids", it) }
                 page?.let { put("page", it.toString()) }
                 pageSize?.let { put("page_size", it.toString()) }
                 putAll(additionalQueryParams)

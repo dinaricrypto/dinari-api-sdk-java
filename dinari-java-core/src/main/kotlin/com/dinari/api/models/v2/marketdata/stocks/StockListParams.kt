@@ -220,7 +220,7 @@ private constructor(
             .apply {
                 page?.let { put("page", it.toString()) }
                 pageSize?.let { put("page_size", it.toString()) }
-                symbols?.let { put("symbols", it.joinToString(",")) }
+                symbols?.forEach { put("symbols", it) }
                 putAll(additionalQueryParams)
             }
             .build()
