@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.7.1 (2025-12-02)
+
+Full Changelog: [v0.7.0...v0.7.1](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.7.0...v0.7.1)
+
+### Features
+
+* **api:** use repeat for array parameters ([1ec0457](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/1ec045746a9cd0bc3c7c2d804a2c4afa1ae9d43e))
+
+
+### Bug Fixes
+
+* **client:** cancel okhttp call when future cancelled ([235b6c1](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/235b6c10e550794723e8282aade64ef2b9f6ad62))
+
+
+### Documentation
+
+* remove `$` for better copy-pasteabality ([2af234b](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/2af234bdf72ffd368384292ed2b7c9d70fd67fd5))
+
 ## 0.7.0 (2025-11-25)
 
 Full Changelog: [v0.6.0...v0.7.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.6.0...v0.7.0)
