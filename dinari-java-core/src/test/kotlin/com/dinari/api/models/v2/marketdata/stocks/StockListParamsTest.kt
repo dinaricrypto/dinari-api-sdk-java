@@ -24,7 +24,7 @@ internal class StockListParamsTest {
                 QueryParams.builder()
                     .put("page", "1")
                     .put("page_size", "1")
-                    .put("symbols", listOf("string").joinToString(","))
+                    .put("symbols", "string")
                     .build()
             )
     }
