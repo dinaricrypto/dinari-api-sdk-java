@@ -45,10 +45,7 @@ internal class OrderFulfillmentQueryParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
-                    .put(
-                        "order_ids",
-                        listOf("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e").joinToString(","),
-                    )
+                    .put("order_ids", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("page", "1")
                     .put("page_size", "1")
                     .build()
