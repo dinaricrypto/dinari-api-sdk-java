@@ -19,7 +19,7 @@ import kotlin.jvm.optionals.getOrNull
  * estimation.
  *
  * If an `OrderRequest` with the same `client_order_id` already exists for the given account, the
- * existing `OrderRequest` will be returned instead of creating a new one.
+ * creation call will fail.
  */
 class OrderRequestCreateMarketBuyParams
 private constructor(
