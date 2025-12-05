@@ -99,7 +99,7 @@ interface OrderRequestService {
      * estimation.
      *
      * If an `OrderRequest` with the same `client_order_id` already exists for the given account,
-     * the existing `OrderRequest` will be returned instead of creating a new one.
+     * the creation call will fail.
      */
     fun createLimitBuy(accountId: String, params: OrderRequestCreateLimitBuyParams): OrderRequest =
         createLimitBuy(accountId, params, RequestOptions.none())
@@ -130,7 +130,7 @@ interface OrderRequestService {
      * estimation.
      *
      * If an `OrderRequest` with the same `client_order_id` already exists for the given account,
-     * the existing `OrderRequest` will be returned instead of creating a new one.
+     * the creation call will fail.
      */
     fun createLimitSell(
         accountId: String,
@@ -163,7 +163,7 @@ interface OrderRequestService {
      * estimation.
      *
      * If an `OrderRequest` with the same `client_order_id` already exists for the given account,
-     * the existing `OrderRequest` will be returned instead of creating a new one.
+     * the creation call will fail.
      */
     fun createMarketBuy(
         accountId: String,
@@ -196,7 +196,7 @@ interface OrderRequestService {
      * estimation.
      *
      * If an `OrderRequest` with the same `client_order_id` already exists for the given account,
-     * the existing `OrderRequest` will be returned instead of creating a new one.
+     * the creation call will fail.
      */
     fun createMarketSell(
         accountId: String,
