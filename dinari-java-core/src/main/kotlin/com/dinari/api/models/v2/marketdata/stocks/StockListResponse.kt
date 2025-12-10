@@ -148,6 +148,7 @@ private constructor(
 
     /**
      * CUSIP ID. Refer to [this link](https://www.cusip.com/identifiers.html) for more information.
+     * A license agreement with CUSIP Global Services is required to receive this value.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -463,7 +464,8 @@ private constructor(
 
         /**
          * CUSIP ID. Refer to [this link](https://www.cusip.com/identifiers.html) for more
-         * information.
+         * information. A license agreement with CUSIP Global Services is required to receive this
+         * value.
          */
         fun cusip(cusip: String?) = cusip(JsonField.ofNullable(cusip))
 
