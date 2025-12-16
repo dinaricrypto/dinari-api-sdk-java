@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.8.0 (2025-12-16)
+
+Full Changelog: [v0.7.1...v0.8.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.7.1...v0.8.0)
+
+### Features
+
+* **api:** api update ([08052c3](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/08052c3717abd9764cf9087eccd40a9e42ec5392))
+* **api:** api update ([d4a3d9e](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/d4a3d9e9f7702b08472c556e19f5534e9c008ebb))
+* **api:** api update ([a071ab8](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/a071ab8b5e03df32c9d227756aa767f0f34bd27d))
+* **api:** Regen API after removing EVM prepared routes and adding non-professional trader attestations ([1d5490f](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/1d5490f2c0508540380fffd40daf2ecb498f923a))
+
 ## 0.7.1 (2025-12-02)
 
 Full Changelog: [v0.7.0...v0.7.1](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.7.0...v0.7.1)
