@@ -65,8 +65,9 @@ private constructor(
     fun stockId(): String = body.stockId()
 
     /**
-     * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell `Order
-     * Requests`.
+     * Amount of dShare asset tokens involved. Required for limit `Order Requests` and market sell
+     * `Order Requests`. Must be a positive number with a precision of up to 4 decimal places for
+     * limit `Order Requests` or up to 6 decimal places for market sell `Order Requests`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -264,8 +265,10 @@ private constructor(
         fun stockId(stockId: JsonField<String>) = apply { body.stockId(stockId) }
 
         /**
-         * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
-         * `Order Requests`.
+         * Amount of dShare asset tokens involved. Required for limit `Order Requests` and market
+         * sell `Order Requests`. Must be a positive number with a precision of up to 4 decimal
+         * places for limit `Order Requests` or up to 6 decimal places for market sell `Order
+         * Requests`.
          */
         fun assetTokenQuantity(assetTokenQuantity: Double?) = apply {
             body.assetTokenQuantity(assetTokenQuantity)
@@ -620,8 +623,10 @@ private constructor(
         fun stockId(): String = stockId.getRequired("stock_id")
 
         /**
-         * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
-         * `Order Requests`.
+         * Amount of dShare asset tokens involved. Required for limit `Order Requests` and market
+         * sell `Order Requests`. Must be a positive number with a precision of up to 4 decimal
+         * places for limit `Order Requests` or up to 6 decimal places for market sell `Order
+         * Requests`.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -827,7 +832,9 @@ private constructor(
             fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
 
             /**
-             * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
+             * Amount of dShare asset tokens involved. Required for limit `Order Requests` and
+             * market sell `Order Requests`. Must be a positive number with a precision of up to 4
+             * decimal places for limit `Order Requests` or up to 6 decimal places for market sell
              * `Order Requests`.
              */
             fun assetTokenQuantity(assetTokenQuantity: Double?) =

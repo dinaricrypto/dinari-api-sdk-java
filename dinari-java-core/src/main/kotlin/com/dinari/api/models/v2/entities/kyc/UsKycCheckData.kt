@@ -33,6 +33,7 @@ private constructor(
     private val financialProfile: JsonField<FinancialProfile>,
     private val identity: JsonField<Identity>,
     private val kycMetadata: JsonField<KycMetadata>,
+    private val nonProfessionalTraderAttestation: JsonField<NonProfessionalTraderAttestation>,
     private val riskDisclosure: JsonField<RiskDisclosure>,
     private val trustedContact: JsonField<TrustedContact>,
     private val usImmigrationInfo: JsonField<UsImmigrationInfo>,
@@ -58,6 +59,10 @@ private constructor(
         @JsonProperty("kyc_metadata")
         @ExcludeMissing
         kycMetadata: JsonField<KycMetadata> = JsonMissing.of(),
+        @JsonProperty("non_professional_trader_attestation")
+        @ExcludeMissing
+        nonProfessionalTraderAttestation: JsonField<NonProfessionalTraderAttestation> =
+            JsonMissing.of(),
         @JsonProperty("risk_disclosure")
         @ExcludeMissing
         riskDisclosure: JsonField<RiskDisclosure> = JsonMissing.of(),
@@ -75,6 +80,7 @@ private constructor(
         financialProfile,
         identity,
         kycMetadata,
+        nonProfessionalTraderAttestation,
         riskDisclosure,
         trustedContact,
         usImmigrationInfo,
@@ -143,6 +149,18 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun kycMetadata(): KycMetadata = kycMetadata.getRequired("kyc_metadata")
+
+    /**
+     * The non-professional trader property is a self-attestation for US customers that can affect
+     * the metered realtime data fees. This field must be updated when if there is a change in the
+     * user's attestation. This field may also be modified by Dinari compliance team. For more
+     * information, please see the US Customers Integration Guide.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun nonProfessionalTraderAttestation(): NonProfessionalTraderAttestation =
+        nonProfessionalTraderAttestation.getRequired("non_professional_trader_attestation")
 
     /**
      * Risk information about the individual <br/><br/> Fields denote if the account owner falls
@@ -239,6 +257,17 @@ private constructor(
     fun _kycMetadata(): JsonField<KycMetadata> = kycMetadata
 
     /**
+     * Returns the raw JSON value of [nonProfessionalTraderAttestation].
+     *
+     * Unlike [nonProfessionalTraderAttestation], this method doesn't throw if the JSON field has an
+     * unexpected type.
+     */
+    @JsonProperty("non_professional_trader_attestation")
+    @ExcludeMissing
+    fun _nonProfessionalTraderAttestation(): JsonField<NonProfessionalTraderAttestation> =
+        nonProfessionalTraderAttestation
+
+    /**
      * Returns the raw JSON value of [riskDisclosure].
      *
      * Unlike [riskDisclosure], this method doesn't throw if the JSON field has an unexpected type.
@@ -292,6 +321,7 @@ private constructor(
          * .financialProfile()
          * .identity()
          * .kycMetadata()
+         * .nonProfessionalTraderAttestation()
          * .riskDisclosure()
          * .trustedContact()
          * ```
@@ -309,6 +339,8 @@ private constructor(
         private var financialProfile: JsonField<FinancialProfile>? = null
         private var identity: JsonField<Identity>? = null
         private var kycMetadata: JsonField<KycMetadata>? = null
+        private var nonProfessionalTraderAttestation: JsonField<NonProfessionalTraderAttestation>? =
+            null
         private var riskDisclosure: JsonField<RiskDisclosure>? = null
         private var trustedContact: JsonField<TrustedContact>? = null
         private var usImmigrationInfo: JsonField<UsImmigrationInfo> = JsonMissing.of()
@@ -323,6 +355,7 @@ private constructor(
             financialProfile = usKycCheckData.financialProfile
             identity = usKycCheckData.identity
             kycMetadata = usKycCheckData.kycMetadata
+            nonProfessionalTraderAttestation = usKycCheckData.nonProfessionalTraderAttestation
             riskDisclosure = usKycCheckData.riskDisclosure
             trustedContact = usKycCheckData.trustedContact
             usImmigrationInfo = usKycCheckData.usImmigrationInfo
@@ -437,6 +470,27 @@ private constructor(
         }
 
         /**
+         * The non-professional trader property is a self-attestation for US customers that can
+         * affect the metered realtime data fees. This field must be updated when if there is a
+         * change in the user's attestation. This field may also be modified by Dinari compliance
+         * team. For more information, please see the US Customers Integration Guide.
+         */
+        fun nonProfessionalTraderAttestation(
+            nonProfessionalTraderAttestation: NonProfessionalTraderAttestation
+        ) = nonProfessionalTraderAttestation(JsonField.of(nonProfessionalTraderAttestation))
+
+        /**
+         * Sets [Builder.nonProfessionalTraderAttestation] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.nonProfessionalTraderAttestation] with a well-typed
+         * [NonProfessionalTraderAttestation] value instead. This method is primarily for setting
+         * the field to an undocumented or not yet supported value.
+         */
+        fun nonProfessionalTraderAttestation(
+            nonProfessionalTraderAttestation: JsonField<NonProfessionalTraderAttestation>
+        ) = apply { this.nonProfessionalTraderAttestation = nonProfessionalTraderAttestation }
+
+        /**
          * Risk information about the individual <br/><br/> Fields denote if the account owner falls
          * under each category defined by FINRA rules. If any of the answers is true (yes),
          * additional verifications may be required before US account approval.
@@ -532,6 +586,7 @@ private constructor(
          * .financialProfile()
          * .identity()
          * .kycMetadata()
+         * .nonProfessionalTraderAttestation()
          * .riskDisclosure()
          * .trustedContact()
          * ```
@@ -547,6 +602,7 @@ private constructor(
                 checkRequired("financialProfile", financialProfile),
                 checkRequired("identity", identity),
                 checkRequired("kycMetadata", kycMetadata),
+                checkRequired("nonProfessionalTraderAttestation", nonProfessionalTraderAttestation),
                 checkRequired("riskDisclosure", riskDisclosure),
                 checkRequired("trustedContact", trustedContact),
                 usImmigrationInfo,
@@ -568,6 +624,7 @@ private constructor(
         financialProfile().validate()
         identity().validate()
         kycMetadata().validate()
+        nonProfessionalTraderAttestation().validate()
         riskDisclosure().validate()
         trustedContact().validate()
         usImmigrationInfo().ifPresent { it.validate() }
@@ -596,6 +653,7 @@ private constructor(
             (financialProfile.asKnown().getOrNull()?.validity() ?: 0) +
             (identity.asKnown().getOrNull()?.validity() ?: 0) +
             (kycMetadata.asKnown().getOrNull()?.validity() ?: 0) +
+            (nonProfessionalTraderAttestation.asKnown().getOrNull()?.validity() ?: 0) +
             (riskDisclosure.asKnown().getOrNull()?.validity() ?: 0) +
             (trustedContact.asKnown().getOrNull()?.validity() ?: 0) +
             (usImmigrationInfo.asKnown().getOrNull()?.validity() ?: 0)
@@ -3666,6 +3724,233 @@ private constructor(
     }
 
     /**
+     * The non-professional trader property is a self-attestation for US customers that can affect
+     * the metered realtime data fees. This field must be updated when if there is a change in the
+     * user's attestation. This field may also be modified by Dinari compliance team. For more
+     * information, please see the US Customers Integration Guide.
+     */
+    class NonProfessionalTraderAttestation
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val attestationDt: JsonField<OffsetDateTime>,
+        private val isNonProfessionalTrader: JsonField<Boolean>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("attestation_dt")
+            @ExcludeMissing
+            attestationDt: JsonField<OffsetDateTime> = JsonMissing.of(),
+            @JsonProperty("is_non_professional_trader")
+            @ExcludeMissing
+            isNonProfessionalTrader: JsonField<Boolean> = JsonMissing.of(),
+        ) : this(attestationDt, isNonProfessionalTrader, mutableMapOf())
+
+        /**
+         * Datetime when the attestation was made.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun attestationDt(): OffsetDateTime = attestationDt.getRequired("attestation_dt")
+
+        /**
+         * Whether the individual attests to being a non-professional trader.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
+         *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+         */
+        fun isNonProfessionalTrader(): Boolean =
+            isNonProfessionalTrader.getRequired("is_non_professional_trader")
+
+        /**
+         * Returns the raw JSON value of [attestationDt].
+         *
+         * Unlike [attestationDt], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("attestation_dt")
+        @ExcludeMissing
+        fun _attestationDt(): JsonField<OffsetDateTime> = attestationDt
+
+        /**
+         * Returns the raw JSON value of [isNonProfessionalTrader].
+         *
+         * Unlike [isNonProfessionalTrader], this method doesn't throw if the JSON field has an
+         * unexpected type.
+         */
+        @JsonProperty("is_non_professional_trader")
+        @ExcludeMissing
+        fun _isNonProfessionalTrader(): JsonField<Boolean> = isNonProfessionalTrader
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /**
+             * Returns a mutable builder for constructing an instance of
+             * [NonProfessionalTraderAttestation].
+             *
+             * The following fields are required:
+             * ```java
+             * .attestationDt()
+             * .isNonProfessionalTrader()
+             * ```
+             */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [NonProfessionalTraderAttestation]. */
+        class Builder internal constructor() {
+
+            private var attestationDt: JsonField<OffsetDateTime>? = null
+            private var isNonProfessionalTrader: JsonField<Boolean>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(nonProfessionalTraderAttestation: NonProfessionalTraderAttestation) =
+                apply {
+                    attestationDt = nonProfessionalTraderAttestation.attestationDt
+                    isNonProfessionalTrader =
+                        nonProfessionalTraderAttestation.isNonProfessionalTrader
+                    additionalProperties =
+                        nonProfessionalTraderAttestation.additionalProperties.toMutableMap()
+                }
+
+            /** Datetime when the attestation was made. */
+            fun attestationDt(attestationDt: OffsetDateTime) =
+                attestationDt(JsonField.of(attestationDt))
+
+            /**
+             * Sets [Builder.attestationDt] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.attestationDt] with a well-typed [OffsetDateTime]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun attestationDt(attestationDt: JsonField<OffsetDateTime>) = apply {
+                this.attestationDt = attestationDt
+            }
+
+            /** Whether the individual attests to being a non-professional trader. */
+            fun isNonProfessionalTrader(isNonProfessionalTrader: Boolean) =
+                isNonProfessionalTrader(JsonField.of(isNonProfessionalTrader))
+
+            /**
+             * Sets [Builder.isNonProfessionalTrader] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.isNonProfessionalTrader] with a well-typed [Boolean]
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun isNonProfessionalTrader(isNonProfessionalTrader: JsonField<Boolean>) = apply {
+                this.isNonProfessionalTrader = isNonProfessionalTrader
+            }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [NonProfessionalTraderAttestation].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             *
+             * The following fields are required:
+             * ```java
+             * .attestationDt()
+             * .isNonProfessionalTrader()
+             * ```
+             *
+             * @throws IllegalStateException if any required field is unset.
+             */
+            fun build(): NonProfessionalTraderAttestation =
+                NonProfessionalTraderAttestation(
+                    checkRequired("attestationDt", attestationDt),
+                    checkRequired("isNonProfessionalTrader", isNonProfessionalTrader),
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): NonProfessionalTraderAttestation = apply {
+            if (validated) {
+                return@apply
+            }
+
+            attestationDt()
+            isNonProfessionalTrader()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: DinariInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (attestationDt.asKnown().isPresent) 1 else 0) +
+                (if (isNonProfessionalTrader.asKnown().isPresent) 1 else 0)
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is NonProfessionalTraderAttestation &&
+                attestationDt == other.attestationDt &&
+                isNonProfessionalTrader == other.isNonProfessionalTrader &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(attestationDt, isNonProfessionalTrader, additionalProperties)
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "NonProfessionalTraderAttestation{attestationDt=$attestationDt, isNonProfessionalTrader=$isNonProfessionalTrader, additionalProperties=$additionalProperties}"
+    }
+
+    /**
      * Risk information about the individual <br/><br/> Fields denote if the account owner falls
      * under each category defined by FINRA rules. If any of the answers is true (yes), additional
      * verifications may be required before US account approval.
@@ -4905,6 +5190,7 @@ private constructor(
             financialProfile == other.financialProfile &&
             identity == other.identity &&
             kycMetadata == other.kycMetadata &&
+            nonProfessionalTraderAttestation == other.nonProfessionalTraderAttestation &&
             riskDisclosure == other.riskDisclosure &&
             trustedContact == other.trustedContact &&
             usImmigrationInfo == other.usImmigrationInfo &&
@@ -4920,6 +5206,7 @@ private constructor(
             financialProfile,
             identity,
             kycMetadata,
+            nonProfessionalTraderAttestation,
             riskDisclosure,
             trustedContact,
             usImmigrationInfo,
@@ -4930,5 +5217,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "UsKycCheckData{alpacaCustomerAgreement=$alpacaCustomerAgreement, amlCheck=$amlCheck, dataCitation=$dataCitation, employment=$employment, financialProfile=$financialProfile, identity=$identity, kycMetadata=$kycMetadata, riskDisclosure=$riskDisclosure, trustedContact=$trustedContact, usImmigrationInfo=$usImmigrationInfo, additionalProperties=$additionalProperties}"
+        "UsKycCheckData{alpacaCustomerAgreement=$alpacaCustomerAgreement, amlCheck=$amlCheck, dataCitation=$dataCitation, employment=$employment, financialProfile=$financialProfile, identity=$identity, kycMetadata=$kycMetadata, nonProfessionalTraderAttestation=$nonProfessionalTraderAttestation, riskDisclosure=$riskDisclosure, trustedContact=$trustedContact, usImmigrationInfo=$usImmigrationInfo, additionalProperties=$additionalProperties}"
 }

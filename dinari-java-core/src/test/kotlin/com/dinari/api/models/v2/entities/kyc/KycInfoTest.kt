@@ -172,6 +172,12 @@ internal class KycInfoTest {
                                 .refId("x")
                                 .build()
                         )
+                        .nonProfessionalTraderAttestation(
+                            UsKycCheckData.NonProfessionalTraderAttestation.builder()
+                                .attestationDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                .isNonProfessionalTrader(true)
+                                .build()
+                        )
                         .riskDisclosure(
                             UsKycCheckData.RiskDisclosure.builder()
                                 .immediateFamilyExposed(true)
@@ -302,6 +308,12 @@ internal class KycInfoTest {
                                     )
                                     .ipAddress("192.0.2.1")
                                     .refId("x")
+                                    .build()
+                            )
+                            .nonProfessionalTraderAttestation(
+                                UsKycCheckData.NonProfessionalTraderAttestation.builder()
+                                    .attestationDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                                    .isNonProfessionalTrader(true)
                                     .build()
                             )
                             .riskDisclosure(

@@ -59,7 +59,8 @@ private constructor(
     )
 
     /**
-     * Amount of dShare asset involved. Required for limit `Orders` and market sell `Orders`.
+     * Amount of dShare asset involved. Required for limit `Order Requests` and market sell `Order
+     * Requests`. Must be a positive number with a precision of up to 4 decimal places.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -214,7 +215,8 @@ private constructor(
         }
 
         /**
-         * Amount of dShare asset involved. Required for limit `Orders` and market sell `Orders`.
+         * Amount of dShare asset involved. Required for limit `Order Requests` and market sell
+         * `Order Requests`. Must be a positive number with a precision of up to 4 decimal places.
          */
         fun assetQuantity(assetQuantity: Double) = assetQuantity(JsonField.of(assetQuantity))
 
