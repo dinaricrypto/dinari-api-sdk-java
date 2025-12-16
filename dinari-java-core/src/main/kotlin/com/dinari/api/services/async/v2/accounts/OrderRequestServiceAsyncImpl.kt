@@ -27,8 +27,6 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.dinari.api.services.async.v2.accounts.orderrequests.Eip155ServiceAsync
 import com.dinari.api.services.async.v2.accounts.orderrequests.Eip155ServiceAsyncImpl
-import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsync
-import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -40,16 +38,12 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
         WithRawResponseImpl(clientOptions)
     }
 
-    private val stocks: StockServiceAsync by lazy { StockServiceAsyncImpl(clientOptions) }
-
     private val eip155: Eip155ServiceAsync by lazy { Eip155ServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): OrderRequestServiceAsync.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestServiceAsync =
         OrderRequestServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
-
-    override fun stocks(): StockServiceAsync = stocks
 
     override fun eip155(): Eip155ServiceAsync = eip155
 
@@ -108,10 +102,6 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
-        private val stocks: StockServiceAsync.WithRawResponse by lazy {
-            StockServiceAsyncImpl.WithRawResponseImpl(clientOptions)
-        }
-
         private val eip155: Eip155ServiceAsync.WithRawResponse by lazy {
             Eip155ServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
@@ -122,8 +112,6 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
             OrderRequestServiceAsyncImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
-
-        override fun stocks(): StockServiceAsync.WithRawResponse = stocks
 
         override fun eip155(): Eip155ServiceAsync.WithRawResponse = eip155
 
