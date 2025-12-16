@@ -89,6 +89,12 @@ internal class UsKycCheckDataTest {
                         .refId("x")
                         .build()
                 )
+                .nonProfessionalTraderAttestation(
+                    UsKycCheckData.NonProfessionalTraderAttestation.builder()
+                        .attestationDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .isNonProfessionalTrader(true)
+                        .build()
+                )
                 .riskDisclosure(
                     UsKycCheckData.RiskDisclosure.builder()
                         .immediateFamilyExposed(true)
@@ -195,6 +201,13 @@ internal class UsKycCheckDataTest {
                     .checkInitiatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .ipAddress("192.0.2.1")
                     .refId("x")
+                    .build()
+            )
+        assertThat(usKycCheckData.nonProfessionalTraderAttestation())
+            .isEqualTo(
+                UsKycCheckData.NonProfessionalTraderAttestation.builder()
+                    .attestationDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .isNonProfessionalTrader(true)
                     .build()
             )
         assertThat(usKycCheckData.riskDisclosure())
@@ -304,6 +317,12 @@ internal class UsKycCheckDataTest {
                         .checkInitiatedAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .ipAddress("192.0.2.1")
                         .refId("x")
+                        .build()
+                )
+                .nonProfessionalTraderAttestation(
+                    UsKycCheckData.NonProfessionalTraderAttestation.builder()
+                        .attestationDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .isNonProfessionalTrader(true)
                         .build()
                 )
                 .riskDisclosure(
