@@ -13,7 +13,6 @@ import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
-import com.dinari.api.services.blocking.v2.accounts.orders.StockService
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -30,8 +29,6 @@ interface OrderService {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderService
-
-    fun stocks(): StockService
 
     /** Get a specific `Order` by its ID. */
     fun retrieve(orderId: String, params: OrderRetrieveParams): Order =
@@ -178,8 +175,6 @@ interface OrderService {
          * The original service is not modified.
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderService.WithRawResponse
-
-        fun stocks(): StockService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/orders/{order_id}`,

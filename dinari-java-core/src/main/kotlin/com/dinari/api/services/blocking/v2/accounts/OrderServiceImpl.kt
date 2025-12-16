@@ -24,8 +24,6 @@ import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
-import com.dinari.api.services.blocking.v2.accounts.orders.StockService
-import com.dinari.api.services.blocking.v2.accounts.orders.StockServiceImpl
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -36,14 +34,10 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
         WithRawResponseImpl(clientOptions)
     }
 
-    private val stocks: StockService by lazy { StockServiceImpl(clientOptions) }
-
     override fun withRawResponse(): OrderService.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderService =
         OrderServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
-
-    override fun stocks(): StockService = stocks
 
     override fun retrieve(params: OrderRetrieveParams, requestOptions: RequestOptions): Order =
         // get /api/v2/accounts/{account_id}/orders/{order_id}
@@ -77,18 +71,12 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
-        private val stocks: StockService.WithRawResponse by lazy {
-            StockServiceImpl.WithRawResponseImpl(clientOptions)
-        }
-
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): OrderService.WithRawResponse =
             OrderServiceImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
-
-        override fun stocks(): StockService.WithRawResponse = stocks
 
         private val retrieveHandler: Handler<Order> = jsonHandler<Order>(clientOptions.jsonMapper)
 
