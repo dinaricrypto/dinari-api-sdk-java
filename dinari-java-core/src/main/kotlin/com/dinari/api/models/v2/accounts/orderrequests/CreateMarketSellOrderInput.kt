@@ -54,7 +54,7 @@ private constructor(
     )
 
     /**
-     * Quantity of shares to trade. Must be a positive number with a precision of up to 9 decimal
+     * Quantity of shares to trade. Must be a positive number with a precision of up to 6 decimal
      * places.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
@@ -191,7 +191,7 @@ private constructor(
         }
 
         /**
-         * Quantity of shares to trade. Must be a positive number with a precision of up to 9
+         * Quantity of shares to trade. Must be a positive number with a precision of up to 6
          * decimal places.
          */
         fun assetQuantity(assetQuantity: Double) = assetQuantity(JsonField.of(assetQuantity))

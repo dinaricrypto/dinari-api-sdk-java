@@ -84,7 +84,9 @@ private constructor(
     fun paymentToken(): String = body.paymentToken()
 
     /**
-     * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell `Orders`.
+     * Amount of dShare asset tokens involved. Required for limit `Order Requests` and market sell
+     * `Order Requests`. Must be a positive number with a precision of up to 4 decimal places for
+     * limit `Order Requests` or up to 6 decimal places for market sell `Order Requests`.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -336,8 +338,10 @@ private constructor(
         }
 
         /**
-         * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
-         * `Orders`.
+         * Amount of dShare asset tokens involved. Required for limit `Order Requests` and market
+         * sell `Order Requests`. Must be a positive number with a precision of up to 4 decimal
+         * places for limit `Order Requests` or up to 6 decimal places for market sell `Order
+         * Requests`.
          */
         fun assetTokenQuantity(assetTokenQuantity: Double?) = apply {
             body.assetTokenQuantity(assetTokenQuantity)
@@ -733,8 +737,10 @@ private constructor(
         fun paymentToken(): String = paymentToken.getRequired("payment_token")
 
         /**
-         * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
-         * `Orders`.
+         * Amount of dShare asset tokens involved. Required for limit `Order Requests` and market
+         * sell `Order Requests`. Must be a positive number with a precision of up to 4 decimal
+         * places for limit `Order Requests` or up to 6 decimal places for market sell `Order
+         * Requests`.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
          *   server responded with an unexpected value).
@@ -1004,8 +1010,10 @@ private constructor(
             }
 
             /**
-             * Amount of dShare asset tokens involved. Required for limit `Orders` and market sell
-             * `Orders`.
+             * Amount of dShare asset tokens involved. Required for limit `Order Requests` and
+             * market sell `Order Requests`. Must be a positive number with a precision of up to 4
+             * decimal places for limit `Order Requests` or up to 6 decimal places for market sell
+             * `Order Requests`.
              */
             fun assetTokenQuantity(assetTokenQuantity: Double?) =
                 assetTokenQuantity(JsonField.ofNullable(assetTokenQuantity))
