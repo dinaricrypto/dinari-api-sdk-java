@@ -15,7 +15,6 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteRe
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.Eip155Service
-import com.dinari.api.services.blocking.v2.accounts.orderrequests.StockService
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -32,8 +31,6 @@ interface OrderRequestService {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestService
-
-    fun stocks(): StockService
 
     fun eip155(): Eip155Service
 
@@ -265,8 +262,6 @@ interface OrderRequestService {
         fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): OrderRequestService.WithRawResponse
-
-        fun stocks(): StockService.WithRawResponse
 
         fun eip155(): Eip155Service.WithRawResponse
 

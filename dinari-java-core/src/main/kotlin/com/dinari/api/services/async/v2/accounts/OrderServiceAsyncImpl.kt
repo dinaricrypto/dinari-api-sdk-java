@@ -24,8 +24,6 @@ import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
-import com.dinari.api.services.async.v2.accounts.orders.StockServiceAsync
-import com.dinari.api.services.async.v2.accounts.orders.StockServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -37,14 +35,10 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
         WithRawResponseImpl(clientOptions)
     }
 
-    private val stocks: StockServiceAsync by lazy { StockServiceAsyncImpl(clientOptions) }
-
     override fun withRawResponse(): OrderServiceAsync.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderServiceAsync =
         OrderServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
-
-    override fun stocks(): StockServiceAsync = stocks
 
     override fun retrieve(
         params: OrderRetrieveParams,
@@ -87,18 +81,12 @@ class OrderServiceAsyncImpl internal constructor(private val clientOptions: Clie
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
-        private val stocks: StockServiceAsync.WithRawResponse by lazy {
-            StockServiceAsyncImpl.WithRawResponseImpl(clientOptions)
-        }
-
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): OrderServiceAsync.WithRawResponse =
             OrderServiceAsyncImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
-
-        override fun stocks(): StockServiceAsync.WithRawResponse = stocks
 
         private val retrieveHandler: Handler<Order> = jsonHandler<Order>(clientOptions.jsonMapper)
 

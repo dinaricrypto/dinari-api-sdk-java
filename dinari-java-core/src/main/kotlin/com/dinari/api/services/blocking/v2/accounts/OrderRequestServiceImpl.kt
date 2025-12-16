@@ -27,8 +27,6 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.Eip155Service
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.Eip155ServiceImpl
-import com.dinari.api.services.blocking.v2.accounts.orderrequests.StockService
-import com.dinari.api.services.blocking.v2.accounts.orderrequests.StockServiceImpl
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -39,16 +37,12 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
         WithRawResponseImpl(clientOptions)
     }
 
-    private val stocks: StockService by lazy { StockServiceImpl(clientOptions) }
-
     private val eip155: Eip155Service by lazy { Eip155ServiceImpl(clientOptions) }
 
     override fun withRawResponse(): OrderRequestService.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestService =
         OrderRequestServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
-
-    override fun stocks(): StockService = stocks
 
     override fun eip155(): Eip155Service = eip155
 
@@ -107,10 +101,6 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
         private val errorHandler: Handler<HttpResponse> =
             errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
-        private val stocks: StockService.WithRawResponse by lazy {
-            StockServiceImpl.WithRawResponseImpl(clientOptions)
-        }
-
         private val eip155: Eip155Service.WithRawResponse by lazy {
             Eip155ServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -121,8 +111,6 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             OrderRequestServiceImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
-
-        override fun stocks(): StockService.WithRawResponse = stocks
 
         override fun eip155(): Eip155Service.WithRawResponse = eip155
 

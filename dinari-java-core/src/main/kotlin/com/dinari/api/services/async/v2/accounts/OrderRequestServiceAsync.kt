@@ -15,7 +15,6 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteRe
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.dinari.api.services.async.v2.accounts.orderrequests.Eip155ServiceAsync
-import com.dinari.api.services.async.v2.accounts.orderrequests.StockServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -32,8 +31,6 @@ interface OrderRequestServiceAsync {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestServiceAsync
-
-    fun stocks(): StockServiceAsync
 
     fun eip155(): Eip155ServiceAsync
 
@@ -281,8 +278,6 @@ interface OrderRequestServiceAsync {
         fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): OrderRequestServiceAsync.WithRawResponse
-
-        fun stocks(): StockServiceAsync.WithRawResponse
 
         fun eip155(): Eip155ServiceAsync.WithRawResponse
 
