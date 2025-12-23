@@ -41,6 +41,7 @@ private constructor(
     private val orderTif: JsonField<OrderTif>,
     private val orderType: JsonField<OrderType>,
     private val status: JsonField<OrderRequestStatus>,
+    private val cancelMessage: JsonField<String>,
     private val orderId: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -63,6 +64,9 @@ private constructor(
         @JsonProperty("status")
         @ExcludeMissing
         status: JsonField<OrderRequestStatus> = JsonMissing.of(),
+        @JsonProperty("cancel_message")
+        @ExcludeMissing
+        cancelMessage: JsonField<String> = JsonMissing.of(),
         @JsonProperty("order_id") @ExcludeMissing orderId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("recipient_account_id")
         @ExcludeMissing
@@ -75,6 +79,7 @@ private constructor(
         orderTif,
         orderType,
         status,
+        cancelMessage,
         orderId,
         recipientAccountId,
         mutableMapOf(),
@@ -129,12 +134,27 @@ private constructor(
     fun orderType(): OrderType = orderType.getRequired("order_type")
 
     /**
-     * Status of `EIP155OrderRequest`.
+     * Status of `EIP155OrderRequest`. Possible values:
+     * - `QUOTED`: Order request created with fee quote provided, ready for processing
+     * - `PENDING`: Order request is being prepared for submission
+     * - `PENDING_BRIDGE`: Order is waiting for bridge transaction to complete
+     * - `SUBMITTED`: Order has been successfully submitted to the order book
+     * - `ERROR`: An error occurred during order processing
+     * - `CANCELLED`: Order request was cancelled
+     * - `EXPIRED`: Order request expired due to deadline passing
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun status(): OrderRequestStatus = status.getRequired("status")
+
+    /**
+     * Reason for the order cancellation if the order status is CANCELLED
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun cancelMessage(): Optional<String> = cancelMessage.getOptional("cancel_message")
 
     /**
      * ID of `Order` created from the `EIP155OrderRequest`. This is the primary identifier for the
@@ -206,6 +226,15 @@ private constructor(
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<OrderRequestStatus> = status
 
     /**
+     * Returns the raw JSON value of [cancelMessage].
+     *
+     * Unlike [cancelMessage], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("cancel_message")
+    @ExcludeMissing
+    fun _cancelMessage(): JsonField<String> = cancelMessage
+
+    /**
      * Returns the raw JSON value of [orderId].
      *
      * Unlike [orderId], this method doesn't throw if the JSON field has an unexpected type.
@@ -263,6 +292,7 @@ private constructor(
         private var orderTif: JsonField<OrderTif>? = null
         private var orderType: JsonField<OrderType>? = null
         private var status: JsonField<OrderRequestStatus>? = null
+        private var cancelMessage: JsonField<String> = JsonMissing.of()
         private var orderId: JsonField<String> = JsonMissing.of()
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -276,6 +306,7 @@ private constructor(
             orderTif = eip155SubmitResponse.orderTif
             orderType = eip155SubmitResponse.orderType
             status = eip155SubmitResponse.status
+            cancelMessage = eip155SubmitResponse.cancelMessage
             orderId = eip155SubmitResponse.orderId
             recipientAccountId = eip155SubmitResponse.recipientAccountId
             additionalProperties = eip155SubmitResponse.additionalProperties.toMutableMap()
@@ -355,7 +386,16 @@ private constructor(
          */
         fun orderType(orderType: JsonField<OrderType>) = apply { this.orderType = orderType }
 
-        /** Status of `EIP155OrderRequest`. */
+        /**
+         * Status of `EIP155OrderRequest`. Possible values:
+         * - `QUOTED`: Order request created with fee quote provided, ready for processing
+         * - `PENDING`: Order request is being prepared for submission
+         * - `PENDING_BRIDGE`: Order is waiting for bridge transaction to complete
+         * - `SUBMITTED`: Order has been successfully submitted to the order book
+         * - `ERROR`: An error occurred during order processing
+         * - `CANCELLED`: Order request was cancelled
+         * - `EXPIRED`: Order request expired due to deadline passing
+         */
         fun status(status: OrderRequestStatus) = status(JsonField.of(status))
 
         /**
@@ -366,6 +406,25 @@ private constructor(
          * supported value.
          */
         fun status(status: JsonField<OrderRequestStatus>) = apply { this.status = status }
+
+        /** Reason for the order cancellation if the order status is CANCELLED */
+        fun cancelMessage(cancelMessage: String?) =
+            cancelMessage(JsonField.ofNullable(cancelMessage))
+
+        /** Alias for calling [Builder.cancelMessage] with `cancelMessage.orElse(null)`. */
+        fun cancelMessage(cancelMessage: Optional<String>) =
+            cancelMessage(cancelMessage.getOrNull())
+
+        /**
+         * Sets [Builder.cancelMessage] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cancelMessage] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun cancelMessage(cancelMessage: JsonField<String>) = apply {
+            this.cancelMessage = cancelMessage
+        }
 
         /**
          * ID of `Order` created from the `EIP155OrderRequest`. This is the primary identifier for
@@ -451,6 +510,7 @@ private constructor(
                 checkRequired("orderTif", orderTif),
                 checkRequired("orderType", orderType),
                 checkRequired("status", status),
+                cancelMessage,
                 orderId,
                 recipientAccountId,
                 additionalProperties.toMutableMap(),
@@ -471,6 +531,7 @@ private constructor(
         orderTif().validate()
         orderType().validate()
         status().validate()
+        cancelMessage()
         orderId()
         recipientAccountId()
         validated = true
@@ -498,6 +559,7 @@ private constructor(
             (orderTif.asKnown().getOrNull()?.validity() ?: 0) +
             (orderType.asKnown().getOrNull()?.validity() ?: 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (cancelMessage.asKnown().isPresent) 1 else 0) +
             (if (orderId.asKnown().isPresent) 1 else 0) +
             (if (recipientAccountId.asKnown().isPresent) 1 else 0)
 
@@ -514,6 +576,7 @@ private constructor(
             orderTif == other.orderTif &&
             orderType == other.orderType &&
             status == other.status &&
+            cancelMessage == other.cancelMessage &&
             orderId == other.orderId &&
             recipientAccountId == other.recipientAccountId &&
             additionalProperties == other.additionalProperties
@@ -528,6 +591,7 @@ private constructor(
             orderTif,
             orderType,
             status,
+            cancelMessage,
             orderId,
             recipientAccountId,
             additionalProperties,
@@ -537,5 +601,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Eip155SubmitResponse{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, orderId=$orderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
+        "Eip155SubmitResponse{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, cancelMessage=$cancelMessage, orderId=$orderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
 }
