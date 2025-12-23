@@ -40,6 +40,7 @@ private constructor(
     private val orderTif: JsonField<OrderTif>,
     private val orderType: JsonField<OrderType>,
     private val status: JsonField<OrderRequestStatus>,
+    private val cancelMessage: JsonField<String>,
     private val clientOrderId: JsonField<String>,
     private val orderId: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
@@ -63,6 +64,9 @@ private constructor(
         @JsonProperty("status")
         @ExcludeMissing
         status: JsonField<OrderRequestStatus> = JsonMissing.of(),
+        @JsonProperty("cancel_message")
+        @ExcludeMissing
+        cancelMessage: JsonField<String> = JsonMissing.of(),
         @JsonProperty("client_order_id")
         @ExcludeMissing
         clientOrderId: JsonField<String> = JsonMissing.of(),
@@ -78,6 +82,7 @@ private constructor(
         orderTif,
         orderType,
         status,
+        cancelMessage,
         clientOrderId,
         orderId,
         recipientAccountId,
@@ -133,12 +138,27 @@ private constructor(
     fun orderType(): OrderType = orderType.getRequired("order_type")
 
     /**
-     * Status of `OrderRequest`.
+     * Status of `OrderRequest`. Possible values:
+     * - `QUOTED`: Order request created with fee quote provided, ready for processing
+     * - `PENDING`: Order request is being prepared for submission
+     * - `PENDING_BRIDGE`: Order is waiting for bridge transaction to complete
+     * - `SUBMITTED`: Order has been successfully submitted to the order book
+     * - `ERROR`: An error occurred during order processing
+     * - `CANCELLED`: Order request was cancelled
+     * - `EXPIRED`: Order request expired due to deadline passing
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun status(): OrderRequestStatus = status.getRequired("status")
+
+    /**
+     * Reason for the order cancellation if the order status is CANCELLED
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun cancelMessage(): Optional<String> = cancelMessage.getOptional("cancel_message")
 
     /**
      * Customer-supplied ID to map this `OrderRequest` to an order in their own systems.
@@ -218,6 +238,15 @@ private constructor(
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<OrderRequestStatus> = status
 
     /**
+     * Returns the raw JSON value of [cancelMessage].
+     *
+     * Unlike [cancelMessage], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("cancel_message")
+    @ExcludeMissing
+    fun _cancelMessage(): JsonField<String> = cancelMessage
+
+    /**
      * Returns the raw JSON value of [clientOrderId].
      *
      * Unlike [clientOrderId], this method doesn't throw if the JSON field has an unexpected type.
@@ -284,6 +313,7 @@ private constructor(
         private var orderTif: JsonField<OrderTif>? = null
         private var orderType: JsonField<OrderType>? = null
         private var status: JsonField<OrderRequestStatus>? = null
+        private var cancelMessage: JsonField<String> = JsonMissing.of()
         private var clientOrderId: JsonField<String> = JsonMissing.of()
         private var orderId: JsonField<String> = JsonMissing.of()
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
@@ -298,6 +328,7 @@ private constructor(
             orderTif = orderRequest.orderTif
             orderType = orderRequest.orderType
             status = orderRequest.status
+            cancelMessage = orderRequest.cancelMessage
             clientOrderId = orderRequest.clientOrderId
             orderId = orderRequest.orderId
             recipientAccountId = orderRequest.recipientAccountId
@@ -377,7 +408,16 @@ private constructor(
          */
         fun orderType(orderType: JsonField<OrderType>) = apply { this.orderType = orderType }
 
-        /** Status of `OrderRequest`. */
+        /**
+         * Status of `OrderRequest`. Possible values:
+         * - `QUOTED`: Order request created with fee quote provided, ready for processing
+         * - `PENDING`: Order request is being prepared for submission
+         * - `PENDING_BRIDGE`: Order is waiting for bridge transaction to complete
+         * - `SUBMITTED`: Order has been successfully submitted to the order book
+         * - `ERROR`: An error occurred during order processing
+         * - `CANCELLED`: Order request was cancelled
+         * - `EXPIRED`: Order request expired due to deadline passing
+         */
         fun status(status: OrderRequestStatus) = status(JsonField.of(status))
 
         /**
@@ -388,6 +428,25 @@ private constructor(
          * supported value.
          */
         fun status(status: JsonField<OrderRequestStatus>) = apply { this.status = status }
+
+        /** Reason for the order cancellation if the order status is CANCELLED */
+        fun cancelMessage(cancelMessage: String?) =
+            cancelMessage(JsonField.ofNullable(cancelMessage))
+
+        /** Alias for calling [Builder.cancelMessage] with `cancelMessage.orElse(null)`. */
+        fun cancelMessage(cancelMessage: Optional<String>) =
+            cancelMessage(cancelMessage.getOrNull())
+
+        /**
+         * Sets [Builder.cancelMessage] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.cancelMessage] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun cancelMessage(cancelMessage: JsonField<String>) = apply {
+            this.cancelMessage = cancelMessage
+        }
 
         /** Customer-supplied ID to map this `OrderRequest` to an order in their own systems. */
         fun clientOrderId(clientOrderId: String?) =
@@ -492,6 +551,7 @@ private constructor(
                 checkRequired("orderTif", orderTif),
                 checkRequired("orderType", orderType),
                 checkRequired("status", status),
+                cancelMessage,
                 clientOrderId,
                 orderId,
                 recipientAccountId,
@@ -513,6 +573,7 @@ private constructor(
         orderTif().validate()
         orderType().validate()
         status().validate()
+        cancelMessage()
         clientOrderId()
         orderId()
         recipientAccountId()
@@ -541,6 +602,7 @@ private constructor(
             (orderTif.asKnown().getOrNull()?.validity() ?: 0) +
             (orderType.asKnown().getOrNull()?.validity() ?: 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (cancelMessage.asKnown().isPresent) 1 else 0) +
             (if (clientOrderId.asKnown().isPresent) 1 else 0) +
             (if (orderId.asKnown().isPresent) 1 else 0) +
             (if (recipientAccountId.asKnown().isPresent) 1 else 0)
@@ -558,6 +620,7 @@ private constructor(
             orderTif == other.orderTif &&
             orderType == other.orderType &&
             status == other.status &&
+            cancelMessage == other.cancelMessage &&
             clientOrderId == other.clientOrderId &&
             orderId == other.orderId &&
             recipientAccountId == other.recipientAccountId &&
@@ -573,6 +636,7 @@ private constructor(
             orderTif,
             orderType,
             status,
+            cancelMessage,
             clientOrderId,
             orderId,
             recipientAccountId,
@@ -583,5 +647,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "OrderRequest{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, clientOrderId=$clientOrderId, orderId=$orderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
+        "OrderRequest{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, cancelMessage=$cancelMessage, clientOrderId=$clientOrderId, orderId=$orderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
 }
