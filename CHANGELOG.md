@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.0 (2026-01-08)
+
+Full Changelog: [v0.10.0...v0.11.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.10.0...v0.11.0)
+
+### Features
+
+* **api:** api update ([348c3d1](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/348c3d1276bbcaf7275ee67213004652e3ba6857))
+
 ## 0.10.0 (2026-01-07)
 
 Full Changelog: [v0.9.0...v0.10.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.9.0...v0.10.0)
