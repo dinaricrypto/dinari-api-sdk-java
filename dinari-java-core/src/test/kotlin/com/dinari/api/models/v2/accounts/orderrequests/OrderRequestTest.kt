@@ -28,6 +28,7 @@ internal class OrderRequestTest {
                 .clientOrderId("client_order_id")
                 .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .rejectMessage("reject_message")
                 .build()
 
         assertThat(orderRequest.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -43,6 +44,7 @@ internal class OrderRequestTest {
         assertThat(orderRequest.orderId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(orderRequest.recipientAccountId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(orderRequest.rejectMessage()).contains("reject_message")
     }
 
     @Test
@@ -61,6 +63,7 @@ internal class OrderRequestTest {
                 .clientOrderId("client_order_id")
                 .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .rejectMessage("reject_message")
                 .build()
 
         val roundtrippedOrderRequest =
