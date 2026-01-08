@@ -44,6 +44,7 @@ private constructor(
     private val cancelMessage: JsonField<String>,
     private val orderId: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
+    private val rejectMessage: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -71,6 +72,9 @@ private constructor(
         @JsonProperty("recipient_account_id")
         @ExcludeMissing
         recipientAccountId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("reject_message")
+        @ExcludeMissing
+        rejectMessage: JsonField<String> = JsonMissing.of(),
     ) : this(
         id,
         accountId,
@@ -82,6 +86,7 @@ private constructor(
         cancelMessage,
         orderId,
         recipientAccountId,
+        rejectMessage,
         mutableMapOf(),
     )
 
@@ -142,6 +147,7 @@ private constructor(
      * - `ERROR`: An error occurred during order processing
      * - `CANCELLED`: Order request was cancelled
      * - `EXPIRED`: Order request expired due to deadline passing
+     * - `REJECTED`: Order request was rejected
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -173,6 +179,14 @@ private constructor(
      */
     fun recipientAccountId(): Optional<String> =
         recipientAccountId.getOptional("recipient_account_id")
+
+    /**
+     * Reason for the order rejection if the order status is REJECTED
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun rejectMessage(): Optional<String> = rejectMessage.getOptional("reject_message")
 
     /**
      * Returns the raw JSON value of [id].
@@ -251,6 +265,15 @@ private constructor(
     @ExcludeMissing
     fun _recipientAccountId(): JsonField<String> = recipientAccountId
 
+    /**
+     * Returns the raw JSON value of [rejectMessage].
+     *
+     * Unlike [rejectMessage], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("reject_message")
+    @ExcludeMissing
+    fun _rejectMessage(): JsonField<String> = rejectMessage
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -295,6 +318,7 @@ private constructor(
         private var cancelMessage: JsonField<String> = JsonMissing.of()
         private var orderId: JsonField<String> = JsonMissing.of()
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
+        private var rejectMessage: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -309,6 +333,7 @@ private constructor(
             cancelMessage = eip155SubmitResponse.cancelMessage
             orderId = eip155SubmitResponse.orderId
             recipientAccountId = eip155SubmitResponse.recipientAccountId
+            rejectMessage = eip155SubmitResponse.rejectMessage
             additionalProperties = eip155SubmitResponse.additionalProperties.toMutableMap()
         }
 
@@ -395,6 +420,7 @@ private constructor(
          * - `ERROR`: An error occurred during order processing
          * - `CANCELLED`: Order request was cancelled
          * - `EXPIRED`: Order request expired due to deadline passing
+         * - `REJECTED`: Order request was rejected
          */
         fun status(status: OrderRequestStatus) = status(JsonField.of(status))
 
@@ -464,6 +490,25 @@ private constructor(
             this.recipientAccountId = recipientAccountId
         }
 
+        /** Reason for the order rejection if the order status is REJECTED */
+        fun rejectMessage(rejectMessage: String?) =
+            rejectMessage(JsonField.ofNullable(rejectMessage))
+
+        /** Alias for calling [Builder.rejectMessage] with `rejectMessage.orElse(null)`. */
+        fun rejectMessage(rejectMessage: Optional<String>) =
+            rejectMessage(rejectMessage.getOrNull())
+
+        /**
+         * Sets [Builder.rejectMessage] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.rejectMessage] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun rejectMessage(rejectMessage: JsonField<String>) = apply {
+            this.rejectMessage = rejectMessage
+        }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -513,6 +558,7 @@ private constructor(
                 cancelMessage,
                 orderId,
                 recipientAccountId,
+                rejectMessage,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -534,6 +580,7 @@ private constructor(
         cancelMessage()
         orderId()
         recipientAccountId()
+        rejectMessage()
         validated = true
     }
 
@@ -561,7 +608,8 @@ private constructor(
             (status.asKnown().getOrNull()?.validity() ?: 0) +
             (if (cancelMessage.asKnown().isPresent) 1 else 0) +
             (if (orderId.asKnown().isPresent) 1 else 0) +
-            (if (recipientAccountId.asKnown().isPresent) 1 else 0)
+            (if (recipientAccountId.asKnown().isPresent) 1 else 0) +
+            (if (rejectMessage.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -579,6 +627,7 @@ private constructor(
             cancelMessage == other.cancelMessage &&
             orderId == other.orderId &&
             recipientAccountId == other.recipientAccountId &&
+            rejectMessage == other.rejectMessage &&
             additionalProperties == other.additionalProperties
     }
 
@@ -594,6 +643,7 @@ private constructor(
             cancelMessage,
             orderId,
             recipientAccountId,
+            rejectMessage,
             additionalProperties,
         )
     }
@@ -601,5 +651,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Eip155SubmitResponse{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, cancelMessage=$cancelMessage, orderId=$orderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
+        "Eip155SubmitResponse{id=$id, accountId=$accountId, createdDt=$createdDt, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, status=$status, cancelMessage=$cancelMessage, orderId=$orderId, recipientAccountId=$recipientAccountId, rejectMessage=$rejectMessage, additionalProperties=$additionalProperties}"
 }

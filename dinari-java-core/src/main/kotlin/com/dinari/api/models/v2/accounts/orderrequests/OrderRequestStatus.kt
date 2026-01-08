@@ -35,6 +35,8 @@ class OrderRequestStatus @JsonCreator private constructor(private val value: Jso
 
         @JvmField val EXPIRED = of("EXPIRED")
 
+        @JvmField val REJECTED = of("REJECTED")
+
         @JvmStatic fun of(value: String) = OrderRequestStatus(JsonField.of(value))
     }
 
@@ -47,6 +49,7 @@ class OrderRequestStatus @JsonCreator private constructor(private val value: Jso
         ERROR,
         CANCELLED,
         EXPIRED,
+        REJECTED,
     }
 
     /**
@@ -66,6 +69,7 @@ class OrderRequestStatus @JsonCreator private constructor(private val value: Jso
         ERROR,
         CANCELLED,
         EXPIRED,
+        REJECTED,
         /**
          * An enum member indicating that [OrderRequestStatus] was instantiated with an unknown
          * value.
@@ -89,6 +93,7 @@ class OrderRequestStatus @JsonCreator private constructor(private val value: Jso
             ERROR -> Value.ERROR
             CANCELLED -> Value.CANCELLED
             EXPIRED -> Value.EXPIRED
+            REJECTED -> Value.REJECTED
             else -> Value._UNKNOWN
         }
 
@@ -109,6 +114,7 @@ class OrderRequestStatus @JsonCreator private constructor(private val value: Jso
             ERROR -> Known.ERROR
             CANCELLED -> Known.CANCELLED
             EXPIRED -> Known.EXPIRED
+            REJECTED -> Known.REJECTED
             else -> throw DinariInvalidDataException("Unknown OrderRequestStatus: $value")
         }
 
