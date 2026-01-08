@@ -28,6 +28,7 @@ internal class Eip155SubmitResponseTest {
                 .cancelMessage("cancel_message")
                 .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .rejectMessage("reject_message")
                 .build()
 
         assertThat(eip155SubmitResponse.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -43,6 +44,7 @@ internal class Eip155SubmitResponseTest {
         assertThat(eip155SubmitResponse.orderId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(eip155SubmitResponse.recipientAccountId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(eip155SubmitResponse.rejectMessage()).contains("reject_message")
     }
 
     @Test
@@ -60,6 +62,7 @@ internal class Eip155SubmitResponseTest {
                 .cancelMessage("cancel_message")
                 .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .rejectMessage("reject_message")
                 .build()
 
         val roundtrippedEip155SubmitResponse =
