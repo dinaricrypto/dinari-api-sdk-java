@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.0 (2026-01-09)
+
+Full Changelog: [v0.11.0...v0.12.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.11.0...v0.12.0)
+
+### Features
+
+* **client:** allow configuring dispatcher executor service ([aa0333e](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/aa0333e86a2c16b3ef5f13907dbd6fab643d2c1f))
+
 ## 0.11.0 (2026-01-08)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.10.0...v0.11.0)
