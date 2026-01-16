@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java/0.11.0)
-[![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/0.11.0/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.11.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java/0.12.0)
+[![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/0.12.0/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.12.0)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.dinari.com](https://docs.dinari.com/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.11.0).
+The REST API documentation can be found on [docs.dinari.com](https://docs.dinari.com/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.12.0).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ The REST API documentation can be found on [docs.dinari.com](https://docs.dinari
 ### Gradle
 
 ```kotlin
-implementation("com.dinari.api:dinari-java:0.11.0")
+implementation("com.dinari.api:dinari-java:0.12.0")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.dinari.api:dinari-java:0.11.0")
 <dependency>
   <groupId>com.dinari.api</groupId>
   <artifactId>dinari-java</artifactId>
-  <version>0.11.0</version>
+  <version>0.12.0</version>
 </dependency>
 ```
 
@@ -335,6 +335,8 @@ If the SDK threw an exception, but you're _certain_ the version is compatible, t
 
 > [!CAUTION]
 > We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
+
+Also note that there are bugs in older Jackson versions that can affect the SDK. We don't work around all Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to upgrade Jackson for those instead.
 
 ## Network options
 
