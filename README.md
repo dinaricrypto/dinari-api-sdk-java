@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java/0.11.0)
-[![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/0.11.0/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.11.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java/0.12.0)
+[![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/0.12.0/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.12.0)
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ Use the Dinari MCP Server to enable AI assistants to interact with this API, all
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [docs.dinari.com](https://docs.dinari.com/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.11.0).
+The REST API documentation can be found on [docs.dinari.com](https://docs.dinari.com/). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.dinari.api/dinari-java/0.12.0).
 
 <!-- x-release-please-end -->
 
@@ -33,7 +33,7 @@ The REST API documentation can be found on [docs.dinari.com](https://docs.dinari
 ### Gradle
 
 ```kotlin
-implementation("com.dinari.api:dinari-java:0.11.0")
+implementation("com.dinari.api:dinari-java:0.12.0")
 ```
 
 ### Maven
@@ -42,7 +42,7 @@ implementation("com.dinari.api:dinari-java:0.11.0")
 <dependency>
   <groupId>com.dinari.api</groupId>
   <artifactId>dinari-java</artifactId>
-  <version>0.11.0</version>
+  <version>0.12.0</version>
 </dependency>
 ```
 
