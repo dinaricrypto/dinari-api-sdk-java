@@ -1,5 +1,44 @@
 # Changelog
 
+## 0.12.0 (2026-01-29)
+
+Full Changelog: [v0.11.0...v0.12.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.11.0...v0.12.0)
+
+### Features
+
+* **client:** allow configuring dispatcher executor service ([aa0333e](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/aa0333e86a2c16b3ef5f13907dbd6fab643d2c1f))
+* **client:** send `X-Stainless-Kotlin-Version` header ([e28ac34](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/e28ac3425340ee87d1ecbc889ba92970dd1f0b91))
+
+
+### Bug Fixes
+
+* **client:** disallow coercion from float to int ([2b9c163](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/2b9c16349108123fcdb545cf5b12dd0b01e5cfdc))
+* **client:** fully respect max retries ([3b948df](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/3b948df814c6a211e3ff3f642e0fdc48d2b528ce))
+* **client:** preserve time zone in lenient date-time parsing ([83e0d4c](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/83e0d4cd10802cb7151a3fabdf7bb4a37eace37b))
+* **client:** send retry count header for max retries 0 ([3b948df](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/3b948df814c6a211e3ff3f642e0fdc48d2b528ce))
+* date time deserialization leniency ([4bf34bb](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/4bf34bbdf8acda41a7a68574d2f8c8cd75233c3d))
+* **docs:** fix mcp installation instructions for remote servers ([b441de5](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/b441de520cfb63f5f35d7a3be7af1f8b99bca192))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([faa2ca1](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/faa2ca1e61d7172d85bd7871f1705597ece90ca2))
+* **ci:** upgrade `actions/setup-java` ([45775ba](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/45775bac4877c6280e8be5989d5dc3675413dad1))
+* configure new SDK language ([90c8977](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/90c8977feab2b49c291ed5fd37d61baa8bec5907))
+* **internal:** clean up maven repo artifact script and add html documentation to repo root ([d9513d6](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/d9513d6bddf4195b76886d4ffdeabbefe7e9c363))
+* **internal:** correct cache invalidation for `SKIP_MOCK_TESTS` ([c2d0f24](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/c2d0f244257b37db63cabca8b742b4f6514fb91b))
+* **internal:** depend on packages directly in example ([3b948df](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/3b948df814c6a211e3ff3f642e0fdc48d2b528ce))
+* **internal:** improve maven repo docs ([74ecb04](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/74ecb0434dfb51596f8917bd7f4b3827fba41abd))
+* **internal:** support uploading Maven repo artifacts to stainless package server ([dc822cc](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/dc822cc012459257eb0d7cf1c7f6984557fa4301))
+* **internal:** update `actions/checkout` version ([5a57dea](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/5a57dea1c28ed68ea16d87991aae6a3c3b3b3e03))
+* **internal:** update maven repo doc to include authentication ([566d580](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/566d580863eeeb033cc85736eed5398abd2687e4))
+* test on Jackson 2.14.0 to avoid encountering FasterXML/jackson-databind[#3240](https://github.com/dinaricrypto/dinari-api-sdk-java/issues/3240) in tests ([4bf34bb](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/4bf34bbdf8acda41a7a68574d2f8c8cd75233c3d))
+
+
+### Documentation
+
+* add comment for arbitrary value fields ([b272f83](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/b272f83846666eba32e996a0842a53a73b960f7d))
+
 ## 0.11.0 (2026-01-08)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.10.0...v0.11.0)
