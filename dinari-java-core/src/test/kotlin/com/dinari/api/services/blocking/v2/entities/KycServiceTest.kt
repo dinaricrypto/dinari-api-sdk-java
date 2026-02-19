@@ -2,16 +2,13 @@
 
 package com.dinari.api.services.blocking.v2.entities
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.entities.kyc.BaselineKycCheckData
 import com.dinari.api.models.v2.entities.kyc.KycSubmitParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class KycServiceTest {
 
     @Disabled("Prism tests are disabled")
@@ -19,7 +16,6 @@ internal class KycServiceTest {
     fun retrieve() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -35,7 +31,6 @@ internal class KycServiceTest {
     fun createManagedCheck() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -51,7 +46,6 @@ internal class KycServiceTest {
     fun submit() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

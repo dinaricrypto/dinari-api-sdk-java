@@ -2,7 +2,6 @@
 
 package com.dinari.api.services.async.v2
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.accounts.AccountGetDividendPaymentsParams
 import com.dinari.api.models.v2.accounts.AccountGetInterestPaymentsParams
@@ -12,9 +11,7 @@ import com.dinari.api.models.v2.accounts.Chain
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class AccountServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
@@ -22,7 +19,6 @@ internal class AccountServiceAsyncTest {
     fun retrieve() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -39,7 +35,6 @@ internal class AccountServiceAsyncTest {
     fun deactivate() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -56,7 +51,6 @@ internal class AccountServiceAsyncTest {
     fun getCashBalances() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -74,7 +68,6 @@ internal class AccountServiceAsyncTest {
     fun getDividendPayments() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -101,7 +94,6 @@ internal class AccountServiceAsyncTest {
     fun getInterestPayments() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -127,7 +119,6 @@ internal class AccountServiceAsyncTest {
     fun getPortfolio() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -151,7 +142,6 @@ internal class AccountServiceAsyncTest {
     fun mintSandboxTokens() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

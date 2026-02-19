@@ -2,15 +2,12 @@
 
 package com.dinari.api.services.async.v2.accounts
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class OrderFulfillmentServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
@@ -18,7 +15,6 @@ internal class OrderFulfillmentServiceAsyncTest {
     fun retrieve() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -41,7 +37,6 @@ internal class OrderFulfillmentServiceAsyncTest {
     fun query() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

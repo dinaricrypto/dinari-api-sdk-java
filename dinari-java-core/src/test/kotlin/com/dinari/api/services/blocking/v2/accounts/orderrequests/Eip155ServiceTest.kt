@@ -2,7 +2,6 @@
 
 package com.dinari.api.services.blocking.v2.accounts.orderrequests
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orderrequests.eip155.Eip155CreatePermitParams
@@ -14,9 +13,7 @@ import com.dinari.api.models.v2.accounts.orders.OrderTif
 import com.dinari.api.models.v2.accounts.orders.OrderType
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class Eip155ServiceTest {
 
     @Disabled("Prism tests are disabled")
@@ -24,7 +21,6 @@ internal class Eip155ServiceTest {
     fun createPermit() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -56,7 +52,6 @@ internal class Eip155ServiceTest {
     fun createPermitTransaction() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -83,7 +78,6 @@ internal class Eip155ServiceTest {
     fun submit() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

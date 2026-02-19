@@ -2,16 +2,13 @@
 
 package com.dinari.api.services.async.v2
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.entities.EntityCreateParams
 import com.dinari.api.models.v2.entities.EntityListParams
 import com.dinari.api.models.v2.entities.EntityUpdateParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class EntityServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
@@ -19,7 +16,6 @@ internal class EntityServiceAsyncTest {
     fun create() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -39,7 +35,6 @@ internal class EntityServiceAsyncTest {
     fun update() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -62,7 +57,6 @@ internal class EntityServiceAsyncTest {
     fun list() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -82,7 +76,6 @@ internal class EntityServiceAsyncTest {
     fun retrieveById() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -99,7 +92,6 @@ internal class EntityServiceAsyncTest {
     fun retrieveCurrent() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

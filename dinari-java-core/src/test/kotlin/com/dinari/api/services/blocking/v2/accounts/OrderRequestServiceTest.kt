@@ -2,7 +2,6 @@
 
 package com.dinari.api.services.blocking.v2.accounts
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orderrequests.CreateLimitBuyOrderInput
@@ -20,9 +19,7 @@ import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderType
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class OrderRequestServiceTest {
 
     @Disabled("Prism tests are disabled")
@@ -30,7 +27,6 @@ internal class OrderRequestServiceTest {
     fun retrieve() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -52,7 +48,6 @@ internal class OrderRequestServiceTest {
     fun list() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -78,7 +73,6 @@ internal class OrderRequestServiceTest {
     fun createLimitBuy() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -108,7 +102,6 @@ internal class OrderRequestServiceTest {
     fun createLimitSell() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -139,7 +132,6 @@ internal class OrderRequestServiceTest {
     fun createMarketBuy() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -168,7 +160,6 @@ internal class OrderRequestServiceTest {
     fun createMarketSell() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -198,7 +189,6 @@ internal class OrderRequestServiceTest {
     fun getFeeQuote() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
