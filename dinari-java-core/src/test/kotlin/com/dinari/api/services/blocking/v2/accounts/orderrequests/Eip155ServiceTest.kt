@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test
 
 internal class Eip155ServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createPermit() {
         val client =
@@ -47,7 +47,7 @@ internal class Eip155ServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createPermitTransaction() {
         val client =
@@ -73,7 +73,7 @@ internal class Eip155ServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun submit() {
         val client =

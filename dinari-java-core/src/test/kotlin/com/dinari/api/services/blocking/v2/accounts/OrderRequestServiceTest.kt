@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test
 
 internal class OrderRequestServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -43,7 +43,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
         val client =
@@ -68,7 +68,7 @@ internal class OrderRequestServiceTest {
         orderRequests.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createLimitBuy() {
         val client =
@@ -97,7 +97,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createLimitSell() {
         val client =
@@ -127,7 +127,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createMarketBuy() {
         val client =
@@ -155,7 +155,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createMarketSell() {
         val client =
@@ -184,7 +184,7 @@ internal class OrderRequestServiceTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getFeeQuote() {
         val client =

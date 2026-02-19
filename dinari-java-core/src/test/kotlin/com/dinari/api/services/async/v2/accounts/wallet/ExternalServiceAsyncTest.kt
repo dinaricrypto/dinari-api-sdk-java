@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class ExternalServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun connect() {
         val client =
@@ -36,7 +36,7 @@ internal class ExternalServiceAsyncTest {
         wallet.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getNonce() {
         val client =

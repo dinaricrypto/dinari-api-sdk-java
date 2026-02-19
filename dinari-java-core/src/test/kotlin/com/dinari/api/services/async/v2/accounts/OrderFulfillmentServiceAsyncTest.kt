@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 internal class OrderFulfillmentServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -32,7 +32,7 @@ internal class OrderFulfillmentServiceAsyncTest {
         fulfillment.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun query() {
         val client =

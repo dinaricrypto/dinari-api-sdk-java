@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class WithdrawalRequestServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
         val client =
@@ -33,7 +33,7 @@ internal class WithdrawalRequestServiceTest {
         withdrawalRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -54,7 +54,7 @@ internal class WithdrawalRequestServiceTest {
         withdrawalRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
         val client =

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 
 internal class OrderServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -35,7 +35,7 @@ internal class OrderServiceTest {
         order.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
         val client =
@@ -60,7 +60,7 @@ internal class OrderServiceTest {
         orders.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun batchCancel() {
         val client =
@@ -81,7 +81,7 @@ internal class OrderServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun cancel() {
         val client =
@@ -102,7 +102,7 @@ internal class OrderServiceTest {
         order.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getFulfillments() {
         val client =

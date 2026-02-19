@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test
 
 internal class SplitServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
         val client =
@@ -27,7 +27,7 @@ internal class SplitServiceAsyncTest {
         stockSplits.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun listForStock() {
         val client =
