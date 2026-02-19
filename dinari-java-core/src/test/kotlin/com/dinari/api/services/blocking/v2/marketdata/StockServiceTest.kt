@@ -2,16 +2,13 @@
 
 package com.dinari.api.services.blocking.v2.marketdata
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class StockServiceTest {
 
     @Disabled("Prism tests are disabled")
@@ -19,7 +16,6 @@ internal class StockServiceTest {
     fun list() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -38,7 +34,6 @@ internal class StockServiceTest {
     fun retrieveCurrentPrice() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -54,7 +49,6 @@ internal class StockServiceTest {
     fun retrieveCurrentQuote() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -70,7 +64,6 @@ internal class StockServiceTest {
     fun retrieveDividends() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -86,7 +79,6 @@ internal class StockServiceTest {
     fun retrieveHistoricalPrices() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -108,7 +100,6 @@ internal class StockServiceTest {
     fun retrieveNews() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

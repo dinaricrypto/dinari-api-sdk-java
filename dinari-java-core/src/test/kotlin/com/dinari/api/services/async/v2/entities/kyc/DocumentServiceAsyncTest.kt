@@ -2,16 +2,13 @@
 
 package com.dinari.api.services.async.v2.entities.kyc
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.entities.kyc.document.DocumentRetrieveParams
 import com.dinari.api.models.v2.entities.kyc.document.DocumentUploadParams
 import com.dinari.api.models.v2.entities.kyc.document.KycDocumentType
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class DocumentServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
@@ -19,7 +16,6 @@ internal class DocumentServiceAsyncTest {
     fun retrieve() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -42,7 +38,6 @@ internal class DocumentServiceAsyncTest {
     fun upload() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

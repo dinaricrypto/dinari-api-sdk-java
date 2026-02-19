@@ -2,7 +2,6 @@
 
 package com.dinari.api.services.blocking.v2.accounts
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
@@ -12,9 +11,7 @@ import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class OrderServiceTest {
 
     @Disabled("Prism tests are disabled")
@@ -22,7 +19,6 @@ internal class OrderServiceTest {
     fun retrieve() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -44,7 +40,6 @@ internal class OrderServiceTest {
     fun list() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -70,7 +65,6 @@ internal class OrderServiceTest {
     fun batchCancel() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -92,7 +86,6 @@ internal class OrderServiceTest {
     fun cancel() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -114,7 +107,6 @@ internal class OrderServiceTest {
     fun getFulfillments() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

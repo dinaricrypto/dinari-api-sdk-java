@@ -2,7 +2,6 @@
 
 package com.dinari.api.services.async.v2.accounts
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
@@ -12,9 +11,7 @@ import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class OrderServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
@@ -22,7 +19,6 @@ internal class OrderServiceAsyncTest {
     fun retrieve() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -45,7 +41,6 @@ internal class OrderServiceAsyncTest {
     fun list() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -72,7 +67,6 @@ internal class OrderServiceAsyncTest {
     fun batchCancel() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -95,7 +89,6 @@ internal class OrderServiceAsyncTest {
     fun cancel() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -118,7 +111,6 @@ internal class OrderServiceAsyncTest {
     fun getFulfillments() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

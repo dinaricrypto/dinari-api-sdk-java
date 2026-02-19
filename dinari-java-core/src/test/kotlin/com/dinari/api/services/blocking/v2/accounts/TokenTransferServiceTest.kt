@@ -2,16 +2,13 @@
 
 package com.dinari.api.services.blocking.v2.accounts
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferCreateParams
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferListParams
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class TokenTransferServiceTest {
 
     @Disabled("Prism tests are disabled")
@@ -19,7 +16,6 @@ internal class TokenTransferServiceTest {
     fun create() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -43,7 +39,6 @@ internal class TokenTransferServiceTest {
     fun retrieve() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -65,7 +60,6 @@ internal class TokenTransferServiceTest {
     fun list() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

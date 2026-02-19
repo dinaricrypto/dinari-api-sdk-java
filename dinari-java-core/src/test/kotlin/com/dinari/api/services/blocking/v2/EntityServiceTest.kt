@@ -2,16 +2,13 @@
 
 package com.dinari.api.services.blocking.v2
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.entities.EntityCreateParams
 import com.dinari.api.models.v2.entities.EntityListParams
 import com.dinari.api.models.v2.entities.EntityUpdateParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class EntityServiceTest {
 
     @Disabled("Prism tests are disabled")
@@ -19,7 +16,6 @@ internal class EntityServiceTest {
     fun create() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -36,7 +32,6 @@ internal class EntityServiceTest {
     fun update() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -58,7 +53,6 @@ internal class EntityServiceTest {
     fun list() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -77,7 +71,6 @@ internal class EntityServiceTest {
     fun retrieveById() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -93,7 +86,6 @@ internal class EntityServiceTest {
     fun retrieveCurrent() {
         val client =
             DinariOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()

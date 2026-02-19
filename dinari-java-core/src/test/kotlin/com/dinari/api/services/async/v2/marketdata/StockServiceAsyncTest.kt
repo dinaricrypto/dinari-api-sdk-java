@@ -2,16 +2,13 @@
 
 package com.dinari.api.services.async.v2.marketdata
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class StockServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
@@ -19,7 +16,6 @@ internal class StockServiceAsyncTest {
     fun list() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -39,7 +35,6 @@ internal class StockServiceAsyncTest {
     fun retrieveCurrentPrice() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -57,7 +52,6 @@ internal class StockServiceAsyncTest {
     fun retrieveCurrentQuote() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -75,7 +69,6 @@ internal class StockServiceAsyncTest {
     fun retrieveDividends() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -93,7 +86,6 @@ internal class StockServiceAsyncTest {
     fun retrieveHistoricalPrices() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -116,7 +108,6 @@ internal class StockServiceAsyncTest {
     fun retrieveNews() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
