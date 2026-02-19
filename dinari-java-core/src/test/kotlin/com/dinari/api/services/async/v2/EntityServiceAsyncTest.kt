@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class EntityServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
         val client =
@@ -30,7 +30,7 @@ internal class EntityServiceAsyncTest {
         entity.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun update() {
         val client =
@@ -52,7 +52,7 @@ internal class EntityServiceAsyncTest {
         entity.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
         val client =
@@ -71,7 +71,7 @@ internal class EntityServiceAsyncTest {
         entities.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveById() {
         val client =
@@ -87,7 +87,7 @@ internal class EntityServiceAsyncTest {
         entity.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveCurrent() {
         val client =

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class StockServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
         val client =
@@ -30,7 +30,7 @@ internal class StockServiceAsyncTest {
         stocks.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveCurrentPrice() {
         val client =
@@ -47,7 +47,7 @@ internal class StockServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveCurrentQuote() {
         val client =
@@ -64,7 +64,7 @@ internal class StockServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveDividends() {
         val client =
@@ -81,7 +81,7 @@ internal class StockServiceAsyncTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveHistoricalPrices() {
         val client =
@@ -103,7 +103,7 @@ internal class StockServiceAsyncTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieveNews() {
         val client =

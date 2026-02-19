@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class KycServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -27,7 +27,7 @@ internal class KycServiceAsyncTest {
         kycInfo.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createManagedCheck() {
         val client =
@@ -44,7 +44,7 @@ internal class KycServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun submit() {
         val client =

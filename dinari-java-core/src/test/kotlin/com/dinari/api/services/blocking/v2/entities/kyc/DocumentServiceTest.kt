@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test
 
 internal class DocumentServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -32,7 +32,7 @@ internal class DocumentServiceTest {
         kycDocuments.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun upload() {
         val client =

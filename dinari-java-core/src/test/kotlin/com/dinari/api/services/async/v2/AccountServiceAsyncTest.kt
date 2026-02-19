@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 
 internal class AccountServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client =
@@ -30,7 +30,7 @@ internal class AccountServiceAsyncTest {
         account.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun deactivate() {
         val client =
@@ -46,7 +46,7 @@ internal class AccountServiceAsyncTest {
         account.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getCashBalances() {
         val client =
@@ -63,7 +63,7 @@ internal class AccountServiceAsyncTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getDividendPayments() {
         val client =
@@ -89,7 +89,7 @@ internal class AccountServiceAsyncTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getInterestPayments() {
         val client =
@@ -114,7 +114,7 @@ internal class AccountServiceAsyncTest {
         response.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getPortfolio() {
         val client =
@@ -137,7 +137,7 @@ internal class AccountServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun mintSandboxTokens() {
         val client =
