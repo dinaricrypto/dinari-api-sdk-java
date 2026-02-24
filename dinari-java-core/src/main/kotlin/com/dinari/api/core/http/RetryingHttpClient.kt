@@ -1,3 +1,5 @@
+// File generated from our OpenAPI spec by Stainless.
+
 package com.dinari.api.core.http
 
 import com.dinari.api.core.DefaultSleeper
