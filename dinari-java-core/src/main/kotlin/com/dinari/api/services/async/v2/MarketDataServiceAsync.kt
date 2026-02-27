@@ -11,6 +11,12 @@ import com.dinari.api.services.async.v2.marketdata.StockServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/**
+ * **Dinari provides basic market data for `Stocks` that are available to transact on.**
+ *
+ * This data is provided on a best-effort basis and we recommend using a dedicated provider for more
+ * intensive market data needs.
+ */
 interface MarketDataServiceAsync {
 
     /**

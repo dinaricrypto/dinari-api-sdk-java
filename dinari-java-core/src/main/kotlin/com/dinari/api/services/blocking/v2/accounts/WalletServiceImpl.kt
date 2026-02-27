@@ -24,6 +24,16 @@ import com.dinari.api.services.blocking.v2.accounts.wallet.ExternalServiceImpl
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+ *
+ * An `Account` may be connected to a single `Wallet`.
+ *
+ * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of the
+ * `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for the Partner
+ * `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This may be used in
+ * omnibus accounting for self-managing customers' assets.
+ */
 class WalletServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     WalletService {
 
@@ -38,6 +48,16 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): WalletService =
         WalletServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+     *
+     * An `Account` may be connected to a single `Wallet`.
+     *
+     * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of the
+     * `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for the
+     * Partner `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This may be
+     * used in omnibus accounting for self-managing customers' assets.
+     */
     override fun external(): ExternalService = external
 
     override fun connectInternal(
@@ -68,6 +88,16 @@ class WalletServiceImpl internal constructor(private val clientOptions: ClientOp
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+         *
+         * An `Account` may be connected to a single `Wallet`.
+         *
+         * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of
+         * the `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for
+         * the Partner `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This
+         * may be used in omnibus accounting for self-managing customers' assets.
+         */
         override fun external(): ExternalService.WithRawResponse = external
 
         private val connectInternalHandler: Handler<Wallet> =

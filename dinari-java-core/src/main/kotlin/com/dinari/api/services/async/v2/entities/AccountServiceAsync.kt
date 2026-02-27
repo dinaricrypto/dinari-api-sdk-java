@@ -11,6 +11,11 @@ import com.dinari.api.models.v2.entities.accounts.AccountListParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/**
+ * **`Accounts` represent the financial accounts of an `Entity`.**
+ *
+ * `Orders`, dividends, and other transactions are associated with an `Account`.
+ */
 interface AccountServiceAsync {
 
     /**

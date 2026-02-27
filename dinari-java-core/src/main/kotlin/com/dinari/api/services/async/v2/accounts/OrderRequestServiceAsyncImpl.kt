@@ -45,6 +45,13 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestServiceAsync =
         OrderRequestServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **`Order Requests` represent requests for Dinari to create `Orders` on behalf of an
+     * `Account`.**
+     *
+     * `Order Requests` are created when placing **proxied orders** or **managed orders**. See their
+     * respective descriptions for more details.
+     */
     override fun eip155(): Eip155ServiceAsync = eip155
 
     override fun retrieve(
@@ -113,6 +120,13 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **`Order Requests` represent requests for Dinari to create `Orders` on behalf of an
+         * `Account`.**
+         *
+         * `Order Requests` are created when placing **proxied orders** or **managed orders**. See
+         * their respective descriptions for more details.
+         */
         override fun eip155(): Eip155ServiceAsync.WithRawResponse = eip155
 
         private val retrieveHandler: Handler<OrderRequest> =

@@ -35,6 +35,11 @@ interface StockService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockService
 
+    /**
+     * **Corporate actions are events that affect the ownership of a `Stock`.**
+     *
+     * Corporate actions include dividends and stock splits.
+     */
     fun splits(): SplitService
 
     /** Get a list of `Stocks`. */
@@ -248,6 +253,11 @@ interface StockService {
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockService.WithRawResponse
 
+        /**
+         * **Corporate actions are events that affect the ownership of a `Stock`.**
+         *
+         * Corporate actions include dividends and stock splits.
+         */
         fun splits(): SplitService.WithRawResponse
 
         /**

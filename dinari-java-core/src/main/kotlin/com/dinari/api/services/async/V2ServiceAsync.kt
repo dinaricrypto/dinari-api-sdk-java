@@ -13,6 +13,15 @@ import com.dinari.api.services.async.v2.MarketDataServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/**
+ * **`Orders` represent the buying and selling of assets under an `Account`.**
+ *
+ * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by making calls
+ * to Dinari's smart contracts, or using the *Proxied Orders* methods.
+ *
+ * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the `Managed
+ * Orders` methods, which then create the corresponding transactions on the blockchain.
+ */
 interface V2ServiceAsync {
 
     /**
@@ -27,10 +36,28 @@ interface V2ServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2ServiceAsync
 
+    /**
+     * **Dinari provides basic market data for `Stocks` that are available to transact on.**
+     *
+     * This data is provided on a best-effort basis and we recommend using a dedicated provider for
+     * more intensive market data needs.
+     */
     fun marketData(): MarketDataServiceAsync
 
+    /**
+     * **`Entities` represent a business or organization that uses the API, and their customers.**
+     *
+     * Dinari Partners are represented as an organization `Entity` in the API, with their own
+     * accounts. Individual customers of Partner `Entities` are also represented as `Entities` in
+     * the API, which are managed by the Partner `Entity`.
+     */
     fun entities(): EntityServiceAsync
 
+    /**
+     * **`Accounts` represent the financial accounts of an `Entity`.**
+     *
+     * `Orders`, dividends, and other transactions are associated with an `Account`.
+     */
     fun accounts(): AccountServiceAsync
 
     /**
@@ -65,10 +92,29 @@ interface V2ServiceAsync {
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2ServiceAsync.WithRawResponse
 
+        /**
+         * **Dinari provides basic market data for `Stocks` that are available to transact on.**
+         *
+         * This data is provided on a best-effort basis and we recommend using a dedicated provider
+         * for more intensive market data needs.
+         */
         fun marketData(): MarketDataServiceAsync.WithRawResponse
 
+        /**
+         * **`Entities` represent a business or organization that uses the API, and their
+         * customers.**
+         *
+         * Dinari Partners are represented as an organization `Entity` in the API, with their own
+         * accounts. Individual customers of Partner `Entities` are also represented as `Entities`
+         * in the API, which are managed by the Partner `Entity`.
+         */
         fun entities(): EntityServiceAsync.WithRawResponse
 
+        /**
+         * **`Accounts` represent the financial accounts of an `Entity`.**
+         *
+         * `Orders`, dividends, and other transactions are associated with an `Account`.
+         */
         fun accounts(): AccountServiceAsync.WithRawResponse
 
         /**

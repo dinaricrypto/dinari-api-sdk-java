@@ -21,6 +21,11 @@ import com.dinari.api.models.v2.marketdata.stocks.splits.StockSplit
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * **Corporate actions are events that affect the ownership of a `Stock`.**
+ *
+ * Corporate actions include dividends and stock splits.
+ */
 class SplitServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     SplitService {
 
