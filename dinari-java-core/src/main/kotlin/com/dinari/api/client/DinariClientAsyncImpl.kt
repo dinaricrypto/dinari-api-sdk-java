@@ -34,6 +34,15 @@ class DinariClientAsyncImpl(private val clientOptions: ClientOptions) : DinariCl
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DinariClientAsync =
         DinariClientAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **`Orders` represent the buying and selling of assets under an `Account`.**
+     *
+     * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by making
+     * calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+     *
+     * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+     * `Managed Orders` methods, which then create the corresponding transactions on the blockchain.
+     */
     override fun v2(): V2ServiceAsync = v2
 
     override fun close() = clientOptions.close()
@@ -52,6 +61,16 @@ class DinariClientAsyncImpl(private val clientOptions: ClientOptions) : DinariCl
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **`Orders` represent the buying and selling of assets under an `Account`.**
+         *
+         * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by
+         * making calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+         *
+         * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+         * `Managed Orders` methods, which then create the corresponding transactions on the
+         * blockchain.
+         */
         override fun v2(): V2ServiceAsync.WithRawResponse = v2
     }
 }

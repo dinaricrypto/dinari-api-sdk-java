@@ -29,6 +29,13 @@ import com.dinari.api.services.blocking.v2.entities.KycServiceImpl
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * **`Entities` represent a business or organization that uses the API, and their customers.**
+ *
+ * Dinari Partners are represented as an organization `Entity` in the API, with their own accounts.
+ * Individual customers of Partner `Entities` are also represented as `Entities` in the API, which
+ * are managed by the Partner `Entity`.
+ */
 class EntityServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     EntityService {
 
@@ -45,8 +52,25 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): EntityService =
         EntityServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **`Accounts` represent the financial accounts of an `Entity`.**
+     *
+     * `Orders`, dividends, and other transactions are associated with an `Account`.
+     */
     override fun accounts(): AccountService = accounts
 
+    /**
+     * **KYC (Know Your Customer) is a process of verifying the identity of customer `Entities`.**
+     *
+     * KYC is required for all customer `Entities` that transact on Dinari's platform.
+     *
+     * Dinari provides a managed KYC process for its Partners, which provides a convenient KYC flow
+     * URL to present to the end customer.
+     *
+     * For Dinari Partners that supply their own KYC data, the API provides a way to record a
+     * customer's KYC information using the Partner's KYC data. This requires an existing KYC
+     * agreement between Dinari and the Partner.
+     */
     override fun kyc(): KycService = kyc
 
     override fun create(params: EntityCreateParams, requestOptions: RequestOptions): Entity =
@@ -96,8 +120,26 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **`Accounts` represent the financial accounts of an `Entity`.**
+         *
+         * `Orders`, dividends, and other transactions are associated with an `Account`.
+         */
         override fun accounts(): AccountService.WithRawResponse = accounts
 
+        /**
+         * **KYC (Know Your Customer) is a process of verifying the identity of customer
+         * `Entities`.**
+         *
+         * KYC is required for all customer `Entities` that transact on Dinari's platform.
+         *
+         * Dinari provides a managed KYC process for its Partners, which provides a convenient KYC
+         * flow URL to present to the end customer.
+         *
+         * For Dinari Partners that supply their own KYC data, the API provides a way to record a
+         * customer's KYC information using the Partner's KYC data. This requires an existing KYC
+         * agreement between Dinari and the Partner.
+         */
         override fun kyc(): KycService.WithRawResponse = kyc
 
         private val createHandler: Handler<Entity> = jsonHandler<Entity>(clientOptions.jsonMapper)

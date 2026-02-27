@@ -20,6 +20,12 @@ import com.dinari.api.services.blocking.v2.marketdata.StockService
 import com.dinari.api.services.blocking.v2.marketdata.StockServiceImpl
 import java.util.function.Consumer
 
+/**
+ * **Dinari provides basic market data for `Stocks` that are available to transact on.**
+ *
+ * This data is provided on a best-effort basis and we recommend using a dedicated provider for more
+ * intensive market data needs.
+ */
 class MarketDataServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     MarketDataService {
 

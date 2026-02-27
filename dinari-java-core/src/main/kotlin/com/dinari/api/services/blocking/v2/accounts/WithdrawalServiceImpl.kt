@@ -21,6 +21,18 @@ import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveParams
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * **`Withdrawals` represent the transfer of stablecoins from an `Account` connected to a managed
+ * `Wallet` to another `Account` that is owned by the `Entity`.**
+ *
+ * Since the `Account` is backed by a managed `Wallet`, the `Withdrawal` must be processed by Dinari
+ * and the corresponding transaction is submitted on chain.
+ *
+ * Upon requesting a withdrawal, a `WithdrawalRequest` is created, which is then submitted on chain
+ * by Dinari. Once the transfer is submitted on chain, the corresponding `Withdrawal` is created.
+ *
+ * Currently, withdrawals are made in USDC on the Arbitrum network (Chain ID `eip155:42161`).
+ */
 class WithdrawalServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     WithdrawalService {
 

@@ -47,6 +47,11 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockServiceAsync =
         StockServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **Corporate actions are events that affect the ownership of a `Stock`.**
+     *
+     * Corporate actions include dividends and stock splits.
+     */
     override fun splits(): SplitServiceAsync = splits
 
     override fun list(
@@ -108,6 +113,11 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **Corporate actions are events that affect the ownership of a `Stock`.**
+         *
+         * Corporate actions include dividends and stock splits.
+         */
         override fun splits(): SplitServiceAsync.WithRawResponse = splits
 
         private val listHandler: Handler<List<StockListResponse>> =

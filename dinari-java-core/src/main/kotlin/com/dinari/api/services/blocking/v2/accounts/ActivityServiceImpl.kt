@@ -18,6 +18,11 @@ import com.dinari.api.models.v2.accounts.activities.ActivityRetrieveBrokeragePar
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * **`Accounts` represent the financial accounts of an `Entity`.**
+ *
+ * `Orders`, dividends, and other transactions are associated with an `Account`.
+ */
 class ActivityServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ActivityService {
 

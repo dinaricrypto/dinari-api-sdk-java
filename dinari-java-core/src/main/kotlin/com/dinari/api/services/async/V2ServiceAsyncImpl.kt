@@ -25,6 +25,15 @@ import com.dinari.api.services.async.v2.MarketDataServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/**
+ * **`Orders` represent the buying and selling of assets under an `Account`.**
+ *
+ * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by making calls
+ * to Dinari's smart contracts, or using the *Proxied Orders* methods.
+ *
+ * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the `Managed
+ * Orders` methods, which then create the corresponding transactions on the blockchain.
+ */
 class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     V2ServiceAsync {
 
@@ -45,10 +54,28 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): V2ServiceAsync =
         V2ServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **Dinari provides basic market data for `Stocks` that are available to transact on.**
+     *
+     * This data is provided on a best-effort basis and we recommend using a dedicated provider for
+     * more intensive market data needs.
+     */
     override fun marketData(): MarketDataServiceAsync = marketData
 
+    /**
+     * **`Entities` represent a business or organization that uses the API, and their customers.**
+     *
+     * Dinari Partners are represented as an organization `Entity` in the API, with their own
+     * accounts. Individual customers of Partner `Entities` are also represented as `Entities` in
+     * the API, which are managed by the Partner `Entity`.
+     */
     override fun entities(): EntityServiceAsync = entities
 
+    /**
+     * **`Accounts` represent the financial accounts of an `Entity`.**
+     *
+     * `Orders`, dividends, and other transactions are associated with an `Account`.
+     */
     override fun accounts(): AccountServiceAsync = accounts
 
     override fun listOrders(
@@ -83,10 +110,29 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **Dinari provides basic market data for `Stocks` that are available to transact on.**
+         *
+         * This data is provided on a best-effort basis and we recommend using a dedicated provider
+         * for more intensive market data needs.
+         */
         override fun marketData(): MarketDataServiceAsync.WithRawResponse = marketData
 
+        /**
+         * **`Entities` represent a business or organization that uses the API, and their
+         * customers.**
+         *
+         * Dinari Partners are represented as an organization `Entity` in the API, with their own
+         * accounts. Individual customers of Partner `Entities` are also represented as `Entities`
+         * in the API, which are managed by the Partner `Entity`.
+         */
         override fun entities(): EntityServiceAsync.WithRawResponse = entities
 
+        /**
+         * **`Accounts` represent the financial accounts of an `Entity`.**
+         *
+         * `Orders`, dividends, and other transactions are associated with an `Account`.
+         */
         override fun accounts(): AccountServiceAsync.WithRawResponse = accounts
 
         private val listOrdersHandler: Handler<List<V2ListOrdersResponse>> =

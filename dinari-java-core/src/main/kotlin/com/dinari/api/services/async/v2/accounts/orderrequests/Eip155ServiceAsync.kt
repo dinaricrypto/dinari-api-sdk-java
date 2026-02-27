@@ -14,6 +14,12 @@ import com.dinari.api.models.v2.accounts.orderrequests.eip155.Eip155SubmitRespon
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/**
+ * **`Order Requests` represent requests for Dinari to create `Orders` on behalf of an `Account`.**
+ *
+ * `Order Requests` are created when placing **proxied orders** or **managed orders**. See their
+ * respective descriptions for more details.
+ */
 interface Eip155ServiceAsync {
 
     /**

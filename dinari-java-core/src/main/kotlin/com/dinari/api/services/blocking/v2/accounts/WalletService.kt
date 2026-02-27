@@ -12,6 +12,16 @@ import com.dinari.api.services.blocking.v2.accounts.wallet.ExternalService
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
+/**
+ * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+ *
+ * An `Account` may be connected to a single `Wallet`.
+ *
+ * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of the
+ * `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for the Partner
+ * `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This may be used in
+ * omnibus accounting for self-managing customers' assets.
+ */
 interface WalletService {
 
     /**
@@ -26,6 +36,16 @@ interface WalletService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): WalletService
 
+    /**
+     * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+     *
+     * An `Account` may be connected to a single `Wallet`.
+     *
+     * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of the
+     * `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for the
+     * Partner `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This may be
+     * used in omnibus accounting for self-managing customers' assets.
+     */
     fun external(): ExternalService
 
     /** Connect an internal `Wallet` to the `Account`. */
@@ -83,6 +103,16 @@ interface WalletService {
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): WalletService.WithRawResponse
 
+        /**
+         * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+         *
+         * An `Account` may be connected to a single `Wallet`.
+         *
+         * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of
+         * the `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for
+         * the Partner `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This
+         * may be used in omnibus accounting for self-managing customers' assets.
+         */
         fun external(): ExternalService.WithRawResponse
 
         /**

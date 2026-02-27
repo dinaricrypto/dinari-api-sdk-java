@@ -22,6 +22,11 @@ import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * **Corporate actions are events that affect the ownership of a `Stock`.**
+ *
+ * Corporate actions include dividends and stock splits.
+ */
 class SplitServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     SplitServiceAsync {
 

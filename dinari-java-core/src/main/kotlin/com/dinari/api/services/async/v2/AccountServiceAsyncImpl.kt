@@ -49,6 +49,11 @@ import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * **`Accounts` represent the financial accounts of an `Entity`.**
+ *
+ * `Orders`, dividends, and other transactions are associated with an `Account`.
+ */
 class AccountServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     AccountServiceAsync {
 
@@ -87,20 +92,84 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountServiceAsync =
         AccountServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+     *
+     * An `Account` may be connected to a single `Wallet`.
+     *
+     * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of the
+     * `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for the
+     * Partner `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This may be
+     * used in omnibus accounting for self-managing customers' assets.
+     */
     override fun wallet(): WalletServiceAsync = wallet
 
+    /**
+     * **`Orders` represent the buying and selling of assets under an `Account`.**
+     *
+     * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by making
+     * calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+     *
+     * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+     * `Managed Orders` methods, which then create the corresponding transactions on the blockchain.
+     */
     override fun orders(): OrderServiceAsync = orders
 
+    /**
+     * **`Orders` represent the buying and selling of assets under an `Account`.**
+     *
+     * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by making
+     * calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+     *
+     * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+     * `Managed Orders` methods, which then create the corresponding transactions on the blockchain.
+     */
     override fun orderFulfillments(): OrderFulfillmentServiceAsync = orderFulfillments
 
     override fun orderRequests(): OrderRequestServiceAsync = orderRequests
 
+    /**
+     * **`Withdrawals` represent the transfer of stablecoins from an `Account` connected to a
+     * managed `Wallet` to another `Account` that is owned by the `Entity`.**
+     *
+     * Since the `Account` is backed by a managed `Wallet`, the `Withdrawal` must be processed by
+     * Dinari and the corresponding transaction is submitted on chain.
+     *
+     * Upon requesting a withdrawal, a `WithdrawalRequest` is created, which is then submitted on
+     * chain by Dinari. Once the transfer is submitted on chain, the corresponding `Withdrawal` is
+     * created.
+     *
+     * Currently, withdrawals are made in USDC on the Arbitrum network (Chain ID `eip155:42161`).
+     */
     override fun withdrawalRequests(): WithdrawalRequestServiceAsync = withdrawalRequests
 
+    /**
+     * **`Withdrawals` represent the transfer of stablecoins from an `Account` connected to a
+     * managed `Wallet` to another `Account` that is owned by the `Entity`.**
+     *
+     * Since the `Account` is backed by a managed `Wallet`, the `Withdrawal` must be processed by
+     * Dinari and the corresponding transaction is submitted on chain.
+     *
+     * Upon requesting a withdrawal, a `WithdrawalRequest` is created, which is then submitted on
+     * chain by Dinari. Once the transfer is submitted on chain, the corresponding `Withdrawal` is
+     * created.
+     *
+     * Currently, withdrawals are made in USDC on the Arbitrum network (Chain ID `eip155:42161`).
+     */
     override fun withdrawals(): WithdrawalServiceAsync = withdrawals
 
+    /**
+     * **`Accounts` represent the financial accounts of an `Entity`.**
+     *
+     * `Orders`, dividends, and other transactions are associated with an `Account`.
+     */
     override fun tokenTransfers(): TokenTransferServiceAsync = tokenTransfers
 
+    /**
+     * **`Accounts` represent the financial accounts of an `Entity`.**
+     *
+     * `Orders`, dividends, and other transactions are associated with an `Account`.
+     */
     override fun activities(): ActivityServiceAsync = activities
 
     override fun retrieve(
@@ -197,22 +266,90 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+         *
+         * An `Account` may be connected to a single `Wallet`.
+         *
+         * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of
+         * the `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for
+         * the Partner `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This
+         * may be used in omnibus accounting for self-managing customers' assets.
+         */
         override fun wallet(): WalletServiceAsync.WithRawResponse = wallet
 
+        /**
+         * **`Orders` represent the buying and selling of assets under an `Account`.**
+         *
+         * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by
+         * making calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+         *
+         * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+         * `Managed Orders` methods, which then create the corresponding transactions on the
+         * blockchain.
+         */
         override fun orders(): OrderServiceAsync.WithRawResponse = orders
 
+        /**
+         * **`Orders` represent the buying and selling of assets under an `Account`.**
+         *
+         * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by
+         * making calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+         *
+         * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+         * `Managed Orders` methods, which then create the corresponding transactions on the
+         * blockchain.
+         */
         override fun orderFulfillments(): OrderFulfillmentServiceAsync.WithRawResponse =
             orderFulfillments
 
         override fun orderRequests(): OrderRequestServiceAsync.WithRawResponse = orderRequests
 
+        /**
+         * **`Withdrawals` represent the transfer of stablecoins from an `Account` connected to a
+         * managed `Wallet` to another `Account` that is owned by the `Entity`.**
+         *
+         * Since the `Account` is backed by a managed `Wallet`, the `Withdrawal` must be processed
+         * by Dinari and the corresponding transaction is submitted on chain.
+         *
+         * Upon requesting a withdrawal, a `WithdrawalRequest` is created, which is then submitted
+         * on chain by Dinari. Once the transfer is submitted on chain, the corresponding
+         * `Withdrawal` is created.
+         *
+         * Currently, withdrawals are made in USDC on the Arbitrum network (Chain ID
+         * `eip155:42161`).
+         */
         override fun withdrawalRequests(): WithdrawalRequestServiceAsync.WithRawResponse =
             withdrawalRequests
 
+        /**
+         * **`Withdrawals` represent the transfer of stablecoins from an `Account` connected to a
+         * managed `Wallet` to another `Account` that is owned by the `Entity`.**
+         *
+         * Since the `Account` is backed by a managed `Wallet`, the `Withdrawal` must be processed
+         * by Dinari and the corresponding transaction is submitted on chain.
+         *
+         * Upon requesting a withdrawal, a `WithdrawalRequest` is created, which is then submitted
+         * on chain by Dinari. Once the transfer is submitted on chain, the corresponding
+         * `Withdrawal` is created.
+         *
+         * Currently, withdrawals are made in USDC on the Arbitrum network (Chain ID
+         * `eip155:42161`).
+         */
         override fun withdrawals(): WithdrawalServiceAsync.WithRawResponse = withdrawals
 
+        /**
+         * **`Accounts` represent the financial accounts of an `Entity`.**
+         *
+         * `Orders`, dividends, and other transactions are associated with an `Account`.
+         */
         override fun tokenTransfers(): TokenTransferServiceAsync.WithRawResponse = tokenTransfers
 
+        /**
+         * **`Accounts` represent the financial accounts of an `Entity`.**
+         *
+         * `Orders`, dividends, and other transactions are associated with an `Account`.
+         */
         override fun activities(): ActivityServiceAsync.WithRawResponse = activities
 
         private val retrieveHandler: Handler<Account> =
