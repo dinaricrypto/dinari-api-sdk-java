@@ -16,7 +16,7 @@ internal class DocumentUploadParamsTest {
             .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .documentType(KycDocumentType.GOVERNMENT_ID)
-            .file("some content".byteInputStream())
+            .file("Example data".byteInputStream())
             .build()
     }
 
@@ -27,7 +27,7 @@ internal class DocumentUploadParamsTest {
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentType(KycDocumentType.GOVERNMENT_ID)
-                .file("some content".byteInputStream())
+                .file("Example data".byteInputStream())
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -43,7 +43,7 @@ internal class DocumentUploadParamsTest {
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentType(KycDocumentType.GOVERNMENT_ID)
-                .file("some content".byteInputStream())
+                .file("Example data".byteInputStream())
                 .build()
 
         val queryParams = params._queryParams()
@@ -59,7 +59,7 @@ internal class DocumentUploadParamsTest {
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .documentType(KycDocumentType.GOVERNMENT_ID)
-                .file("some content".byteInputStream())
+                .file("Example data".byteInputStream())
                 .build()
 
         val body = params._body()
@@ -73,7 +73,7 @@ internal class DocumentUploadParamsTest {
                 InputStream::class.java,
             )
             .isEqualTo(
-                mapOf("file" to MultipartField.of("some content".byteInputStream())).mapValues {
+                mapOf("file" to MultipartField.of("Example data".byteInputStream())).mapValues {
                     (_, field) ->
                     field.map { (it as? ByteArray)?.inputStream() ?: it }
                 }

@@ -49,7 +49,7 @@ internal class DocumentServiceAsyncTest {
                     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .kycId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .documentType(KycDocumentType.GOVERNMENT_ID)
-                    .file("some content".byteInputStream())
+                    .file("Example data".byteInputStream())
                     .build()
             )
 
