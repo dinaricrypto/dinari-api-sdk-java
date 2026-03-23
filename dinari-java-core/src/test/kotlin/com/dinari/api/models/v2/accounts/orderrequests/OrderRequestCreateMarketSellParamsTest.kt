@@ -14,10 +14,11 @@ internal class OrderRequestCreateMarketSellParamsTest {
             .createMarketSellOrderInput(
                 CreateMarketSellOrderInput.builder()
                     .assetQuantity(0.0)
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .clientOrderId("client_order_id")
                     .paymentTokenAddress("payment_token_address")
                     .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
             .build()
@@ -29,10 +30,7 @@ internal class OrderRequestCreateMarketSellParamsTest {
             OrderRequestCreateMarketSellParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .createMarketSellOrderInput(
-                    CreateMarketSellOrderInput.builder()
-                        .assetQuantity(0.0)
-                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .build()
+                    CreateMarketSellOrderInput.builder().assetQuantity(0.0).build()
                 )
                 .build()
 
@@ -49,10 +47,11 @@ internal class OrderRequestCreateMarketSellParamsTest {
                 .createMarketSellOrderInput(
                     CreateMarketSellOrderInput.builder()
                         .assetQuantity(0.0)
-                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .clientOrderId("client_order_id")
                         .paymentTokenAddress("payment_token_address")
                         .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .build()
                 )
                 .build()
@@ -63,10 +62,11 @@ internal class OrderRequestCreateMarketSellParamsTest {
             .isEqualTo(
                 CreateMarketSellOrderInput.builder()
                     .assetQuantity(0.0)
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .clientOrderId("client_order_id")
                     .paymentTokenAddress("payment_token_address")
                     .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
     }
@@ -77,21 +77,12 @@ internal class OrderRequestCreateMarketSellParamsTest {
             OrderRequestCreateMarketSellParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .createMarketSellOrderInput(
-                    CreateMarketSellOrderInput.builder()
-                        .assetQuantity(0.0)
-                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .build()
+                    CreateMarketSellOrderInput.builder().assetQuantity(0.0).build()
                 )
                 .build()
 
         val body = params._body()
 
-        assertThat(body)
-            .isEqualTo(
-                CreateMarketSellOrderInput.builder()
-                    .assetQuantity(0.0)
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
+        assertThat(body).isEqualTo(CreateMarketSellOrderInput.builder().assetQuantity(0.0).build())
     }
 }
