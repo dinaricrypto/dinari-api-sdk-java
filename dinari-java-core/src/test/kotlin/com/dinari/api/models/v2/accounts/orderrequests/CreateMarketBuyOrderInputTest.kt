@@ -14,16 +14,19 @@ internal class CreateMarketBuyOrderInputTest {
         val createMarketBuyOrderInput =
             CreateMarketBuyOrderInput.builder()
                 .paymentAmount(0.0)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .clientOrderId("client_order_id")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(createMarketBuyOrderInput.paymentAmount()).isEqualTo(0.0)
-        assertThat(createMarketBuyOrderInput.stockId())
-            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(createMarketBuyOrderInput.alloyId())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(createMarketBuyOrderInput.clientOrderId()).contains("client_order_id")
         assertThat(createMarketBuyOrderInput.recipientAccountId())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(createMarketBuyOrderInput.stockId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
@@ -33,9 +36,10 @@ internal class CreateMarketBuyOrderInputTest {
         val createMarketBuyOrderInput =
             CreateMarketBuyOrderInput.builder()
                 .paymentAmount(0.0)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .clientOrderId("client_order_id")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val roundtrippedCreateMarketBuyOrderInput =

@@ -35,6 +35,8 @@ class BrokerageOrderStatus @JsonCreator private constructor(private val value: J
 
         @JvmField val CANCELLED = of("CANCELLED")
 
+        @JvmField val PARTIALLY_FILLED = of("PARTIALLY_FILLED")
+
         @JvmField val FILLED = of("FILLED")
 
         @JvmField val REJECTED = of("REJECTED")
@@ -55,6 +57,7 @@ class BrokerageOrderStatus @JsonCreator private constructor(private val value: J
         ESCROWED,
         SUBMITTED,
         CANCELLED,
+        PARTIALLY_FILLED,
         FILLED,
         REJECTED,
         REQUIRING_CONTACT,
@@ -78,6 +81,7 @@ class BrokerageOrderStatus @JsonCreator private constructor(private val value: J
         ESCROWED,
         SUBMITTED,
         CANCELLED,
+        PARTIALLY_FILLED,
         FILLED,
         REJECTED,
         REQUIRING_CONTACT,
@@ -105,6 +109,7 @@ class BrokerageOrderStatus @JsonCreator private constructor(private val value: J
             ESCROWED -> Value.ESCROWED
             SUBMITTED -> Value.SUBMITTED
             CANCELLED -> Value.CANCELLED
+            PARTIALLY_FILLED -> Value.PARTIALLY_FILLED
             FILLED -> Value.FILLED
             REJECTED -> Value.REJECTED
             REQUIRING_CONTACT -> Value.REQUIRING_CONTACT
@@ -129,6 +134,7 @@ class BrokerageOrderStatus @JsonCreator private constructor(private val value: J
             ESCROWED -> Known.ESCROWED
             SUBMITTED -> Known.SUBMITTED
             CANCELLED -> Known.CANCELLED
+            PARTIALLY_FILLED -> Known.PARTIALLY_FILLED
             FILLED -> Known.FILLED
             REJECTED -> Known.REJECTED
             REQUIRING_CONTACT -> Known.REQUIRING_CONTACT

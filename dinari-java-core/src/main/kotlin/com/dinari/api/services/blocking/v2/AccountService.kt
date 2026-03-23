@@ -29,6 +29,11 @@ import com.dinari.api.services.blocking.v2.accounts.WithdrawalService
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
+/**
+ * **`Accounts` represent the financial accounts of an `Entity`.**
+ *
+ * `Orders`, dividends, and other transactions are associated with an `Account`.
+ */
 interface AccountService {
 
     /**
@@ -43,20 +48,84 @@ interface AccountService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountService
 
+    /**
+     * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+     *
+     * An `Account` may be connected to a single `Wallet`.
+     *
+     * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of the
+     * `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for the
+     * Partner `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This may be
+     * used in omnibus accounting for self-managing customers' assets.
+     */
     fun wallet(): WalletService
 
+    /**
+     * **`Orders` represent the buying and selling of assets under an `Account`.**
+     *
+     * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by making
+     * calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+     *
+     * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+     * `Managed Orders` methods, which then create the corresponding transactions on the blockchain.
+     */
     fun orders(): OrderService
 
+    /**
+     * **`Orders` represent the buying and selling of assets under an `Account`.**
+     *
+     * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by making
+     * calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+     *
+     * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+     * `Managed Orders` methods, which then create the corresponding transactions on the blockchain.
+     */
     fun orderFulfillments(): OrderFulfillmentService
 
     fun orderRequests(): OrderRequestService
 
+    /**
+     * **`Withdrawals` represent the transfer of stablecoins from an `Account` connected to a
+     * managed `Wallet` to another `Account` that is owned by the `Entity`.**
+     *
+     * Since the `Account` is backed by a managed `Wallet`, the `Withdrawal` must be processed by
+     * Dinari and the corresponding transaction is submitted on chain.
+     *
+     * Upon requesting a withdrawal, a `WithdrawalRequest` is created, which is then submitted on
+     * chain by Dinari. Once the transfer is submitted on chain, the corresponding `Withdrawal` is
+     * created.
+     *
+     * Currently, withdrawals are made in USDC on the Arbitrum network (Chain ID `eip155:42161`).
+     */
     fun withdrawalRequests(): WithdrawalRequestService
 
+    /**
+     * **`Withdrawals` represent the transfer of stablecoins from an `Account` connected to a
+     * managed `Wallet` to another `Account` that is owned by the `Entity`.**
+     *
+     * Since the `Account` is backed by a managed `Wallet`, the `Withdrawal` must be processed by
+     * Dinari and the corresponding transaction is submitted on chain.
+     *
+     * Upon requesting a withdrawal, a `WithdrawalRequest` is created, which is then submitted on
+     * chain by Dinari. Once the transfer is submitted on chain, the corresponding `Withdrawal` is
+     * created.
+     *
+     * Currently, withdrawals are made in USDC on the Arbitrum network (Chain ID `eip155:42161`).
+     */
     fun withdrawals(): WithdrawalService
 
+    /**
+     * **`Accounts` represent the financial accounts of an `Entity`.**
+     *
+     * `Orders`, dividends, and other transactions are associated with an `Account`.
+     */
     fun tokenTransfers(): TokenTransferService
 
+    /**
+     * **`Accounts` represent the financial accounts of an `Entity`.**
+     *
+     * `Orders`, dividends, and other transactions are associated with an `Account`.
+     */
     fun activities(): ActivityService
 
     /** Get a specific `Account` by its ID. */
@@ -293,20 +362,88 @@ interface AccountService {
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountService.WithRawResponse
 
+        /**
+         * **`Wallets` represent the blockchain wallet that holds the assets of an `Account`.**
+         *
+         * An `Account` may be connected to a single `Wallet`.
+         *
+         * Individual `Entities` can connect their self-custodied `Wallets` by proving ownership of
+         * the `Wallet` address. For Dinari Partners, a Dinari-managed `Wallet` can be created for
+         * the Partner `Entity` in the [Dinari Partners Portal](https://Partners.dinari.com/). This
+         * may be used in omnibus accounting for self-managing customers' assets.
+         */
         fun wallet(): WalletService.WithRawResponse
 
+        /**
+         * **`Orders` represent the buying and selling of assets under an `Account`.**
+         *
+         * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by
+         * making calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+         *
+         * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+         * `Managed Orders` methods, which then create the corresponding transactions on the
+         * blockchain.
+         */
         fun orders(): OrderService.WithRawResponse
 
+        /**
+         * **`Orders` represent the buying and selling of assets under an `Account`.**
+         *
+         * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by
+         * making calls to Dinari's smart contracts, or using the *Proxied Orders* methods.
+         *
+         * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the
+         * `Managed Orders` methods, which then create the corresponding transactions on the
+         * blockchain.
+         */
         fun orderFulfillments(): OrderFulfillmentService.WithRawResponse
 
         fun orderRequests(): OrderRequestService.WithRawResponse
 
+        /**
+         * **`Withdrawals` represent the transfer of stablecoins from an `Account` connected to a
+         * managed `Wallet` to another `Account` that is owned by the `Entity`.**
+         *
+         * Since the `Account` is backed by a managed `Wallet`, the `Withdrawal` must be processed
+         * by Dinari and the corresponding transaction is submitted on chain.
+         *
+         * Upon requesting a withdrawal, a `WithdrawalRequest` is created, which is then submitted
+         * on chain by Dinari. Once the transfer is submitted on chain, the corresponding
+         * `Withdrawal` is created.
+         *
+         * Currently, withdrawals are made in USDC on the Arbitrum network (Chain ID
+         * `eip155:42161`).
+         */
         fun withdrawalRequests(): WithdrawalRequestService.WithRawResponse
 
+        /**
+         * **`Withdrawals` represent the transfer of stablecoins from an `Account` connected to a
+         * managed `Wallet` to another `Account` that is owned by the `Entity`.**
+         *
+         * Since the `Account` is backed by a managed `Wallet`, the `Withdrawal` must be processed
+         * by Dinari and the corresponding transaction is submitted on chain.
+         *
+         * Upon requesting a withdrawal, a `WithdrawalRequest` is created, which is then submitted
+         * on chain by Dinari. Once the transfer is submitted on chain, the corresponding
+         * `Withdrawal` is created.
+         *
+         * Currently, withdrawals are made in USDC on the Arbitrum network (Chain ID
+         * `eip155:42161`).
+         */
         fun withdrawals(): WithdrawalService.WithRawResponse
 
+        /**
+         * **`Accounts` represent the financial accounts of an `Entity`.**
+         *
+         * `Orders`, dividends, and other transactions are associated with an `Account`.
+         */
         fun tokenTransfers(): TokenTransferService.WithRawResponse
 
+        /**
+         * **`Accounts` represent the financial accounts of an `Entity`.**
+         *
+         * `Orders`, dividends, and other transactions are associated with an `Account`.
+         */
         fun activities(): ActivityService.WithRawResponse
 
         /**

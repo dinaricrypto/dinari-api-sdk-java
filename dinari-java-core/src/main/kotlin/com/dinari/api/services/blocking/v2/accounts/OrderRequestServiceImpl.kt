@@ -44,6 +44,13 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OrderRequestService =
         OrderRequestServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **`Order Requests` represent requests for Dinari to create `Orders` on behalf of an
+     * `Account`.**
+     *
+     * `Order Requests` are created when placing **proxied orders** or **managed orders**. See their
+     * respective descriptions for more details.
+     */
     override fun eip155(): Eip155Service = eip155
 
     override fun retrieve(
@@ -112,6 +119,13 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **`Order Requests` represent requests for Dinari to create `Orders` on behalf of an
+         * `Account`.**
+         *
+         * `Order Requests` are created when placing **proxied orders** or **managed orders**. See
+         * their respective descriptions for more details.
+         */
         override fun eip155(): Eip155Service.WithRawResponse = eip155
 
         private val retrieveHandler: Handler<OrderRequest> =

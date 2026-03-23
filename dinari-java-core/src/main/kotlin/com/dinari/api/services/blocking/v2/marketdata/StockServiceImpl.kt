@@ -46,6 +46,11 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): StockService =
         StockServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **Corporate actions are events that affect the ownership of a `Stock`.**
+     *
+     * Corporate actions include dividends and stock splits.
+     */
     override fun splits(): SplitService = splits
 
     override fun list(
@@ -107,6 +112,11 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **Corporate actions are events that affect the ownership of a `Stock`.**
+         *
+         * Corporate actions include dividends and stock splits.
+         */
         override fun splits(): SplitService.WithRawResponse = splits
 
         private val listHandler: Handler<List<StockListResponse>> =

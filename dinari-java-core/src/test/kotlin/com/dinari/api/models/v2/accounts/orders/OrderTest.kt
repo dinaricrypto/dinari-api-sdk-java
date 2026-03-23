@@ -25,7 +25,7 @@ internal class OrderTest {
                 .orderType(OrderType.MARKET)
                 .paymentToken("payment_token")
                 .status(BrokerageOrderStatus.PENDING_SUBMIT)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetToken("asset_token")
                 .assetTokenQuantity(0.0)
                 .cancelTransactionHash("0xeaF12bD1DfFd")
@@ -34,6 +34,7 @@ internal class OrderTest {
                 .limitPrice(0.0)
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentTokenQuantity(0.0)
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(order.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -46,7 +47,7 @@ internal class OrderTest {
         assertThat(order.orderType()).isEqualTo(OrderType.MARKET)
         assertThat(order.paymentToken()).isEqualTo("payment_token")
         assertThat(order.status()).isEqualTo(BrokerageOrderStatus.PENDING_SUBMIT)
-        assertThat(order.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(order.alloyId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(order.assetToken()).contains("asset_token")
         assertThat(order.assetTokenQuantity()).contains(0.0)
         assertThat(order.cancelTransactionHash()).contains("0xeaF12bD1DfFd")
@@ -55,6 +56,7 @@ internal class OrderTest {
         assertThat(order.limitPrice()).contains(0.0)
         assertThat(order.orderRequestId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(order.paymentTokenQuantity()).contains(0.0)
+        assertThat(order.stockId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
@@ -72,7 +74,7 @@ internal class OrderTest {
                 .orderType(OrderType.MARKET)
                 .paymentToken("payment_token")
                 .status(BrokerageOrderStatus.PENDING_SUBMIT)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetToken("asset_token")
                 .assetTokenQuantity(0.0)
                 .cancelTransactionHash("0xeaF12bD1DfFd")
@@ -81,6 +83,7 @@ internal class OrderTest {
                 .limitPrice(0.0)
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentTokenQuantity(0.0)
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val roundtrippedOrder =

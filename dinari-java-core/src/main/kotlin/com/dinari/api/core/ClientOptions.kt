@@ -428,18 +428,20 @@ private constructor(
             headers.put("X-Stainless-Package-Version", getPackageVersion())
             headers.put("X-Stainless-Runtime", "JRE")
             headers.put("X-Stainless-Runtime-Version", getJavaVersion())
+            headers.put("X-Stainless-Kotlin-Version", KotlinVersion.CURRENT.toString())
+            // We replace after all the default headers to allow end-users to overwrite them.
+            headers.replaceAll(this.headers.build())
+            queryParams.replaceAll(this.queryParams.build())
             apiKeyId.let {
                 if (!it.isEmpty()) {
-                    headers.put("X-API-Key-Id", it)
+                    headers.replace("X-API-Key-Id", it)
                 }
             }
             apiSecretKey.let {
                 if (!it.isEmpty()) {
-                    headers.put("X-API-Secret-Key", it)
+                    headers.replace("X-API-Secret-Key", it)
                 }
             }
-            headers.replaceAll(this.headers.build())
-            queryParams.replaceAll(this.queryParams.build())
 
             return ClientOptions(
                 httpClient,

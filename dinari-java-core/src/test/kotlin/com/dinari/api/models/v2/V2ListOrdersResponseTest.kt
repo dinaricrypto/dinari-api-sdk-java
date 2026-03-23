@@ -29,8 +29,8 @@ internal class V2ListOrdersResponseTest {
                 .orderType(OrderType.MARKET)
                 .paymentToken("payment_token")
                 .status(BrokerageOrderStatus.PENDING_SUBMIT)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetToken("asset_token")
                 .assetTokenQuantity(0.0)
                 .cancelTransactionHash("0xeaF12bD1DfFd")
@@ -40,6 +40,7 @@ internal class V2ListOrdersResponseTest {
                 .limitPrice(0.0)
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentTokenQuantity(0.0)
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(v2ListOrdersResponse.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -53,9 +54,9 @@ internal class V2ListOrdersResponseTest {
         assertThat(v2ListOrdersResponse.orderType()).isEqualTo(OrderType.MARKET)
         assertThat(v2ListOrdersResponse.paymentToken()).isEqualTo("payment_token")
         assertThat(v2ListOrdersResponse.status()).isEqualTo(BrokerageOrderStatus.PENDING_SUBMIT)
-        assertThat(v2ListOrdersResponse.stockId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(v2ListOrdersResponse.accountId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(v2ListOrdersResponse.alloyId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(v2ListOrdersResponse.assetToken()).contains("asset_token")
         assertThat(v2ListOrdersResponse.assetTokenQuantity()).contains(0.0)
         assertThat(v2ListOrdersResponse.cancelTransactionHash()).contains("0xeaF12bD1DfFd")
@@ -66,6 +67,7 @@ internal class V2ListOrdersResponseTest {
         assertThat(v2ListOrdersResponse.orderRequestId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(v2ListOrdersResponse.paymentTokenQuantity()).contains(0.0)
+        assertThat(v2ListOrdersResponse.stockId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
@@ -83,8 +85,8 @@ internal class V2ListOrdersResponseTest {
                 .orderType(OrderType.MARKET)
                 .paymentToken("payment_token")
                 .status(BrokerageOrderStatus.PENDING_SUBMIT)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .assetToken("asset_token")
                 .assetTokenQuantity(0.0)
                 .cancelTransactionHash("0xeaF12bD1DfFd")
@@ -94,6 +96,7 @@ internal class V2ListOrdersResponseTest {
                 .limitPrice(0.0)
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentTokenQuantity(0.0)
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val roundtrippedV2ListOrdersResponse =

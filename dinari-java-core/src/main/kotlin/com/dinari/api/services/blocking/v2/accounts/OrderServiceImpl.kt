@@ -27,6 +27,15 @@ import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * **`Orders` represent the buying and selling of assets under an `Account`.**
+ *
+ * For `Accounts` using self-custodied `Wallets`, `Orders` are created and fulfilled by making calls
+ * to Dinari's smart contracts, or using the *Proxied Orders* methods.
+ *
+ * For `Accounts` using managed `Wallets`, `Orders` are created and fulfilled by using the `Managed
+ * Orders` methods, which then create the corresponding transactions on the blockchain.
+ */
 class OrderServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     OrderService {
 

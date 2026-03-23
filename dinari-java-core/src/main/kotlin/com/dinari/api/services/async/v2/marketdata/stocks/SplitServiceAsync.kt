@@ -11,6 +11,11 @@ import com.dinari.api.models.v2.marketdata.stocks.splits.StockSplit
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
+/**
+ * **Corporate actions are events that affect the ownership of a `Stock`.**
+ *
+ * Corporate actions include dividends and stock splits.
+ */
 interface SplitServiceAsync {
 
     /**

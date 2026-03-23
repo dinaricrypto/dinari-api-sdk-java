@@ -2,7 +2,6 @@
 
 package com.dinari.api.services.async.v2.accounts
 
-import com.dinari.api.TestServerExtension
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orderrequests.CreateLimitBuyOrderInput
@@ -20,17 +19,14 @@ import com.dinari.api.models.v2.accounts.orders.OrderSide
 import com.dinari.api.models.v2.accounts.orders.OrderType
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class OrderRequestServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -48,12 +44,11 @@ internal class OrderRequestServiceAsyncTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -75,12 +70,11 @@ internal class OrderRequestServiceAsyncTest {
         orderRequests.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createLimitBuy() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -94,9 +88,10 @@ internal class OrderRequestServiceAsyncTest {
                         CreateLimitBuyOrderInput.builder()
                             .assetQuantity(0.0)
                             .limitPrice(0.0)
-                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .clientOrderId("client_order_id")
                             .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .build()
@@ -106,12 +101,11 @@ internal class OrderRequestServiceAsyncTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createLimitSell() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -125,10 +119,11 @@ internal class OrderRequestServiceAsyncTest {
                         CreateLimitSellOrderInput.builder()
                             .assetQuantity(0.0)
                             .limitPrice(0.0)
-                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .clientOrderId("client_order_id")
                             .paymentTokenAddress("payment_token_address")
                             .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .build()
@@ -138,12 +133,11 @@ internal class OrderRequestServiceAsyncTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createMarketBuy() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -156,9 +150,10 @@ internal class OrderRequestServiceAsyncTest {
                     .createMarketBuyOrderInput(
                         CreateMarketBuyOrderInput.builder()
                             .paymentAmount(0.0)
-                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .clientOrderId("client_order_id")
                             .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .build()
@@ -168,12 +163,11 @@ internal class OrderRequestServiceAsyncTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createMarketSell() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -186,10 +180,11 @@ internal class OrderRequestServiceAsyncTest {
                     .createMarketSellOrderInput(
                         CreateMarketSellOrderInput.builder()
                             .assetQuantity(0.0)
-                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .clientOrderId("client_order_id")
                             .paymentTokenAddress("payment_token_address")
                             .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                            .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                             .build()
                     )
                     .build()
@@ -199,12 +194,11 @@ internal class OrderRequestServiceAsyncTest {
         orderRequest.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun getFeeQuote() {
         val client =
             DinariOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
                 .apiKeyId("My API Key ID")
                 .apiSecretKey("My API Secret Key")
                 .build()
@@ -216,12 +210,13 @@ internal class OrderRequestServiceAsyncTest {
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .orderSide(OrderSide.BUY)
                     .orderType(OrderType.MARKET)
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .assetTokenQuantity(0.0)
                     .chainId(Chain.EIP155_1)
                     .limitPrice(0.0)
                     .paymentTokenAddress("payment_token_address")
                     .paymentTokenQuantity(0.0)
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 

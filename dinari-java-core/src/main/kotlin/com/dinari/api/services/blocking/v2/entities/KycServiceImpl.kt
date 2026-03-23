@@ -26,6 +26,18 @@ import com.dinari.api.services.blocking.v2.entities.kyc.DocumentServiceImpl
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
+/**
+ * **KYC (Know Your Customer) is a process of verifying the identity of customer `Entities`.**
+ *
+ * KYC is required for all customer `Entities` that transact on Dinari's platform.
+ *
+ * Dinari provides a managed KYC process for its Partners, which provides a convenient KYC flow URL
+ * to present to the end customer.
+ *
+ * For Dinari Partners that supply their own KYC data, the API provides a way to record a customer's
+ * KYC information using the Partner's KYC data. This requires an existing KYC agreement between
+ * Dinari and the Partner.
+ */
 class KycServiceImpl internal constructor(private val clientOptions: ClientOptions) : KycService {
 
     private val withRawResponse: KycService.WithRawResponse by lazy {
@@ -39,6 +51,18 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): KycService =
         KycServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
+    /**
+     * **KYC (Know Your Customer) is a process of verifying the identity of customer `Entities`.**
+     *
+     * KYC is required for all customer `Entities` that transact on Dinari's platform.
+     *
+     * Dinari provides a managed KYC process for its Partners, which provides a convenient KYC flow
+     * URL to present to the end customer.
+     *
+     * For Dinari Partners that supply their own KYC data, the API provides a way to record a
+     * customer's KYC information using the Partner's KYC data. This requires an existing KYC
+     * agreement between Dinari and the Partner.
+     */
     override fun document(): DocumentService = document
 
     override fun retrieve(params: KycRetrieveParams, requestOptions: RequestOptions): KycInfo =
@@ -73,6 +97,19 @@ class KycServiceImpl internal constructor(private val clientOptions: ClientOptio
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
+        /**
+         * **KYC (Know Your Customer) is a process of verifying the identity of customer
+         * `Entities`.**
+         *
+         * KYC is required for all customer `Entities` that transact on Dinari's platform.
+         *
+         * Dinari provides a managed KYC process for its Partners, which provides a convenient KYC
+         * flow URL to present to the end customer.
+         *
+         * For Dinari Partners that supply their own KYC data, the API provides a way to record a
+         * customer's KYC information using the Partner's KYC data. This requires an existing KYC
+         * agreement between Dinari and the Partner.
+         */
         override fun document(): DocumentService.WithRawResponse = document
 
         private val retrieveHandler: Handler<KycInfo> =

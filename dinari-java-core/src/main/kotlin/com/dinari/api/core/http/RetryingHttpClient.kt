@@ -1,3 +1,5 @@
+// File generated from our OpenAPI spec by Stainless.
+
 package com.dinari.api.core.http
 
 import com.dinari.api.core.DefaultSleeper
@@ -31,10 +33,6 @@ private constructor(
 ) : HttpClient {
 
     override fun execute(request: HttpRequest, requestOptions: RequestOptions): HttpResponse {
-        if (!isRetryable(request) || maxRetries <= 0) {
-            return httpClient.execute(request, requestOptions)
-        }
-
         var modifiedRequest = maybeAddIdempotencyHeader(request)
 
         // Don't send the current retry count in the headers if the caller set their own value.
@@ -46,6 +44,10 @@ private constructor(
         while (true) {
             if (shouldSendRetryCount) {
                 modifiedRequest = setRetryCountHeader(modifiedRequest, retries)
+            }
+
+            if (!isRetryable(modifiedRequest)) {
+                return httpClient.execute(modifiedRequest, requestOptions)
             }
 
             val response =
@@ -75,10 +77,6 @@ private constructor(
         request: HttpRequest,
         requestOptions: RequestOptions,
     ): CompletableFuture<HttpResponse> {
-        if (!isRetryable(request) || maxRetries <= 0) {
-            return httpClient.executeAsync(request, requestOptions)
-        }
-
         val modifiedRequest = maybeAddIdempotencyHeader(request)
 
         // Don't send the current retry count in the headers if the caller set their own value.
@@ -94,8 +92,12 @@ private constructor(
             val requestWithRetryCount =
                 if (shouldSendRetryCount) setRetryCountHeader(request, retries) else request
 
-            return httpClient
-                .executeAsync(requestWithRetryCount, requestOptions)
+            val responseFuture = httpClient.executeAsync(requestWithRetryCount, requestOptions)
+            if (!isRetryable(requestWithRetryCount)) {
+                return responseFuture
+            }
+
+            return responseFuture
                 .handleAsync(
                     fun(
                         response: HttpResponse?,
@@ -199,7 +201,7 @@ private constructor(
                     ?: headers.values("Retry-After").getOrNull(0)?.let { retryAfter ->
                         retryAfter.toFloatOrNull()?.times(TimeUnit.SECONDS.toNanos(1))
                             ?: try {
-                                ChronoUnit.MILLIS.between(
+                                ChronoUnit.NANOS.between(
                                     OffsetDateTime.now(clock),
                                     OffsetDateTime.parse(
                                         retryAfter,
@@ -212,13 +214,8 @@ private constructor(
                     }
             }
             ?.let { retryAfterNanos ->
-                // If the API asks us to wait a certain amount of time (and it's a reasonable
-                // amount), just
-                // do what it says.
-                val retryAfter = Duration.ofNanos(retryAfterNanos.toLong())
-                if (retryAfter in Duration.ofNanos(0)..Duration.ofMinutes(1)) {
-                    return retryAfter
-                }
+                // If the API asks us to wait a certain amount of time, do what it says.
+                return Duration.ofNanos(retryAfterNanos.toLong())
             }
 
         // Apply exponential backoff, but not more than the max.

@@ -40,12 +40,22 @@ private constructor(
     /**
      * [JSON ABI](https://docs.soliditylang.org/en/v0.8.30/abi-spec.html#json) of the smart contract
      * function encoded in the transaction. Provided for informational purposes.
+     *
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = eip155CreatePermitTransactionResponse.abi().convert(MyClass.class);
+     * ```
      */
     @JsonProperty("abi") @ExcludeMissing fun _abi(): JsonValue = abi
 
     /**
      * Arguments to the smart contract function encoded in the transaction. Provided for
      * informational purposes.
+     *
+     * This arbitrary value can be deserialized into a custom type using the `convert` method:
+     * ```java
+     * MyClass myObject = eip155CreatePermitTransactionResponse.args().convert(MyClass.class);
+     * ```
      */
     @JsonProperty("args") @ExcludeMissing fun _args(): JsonValue = args
 

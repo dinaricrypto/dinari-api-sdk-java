@@ -33,11 +33,14 @@ kotlin {
 tasks.withType<Test>().configureEach {
     systemProperty("junit.jupiter.execution.parallel.enabled", true)
     systemProperty("junit.jupiter.execution.parallel.mode.default", "concurrent")
+
+    // `SKIP_MOCK_TESTS` affects which tests run so it must be added as input for proper cache invalidation.
+    inputs.property("skipMockTests", System.getenv("SKIP_MOCK_TESTS")).optional(true)
 }
 
 val ktfmt by configurations.creating
 dependencies {
-    ktfmt("com.facebook:ktfmt:0.56")
+    ktfmt("com.facebook:ktfmt:0.61")
 }
 
 fun registerKtfmt(
