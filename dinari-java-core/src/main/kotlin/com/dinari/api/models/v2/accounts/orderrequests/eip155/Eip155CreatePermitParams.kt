@@ -84,6 +84,14 @@ private constructor(
     fun paymentToken(): String = body.paymentToken()
 
     /**
+     * The ID of the `Alloy` for which the `Order` is being placed.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun alloyId(): Optional<String> = body.alloyId()
+
+    /**
      * Amount of dShare asset tokens involved. Required for limit `Order Requests` and market sell
      * `Order Requests`. Must be a positive number with a precision of up to 4 decimal places for
      * limit `Order Requests` or up to 6 decimal places for market sell `Order Requests`.
@@ -169,6 +177,13 @@ private constructor(
      * Unlike [paymentToken], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _paymentToken(): JsonField<String> = body._paymentToken()
+
+    /**
+     * Returns the raw JSON value of [alloyId].
+     *
+     * Unlike [alloyId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _alloyId(): JsonField<String> = body._alloyId()
 
     /**
      * Returns the raw JSON value of [assetTokenQuantity].
@@ -336,6 +351,20 @@ private constructor(
         fun paymentToken(paymentToken: JsonField<String>) = apply {
             body.paymentToken(paymentToken)
         }
+
+        /** The ID of the `Alloy` for which the `Order` is being placed. */
+        fun alloyId(alloyId: String?) = apply { body.alloyId(alloyId) }
+
+        /** Alias for calling [Builder.alloyId] with `alloyId.orElse(null)`. */
+        fun alloyId(alloyId: Optional<String>) = alloyId(alloyId.getOrNull())
+
+        /**
+         * Sets [Builder.alloyId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.alloyId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun alloyId(alloyId: JsonField<String>) = apply { body.alloyId(alloyId) }
 
         /**
          * Amount of dShare asset tokens involved. Required for limit `Order Requests` and market
@@ -643,6 +672,7 @@ private constructor(
         private val orderTif: JsonField<OrderTif>,
         private val orderType: JsonField<OrderType>,
         private val paymentToken: JsonField<String>,
+        private val alloyId: JsonField<String>,
         private val assetTokenQuantity: JsonField<Double>,
         private val clientOrderId: JsonField<String>,
         private val limitPrice: JsonField<Double>,
@@ -667,6 +697,7 @@ private constructor(
             @JsonProperty("payment_token")
             @ExcludeMissing
             paymentToken: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("alloy_id") @ExcludeMissing alloyId: JsonField<String> = JsonMissing.of(),
             @JsonProperty("asset_token_quantity")
             @ExcludeMissing
             assetTokenQuantity: JsonField<Double> = JsonMissing.of(),
@@ -687,6 +718,7 @@ private constructor(
             orderTif,
             orderType,
             paymentToken,
+            alloyId,
             assetTokenQuantity,
             clientOrderId,
             limitPrice,
@@ -735,6 +767,14 @@ private constructor(
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
          */
         fun paymentToken(): String = paymentToken.getRequired("payment_token")
+
+        /**
+         * The ID of the `Alloy` for which the `Order` is being placed.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun alloyId(): Optional<String> = alloyId.getOptional("alloy_id")
 
         /**
          * Amount of dShare asset tokens involved. Required for limit `Order Requests` and market
@@ -834,6 +874,13 @@ private constructor(
         fun _paymentToken(): JsonField<String> = paymentToken
 
         /**
+         * Returns the raw JSON value of [alloyId].
+         *
+         * Unlike [alloyId], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("alloy_id") @ExcludeMissing fun _alloyId(): JsonField<String> = alloyId
+
+        /**
          * Returns the raw JSON value of [assetTokenQuantity].
          *
          * Unlike [assetTokenQuantity], this method doesn't throw if the JSON field has an
@@ -923,6 +970,7 @@ private constructor(
             private var orderTif: JsonField<OrderTif>? = null
             private var orderType: JsonField<OrderType>? = null
             private var paymentToken: JsonField<String>? = null
+            private var alloyId: JsonField<String> = JsonMissing.of()
             private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
             private var clientOrderId: JsonField<String> = JsonMissing.of()
             private var limitPrice: JsonField<Double> = JsonMissing.of()
@@ -938,6 +986,7 @@ private constructor(
                 orderTif = body.orderTif
                 orderType = body.orderType
                 paymentToken = body.paymentToken
+                alloyId = body.alloyId
                 assetTokenQuantity = body.assetTokenQuantity
                 clientOrderId = body.clientOrderId
                 limitPrice = body.limitPrice
@@ -1008,6 +1057,21 @@ private constructor(
             fun paymentToken(paymentToken: JsonField<String>) = apply {
                 this.paymentToken = paymentToken
             }
+
+            /** The ID of the `Alloy` for which the `Order` is being placed. */
+            fun alloyId(alloyId: String?) = alloyId(JsonField.ofNullable(alloyId))
+
+            /** Alias for calling [Builder.alloyId] with `alloyId.orElse(null)`. */
+            fun alloyId(alloyId: Optional<String>) = alloyId(alloyId.getOrNull())
+
+            /**
+             * Sets [Builder.alloyId] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.alloyId] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun alloyId(alloyId: JsonField<String>) = apply { this.alloyId = alloyId }
 
             /**
              * Amount of dShare asset tokens involved. Required for limit `Order Requests` and
@@ -1193,6 +1257,7 @@ private constructor(
                     checkRequired("orderTif", orderTif),
                     checkRequired("orderType", orderType),
                     checkRequired("paymentToken", paymentToken),
+                    alloyId,
                     assetTokenQuantity,
                     clientOrderId,
                     limitPrice,
@@ -1215,6 +1280,7 @@ private constructor(
             orderTif().validate()
             orderType().validate()
             paymentToken()
+            alloyId()
             assetTokenQuantity()
             clientOrderId()
             limitPrice()
@@ -1245,6 +1311,7 @@ private constructor(
                 (orderTif.asKnown().getOrNull()?.validity() ?: 0) +
                 (orderType.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (paymentToken.asKnown().isPresent) 1 else 0) +
+                (if (alloyId.asKnown().isPresent) 1 else 0) +
                 (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
                 (if (clientOrderId.asKnown().isPresent) 1 else 0) +
                 (if (limitPrice.asKnown().isPresent) 1 else 0) +
@@ -1263,6 +1330,7 @@ private constructor(
                 orderTif == other.orderTif &&
                 orderType == other.orderType &&
                 paymentToken == other.paymentToken &&
+                alloyId == other.alloyId &&
                 assetTokenQuantity == other.assetTokenQuantity &&
                 clientOrderId == other.clientOrderId &&
                 limitPrice == other.limitPrice &&
@@ -1279,6 +1347,7 @@ private constructor(
                 orderTif,
                 orderType,
                 paymentToken,
+                alloyId,
                 assetTokenQuantity,
                 clientOrderId,
                 limitPrice,
@@ -1292,7 +1361,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{chainId=$chainId, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, paymentToken=$paymentToken, assetTokenQuantity=$assetTokenQuantity, clientOrderId=$clientOrderId, limitPrice=$limitPrice, paymentTokenQuantity=$paymentTokenQuantity, stockId=$stockId, tokenId=$tokenId, additionalProperties=$additionalProperties}"
+            "Body{chainId=$chainId, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, paymentToken=$paymentToken, alloyId=$alloyId, assetTokenQuantity=$assetTokenQuantity, clientOrderId=$clientOrderId, limitPrice=$limitPrice, paymentTokenQuantity=$paymentTokenQuantity, stockId=$stockId, tokenId=$tokenId, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {

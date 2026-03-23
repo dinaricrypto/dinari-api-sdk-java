@@ -15,17 +15,20 @@ internal class CreateLimitBuyOrderInputTest {
             CreateLimitBuyOrderInput.builder()
                 .assetQuantity(0.0)
                 .limitPrice(0.0)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .clientOrderId("client_order_id")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(createLimitBuyOrderInput.assetQuantity()).isEqualTo(0.0)
         assertThat(createLimitBuyOrderInput.limitPrice()).isEqualTo(0.0)
-        assertThat(createLimitBuyOrderInput.stockId())
-            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(createLimitBuyOrderInput.alloyId())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(createLimitBuyOrderInput.clientOrderId()).contains("client_order_id")
         assertThat(createLimitBuyOrderInput.recipientAccountId())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(createLimitBuyOrderInput.stockId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
@@ -36,9 +39,10 @@ internal class CreateLimitBuyOrderInputTest {
             CreateLimitBuyOrderInput.builder()
                 .assetQuantity(0.0)
                 .limitPrice(0.0)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .clientOrderId("client_order_id")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val roundtrippedCreateLimitBuyOrderInput =

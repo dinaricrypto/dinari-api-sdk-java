@@ -22,9 +22,10 @@ class CreateMarketBuyOrderInput
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val paymentAmount: JsonField<Double>,
-    private val stockId: JsonField<String>,
+    private val alloyId: JsonField<String>,
     private val clientOrderId: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
+    private val stockId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -33,14 +34,15 @@ private constructor(
         @JsonProperty("payment_amount")
         @ExcludeMissing
         paymentAmount: JsonField<Double> = JsonMissing.of(),
-        @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("alloy_id") @ExcludeMissing alloyId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("client_order_id")
         @ExcludeMissing
         clientOrderId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("recipient_account_id")
         @ExcludeMissing
         recipientAccountId: JsonField<String> = JsonMissing.of(),
-    ) : this(paymentAmount, stockId, clientOrderId, recipientAccountId, mutableMapOf())
+        @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
+    ) : this(paymentAmount, alloyId, clientOrderId, recipientAccountId, stockId, mutableMapOf())
 
     /**
      * Amount of currency (USD for US equities and ETFs) to pay for the order. Must be a positive
@@ -52,12 +54,12 @@ private constructor(
     fun paymentAmount(): Double = paymentAmount.getRequired("payment_amount")
 
     /**
-     * ID of `Stock`.
+     * ID of `Alloy`.
      *
-     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun stockId(): String = stockId.getRequired("stock_id")
+    fun alloyId(): Optional<String> = alloyId.getOptional("alloy_id")
 
     /**
      * Customer-supplied ID to map this order to an order in their own systems. Must be unique
@@ -78,6 +80,14 @@ private constructor(
         recipientAccountId.getOptional("recipient_account_id")
 
     /**
+     * ID of `Stock`.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun stockId(): Optional<String> = stockId.getOptional("stock_id")
+
+    /**
      * Returns the raw JSON value of [paymentAmount].
      *
      * Unlike [paymentAmount], this method doesn't throw if the JSON field has an unexpected type.
@@ -87,11 +97,11 @@ private constructor(
     fun _paymentAmount(): JsonField<Double> = paymentAmount
 
     /**
-     * Returns the raw JSON value of [stockId].
+     * Returns the raw JSON value of [alloyId].
      *
-     * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [alloyId], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
+    @JsonProperty("alloy_id") @ExcludeMissing fun _alloyId(): JsonField<String> = alloyId
 
     /**
      * Returns the raw JSON value of [clientOrderId].
@@ -111,6 +121,13 @@ private constructor(
     @JsonProperty("recipient_account_id")
     @ExcludeMissing
     fun _recipientAccountId(): JsonField<String> = recipientAccountId
+
+    /**
+     * Returns the raw JSON value of [stockId].
+     *
+     * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -132,7 +149,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .paymentAmount()
-         * .stockId()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -142,17 +158,19 @@ private constructor(
     class Builder internal constructor() {
 
         private var paymentAmount: JsonField<Double>? = null
-        private var stockId: JsonField<String>? = null
+        private var alloyId: JsonField<String> = JsonMissing.of()
         private var clientOrderId: JsonField<String> = JsonMissing.of()
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
+        private var stockId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(createMarketBuyOrderInput: CreateMarketBuyOrderInput) = apply {
             paymentAmount = createMarketBuyOrderInput.paymentAmount
-            stockId = createMarketBuyOrderInput.stockId
+            alloyId = createMarketBuyOrderInput.alloyId
             clientOrderId = createMarketBuyOrderInput.clientOrderId
             recipientAccountId = createMarketBuyOrderInput.recipientAccountId
+            stockId = createMarketBuyOrderInput.stockId
             additionalProperties = createMarketBuyOrderInput.additionalProperties.toMutableMap()
         }
 
@@ -173,16 +191,19 @@ private constructor(
             this.paymentAmount = paymentAmount
         }
 
-        /** ID of `Stock`. */
-        fun stockId(stockId: String) = stockId(JsonField.of(stockId))
+        /** ID of `Alloy`. */
+        fun alloyId(alloyId: String?) = alloyId(JsonField.ofNullable(alloyId))
+
+        /** Alias for calling [Builder.alloyId] with `alloyId.orElse(null)`. */
+        fun alloyId(alloyId: Optional<String>) = alloyId(alloyId.getOrNull())
 
         /**
-         * Sets [Builder.stockId] to an arbitrary JSON value.
+         * Sets [Builder.alloyId] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.stockId] with a well-typed [String] value instead. This
+         * You should usually call [Builder.alloyId] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+        fun alloyId(alloyId: JsonField<String>) = apply { this.alloyId = alloyId }
 
         /**
          * Customer-supplied ID to map this order to an order in their own systems. Must be unique
@@ -227,6 +248,20 @@ private constructor(
             this.recipientAccountId = recipientAccountId
         }
 
+        /** ID of `Stock`. */
+        fun stockId(stockId: String?) = stockId(JsonField.ofNullable(stockId))
+
+        /** Alias for calling [Builder.stockId] with `stockId.orElse(null)`. */
+        fun stockId(stockId: Optional<String>) = stockId(stockId.getOrNull())
+
+        /**
+         * Sets [Builder.stockId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.stockId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -254,7 +289,6 @@ private constructor(
          * The following fields are required:
          * ```java
          * .paymentAmount()
-         * .stockId()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -262,9 +296,10 @@ private constructor(
         fun build(): CreateMarketBuyOrderInput =
             CreateMarketBuyOrderInput(
                 checkRequired("paymentAmount", paymentAmount),
-                checkRequired("stockId", stockId),
+                alloyId,
                 clientOrderId,
                 recipientAccountId,
+                stockId,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -277,9 +312,10 @@ private constructor(
         }
 
         paymentAmount()
-        stockId()
+        alloyId()
         clientOrderId()
         recipientAccountId()
+        stockId()
         validated = true
     }
 
@@ -299,9 +335,10 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (if (paymentAmount.asKnown().isPresent) 1 else 0) +
-            (if (stockId.asKnown().isPresent) 1 else 0) +
+            (if (alloyId.asKnown().isPresent) 1 else 0) +
             (if (clientOrderId.asKnown().isPresent) 1 else 0) +
-            (if (recipientAccountId.asKnown().isPresent) 1 else 0)
+            (if (recipientAccountId.asKnown().isPresent) 1 else 0) +
+            (if (stockId.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -310,18 +347,20 @@ private constructor(
 
         return other is CreateMarketBuyOrderInput &&
             paymentAmount == other.paymentAmount &&
-            stockId == other.stockId &&
+            alloyId == other.alloyId &&
             clientOrderId == other.clientOrderId &&
             recipientAccountId == other.recipientAccountId &&
+            stockId == other.stockId &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
         Objects.hash(
             paymentAmount,
-            stockId,
+            alloyId,
             clientOrderId,
             recipientAccountId,
+            stockId,
             additionalProperties,
         )
     }
@@ -329,5 +368,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CreateMarketBuyOrderInput{paymentAmount=$paymentAmount, stockId=$stockId, clientOrderId=$clientOrderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
+        "CreateMarketBuyOrderInput{paymentAmount=$paymentAmount, alloyId=$alloyId, clientOrderId=$clientOrderId, recipientAccountId=$recipientAccountId, stockId=$stockId, additionalProperties=$additionalProperties}"
 }

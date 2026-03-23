@@ -23,9 +23,10 @@ class CreateLimitBuyOrderInput
 private constructor(
     private val assetQuantity: JsonField<Double>,
     private val limitPrice: JsonField<Double>,
-    private val stockId: JsonField<String>,
+    private val alloyId: JsonField<String>,
     private val clientOrderId: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
+    private val stockId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -37,14 +38,23 @@ private constructor(
         @JsonProperty("limit_price")
         @ExcludeMissing
         limitPrice: JsonField<Double> = JsonMissing.of(),
-        @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("alloy_id") @ExcludeMissing alloyId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("client_order_id")
         @ExcludeMissing
         clientOrderId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("recipient_account_id")
         @ExcludeMissing
         recipientAccountId: JsonField<String> = JsonMissing.of(),
-    ) : this(assetQuantity, limitPrice, stockId, clientOrderId, recipientAccountId, mutableMapOf())
+        @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
+    ) : this(
+        assetQuantity,
+        limitPrice,
+        alloyId,
+        clientOrderId,
+        recipientAccountId,
+        stockId,
+        mutableMapOf(),
+    )
 
     /**
      * Amount of dShare asset involved. Required for limit `Order Requests` and market sell `Order
@@ -65,12 +75,12 @@ private constructor(
     fun limitPrice(): Double = limitPrice.getRequired("limit_price")
 
     /**
-     * ID of `Stock`.
+     * ID of `Alloy`.
      *
-     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun stockId(): String = stockId.getRequired("stock_id")
+    fun alloyId(): Optional<String> = alloyId.getOptional("alloy_id")
 
     /**
      * Customer-supplied ID to map this order to an order in their own systems. Must be unique
@@ -91,6 +101,14 @@ private constructor(
         recipientAccountId.getOptional("recipient_account_id")
 
     /**
+     * ID of `Stock`.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun stockId(): Optional<String> = stockId.getOptional("stock_id")
+
+    /**
      * Returns the raw JSON value of [assetQuantity].
      *
      * Unlike [assetQuantity], this method doesn't throw if the JSON field has an unexpected type.
@@ -107,11 +125,11 @@ private constructor(
     @JsonProperty("limit_price") @ExcludeMissing fun _limitPrice(): JsonField<Double> = limitPrice
 
     /**
-     * Returns the raw JSON value of [stockId].
+     * Returns the raw JSON value of [alloyId].
      *
-     * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [alloyId], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
+    @JsonProperty("alloy_id") @ExcludeMissing fun _alloyId(): JsonField<String> = alloyId
 
     /**
      * Returns the raw JSON value of [clientOrderId].
@@ -131,6 +149,13 @@ private constructor(
     @JsonProperty("recipient_account_id")
     @ExcludeMissing
     fun _recipientAccountId(): JsonField<String> = recipientAccountId
+
+    /**
+     * Returns the raw JSON value of [stockId].
+     *
+     * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
 
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -153,7 +178,6 @@ private constructor(
          * ```java
          * .assetQuantity()
          * .limitPrice()
-         * .stockId()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -164,18 +188,20 @@ private constructor(
 
         private var assetQuantity: JsonField<Double>? = null
         private var limitPrice: JsonField<Double>? = null
-        private var stockId: JsonField<String>? = null
+        private var alloyId: JsonField<String> = JsonMissing.of()
         private var clientOrderId: JsonField<String> = JsonMissing.of()
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
+        private var stockId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(createLimitBuyOrderInput: CreateLimitBuyOrderInput) = apply {
             assetQuantity = createLimitBuyOrderInput.assetQuantity
             limitPrice = createLimitBuyOrderInput.limitPrice
-            stockId = createLimitBuyOrderInput.stockId
+            alloyId = createLimitBuyOrderInput.alloyId
             clientOrderId = createLimitBuyOrderInput.clientOrderId
             recipientAccountId = createLimitBuyOrderInput.recipientAccountId
+            stockId = createLimitBuyOrderInput.stockId
             additionalProperties = createLimitBuyOrderInput.additionalProperties.toMutableMap()
         }
 
@@ -211,16 +237,19 @@ private constructor(
          */
         fun limitPrice(limitPrice: JsonField<Double>) = apply { this.limitPrice = limitPrice }
 
-        /** ID of `Stock`. */
-        fun stockId(stockId: String) = stockId(JsonField.of(stockId))
+        /** ID of `Alloy`. */
+        fun alloyId(alloyId: String?) = alloyId(JsonField.ofNullable(alloyId))
+
+        /** Alias for calling [Builder.alloyId] with `alloyId.orElse(null)`. */
+        fun alloyId(alloyId: Optional<String>) = alloyId(alloyId.getOrNull())
 
         /**
-         * Sets [Builder.stockId] to an arbitrary JSON value.
+         * Sets [Builder.alloyId] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.stockId] with a well-typed [String] value instead. This
+         * You should usually call [Builder.alloyId] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+        fun alloyId(alloyId: JsonField<String>) = apply { this.alloyId = alloyId }
 
         /**
          * Customer-supplied ID to map this order to an order in their own systems. Must be unique
@@ -265,6 +294,20 @@ private constructor(
             this.recipientAccountId = recipientAccountId
         }
 
+        /** ID of `Stock`. */
+        fun stockId(stockId: String?) = stockId(JsonField.ofNullable(stockId))
+
+        /** Alias for calling [Builder.stockId] with `stockId.orElse(null)`. */
+        fun stockId(stockId: Optional<String>) = stockId(stockId.getOrNull())
+
+        /**
+         * Sets [Builder.stockId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.stockId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -293,7 +336,6 @@ private constructor(
          * ```java
          * .assetQuantity()
          * .limitPrice()
-         * .stockId()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -302,9 +344,10 @@ private constructor(
             CreateLimitBuyOrderInput(
                 checkRequired("assetQuantity", assetQuantity),
                 checkRequired("limitPrice", limitPrice),
-                checkRequired("stockId", stockId),
+                alloyId,
                 clientOrderId,
                 recipientAccountId,
+                stockId,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -318,9 +361,10 @@ private constructor(
 
         assetQuantity()
         limitPrice()
-        stockId()
+        alloyId()
         clientOrderId()
         recipientAccountId()
+        stockId()
         validated = true
     }
 
@@ -341,9 +385,10 @@ private constructor(
     internal fun validity(): Int =
         (if (assetQuantity.asKnown().isPresent) 1 else 0) +
             (if (limitPrice.asKnown().isPresent) 1 else 0) +
-            (if (stockId.asKnown().isPresent) 1 else 0) +
+            (if (alloyId.asKnown().isPresent) 1 else 0) +
             (if (clientOrderId.asKnown().isPresent) 1 else 0) +
-            (if (recipientAccountId.asKnown().isPresent) 1 else 0)
+            (if (recipientAccountId.asKnown().isPresent) 1 else 0) +
+            (if (stockId.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -353,9 +398,10 @@ private constructor(
         return other is CreateLimitBuyOrderInput &&
             assetQuantity == other.assetQuantity &&
             limitPrice == other.limitPrice &&
-            stockId == other.stockId &&
+            alloyId == other.alloyId &&
             clientOrderId == other.clientOrderId &&
             recipientAccountId == other.recipientAccountId &&
+            stockId == other.stockId &&
             additionalProperties == other.additionalProperties
     }
 
@@ -363,9 +409,10 @@ private constructor(
         Objects.hash(
             assetQuantity,
             limitPrice,
-            stockId,
+            alloyId,
             clientOrderId,
             recipientAccountId,
+            stockId,
             additionalProperties,
         )
     }
@@ -373,5 +420,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CreateLimitBuyOrderInput{assetQuantity=$assetQuantity, limitPrice=$limitPrice, stockId=$stockId, clientOrderId=$clientOrderId, recipientAccountId=$recipientAccountId, additionalProperties=$additionalProperties}"
+        "CreateLimitBuyOrderInput{assetQuantity=$assetQuantity, limitPrice=$limitPrice, alloyId=$alloyId, clientOrderId=$clientOrderId, recipientAccountId=$recipientAccountId, stockId=$stockId, additionalProperties=$additionalProperties}"
 }

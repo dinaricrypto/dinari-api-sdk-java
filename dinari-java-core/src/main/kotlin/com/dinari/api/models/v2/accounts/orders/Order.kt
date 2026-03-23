@@ -32,7 +32,7 @@ private constructor(
     private val orderType: JsonField<OrderType>,
     private val paymentToken: JsonField<String>,
     private val status: JsonField<BrokerageOrderStatus>,
-    private val stockId: JsonField<String>,
+    private val alloyId: JsonField<String>,
     private val assetToken: JsonField<String>,
     private val assetTokenQuantity: JsonField<Double>,
     private val cancelTransactionHash: JsonField<String>,
@@ -41,6 +41,7 @@ private constructor(
     private val limitPrice: JsonField<Double>,
     private val orderRequestId: JsonField<String>,
     private val paymentTokenQuantity: JsonField<Double>,
+    private val stockId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
 
@@ -70,7 +71,7 @@ private constructor(
         @JsonProperty("status")
         @ExcludeMissing
         status: JsonField<BrokerageOrderStatus> = JsonMissing.of(),
-        @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("alloy_id") @ExcludeMissing alloyId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("asset_token")
         @ExcludeMissing
         assetToken: JsonField<String> = JsonMissing.of(),
@@ -93,6 +94,7 @@ private constructor(
         @JsonProperty("payment_token_quantity")
         @ExcludeMissing
         paymentTokenQuantity: JsonField<Double> = JsonMissing.of(),
+        @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
     ) : this(
         id,
         chainId,
@@ -104,7 +106,7 @@ private constructor(
         orderType,
         paymentToken,
         status,
-        stockId,
+        alloyId,
         assetToken,
         assetTokenQuantity,
         cancelTransactionHash,
@@ -113,6 +115,7 @@ private constructor(
         limitPrice,
         orderRequestId,
         paymentTokenQuantity,
+        stockId,
         mutableMapOf(),
     )
 
@@ -197,12 +200,12 @@ private constructor(
     fun status(): BrokerageOrderStatus = status.getRequired("status")
 
     /**
-     * The `Stock` ID associated with the `Order`
+     * The `Alloy` ID associated with the `Order`
      *
-     * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
      */
-    fun stockId(): String = stockId.getRequired("stock_id")
+    fun alloyId(): Optional<String> = alloyId.getOptional("alloy_id")
 
     /**
      * The dShare asset token address.
@@ -272,6 +275,14 @@ private constructor(
      */
     fun paymentTokenQuantity(): Optional<Double> =
         paymentTokenQuantity.getOptional("payment_token_quantity")
+
+    /**
+     * The `Stock` ID associated with the `Order`
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun stockId(): Optional<String> = stockId.getOptional("stock_id")
 
     /**
      * Returns the raw JSON value of [id].
@@ -354,11 +365,11 @@ private constructor(
     @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<BrokerageOrderStatus> = status
 
     /**
-     * Returns the raw JSON value of [stockId].
+     * Returns the raw JSON value of [alloyId].
      *
-     * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [alloyId], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
+    @JsonProperty("alloy_id") @ExcludeMissing fun _alloyId(): JsonField<String> = alloyId
 
     /**
      * Returns the raw JSON value of [assetToken].
@@ -429,6 +440,13 @@ private constructor(
     @ExcludeMissing
     fun _paymentTokenQuantity(): JsonField<Double> = paymentTokenQuantity
 
+    /**
+     * Returns the raw JSON value of [stockId].
+     *
+     * Unlike [stockId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("stock_id") @ExcludeMissing fun _stockId(): JsonField<String> = stockId
+
     @JsonAnySetter
     private fun putAdditionalProperty(key: String, value: JsonValue) {
         additionalProperties.put(key, value)
@@ -458,7 +476,6 @@ private constructor(
          * .orderType()
          * .paymentToken()
          * .status()
-         * .stockId()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -477,7 +494,7 @@ private constructor(
         private var orderType: JsonField<OrderType>? = null
         private var paymentToken: JsonField<String>? = null
         private var status: JsonField<BrokerageOrderStatus>? = null
-        private var stockId: JsonField<String>? = null
+        private var alloyId: JsonField<String> = JsonMissing.of()
         private var assetToken: JsonField<String> = JsonMissing.of()
         private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
         private var cancelTransactionHash: JsonField<String> = JsonMissing.of()
@@ -486,6 +503,7 @@ private constructor(
         private var limitPrice: JsonField<Double> = JsonMissing.of()
         private var orderRequestId: JsonField<String> = JsonMissing.of()
         private var paymentTokenQuantity: JsonField<Double> = JsonMissing.of()
+        private var stockId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
@@ -500,7 +518,7 @@ private constructor(
             orderType = order.orderType
             paymentToken = order.paymentToken
             status = order.status
-            stockId = order.stockId
+            alloyId = order.alloyId
             assetToken = order.assetToken
             assetTokenQuantity = order.assetTokenQuantity
             cancelTransactionHash = order.cancelTransactionHash
@@ -509,6 +527,7 @@ private constructor(
             limitPrice = order.limitPrice
             orderRequestId = order.orderRequestId
             paymentTokenQuantity = order.paymentTokenQuantity
+            stockId = order.stockId
             additionalProperties = order.additionalProperties.toMutableMap()
         }
 
@@ -638,16 +657,19 @@ private constructor(
          */
         fun status(status: JsonField<BrokerageOrderStatus>) = apply { this.status = status }
 
-        /** The `Stock` ID associated with the `Order` */
-        fun stockId(stockId: String) = stockId(JsonField.of(stockId))
+        /** The `Alloy` ID associated with the `Order` */
+        fun alloyId(alloyId: String?) = alloyId(JsonField.ofNullable(alloyId))
+
+        /** Alias for calling [Builder.alloyId] with `alloyId.orElse(null)`. */
+        fun alloyId(alloyId: Optional<String>) = alloyId(alloyId.getOrNull())
 
         /**
-         * Sets [Builder.stockId] to an arbitrary JSON value.
+         * Sets [Builder.alloyId] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.stockId] with a well-typed [String] value instead. This
+         * You should usually call [Builder.alloyId] with a well-typed [String] value instead. This
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
-        fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+        fun alloyId(alloyId: JsonField<String>) = apply { this.alloyId = alloyId }
 
         /** The dShare asset token address. */
         fun assetToken(assetToken: String?) = assetToken(JsonField.ofNullable(assetToken))
@@ -832,6 +854,20 @@ private constructor(
             this.paymentTokenQuantity = paymentTokenQuantity
         }
 
+        /** The `Stock` ID associated with the `Order` */
+        fun stockId(stockId: String?) = stockId(JsonField.ofNullable(stockId))
+
+        /** Alias for calling [Builder.stockId] with `stockId.orElse(null)`. */
+        fun stockId(stockId: Optional<String>) = stockId(stockId.getOrNull())
+
+        /**
+         * Sets [Builder.stockId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.stockId] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
+
         fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
             this.additionalProperties.clear()
             putAllAdditionalProperties(additionalProperties)
@@ -868,7 +904,6 @@ private constructor(
          * .orderType()
          * .paymentToken()
          * .status()
-         * .stockId()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -885,7 +920,7 @@ private constructor(
                 checkRequired("orderType", orderType),
                 checkRequired("paymentToken", paymentToken),
                 checkRequired("status", status),
-                checkRequired("stockId", stockId),
+                alloyId,
                 assetToken,
                 assetTokenQuantity,
                 cancelTransactionHash,
@@ -894,6 +929,7 @@ private constructor(
                 limitPrice,
                 orderRequestId,
                 paymentTokenQuantity,
+                stockId,
                 additionalProperties.toMutableMap(),
             )
     }
@@ -915,7 +951,7 @@ private constructor(
         orderType().validate()
         paymentToken()
         status().validate()
-        stockId()
+        alloyId()
         assetToken()
         assetTokenQuantity()
         cancelTransactionHash()
@@ -924,6 +960,7 @@ private constructor(
         limitPrice()
         orderRequestId()
         paymentTokenQuantity()
+        stockId()
         validated = true
     }
 
@@ -952,7 +989,7 @@ private constructor(
             (orderType.asKnown().getOrNull()?.validity() ?: 0) +
             (if (paymentToken.asKnown().isPresent) 1 else 0) +
             (status.asKnown().getOrNull()?.validity() ?: 0) +
-            (if (stockId.asKnown().isPresent) 1 else 0) +
+            (if (alloyId.asKnown().isPresent) 1 else 0) +
             (if (assetToken.asKnown().isPresent) 1 else 0) +
             (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
             (if (cancelTransactionHash.asKnown().isPresent) 1 else 0) +
@@ -960,7 +997,8 @@ private constructor(
             (if (fee.asKnown().isPresent) 1 else 0) +
             (if (limitPrice.asKnown().isPresent) 1 else 0) +
             (if (orderRequestId.asKnown().isPresent) 1 else 0) +
-            (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0)
+            (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0) +
+            (if (stockId.asKnown().isPresent) 1 else 0)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -978,7 +1016,7 @@ private constructor(
             orderType == other.orderType &&
             paymentToken == other.paymentToken &&
             status == other.status &&
-            stockId == other.stockId &&
+            alloyId == other.alloyId &&
             assetToken == other.assetToken &&
             assetTokenQuantity == other.assetTokenQuantity &&
             cancelTransactionHash == other.cancelTransactionHash &&
@@ -987,6 +1025,7 @@ private constructor(
             limitPrice == other.limitPrice &&
             orderRequestId == other.orderRequestId &&
             paymentTokenQuantity == other.paymentTokenQuantity &&
+            stockId == other.stockId &&
             additionalProperties == other.additionalProperties
     }
 
@@ -1002,7 +1041,7 @@ private constructor(
             orderType,
             paymentToken,
             status,
-            stockId,
+            alloyId,
             assetToken,
             assetTokenQuantity,
             cancelTransactionHash,
@@ -1011,6 +1050,7 @@ private constructor(
             limitPrice,
             orderRequestId,
             paymentTokenQuantity,
+            stockId,
             additionalProperties,
         )
     }
@@ -1018,5 +1058,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "Order{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, paymentToken=$paymentToken, status=$status, stockId=$stockId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, clientOrderId=$clientOrderId, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentTokenQuantity=$paymentTokenQuantity, additionalProperties=$additionalProperties}"
+        "Order{id=$id, chainId=$chainId, createdDt=$createdDt, orderContractAddress=$orderContractAddress, orderSide=$orderSide, orderTif=$orderTif, orderTransactionHash=$orderTransactionHash, orderType=$orderType, paymentToken=$paymentToken, status=$status, alloyId=$alloyId, assetToken=$assetToken, assetTokenQuantity=$assetTokenQuantity, cancelTransactionHash=$cancelTransactionHash, clientOrderId=$clientOrderId, fee=$fee, limitPrice=$limitPrice, orderRequestId=$orderRequestId, paymentTokenQuantity=$paymentTokenQuantity, stockId=$stockId, additionalProperties=$additionalProperties}"
 }

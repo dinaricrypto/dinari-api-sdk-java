@@ -15,9 +15,10 @@ internal class OrderRequestCreateLimitBuyParamsTest {
                 CreateLimitBuyOrderInput.builder()
                     .assetQuantity(0.0)
                     .limitPrice(0.0)
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .clientOrderId("client_order_id")
                     .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
             .build()
@@ -29,11 +30,7 @@ internal class OrderRequestCreateLimitBuyParamsTest {
             OrderRequestCreateLimitBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .createLimitBuyOrderInput(
-                    CreateLimitBuyOrderInput.builder()
-                        .assetQuantity(0.0)
-                        .limitPrice(0.0)
-                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .build()
+                    CreateLimitBuyOrderInput.builder().assetQuantity(0.0).limitPrice(0.0).build()
                 )
                 .build()
 
@@ -51,9 +48,10 @@ internal class OrderRequestCreateLimitBuyParamsTest {
                     CreateLimitBuyOrderInput.builder()
                         .assetQuantity(0.0)
                         .limitPrice(0.0)
-                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .clientOrderId("client_order_id")
                         .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .build()
                 )
                 .build()
@@ -65,9 +63,10 @@ internal class OrderRequestCreateLimitBuyParamsTest {
                 CreateLimitBuyOrderInput.builder()
                     .assetQuantity(0.0)
                     .limitPrice(0.0)
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .clientOrderId("client_order_id")
                     .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
     }
@@ -78,11 +77,7 @@ internal class OrderRequestCreateLimitBuyParamsTest {
             OrderRequestCreateLimitBuyParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .createLimitBuyOrderInput(
-                    CreateLimitBuyOrderInput.builder()
-                        .assetQuantity(0.0)
-                        .limitPrice(0.0)
-                        .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .build()
+                    CreateLimitBuyOrderInput.builder().assetQuantity(0.0).limitPrice(0.0).build()
                 )
                 .build()
 
@@ -90,11 +85,7 @@ internal class OrderRequestCreateLimitBuyParamsTest {
 
         assertThat(body)
             .isEqualTo(
-                CreateLimitBuyOrderInput.builder()
-                    .assetQuantity(0.0)
-                    .limitPrice(0.0)
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
+                CreateLimitBuyOrderInput.builder().assetQuantity(0.0).limitPrice(0.0).build()
             )
     }
 }

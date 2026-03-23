@@ -14,19 +14,22 @@ internal class CreateMarketSellOrderInputTest {
         val createMarketSellOrderInput =
             CreateMarketSellOrderInput.builder()
                 .assetQuantity(0.0)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .clientOrderId("client_order_id")
                 .paymentTokenAddress("payment_token_address")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(createMarketSellOrderInput.assetQuantity()).isEqualTo(0.0)
-        assertThat(createMarketSellOrderInput.stockId())
-            .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(createMarketSellOrderInput.alloyId())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(createMarketSellOrderInput.clientOrderId()).contains("client_order_id")
         assertThat(createMarketSellOrderInput.paymentTokenAddress())
             .contains("payment_token_address")
         assertThat(createMarketSellOrderInput.recipientAccountId())
+            .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        assertThat(createMarketSellOrderInput.stockId())
             .contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
@@ -36,10 +39,11 @@ internal class CreateMarketSellOrderInputTest {
         val createMarketSellOrderInput =
             CreateMarketSellOrderInput.builder()
                 .assetQuantity(0.0)
-                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .clientOrderId("client_order_id")
                 .paymentTokenAddress("payment_token_address")
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val roundtrippedCreateMarketSellOrderInput =

@@ -24,7 +24,9 @@ internal class FulfillmentTest {
                 .paymentTokenSpent(0.0)
                 .transactionDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .transactionHash("0xeaF12bD1DfFd")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentTokenFee(0.0)
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         assertThat(fulfillment.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -37,7 +39,9 @@ internal class FulfillmentTest {
         assertThat(fulfillment.transactionDt())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(fulfillment.transactionHash()).isEqualTo("0xeaF12bD1DfFd")
+        assertThat(fulfillment.alloyId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(fulfillment.paymentTokenFee()).contains(0.0)
+        assertThat(fulfillment.stockId()).contains("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
     }
 
     @Test
@@ -54,7 +58,9 @@ internal class FulfillmentTest {
                 .paymentTokenSpent(0.0)
                 .transactionDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .transactionHash("0xeaF12bD1DfFd")
+                .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .paymentTokenFee(0.0)
+                .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
         val roundtrippedFulfillment =

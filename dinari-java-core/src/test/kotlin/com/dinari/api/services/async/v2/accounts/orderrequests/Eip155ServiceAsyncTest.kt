@@ -35,6 +35,7 @@ internal class Eip155ServiceAsyncTest {
                     .orderTif(OrderTif.DAY)
                     .orderType(OrderType.MARKET)
                     .paymentToken("payment_token")
+                    .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .assetTokenQuantity(0.0)
                     .clientOrderId("client_order_id")
                     .limitPrice(0.0)
