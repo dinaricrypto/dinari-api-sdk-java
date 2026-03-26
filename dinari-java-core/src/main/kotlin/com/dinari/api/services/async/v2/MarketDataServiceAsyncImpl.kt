@@ -16,6 +16,8 @@ import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepareAsync
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursParams
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse
+import com.dinari.api.services.async.v2.marketdata.AlloyServiceAsync
+import com.dinari.api.services.async.v2.marketdata.AlloyServiceAsyncImpl
 import com.dinari.api.services.async.v2.marketdata.StockServiceAsync
 import com.dinari.api.services.async.v2.marketdata.StockServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
@@ -37,12 +39,23 @@ class MarketDataServiceAsyncImpl internal constructor(private val clientOptions:
 
     private val stocks: StockServiceAsync by lazy { StockServiceAsyncImpl(clientOptions) }
 
+    private val alloys: AlloyServiceAsync by lazy { AlloyServiceAsyncImpl(clientOptions) }
+
     override fun withRawResponse(): MarketDataServiceAsync.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): MarketDataServiceAsync =
         MarketDataServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun stocks(): StockServiceAsync = stocks
+
+    /**
+     * **Dinari provides basic market data for `Stocks` and `Alloys` that are available to transact
+     * on.**
+     *
+     * This data is provided on a best-effort basis and we recommend using a dedicated provider for
+     * more intensive market data needs.
+     */
+    override fun alloys(): AlloyServiceAsync = alloys
 
     override fun retrieveMarketHours(
         params: MarketDataRetrieveMarketHoursParams,
@@ -61,6 +74,10 @@ class MarketDataServiceAsyncImpl internal constructor(private val clientOptions:
             StockServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val alloys: AlloyServiceAsync.WithRawResponse by lazy {
+            AlloyServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): MarketDataServiceAsync.WithRawResponse =
@@ -69,6 +86,15 @@ class MarketDataServiceAsyncImpl internal constructor(private val clientOptions:
             )
 
         override fun stocks(): StockServiceAsync.WithRawResponse = stocks
+
+        /**
+         * **Dinari provides basic market data for `Stocks` and `Alloys` that are available to
+         * transact on.**
+         *
+         * This data is provided on a best-effort basis and we recommend using a dedicated provider
+         * for more intensive market data needs.
+         */
+        override fun alloys(): AlloyServiceAsync.WithRawResponse = alloys
 
         private val retrieveMarketHoursHandler: Handler<MarketDataRetrieveMarketHoursResponse> =
             jsonHandler<MarketDataRetrieveMarketHoursResponse>(clientOptions.jsonMapper)

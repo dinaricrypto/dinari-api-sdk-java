@@ -16,6 +16,8 @@ import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursParams
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse
+import com.dinari.api.services.blocking.v2.marketdata.AlloyService
+import com.dinari.api.services.blocking.v2.marketdata.AlloyServiceImpl
 import com.dinari.api.services.blocking.v2.marketdata.StockService
 import com.dinari.api.services.blocking.v2.marketdata.StockServiceImpl
 import java.util.function.Consumer
@@ -36,12 +38,23 @@ class MarketDataServiceImpl internal constructor(private val clientOptions: Clie
 
     private val stocks: StockService by lazy { StockServiceImpl(clientOptions) }
 
+    private val alloys: AlloyService by lazy { AlloyServiceImpl(clientOptions) }
+
     override fun withRawResponse(): MarketDataService.WithRawResponse = withRawResponse
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): MarketDataService =
         MarketDataServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun stocks(): StockService = stocks
+
+    /**
+     * **Dinari provides basic market data for `Stocks` and `Alloys` that are available to transact
+     * on.**
+     *
+     * This data is provided on a best-effort basis and we recommend using a dedicated provider for
+     * more intensive market data needs.
+     */
+    override fun alloys(): AlloyService = alloys
 
     override fun retrieveMarketHours(
         params: MarketDataRetrieveMarketHoursParams,
@@ -60,6 +73,10 @@ class MarketDataServiceImpl internal constructor(private val clientOptions: Clie
             StockServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val alloys: AlloyService.WithRawResponse by lazy {
+            AlloyServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
         ): MarketDataService.WithRawResponse =
@@ -68,6 +85,15 @@ class MarketDataServiceImpl internal constructor(private val clientOptions: Clie
             )
 
         override fun stocks(): StockService.WithRawResponse = stocks
+
+        /**
+         * **Dinari provides basic market data for `Stocks` and `Alloys` that are available to
+         * transact on.**
+         *
+         * This data is provided on a best-effort basis and we recommend using a dedicated provider
+         * for more intensive market data needs.
+         */
+        override fun alloys(): AlloyService.WithRawResponse = alloys
 
         private val retrieveMarketHoursHandler: Handler<MarketDataRetrieveMarketHoursResponse> =
             jsonHandler<MarketDataRetrieveMarketHoursResponse>(clientOptions.jsonMapper)
