@@ -3,7 +3,6 @@
 package com.dinari.api.models.v2.accounts.tokentransfers
 
 import com.dinari.api.core.jsonMapper
-import com.dinari.api.models.v2.accounts.Chain
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -16,7 +15,7 @@ internal class TokenTransferTest {
         val tokenTransfer =
             TokenTransfer.builder()
                 .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .chainId(Chain.EIP155_1)
+                .chainId(TokenTransfer.ChainId.EIP155_1)
                 .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .quantity(0.0)
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -28,7 +27,7 @@ internal class TokenTransferTest {
                 .build()
 
         assertThat(tokenTransfer.id()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-        assertThat(tokenTransfer.chainId()).isEqualTo(Chain.EIP155_1)
+        assertThat(tokenTransfer.chainId()).isEqualTo(TokenTransfer.ChainId.EIP155_1)
         assertThat(tokenTransfer.createdDt())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(tokenTransfer.quantity()).isEqualTo(0.0)
@@ -49,7 +48,7 @@ internal class TokenTransferTest {
         val tokenTransfer =
             TokenTransfer.builder()
                 .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .chainId(Chain.EIP155_1)
+                .chainId(TokenTransfer.ChainId.EIP155_1)
                 .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .quantity(0.0)
                 .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")

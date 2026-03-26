@@ -51,7 +51,8 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
         V2ServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     /**
-     * **Dinari provides basic market data for `Stocks` that are available to transact on.**
+     * **Dinari provides basic market data for `Stocks` and `Alloys` that are available to transact
+     * on.**
      *
      * This data is provided on a best-effort basis and we recommend using a dedicated provider for
      * more intensive market data needs.
@@ -107,7 +108,8 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
             )
 
         /**
-         * **Dinari provides basic market data for `Stocks` that are available to transact on.**
+         * **Dinari provides basic market data for `Stocks` and `Alloys` that are available to
+         * transact on.**
          *
          * This data is provided on a best-effort basis and we recommend using a dedicated provider
          * for more intensive market data needs.
