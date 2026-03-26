@@ -7,6 +7,7 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursParams
 import com.dinari.api.models.v2.marketdata.MarketDataRetrieveMarketHoursResponse
+import com.dinari.api.services.async.v2.marketdata.AlloyServiceAsync
 import com.dinari.api.services.async.v2.marketdata.StockServiceAsync
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -33,6 +34,15 @@ interface MarketDataServiceAsync {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): MarketDataServiceAsync
 
     fun stocks(): StockServiceAsync
+
+    /**
+     * **Dinari provides basic market data for `Stocks` and `Alloys` that are available to transact
+     * on.**
+     *
+     * This data is provided on a best-effort basis and we recommend using a dedicated provider for
+     * more intensive market data needs.
+     */
+    fun alloys(): AlloyServiceAsync
 
     /** Get the market hours for the current trading session and next open trading session. */
     fun retrieveMarketHours(): CompletableFuture<MarketDataRetrieveMarketHoursResponse> =
@@ -72,6 +82,15 @@ interface MarketDataServiceAsync {
         ): MarketDataServiceAsync.WithRawResponse
 
         fun stocks(): StockServiceAsync.WithRawResponse
+
+        /**
+         * **Dinari provides basic market data for `Stocks` and `Alloys` that are available to
+         * transact on.**
+         *
+         * This data is provided on a best-effort basis and we recommend using a dedicated provider
+         * for more intensive market data needs.
+         */
+        fun alloys(): AlloyServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/v2/market_data/market_hours/`, but is otherwise
