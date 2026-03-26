@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.13.0 (2026-03-26)
+
+Full Changelog: [v0.12.0...v0.13.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.12.0...v0.13.0)
+
+### Features
+
+* **api:** Add Historical and Current Price Enterprise API v2 endpoints for Alloy ([0213bcf](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/0213bcf9c5cbaf6dfcd7491951d94a9b84ad4a65))
+* **api:** api update ([543e592](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/543e5920d3f54c2af2f40076dcebeeaa17f6e386))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([23270e8](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/23270e83301bd2d75179a3b282149f442301b9ba))
+
 ## 0.12.0 (2026-03-23)
 
 Full Changelog: [v0.11.0...v0.12.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.11.0...v0.12.0)
