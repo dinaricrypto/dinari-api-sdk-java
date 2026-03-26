@@ -21,7 +21,8 @@ import com.dinari.api.services.blocking.v2.marketdata.StockServiceImpl
 import java.util.function.Consumer
 
 /**
- * **Dinari provides basic market data for `Stocks` that are available to transact on.**
+ * **Dinari provides basic market data for `Stocks` and `Alloys` that are available to transact
+ * on.**
  *
  * This data is provided on a best-effort basis and we recommend using a dedicated provider for more
  * intensive market data needs.
