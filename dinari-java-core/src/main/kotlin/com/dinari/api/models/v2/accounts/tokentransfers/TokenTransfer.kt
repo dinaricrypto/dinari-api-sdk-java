@@ -561,6 +561,8 @@ private constructor(
 
             @JvmField val EIP155_98866 = of("eip155:98866")
 
+            @JvmField val EIP155_999 = of("eip155:999")
+
             @JvmField val EIP155_11155111 = of("eip155:11155111")
 
             @JvmField val EIP155_421614 = of("eip155:421614")
@@ -570,6 +572,8 @@ private constructor(
             @JvmField val EIP155_168587773 = of("eip155:168587773")
 
             @JvmField val EIP155_98867 = of("eip155:98867")
+
+            @JvmField val EIP155_998 = of("eip155:998")
 
             @JvmField val EIP155_202110 = of("eip155:202110")
 
@@ -591,11 +595,13 @@ private constructor(
             EIP155_8453,
             EIP155_81457,
             EIP155_98866,
+            EIP155_999,
             EIP155_11155111,
             EIP155_421614,
             EIP155_84532,
             EIP155_168587773,
             EIP155_98867,
+            EIP155_998,
             EIP155_202110,
             EIP155_179205,
             EIP155_179202,
@@ -618,11 +624,13 @@ private constructor(
             EIP155_8453,
             EIP155_81457,
             EIP155_98866,
+            EIP155_999,
             EIP155_11155111,
             EIP155_421614,
             EIP155_84532,
             EIP155_168587773,
             EIP155_98867,
+            EIP155_998,
             EIP155_202110,
             EIP155_179205,
             EIP155_179202,
@@ -646,11 +654,13 @@ private constructor(
                 EIP155_8453 -> Value.EIP155_8453
                 EIP155_81457 -> Value.EIP155_81457
                 EIP155_98866 -> Value.EIP155_98866
+                EIP155_999 -> Value.EIP155_999
                 EIP155_11155111 -> Value.EIP155_11155111
                 EIP155_421614 -> Value.EIP155_421614
                 EIP155_84532 -> Value.EIP155_84532
                 EIP155_168587773 -> Value.EIP155_168587773
                 EIP155_98867 -> Value.EIP155_98867
+                EIP155_998 -> Value.EIP155_998
                 EIP155_202110 -> Value.EIP155_202110
                 EIP155_179205 -> Value.EIP155_179205
                 EIP155_179202 -> Value.EIP155_179202
@@ -675,11 +685,13 @@ private constructor(
                 EIP155_8453 -> Known.EIP155_8453
                 EIP155_81457 -> Known.EIP155_81457
                 EIP155_98866 -> Known.EIP155_98866
+                EIP155_999 -> Known.EIP155_999
                 EIP155_11155111 -> Known.EIP155_11155111
                 EIP155_421614 -> Known.EIP155_421614
                 EIP155_84532 -> Known.EIP155_84532
                 EIP155_168587773 -> Known.EIP155_168587773
                 EIP155_98867 -> Known.EIP155_98867
+                EIP155_998 -> Known.EIP155_998
                 EIP155_202110 -> Known.EIP155_202110
                 EIP155_179205 -> Known.EIP155_179205
                 EIP155_179202 -> Known.EIP155_179202
