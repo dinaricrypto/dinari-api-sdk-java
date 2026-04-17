@@ -12,8 +12,12 @@ internal class WithdrawalListParamsTest {
     fun create() {
         WithdrawalListParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .limit(20L)
+            .next("next")
+            .order(WithdrawalListParams.Order.ASC)
             .page(1L)
             .pageSize(1L)
+            .previous("previous")
             .withdrawalRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .build()
     }
@@ -33,8 +37,12 @@ internal class WithdrawalListParamsTest {
         val params =
             WithdrawalListParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .limit(20L)
+                .next("next")
+                .order(WithdrawalListParams.Order.ASC)
                 .page(1L)
                 .pageSize(1L)
+                .previous("previous")
                 .withdrawalRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .build()
 
@@ -43,8 +51,12 @@ internal class WithdrawalListParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
+                    .put("limit", "20")
+                    .put("next", "next")
+                    .put("order", "asc")
                     .put("page", "1")
                     .put("page_size", "1")
+                    .put("previous", "previous")
                     .put("withdrawal_request_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )

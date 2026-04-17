@@ -60,10 +60,18 @@ internal class EntityServiceTest {
 
         val entities =
             entityService.list(
-                EntityListParams.builder().page(1L).pageSize(1L).referenceId("x").build()
+                EntityListParams.builder()
+                    .limit(20L)
+                    .next("next")
+                    .order(EntityListParams.Order.ASC)
+                    .page(1L)
+                    .pageSize(1L)
+                    .previous("previous")
+                    .referenceId("x")
+                    .build()
             )
 
-        entities.forEach { it.validate() }
+        entities.validate()
     }
 
     @Disabled("Mock server tests are disabled")
@@ -76,9 +84,9 @@ internal class EntityServiceTest {
                 .build()
         val entityService = client.v2().entities()
 
-        val entity = entityService.retrieveById("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val response = entityService.retrieveById("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        entity.validate()
+        response.validate()
     }
 
     @Disabled("Mock server tests are disabled")
@@ -91,8 +99,8 @@ internal class EntityServiceTest {
                 .build()
         val entityService = client.v2().entities()
 
-        val entity = entityService.retrieveCurrent()
+        val response = entityService.retrieveCurrent()
 
-        entity.validate()
+        response.validate()
     }
 }

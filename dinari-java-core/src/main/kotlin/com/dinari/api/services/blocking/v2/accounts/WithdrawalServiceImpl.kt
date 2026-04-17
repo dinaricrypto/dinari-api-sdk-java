@@ -15,9 +15,10 @@ import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
-import com.dinari.api.models.v2.accounts.withdrawals.Withdrawal
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalListParams
+import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalListResponse
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveParams
+import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -48,14 +49,14 @@ class WithdrawalServiceImpl internal constructor(private val clientOptions: Clie
     override fun retrieve(
         params: WithdrawalRetrieveParams,
         requestOptions: RequestOptions,
-    ): Withdrawal =
+    ): WithdrawalRetrieveResponse =
         // get /api/v2/accounts/{account_id}/withdrawals/{withdrawal_id}
         withRawResponse().retrieve(params, requestOptions).parse()
 
     override fun list(
         params: WithdrawalListParams,
         requestOptions: RequestOptions,
-    ): List<Withdrawal> =
+    ): WithdrawalListResponse =
         // get /api/v2/accounts/{account_id}/withdrawals
         withRawResponse().list(params, requestOptions).parse()
 
@@ -72,13 +73,13 @@ class WithdrawalServiceImpl internal constructor(private val clientOptions: Clie
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val retrieveHandler: Handler<Withdrawal> =
-            jsonHandler<Withdrawal>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<WithdrawalRetrieveResponse> =
+            jsonHandler<WithdrawalRetrieveResponse>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: WithdrawalRetrieveParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<Withdrawal> {
+        ): HttpResponseFor<WithdrawalRetrieveResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("withdrawalId", params.withdrawalId().getOrNull())
@@ -109,13 +110,13 @@ class WithdrawalServiceImpl internal constructor(private val clientOptions: Clie
             }
         }
 
-        private val listHandler: Handler<List<Withdrawal>> =
-            jsonHandler<List<Withdrawal>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<WithdrawalListResponse> =
+            jsonHandler<WithdrawalListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: WithdrawalListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<Withdrawal>> {
+        ): HttpResponseFor<WithdrawalListResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -133,7 +134,7 @@ class WithdrawalServiceImpl internal constructor(private val clientOptions: Clie
                     .use { listHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }

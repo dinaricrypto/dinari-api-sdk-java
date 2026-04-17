@@ -16,10 +16,12 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
-import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequest
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestCreateParams
+import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestCreateResponse
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestListParams
+import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestListResponse
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestRetrieveParams
+import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestRetrieveResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -50,21 +52,21 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
     override fun create(
         params: WithdrawalRequestCreateParams,
         requestOptions: RequestOptions,
-    ): WithdrawalRequest =
+    ): WithdrawalRequestCreateResponse =
         // post /api/v2/accounts/{account_id}/withdrawal_requests
         withRawResponse().create(params, requestOptions).parse()
 
     override fun retrieve(
         params: WithdrawalRequestRetrieveParams,
         requestOptions: RequestOptions,
-    ): WithdrawalRequest =
+    ): WithdrawalRequestRetrieveResponse =
         // get /api/v2/accounts/{account_id}/withdrawal_requests/{withdrawal_request_id}
         withRawResponse().retrieve(params, requestOptions).parse()
 
     override fun list(
         params: WithdrawalRequestListParams,
         requestOptions: RequestOptions,
-    ): List<WithdrawalRequest> =
+    ): WithdrawalRequestListResponse =
         // get /api/v2/accounts/{account_id}/withdrawal_requests
         withRawResponse().list(params, requestOptions).parse()
 
@@ -81,13 +83,13 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val createHandler: Handler<WithdrawalRequest> =
-            jsonHandler<WithdrawalRequest>(clientOptions.jsonMapper)
+        private val createHandler: Handler<WithdrawalRequestCreateResponse> =
+            jsonHandler<WithdrawalRequestCreateResponse>(clientOptions.jsonMapper)
 
         override fun create(
             params: WithdrawalRequestCreateParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<WithdrawalRequest> {
+        ): HttpResponseFor<WithdrawalRequestCreateResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -118,13 +120,13 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
             }
         }
 
-        private val retrieveHandler: Handler<WithdrawalRequest> =
-            jsonHandler<WithdrawalRequest>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<WithdrawalRequestRetrieveResponse> =
+            jsonHandler<WithdrawalRequestRetrieveResponse>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: WithdrawalRequestRetrieveParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<WithdrawalRequest> {
+        ): HttpResponseFor<WithdrawalRequestRetrieveResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("withdrawalRequestId", params.withdrawalRequestId().getOrNull())
@@ -155,13 +157,13 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
             }
         }
 
-        private val listHandler: Handler<List<WithdrawalRequest>> =
-            jsonHandler<List<WithdrawalRequest>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<WithdrawalRequestListResponse> =
+            jsonHandler<WithdrawalRequestListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: WithdrawalRequestListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<WithdrawalRequest>> {
+        ): HttpResponseFor<WithdrawalRequestListResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -185,7 +187,7 @@ class WithdrawalRequestServiceImpl internal constructor(private val clientOption
                     .use { listHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }

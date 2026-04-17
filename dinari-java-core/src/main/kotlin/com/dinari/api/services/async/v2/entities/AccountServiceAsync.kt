@@ -5,9 +5,10 @@ package com.dinari.api.services.async.v2.entities
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
-import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.models.v2.entities.accounts.AccountCreateParams
+import com.dinari.api.models.v2.entities.accounts.AccountCreateResponse
 import com.dinari.api.models.v2.entities.accounts.AccountListParams
+import com.dinari.api.models.v2.entities.accounts.AccountListResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -34,7 +35,7 @@ interface AccountServiceAsync {
      * Create a new `Account` for a specific `Entity`. This `Entity` represents your organization
      * itself, or an individual customer of your organization.
      */
-    fun create(entityId: String): CompletableFuture<Account> =
+    fun create(entityId: String): CompletableFuture<AccountCreateResponse> =
         create(entityId, AccountCreateParams.none())
 
     /** @see create */
@@ -42,34 +43,37 @@ interface AccountServiceAsync {
         entityId: String,
         params: AccountCreateParams = AccountCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<Account> =
+    ): CompletableFuture<AccountCreateResponse> =
         create(params.toBuilder().entityId(entityId).build(), requestOptions)
 
     /** @see create */
     fun create(
         entityId: String,
         params: AccountCreateParams = AccountCreateParams.none(),
-    ): CompletableFuture<Account> = create(entityId, params, RequestOptions.none())
+    ): CompletableFuture<AccountCreateResponse> = create(entityId, params, RequestOptions.none())
 
     /** @see create */
     fun create(
         params: AccountCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<Account>
+    ): CompletableFuture<AccountCreateResponse>
 
     /** @see create */
-    fun create(params: AccountCreateParams): CompletableFuture<Account> =
+    fun create(params: AccountCreateParams): CompletableFuture<AccountCreateResponse> =
         create(params, RequestOptions.none())
 
     /** @see create */
-    fun create(entityId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
+    fun create(
+        entityId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<AccountCreateResponse> =
         create(entityId, AccountCreateParams.none(), requestOptions)
 
     /**
      * Get a list of all `Accounts` that belong to a specific `Entity`. This `Entity` represents
      * your organization itself, or an individual customer of your organization.
      */
-    fun list(entityId: String): CompletableFuture<List<Account>> =
+    fun list(entityId: String): CompletableFuture<AccountListResponse> =
         list(entityId, AccountListParams.none())
 
     /** @see list */
@@ -77,27 +81,30 @@ interface AccountServiceAsync {
         entityId: String,
         params: AccountListParams = AccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<Account>> =
+    ): CompletableFuture<AccountListResponse> =
         list(params.toBuilder().entityId(entityId).build(), requestOptions)
 
     /** @see list */
     fun list(
         entityId: String,
         params: AccountListParams = AccountListParams.none(),
-    ): CompletableFuture<List<Account>> = list(entityId, params, RequestOptions.none())
+    ): CompletableFuture<AccountListResponse> = list(entityId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
         params: AccountListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<Account>>
+    ): CompletableFuture<AccountListResponse>
 
     /** @see list */
-    fun list(params: AccountListParams): CompletableFuture<List<Account>> =
+    fun list(params: AccountListParams): CompletableFuture<AccountListResponse> =
         list(params, RequestOptions.none())
 
     /** @see list */
-    fun list(entityId: String, requestOptions: RequestOptions): CompletableFuture<List<Account>> =
+    fun list(
+        entityId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<AccountListResponse> =
         list(entityId, AccountListParams.none(), requestOptions)
 
     /**
@@ -118,7 +125,7 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/entities/{entity_id}/accounts`, but is
          * otherwise the same as [AccountServiceAsync.create].
          */
-        fun create(entityId: String): CompletableFuture<HttpResponseFor<Account>> =
+        fun create(entityId: String): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
             create(entityId, AccountCreateParams.none())
 
         /** @see create */
@@ -126,38 +133,40 @@ interface AccountServiceAsync {
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<Account>> =
+        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
             create(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see create */
         fun create(
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
-        ): CompletableFuture<HttpResponseFor<Account>> =
+        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
             create(entityId, params, RequestOptions.none())
 
         /** @see create */
         fun create(
             params: AccountCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<Account>>
+        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>>
 
         /** @see create */
-        fun create(params: AccountCreateParams): CompletableFuture<HttpResponseFor<Account>> =
+        fun create(
+            params: AccountCreateParams
+        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
             create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
             entityId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<Account>> =
+        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
             create(entityId, AccountCreateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/entities/{entity_id}/accounts`, but is
          * otherwise the same as [AccountServiceAsync.list].
          */
-        fun list(entityId: String): CompletableFuture<HttpResponseFor<List<Account>>> =
+        fun list(entityId: String): CompletableFuture<HttpResponseFor<AccountListResponse>> =
             list(entityId, AccountListParams.none())
 
         /** @see list */
@@ -165,31 +174,33 @@ interface AccountServiceAsync {
             entityId: String,
             params: AccountListParams = AccountListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<Account>>> =
+        ): CompletableFuture<HttpResponseFor<AccountListResponse>> =
             list(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see list */
         fun list(
             entityId: String,
             params: AccountListParams = AccountListParams.none(),
-        ): CompletableFuture<HttpResponseFor<List<Account>>> =
+        ): CompletableFuture<HttpResponseFor<AccountListResponse>> =
             list(entityId, params, RequestOptions.none())
 
         /** @see list */
         fun list(
             params: AccountListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<Account>>>
+        ): CompletableFuture<HttpResponseFor<AccountListResponse>>
 
         /** @see list */
-        fun list(params: AccountListParams): CompletableFuture<HttpResponseFor<List<Account>>> =
+        fun list(
+            params: AccountListParams
+        ): CompletableFuture<HttpResponseFor<AccountListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             entityId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<Account>>> =
+        ): CompletableFuture<HttpResponseFor<AccountListResponse>> =
             list(entityId, AccountListParams.none(), requestOptions)
     }
 }

@@ -10,17 +10,41 @@ internal class SplitListParamsTest {
 
     @Test
     fun create() {
-        SplitListParams.builder().page(1L).pageSize(1L).build()
+        SplitListParams.builder()
+            .limit(20L)
+            .next("next")
+            .order(SplitListParams.Order.ASC)
+            .page(1L)
+            .pageSize(1L)
+            .previous("previous")
+            .build()
     }
 
     @Test
     fun queryParams() {
-        val params = SplitListParams.builder().page(1L).pageSize(1L).build()
+        val params =
+            SplitListParams.builder()
+                .limit(20L)
+                .next("next")
+                .order(SplitListParams.Order.ASC)
+                .page(1L)
+                .pageSize(1L)
+                .previous("previous")
+                .build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("page", "1").put("page_size", "1").build())
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("limit", "20")
+                    .put("next", "next")
+                    .put("order", "asc")
+                    .put("page", "1")
+                    .put("page_size", "1")
+                    .put("previous", "previous")
+                    .build()
+            )
     }
 
     @Test

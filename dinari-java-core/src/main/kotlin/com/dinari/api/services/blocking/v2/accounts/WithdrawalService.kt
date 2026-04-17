@@ -5,9 +5,10 @@ package com.dinari.api.services.blocking.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
-import com.dinari.api.models.v2.accounts.withdrawals.Withdrawal
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalListParams
+import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalListResponse
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveParams
+import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -38,53 +39,59 @@ interface WithdrawalService {
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): WithdrawalService
 
     /** Get a specific `Withdrawal` by its ID. */
-    fun retrieve(withdrawalId: String, params: WithdrawalRetrieveParams): Withdrawal =
-        retrieve(withdrawalId, params, RequestOptions.none())
+    fun retrieve(
+        withdrawalId: String,
+        params: WithdrawalRetrieveParams,
+    ): WithdrawalRetrieveResponse = retrieve(withdrawalId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         withdrawalId: String,
         params: WithdrawalRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Withdrawal = retrieve(params.toBuilder().withdrawalId(withdrawalId).build(), requestOptions)
+    ): WithdrawalRetrieveResponse =
+        retrieve(params.toBuilder().withdrawalId(withdrawalId).build(), requestOptions)
 
     /** @see retrieve */
-    fun retrieve(params: WithdrawalRetrieveParams): Withdrawal =
+    fun retrieve(params: WithdrawalRetrieveParams): WithdrawalRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: WithdrawalRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Withdrawal
+    ): WithdrawalRetrieveResponse
 
     /** Get a list of all `Withdrawals` under the `Account`, sorted by most recent. */
-    fun list(accountId: String): List<Withdrawal> = list(accountId, WithdrawalListParams.none())
+    fun list(accountId: String): WithdrawalListResponse =
+        list(accountId, WithdrawalListParams.none())
 
     /** @see list */
     fun list(
         accountId: String,
         params: WithdrawalListParams = WithdrawalListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Withdrawal> = list(params.toBuilder().accountId(accountId).build(), requestOptions)
+    ): WithdrawalListResponse =
+        list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see list */
     fun list(
         accountId: String,
         params: WithdrawalListParams = WithdrawalListParams.none(),
-    ): List<Withdrawal> = list(accountId, params, RequestOptions.none())
+    ): WithdrawalListResponse = list(accountId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
         params: WithdrawalListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Withdrawal>
+    ): WithdrawalListResponse
 
     /** @see list */
-    fun list(params: WithdrawalListParams): List<Withdrawal> = list(params, RequestOptions.none())
+    fun list(params: WithdrawalListParams): WithdrawalListResponse =
+        list(params, RequestOptions.none())
 
     /** @see list */
-    fun list(accountId: String, requestOptions: RequestOptions): List<Withdrawal> =
+    fun list(accountId: String, requestOptions: RequestOptions): WithdrawalListResponse =
         list(accountId, WithdrawalListParams.none(), requestOptions)
 
     /** A view of [WithdrawalService] that provides access to raw HTTP responses for each method. */
@@ -108,7 +115,8 @@ interface WithdrawalService {
         fun retrieve(
             withdrawalId: String,
             params: WithdrawalRetrieveParams,
-        ): HttpResponseFor<Withdrawal> = retrieve(withdrawalId, params, RequestOptions.none())
+        ): HttpResponseFor<WithdrawalRetrieveResponse> =
+            retrieve(withdrawalId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
@@ -116,27 +124,28 @@ interface WithdrawalService {
             withdrawalId: String,
             params: WithdrawalRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Withdrawal> =
+        ): HttpResponseFor<WithdrawalRetrieveResponse> =
             retrieve(params.toBuilder().withdrawalId(withdrawalId).build(), requestOptions)
 
         /** @see retrieve */
         @MustBeClosed
-        fun retrieve(params: WithdrawalRetrieveParams): HttpResponseFor<Withdrawal> =
-            retrieve(params, RequestOptions.none())
+        fun retrieve(
+            params: WithdrawalRetrieveParams
+        ): HttpResponseFor<WithdrawalRetrieveResponse> = retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: WithdrawalRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Withdrawal>
+        ): HttpResponseFor<WithdrawalRetrieveResponse>
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/withdrawals`, but is
          * otherwise the same as [WithdrawalService.list].
          */
         @MustBeClosed
-        fun list(accountId: String): HttpResponseFor<List<Withdrawal>> =
+        fun list(accountId: String): HttpResponseFor<WithdrawalListResponse> =
             list(accountId, WithdrawalListParams.none())
 
         /** @see list */
@@ -145,7 +154,7 @@ interface WithdrawalService {
             accountId: String,
             params: WithdrawalListParams = WithdrawalListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Withdrawal>> =
+        ): HttpResponseFor<WithdrawalListResponse> =
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see list */
@@ -153,18 +162,18 @@ interface WithdrawalService {
         fun list(
             accountId: String,
             params: WithdrawalListParams = WithdrawalListParams.none(),
-        ): HttpResponseFor<List<Withdrawal>> = list(accountId, params, RequestOptions.none())
+        ): HttpResponseFor<WithdrawalListResponse> = list(accountId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(
             params: WithdrawalListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Withdrawal>>
+        ): HttpResponseFor<WithdrawalListResponse>
 
         /** @see list */
         @MustBeClosed
-        fun list(params: WithdrawalListParams): HttpResponseFor<List<Withdrawal>> =
+        fun list(params: WithdrawalListParams): HttpResponseFor<WithdrawalListResponse> =
             list(params, RequestOptions.none())
 
         /** @see list */
@@ -172,7 +181,7 @@ interface WithdrawalService {
         fun list(
             accountId: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<Withdrawal>> =
+        ): HttpResponseFor<WithdrawalListResponse> =
             list(accountId, WithdrawalListParams.none(), requestOptions)
     }
 }

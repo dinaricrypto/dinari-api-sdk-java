@@ -13,6 +13,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketS
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.dinari.api.services.async.v2.accounts.orderrequests.Eip155ServiceAsync
 import java.util.concurrent.CompletableFuture
@@ -68,7 +69,7 @@ interface OrderRequestServiceAsync {
     /**
      * Lists `OrderRequests`.<br>Optionally `OrderRequests` can be filtered by certain parameters.
      */
-    fun list(accountId: String): CompletableFuture<List<OrderRequest>> =
+    fun list(accountId: String): CompletableFuture<OrderRequestListResponse> =
         list(accountId, OrderRequestListParams.none())
 
     /** @see list */
@@ -76,30 +77,30 @@ interface OrderRequestServiceAsync {
         accountId: String,
         params: OrderRequestListParams = OrderRequestListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<OrderRequest>> =
+    ): CompletableFuture<OrderRequestListResponse> =
         list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see list */
     fun list(
         accountId: String,
         params: OrderRequestListParams = OrderRequestListParams.none(),
-    ): CompletableFuture<List<OrderRequest>> = list(accountId, params, RequestOptions.none())
+    ): CompletableFuture<OrderRequestListResponse> = list(accountId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
         params: OrderRequestListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<OrderRequest>>
+    ): CompletableFuture<OrderRequestListResponse>
 
     /** @see list */
-    fun list(params: OrderRequestListParams): CompletableFuture<List<OrderRequest>> =
+    fun list(params: OrderRequestListParams): CompletableFuture<OrderRequestListResponse> =
         list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         accountId: String,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<OrderRequest>> =
+    ): CompletableFuture<OrderRequestListResponse> =
         list(accountId, OrderRequestListParams.none(), requestOptions)
 
     /**
@@ -330,7 +331,7 @@ interface OrderRequestServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/order_requests`, but
          * is otherwise the same as [OrderRequestServiceAsync.list].
          */
-        fun list(accountId: String): CompletableFuture<HttpResponseFor<List<OrderRequest>>> =
+        fun list(accountId: String): CompletableFuture<HttpResponseFor<OrderRequestListResponse>> =
             list(accountId, OrderRequestListParams.none())
 
         /** @see list */
@@ -338,33 +339,33 @@ interface OrderRequestServiceAsync {
             accountId: String,
             params: OrderRequestListParams = OrderRequestListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<OrderRequest>>> =
+        ): CompletableFuture<HttpResponseFor<OrderRequestListResponse>> =
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see list */
         fun list(
             accountId: String,
             params: OrderRequestListParams = OrderRequestListParams.none(),
-        ): CompletableFuture<HttpResponseFor<List<OrderRequest>>> =
+        ): CompletableFuture<HttpResponseFor<OrderRequestListResponse>> =
             list(accountId, params, RequestOptions.none())
 
         /** @see list */
         fun list(
             params: OrderRequestListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<OrderRequest>>>
+        ): CompletableFuture<HttpResponseFor<OrderRequestListResponse>>
 
         /** @see list */
         fun list(
             params: OrderRequestListParams
-        ): CompletableFuture<HttpResponseFor<List<OrderRequest>>> =
+        ): CompletableFuture<HttpResponseFor<OrderRequestListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             accountId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<OrderRequest>>> =
+        ): CompletableFuture<HttpResponseFor<OrderRequestListResponse>> =
             list(accountId, OrderRequestListParams.none(), requestOptions)
 
         /**

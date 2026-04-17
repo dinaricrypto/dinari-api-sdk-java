@@ -3,7 +3,6 @@
 package com.dinari.api.models.v2.accounts.orders
 
 import com.dinari.api.core.http.QueryParams
-import com.dinari.api.models.v2.accounts.Chain
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -13,11 +12,15 @@ internal class OrderListParamsTest {
     fun create() {
         OrderListParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .chainId(Chain.EIP155_1)
+            .chainId("chain_id")
             .clientOrderId("client_order_id")
+            .limit(20L)
+            .next("next")
+            .order(OrderListParams.Order.ASC)
             .orderTransactionHash("order_transaction_hash")
             .page(1L)
             .pageSize(1L)
+            .previous("previous")
             .build()
     }
 
@@ -36,11 +39,15 @@ internal class OrderListParamsTest {
         val params =
             OrderListParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .chainId(Chain.EIP155_1)
+                .chainId("chain_id")
                 .clientOrderId("client_order_id")
+                .limit(20L)
+                .next("next")
+                .order(OrderListParams.Order.ASC)
                 .orderTransactionHash("order_transaction_hash")
                 .page(1L)
                 .pageSize(1L)
+                .previous("previous")
                 .build()
 
         val queryParams = params._queryParams()
@@ -48,11 +55,15 @@ internal class OrderListParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
-                    .put("chain_id", "eip155:1")
+                    .put("chain_id", "chain_id")
                     .put("client_order_id", "client_order_id")
+                    .put("limit", "20")
+                    .put("next", "next")
+                    .put("order", "asc")
                     .put("order_transaction_hash", "order_transaction_hash")
                     .put("page", "1")
                     .put("page_size", "1")
+                    .put("previous", "previous")
                     .build()
             )
     }

@@ -39,12 +39,16 @@ internal class ServiceParamsTest {
     @Test
     fun list() {
         val stockService = client.v2().marketData().stocks()
-        stubFor(get(anyUrl()).willReturn(ok("[]")))
+        stubFor(get(anyUrl()).willReturn(ok("{}")))
 
         stockService.list(
             StockListParams.builder()
+                .limit(20L)
+                .next("next")
+                .order(StockListParams.Order.ASC)
                 .page(1L)
                 .pageSize(1L)
+                .previous("previous")
                 .addSymbol("string")
                 .putAdditionalHeader("Secret-Header", "42")
                 .putAdditionalQueryParam("secret_query_param", "42")

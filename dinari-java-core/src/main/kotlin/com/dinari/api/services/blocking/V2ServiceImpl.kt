@@ -78,7 +78,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
     override fun listOrders(
         params: V2ListOrdersParams,
         requestOptions: RequestOptions,
-    ): List<V2ListOrdersResponse> =
+    ): V2ListOrdersResponse =
         // get /api/v2/orders/
         withRawResponse().listOrders(params, requestOptions).parse()
 
@@ -133,13 +133,13 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
          */
         override fun accounts(): AccountService.WithRawResponse = accounts
 
-        private val listOrdersHandler: Handler<List<V2ListOrdersResponse>> =
-            jsonHandler<List<V2ListOrdersResponse>>(clientOptions.jsonMapper)
+        private val listOrdersHandler: Handler<V2ListOrdersResponse> =
+            jsonHandler<V2ListOrdersResponse>(clientOptions.jsonMapper)
 
         override fun listOrders(
             params: V2ListOrdersParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<V2ListOrdersResponse>> {
+        ): HttpResponseFor<V2ListOrdersResponse> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -154,7 +154,7 @@ class V2ServiceImpl internal constructor(private val clientOptions: ClientOption
                     .use { listOrdersHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }

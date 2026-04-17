@@ -65,21 +65,20 @@ interface V2Service {
      * Get a list of all `Orders` under the `Entity`.<br>Optionally `Orders` can be transaction hash
      * or fulfillment transaction hash.
      */
-    fun listOrders(): List<V2ListOrdersResponse> = listOrders(V2ListOrdersParams.none())
+    fun listOrders(): V2ListOrdersResponse = listOrders(V2ListOrdersParams.none())
 
     /** @see listOrders */
     fun listOrders(
         params: V2ListOrdersParams = V2ListOrdersParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<V2ListOrdersResponse>
+    ): V2ListOrdersResponse
 
     /** @see listOrders */
-    fun listOrders(
-        params: V2ListOrdersParams = V2ListOrdersParams.none()
-    ): List<V2ListOrdersResponse> = listOrders(params, RequestOptions.none())
+    fun listOrders(params: V2ListOrdersParams = V2ListOrdersParams.none()): V2ListOrdersResponse =
+        listOrders(params, RequestOptions.none())
 
     /** @see listOrders */
-    fun listOrders(requestOptions: RequestOptions): List<V2ListOrdersResponse> =
+    fun listOrders(requestOptions: RequestOptions): V2ListOrdersResponse =
         listOrders(V2ListOrdersParams.none(), requestOptions)
 
     /** A view of [V2Service] that provides access to raw HTTP responses for each method. */
@@ -123,7 +122,7 @@ interface V2Service {
          * [V2Service.listOrders].
          */
         @MustBeClosed
-        fun listOrders(): HttpResponseFor<List<V2ListOrdersResponse>> =
+        fun listOrders(): HttpResponseFor<V2ListOrdersResponse> =
             listOrders(V2ListOrdersParams.none())
 
         /** @see listOrders */
@@ -131,19 +130,17 @@ interface V2Service {
         fun listOrders(
             params: V2ListOrdersParams = V2ListOrdersParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<V2ListOrdersResponse>>
+        ): HttpResponseFor<V2ListOrdersResponse>
 
         /** @see listOrders */
         @MustBeClosed
         fun listOrders(
             params: V2ListOrdersParams = V2ListOrdersParams.none()
-        ): HttpResponseFor<List<V2ListOrdersResponse>> = listOrders(params, RequestOptions.none())
+        ): HttpResponseFor<V2ListOrdersResponse> = listOrders(params, RequestOptions.none())
 
         /** @see listOrders */
         @MustBeClosed
-        fun listOrders(
-            requestOptions: RequestOptions
-        ): HttpResponseFor<List<V2ListOrdersResponse>> =
+        fun listOrders(requestOptions: RequestOptions): HttpResponseFor<V2ListOrdersResponse> =
             listOrders(V2ListOrdersParams.none(), requestOptions)
     }
 }

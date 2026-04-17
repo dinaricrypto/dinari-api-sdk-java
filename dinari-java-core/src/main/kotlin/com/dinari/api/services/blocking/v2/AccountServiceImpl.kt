@@ -18,6 +18,7 @@ import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.accounts.AccountDeactivateParams
+import com.dinari.api.models.v2.accounts.AccountDeactivateResponse
 import com.dinari.api.models.v2.accounts.AccountGetCashBalancesParams
 import com.dinari.api.models.v2.accounts.AccountGetCashBalancesResponse
 import com.dinari.api.models.v2.accounts.AccountGetDividendPaymentsParams
@@ -28,7 +29,7 @@ import com.dinari.api.models.v2.accounts.AccountGetPortfolioParams
 import com.dinari.api.models.v2.accounts.AccountGetPortfolioResponse
 import com.dinari.api.models.v2.accounts.AccountMintSandboxTokensParams
 import com.dinari.api.models.v2.accounts.AccountRetrieveParams
-import com.dinari.api.models.v2.entities.accounts.Account
+import com.dinari.api.models.v2.accounts.AccountRetrieveResponse
 import com.dinari.api.services.blocking.v2.accounts.ActivityService
 import com.dinari.api.services.blocking.v2.accounts.ActivityServiceImpl
 import com.dinari.api.services.blocking.v2.accounts.OrderFulfillmentService
@@ -169,14 +170,17 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
      */
     override fun activities(): ActivityService = activities
 
-    override fun retrieve(params: AccountRetrieveParams, requestOptions: RequestOptions): Account =
+    override fun retrieve(
+        params: AccountRetrieveParams,
+        requestOptions: RequestOptions,
+    ): AccountRetrieveResponse =
         // get /api/v2/accounts/{account_id}
         withRawResponse().retrieve(params, requestOptions).parse()
 
     override fun deactivate(
         params: AccountDeactivateParams,
         requestOptions: RequestOptions,
-    ): Account =
+    ): AccountDeactivateResponse =
         // post /api/v2/accounts/{account_id}/deactivate
         withRawResponse().deactivate(params, requestOptions).parse()
 
@@ -190,14 +194,14 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
     override fun getDividendPayments(
         params: AccountGetDividendPaymentsParams,
         requestOptions: RequestOptions,
-    ): List<AccountGetDividendPaymentsResponse> =
+    ): AccountGetDividendPaymentsResponse =
         // get /api/v2/accounts/{account_id}/dividend_payments
         withRawResponse().getDividendPayments(params, requestOptions).parse()
 
     override fun getInterestPayments(
         params: AccountGetInterestPaymentsParams,
         requestOptions: RequestOptions,
-    ): List<AccountGetInterestPaymentsResponse> =
+    ): AccountGetInterestPaymentsResponse =
         // get /api/v2/accounts/{account_id}/interest_payments
         withRawResponse().getInterestPayments(params, requestOptions).parse()
 
@@ -347,13 +351,13 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
          */
         override fun activities(): ActivityService.WithRawResponse = activities
 
-        private val retrieveHandler: Handler<Account> =
-            jsonHandler<Account>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<AccountRetrieveResponse> =
+            jsonHandler<AccountRetrieveResponse>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AccountRetrieveParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<Account> {
+        ): HttpResponseFor<AccountRetrieveResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -377,13 +381,13 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val deactivateHandler: Handler<Account> =
-            jsonHandler<Account>(clientOptions.jsonMapper)
+        private val deactivateHandler: Handler<AccountDeactivateResponse> =
+            jsonHandler<AccountDeactivateResponse>(clientOptions.jsonMapper)
 
         override fun deactivate(
             params: AccountDeactivateParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<Account> {
+        ): HttpResponseFor<AccountDeactivateResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -438,13 +442,13 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val getDividendPaymentsHandler: Handler<List<AccountGetDividendPaymentsResponse>> =
-            jsonHandler<List<AccountGetDividendPaymentsResponse>>(clientOptions.jsonMapper)
+        private val getDividendPaymentsHandler: Handler<AccountGetDividendPaymentsResponse> =
+            jsonHandler<AccountGetDividendPaymentsResponse>(clientOptions.jsonMapper)
 
         override fun getDividendPayments(
             params: AccountGetDividendPaymentsParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<AccountGetDividendPaymentsResponse>> {
+        ): HttpResponseFor<AccountGetDividendPaymentsResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -468,19 +472,19 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
                     .use { getDividendPaymentsHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }
         }
 
-        private val getInterestPaymentsHandler: Handler<List<AccountGetInterestPaymentsResponse>> =
-            jsonHandler<List<AccountGetInterestPaymentsResponse>>(clientOptions.jsonMapper)
+        private val getInterestPaymentsHandler: Handler<AccountGetInterestPaymentsResponse> =
+            jsonHandler<AccountGetInterestPaymentsResponse>(clientOptions.jsonMapper)
 
         override fun getInterestPayments(
             params: AccountGetInterestPaymentsParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<AccountGetInterestPaymentsResponse>> {
+        ): HttpResponseFor<AccountGetInterestPaymentsResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -504,7 +508,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
                     .use { getInterestPaymentsHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }

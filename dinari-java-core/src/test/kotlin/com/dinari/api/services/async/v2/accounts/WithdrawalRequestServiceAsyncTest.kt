@@ -70,12 +70,16 @@ internal class WithdrawalRequestServiceAsyncTest {
             withdrawalRequestServiceAsync.list(
                 WithdrawalRequestListParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .limit(20L)
+                    .next("next")
+                    .order(WithdrawalRequestListParams.Order.ASC)
                     .page(1L)
                     .pageSize(1L)
+                    .previous("previous")
                     .build()
             )
 
         val withdrawalRequests = withdrawalRequestsFuture.get()
-        withdrawalRequests.forEach { it.validate() }
+        withdrawalRequests.validate()
     }
 }

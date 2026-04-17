@@ -57,7 +57,7 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
     override fun list(
         params: StockListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<StockListResponse>> =
+    ): CompletableFuture<StockListResponse> =
         // get /api/v2/market_data/stocks/
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
@@ -120,13 +120,13 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
          */
         override fun splits(): SplitServiceAsync.WithRawResponse = splits
 
-        private val listHandler: Handler<List<StockListResponse>> =
-            jsonHandler<List<StockListResponse>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<StockListResponse> =
+            jsonHandler<StockListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: StockListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<StockListResponse>>> {
+        ): CompletableFuture<HttpResponseFor<StockListResponse>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -143,7 +143,7 @@ class StockServiceAsyncImpl internal constructor(private val clientOptions: Clie
                             .use { listHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
-                                    it.forEach { it.validate() }
+                                    it.validate()
                                 }
                             }
                     }
