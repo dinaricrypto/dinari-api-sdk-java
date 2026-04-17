@@ -24,6 +24,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketS
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.Eip155Service
 import com.dinari.api.services.blocking.v2.accounts.orderrequests.Eip155ServiceImpl
@@ -63,7 +64,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
     override fun list(
         params: OrderRequestListParams,
         requestOptions: RequestOptions,
-    ): List<OrderRequest> =
+    ): OrderRequestListResponse =
         // get /api/v2/accounts/{account_id}/order_requests
         withRawResponse().list(params, requestOptions).parse()
 
@@ -165,13 +166,13 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
             }
         }
 
-        private val listHandler: Handler<List<OrderRequest>> =
-            jsonHandler<List<OrderRequest>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<OrderRequestListResponse> =
+            jsonHandler<OrderRequestListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: OrderRequestListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<OrderRequest>> {
+        ): HttpResponseFor<OrderRequestListResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -195,7 +196,7 @@ class OrderRequestServiceImpl internal constructor(private val clientOptions: Cl
                     .use { listHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }

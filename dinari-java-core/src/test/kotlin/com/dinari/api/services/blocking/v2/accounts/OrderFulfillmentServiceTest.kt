@@ -41,16 +41,20 @@ internal class OrderFulfillmentServiceTest {
                 .build()
         val orderFulfillmentService = client.v2().accounts().orderFulfillments()
 
-        val fulfillments =
+        val response =
             orderFulfillmentService.query(
                 OrderFulfillmentQueryParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .limit(20L)
+                    .next("next")
+                    .order(OrderFulfillmentQueryParams.Order.ASC)
                     .addOrderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .page(1L)
                     .pageSize(1L)
+                    .previous("previous")
                     .build()
             )
 
-        fulfillments.forEach { it.validate() }
+        response.validate()
     }
 }

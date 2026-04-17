@@ -64,7 +64,7 @@ import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 // Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 
-List<StockListResponse> stocks = client.v2().marketData().stocks().list();
+StockListResponse stocks = client.v2().marketData().stocks().list();
 ```
 
 ## Client configuration
@@ -139,7 +139,7 @@ The `withOptions()` method does not affect the original client or service.
 
 To send a request to the Dinari API, build an instance of some `Params` class and pass it to the corresponding client method. When the response is received, it will be deserialized into an instance of a Java class.
 
-For example, `client.v2().marketData().stocks().list(...)` should be called with an instance of `StockListParams`, and it will return an instance of `List<StockListResponse>`.
+For example, `client.v2().marketData().stocks().list(...)` should be called with an instance of `StockListParams`, and it will return an instance of `StockListResponse`.
 
 ## Immutability
 
@@ -164,7 +164,7 @@ import java.util.concurrent.CompletableFuture;
 // Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClient client = DinariOkHttpClient.fromEnv();
 
-CompletableFuture<List<StockListResponse>> stocks = client.async().v2().marketData().stocks().list();
+CompletableFuture<StockListResponse> stocks = client.async().v2().marketData().stocks().list();
 ```
 
 Or create an asynchronous client from the beginning:
@@ -180,7 +180,7 @@ import java.util.concurrent.CompletableFuture;
 // Or configures using the `DINARI_API_KEY_ID`, `DINARI_API_SECRET_KEY` and `DINARI_BASE_URL` environment variables
 DinariClientAsync client = DinariOkHttpClientAsync.fromEnv();
 
-CompletableFuture<List<StockListResponse>> stocks = client.v2().marketData().stocks().list();
+CompletableFuture<StockListResponse> stocks = client.v2().marketData().stocks().list();
 ```
 
 The asynchronous client supports the same options as the synchronous one, except most methods return `CompletableFuture`s.
@@ -273,7 +273,7 @@ import com.dinari.api.core.http.HttpResponseFor;
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams;
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-HttpResponseFor<List<StockListResponse>> stocks = client.v2().marketData().stocks().withRawResponse().list();
+HttpResponseFor<StockListResponse> stocks = client.v2().marketData().stocks().withRawResponse().list();
 
 int statusCode = stocks.statusCode();
 Headers headers = stocks.headers();
@@ -284,7 +284,7 @@ You can still deserialize the response into an instance of a Java class if neede
 ```java
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-List<StockListResponse> parsedStocks = stocks.parse();
+StockListResponse parsedStocks = stocks.parse();
 ```
 
 ## Error handling
@@ -384,7 +384,7 @@ To set a custom timeout, configure the method call using the `timeout` method:
 ```java
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-List<StockListResponse> stocks = client.v2().marketData().stocks().list(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
+StockListResponse stocks = client.v2().marketData().stocks().list(RequestOptions.builder().timeout(Duration.ofSeconds(30)).build());
 ```
 
 Or configure the default for all method calls at the client level:
@@ -665,7 +665,7 @@ Or configure the method call to validate the response using the `responseValidat
 ```java
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse;
 
-List<StockListResponse> stocks = client.v2().marketData().stocks().list(RequestOptions.builder().responseValidation(true).build());
+StockListResponse stocks = client.v2().marketData().stocks().list(RequestOptions.builder().responseValidation(true).build());
 ```
 
 Or configure the default for all method calls at the client level:

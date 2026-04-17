@@ -15,9 +15,10 @@ import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepareAsync
-import com.dinari.api.models.v2.accounts.withdrawals.Withdrawal
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalListParams
+import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalListResponse
 import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveParams
+import com.dinari.api.models.v2.accounts.withdrawals.WithdrawalRetrieveResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -49,14 +50,14 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
     override fun retrieve(
         params: WithdrawalRetrieveParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Withdrawal> =
+    ): CompletableFuture<WithdrawalRetrieveResponse> =
         // get /api/v2/accounts/{account_id}/withdrawals/{withdrawal_id}
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
     override fun list(
         params: WithdrawalListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<Withdrawal>> =
+    ): CompletableFuture<WithdrawalListResponse> =
         // get /api/v2/accounts/{account_id}/withdrawals
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
@@ -73,13 +74,13 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val retrieveHandler: Handler<Withdrawal> =
-            jsonHandler<Withdrawal>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<WithdrawalRetrieveResponse> =
+            jsonHandler<WithdrawalRetrieveResponse>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: WithdrawalRetrieveParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<Withdrawal>> {
+        ): CompletableFuture<HttpResponseFor<WithdrawalRetrieveResponse>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("withdrawalId", params.withdrawalId().getOrNull())
@@ -113,13 +114,13 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
                 }
         }
 
-        private val listHandler: Handler<List<Withdrawal>> =
-            jsonHandler<List<Withdrawal>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<WithdrawalListResponse> =
+            jsonHandler<WithdrawalListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: WithdrawalListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<Withdrawal>>> {
+        ): CompletableFuture<HttpResponseFor<WithdrawalListResponse>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -139,7 +140,7 @@ class WithdrawalServiceAsyncImpl internal constructor(private val clientOptions:
                             .use { listHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
-                                    it.forEach { it.validate() }
+                                    it.validate()
                                 }
                             }
                     }

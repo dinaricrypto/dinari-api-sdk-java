@@ -3,7 +3,6 @@
 package com.dinari.api.models.v2
 
 import com.dinari.api.core.http.QueryParams
-import com.dinari.api.models.v2.accounts.Chain
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -12,12 +11,16 @@ internal class V2ListOrdersParamsTest {
     @Test
     fun create() {
         V2ListOrdersParams.builder()
-            .chainId(Chain.EIP155_1)
+            .chainId("chain_id")
+            .limit(20L)
+            .next("next")
+            .order(V2ListOrdersParams.Order.ASC)
             .orderFulfillmentTransactionHash("order_fulfillment_transaction_hash")
             .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .orderTransactionHash("order_transaction_hash")
             .page(1L)
             .pageSize(1L)
+            .previous("previous")
             .build()
     }
 
@@ -25,12 +28,16 @@ internal class V2ListOrdersParamsTest {
     fun queryParams() {
         val params =
             V2ListOrdersParams.builder()
-                .chainId(Chain.EIP155_1)
+                .chainId("chain_id")
+                .limit(20L)
+                .next("next")
+                .order(V2ListOrdersParams.Order.ASC)
                 .orderFulfillmentTransactionHash("order_fulfillment_transaction_hash")
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .orderTransactionHash("order_transaction_hash")
                 .page(1L)
                 .pageSize(1L)
+                .previous("previous")
                 .build()
 
         val queryParams = params._queryParams()
@@ -38,12 +45,16 @@ internal class V2ListOrdersParamsTest {
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
-                    .put("chain_id", "eip155:1")
+                    .put("chain_id", "chain_id")
+                    .put("limit", "20")
+                    .put("next", "next")
+                    .put("order", "asc")
                     .put("order_fulfillment_transaction_hash", "order_fulfillment_transaction_hash")
                     .put("order_request_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("order_transaction_hash", "order_transaction_hash")
                     .put("page", "1")
                     .put("page_size", "1")
+                    .put("previous", "previous")
                     .build()
             )
     }

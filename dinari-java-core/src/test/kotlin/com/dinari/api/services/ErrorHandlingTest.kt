@@ -72,7 +72,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<BadRequestException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -94,7 +102,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<BadRequestException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -116,7 +132,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<UnauthorizedException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -138,7 +162,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<UnauthorizedException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -160,7 +192,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<PermissionDeniedException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -182,7 +222,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<PermissionDeniedException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -204,7 +252,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<NotFoundException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -226,7 +282,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<NotFoundException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -248,7 +312,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<UnprocessableEntityException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -270,7 +342,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<UnprocessableEntityException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -292,7 +372,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<RateLimitException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -314,7 +402,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<RateLimitException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -336,7 +432,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<InternalServerException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -358,7 +462,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<InternalServerException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -380,7 +492,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<UnexpectedStatusCodeException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -402,7 +522,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<UnexpectedStatusCodeException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 
@@ -422,7 +550,15 @@ internal class ErrorHandlingTest {
         val e =
             assertThrows<DinariException> {
                 stockService.list(
-                    StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                    StockListParams.builder()
+                        .limit(20L)
+                        .next("next")
+                        .order(StockListParams.Order.ASC)
+                        .page(1L)
+                        .pageSize(1L)
+                        .previous("previous")
+                        .addSymbol("string")
+                        .build()
                 )
             }
 

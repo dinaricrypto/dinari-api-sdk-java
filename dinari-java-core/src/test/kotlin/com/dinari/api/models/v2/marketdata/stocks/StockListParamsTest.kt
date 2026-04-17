@@ -10,20 +10,41 @@ internal class StockListParamsTest {
 
     @Test
     fun create() {
-        StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+        StockListParams.builder()
+            .limit(20L)
+            .next("next")
+            .order(StockListParams.Order.ASC)
+            .page(1L)
+            .pageSize(1L)
+            .previous("previous")
+            .addSymbol("string")
+            .build()
     }
 
     @Test
     fun queryParams() {
-        val params = StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+        val params =
+            StockListParams.builder()
+                .limit(20L)
+                .next("next")
+                .order(StockListParams.Order.ASC)
+                .page(1L)
+                .pageSize(1L)
+                .previous("previous")
+                .addSymbol("string")
+                .build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
+                    .put("limit", "20")
+                    .put("next", "next")
+                    .put("order", "asc")
                     .put("page", "1")
                     .put("page_size", "1")
+                    .put("previous", "previous")
                     .put("symbols", "string")
                     .build()
             )

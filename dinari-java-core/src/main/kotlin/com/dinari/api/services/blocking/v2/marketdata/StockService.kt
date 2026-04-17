@@ -43,20 +43,20 @@ interface StockService {
     fun splits(): SplitService
 
     /** Get a list of `Stocks`. */
-    fun list(): List<StockListResponse> = list(StockListParams.none())
+    fun list(): StockListResponse = list(StockListParams.none())
 
     /** @see list */
     fun list(
         params: StockListParams = StockListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<StockListResponse>
+    ): StockListResponse
 
     /** @see list */
-    fun list(params: StockListParams = StockListParams.none()): List<StockListResponse> =
+    fun list(params: StockListParams = StockListParams.none()): StockListResponse =
         list(params, RequestOptions.none())
 
     /** @see list */
-    fun list(requestOptions: RequestOptions): List<StockListResponse> =
+    fun list(requestOptions: RequestOptions): StockListResponse =
         list(StockListParams.none(), requestOptions)
 
     /** Get current price for a specified `Stock`. */
@@ -264,25 +264,24 @@ interface StockService {
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/`, but is otherwise the
          * same as [StockService.list].
          */
-        @MustBeClosed
-        fun list(): HttpResponseFor<List<StockListResponse>> = list(StockListParams.none())
+        @MustBeClosed fun list(): HttpResponseFor<StockListResponse> = list(StockListParams.none())
 
         /** @see list */
         @MustBeClosed
         fun list(
             params: StockListParams = StockListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<StockListResponse>>
+        ): HttpResponseFor<StockListResponse>
 
         /** @see list */
         @MustBeClosed
         fun list(
             params: StockListParams = StockListParams.none()
-        ): HttpResponseFor<List<StockListResponse>> = list(params, RequestOptions.none())
+        ): HttpResponseFor<StockListResponse> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
-        fun list(requestOptions: RequestOptions): HttpResponseFor<List<StockListResponse>> =
+        fun list(requestOptions: RequestOptions): HttpResponseFor<StockListResponse> =
             list(StockListParams.none(), requestOptions)
 
         /**

@@ -82,7 +82,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
     override fun listOrders(
         params: V2ListOrdersParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<V2ListOrdersResponse>> =
+    ): CompletableFuture<V2ListOrdersResponse> =
         // get /api/v2/orders/
         withRawResponse().listOrders(params, requestOptions).thenApply { it.parse() }
 
@@ -137,13 +137,13 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
          */
         override fun accounts(): AccountServiceAsync.WithRawResponse = accounts
 
-        private val listOrdersHandler: Handler<List<V2ListOrdersResponse>> =
-            jsonHandler<List<V2ListOrdersResponse>>(clientOptions.jsonMapper)
+        private val listOrdersHandler: Handler<V2ListOrdersResponse> =
+            jsonHandler<V2ListOrdersResponse>(clientOptions.jsonMapper)
 
         override fun listOrders(
             params: V2ListOrdersParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<V2ListOrdersResponse>>> {
+        ): CompletableFuture<HttpResponseFor<V2ListOrdersResponse>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -160,7 +160,7 @@ class V2ServiceAsyncImpl internal constructor(private val clientOptions: ClientO
                             .use { listOrdersHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
-                                    it.forEach { it.validate() }
+                                    it.validate()
                                 }
                             }
                     }

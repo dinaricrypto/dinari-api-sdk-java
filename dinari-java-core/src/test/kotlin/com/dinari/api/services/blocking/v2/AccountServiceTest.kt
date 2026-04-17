@@ -39,9 +39,9 @@ internal class AccountServiceTest {
                 .build()
         val accountService = client.v2().accounts()
 
-        val account = accountService.deactivate("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val response = accountService.deactivate("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        account.validate()
+        response.validate()
     }
 
     @Disabled("Mock server tests are disabled")
@@ -75,13 +75,17 @@ internal class AccountServiceTest {
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .endDate(LocalDate.parse("2019-12-27"))
                     .startDate(LocalDate.parse("2019-12-27"))
+                    .limit(20L)
+                    .next("next")
+                    .order(AccountGetDividendPaymentsParams.Order.ASC)
                     .page(1L)
                     .pageSize(1L)
+                    .previous("previous")
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
 
-        response.forEach { it.validate() }
+        response.validate()
     }
 
     @Disabled("Mock server tests are disabled")
@@ -100,12 +104,16 @@ internal class AccountServiceTest {
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .endDate(LocalDate.parse("2019-12-27"))
                     .startDate(LocalDate.parse("2019-12-27"))
+                    .limit(20L)
+                    .next("next")
+                    .order(AccountGetInterestPaymentsParams.Order.ASC)
                     .page(1L)
                     .pageSize(1L)
+                    .previous("previous")
                     .build()
             )
 
-        response.forEach { it.validate() }
+        response.validate()
     }
 
     @Disabled("Mock server tests are disabled")

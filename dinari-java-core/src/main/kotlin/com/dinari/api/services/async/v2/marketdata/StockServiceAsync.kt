@@ -43,21 +43,21 @@ interface StockServiceAsync {
     fun splits(): SplitServiceAsync
 
     /** Get a list of `Stocks`. */
-    fun list(): CompletableFuture<List<StockListResponse>> = list(StockListParams.none())
+    fun list(): CompletableFuture<StockListResponse> = list(StockListParams.none())
 
     /** @see list */
     fun list(
         params: StockListParams = StockListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<StockListResponse>>
+    ): CompletableFuture<StockListResponse>
 
     /** @see list */
     fun list(
         params: StockListParams = StockListParams.none()
-    ): CompletableFuture<List<StockListResponse>> = list(params, RequestOptions.none())
+    ): CompletableFuture<StockListResponse> = list(params, RequestOptions.none())
 
     /** @see list */
-    fun list(requestOptions: RequestOptions): CompletableFuture<List<StockListResponse>> =
+    fun list(requestOptions: RequestOptions): CompletableFuture<StockListResponse> =
         list(StockListParams.none(), requestOptions)
 
     /** Get current price for a specified `Stock`. */
@@ -279,25 +279,25 @@ interface StockServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/`, but is otherwise the
          * same as [StockServiceAsync.list].
          */
-        fun list(): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
+        fun list(): CompletableFuture<HttpResponseFor<StockListResponse>> =
             list(StockListParams.none())
 
         /** @see list */
         fun list(
             params: StockListParams = StockListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<StockListResponse>>>
+        ): CompletableFuture<HttpResponseFor<StockListResponse>>
 
         /** @see list */
         fun list(
             params: StockListParams = StockListParams.none()
-        ): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
+        ): CompletableFuture<HttpResponseFor<StockListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<List<StockListResponse>>> =
+        ): CompletableFuture<HttpResponseFor<StockListResponse>> =
             list(StockListParams.none(), requestOptions)
 
         /**

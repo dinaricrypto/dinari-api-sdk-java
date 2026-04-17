@@ -6,8 +6,9 @@ import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListForStockParams
+import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListForStockResponse
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListParams
-import com.dinari.api.models.v2.marketdata.stocks.splits.StockSplit
+import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -40,21 +41,21 @@ interface SplitServiceAsync {
      * will then be converted into 10 shares, and the split becomes `COMPLETE` as trading resumes on
      * the `ex_date` with new split-adjusted prices.
      */
-    fun list(): CompletableFuture<List<StockSplit>> = list(SplitListParams.none())
+    fun list(): CompletableFuture<SplitListResponse> = list(SplitListParams.none())
 
     /** @see list */
     fun list(
         params: SplitListParams = SplitListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<StockSplit>>
+    ): CompletableFuture<SplitListResponse>
 
     /** @see list */
     fun list(
         params: SplitListParams = SplitListParams.none()
-    ): CompletableFuture<List<StockSplit>> = list(params, RequestOptions.none())
+    ): CompletableFuture<SplitListResponse> = list(params, RequestOptions.none())
 
     /** @see list */
-    fun list(requestOptions: RequestOptions): CompletableFuture<List<StockSplit>> =
+    fun list(requestOptions: RequestOptions): CompletableFuture<SplitListResponse> =
         list(SplitListParams.none(), requestOptions)
 
     /**
@@ -67,7 +68,7 @@ interface SplitServiceAsync {
      * will then be converted into 10 shares, and the split becomes `COMPLETE` as trading resumes on
      * the `ex_date` with new split-adjusted prices.
      */
-    fun listForStock(stockId: String): CompletableFuture<List<StockSplit>> =
+    fun listForStock(stockId: String): CompletableFuture<SplitListForStockResponse> =
         listForStock(stockId, SplitListForStockParams.none())
 
     /** @see listForStock */
@@ -75,30 +76,32 @@ interface SplitServiceAsync {
         stockId: String,
         params: SplitListForStockParams = SplitListForStockParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<StockSplit>> =
+    ): CompletableFuture<SplitListForStockResponse> =
         listForStock(params.toBuilder().stockId(stockId).build(), requestOptions)
 
     /** @see listForStock */
     fun listForStock(
         stockId: String,
         params: SplitListForStockParams = SplitListForStockParams.none(),
-    ): CompletableFuture<List<StockSplit>> = listForStock(stockId, params, RequestOptions.none())
+    ): CompletableFuture<SplitListForStockResponse> =
+        listForStock(stockId, params, RequestOptions.none())
 
     /** @see listForStock */
     fun listForStock(
         params: SplitListForStockParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<StockSplit>>
+    ): CompletableFuture<SplitListForStockResponse>
 
     /** @see listForStock */
-    fun listForStock(params: SplitListForStockParams): CompletableFuture<List<StockSplit>> =
-        listForStock(params, RequestOptions.none())
+    fun listForStock(
+        params: SplitListForStockParams
+    ): CompletableFuture<SplitListForStockResponse> = listForStock(params, RequestOptions.none())
 
     /** @see listForStock */
     fun listForStock(
         stockId: String,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<StockSplit>> =
+    ): CompletableFuture<SplitListForStockResponse> =
         listForStock(stockId, SplitListForStockParams.none(), requestOptions)
 
     /** A view of [SplitServiceAsync] that provides access to raw HTTP responses for each method. */
@@ -117,32 +120,34 @@ interface SplitServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/splits`, but is otherwise
          * the same as [SplitServiceAsync.list].
          */
-        fun list(): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+        fun list(): CompletableFuture<HttpResponseFor<SplitListResponse>> =
             list(SplitListParams.none())
 
         /** @see list */
         fun list(
             params: SplitListParams = SplitListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<StockSplit>>>
+        ): CompletableFuture<HttpResponseFor<SplitListResponse>>
 
         /** @see list */
         fun list(
             params: SplitListParams = SplitListParams.none()
-        ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+        ): CompletableFuture<HttpResponseFor<SplitListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+        ): CompletableFuture<HttpResponseFor<SplitListResponse>> =
             list(SplitListParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/market_data/stocks/{stock_id}/splits`, but
          * is otherwise the same as [SplitServiceAsync.listForStock].
          */
-        fun listForStock(stockId: String): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+        fun listForStock(
+            stockId: String
+        ): CompletableFuture<HttpResponseFor<SplitListForStockResponse>> =
             listForStock(stockId, SplitListForStockParams.none())
 
         /** @see listForStock */
@@ -150,33 +155,33 @@ interface SplitServiceAsync {
             stockId: String,
             params: SplitListForStockParams = SplitListForStockParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+        ): CompletableFuture<HttpResponseFor<SplitListForStockResponse>> =
             listForStock(params.toBuilder().stockId(stockId).build(), requestOptions)
 
         /** @see listForStock */
         fun listForStock(
             stockId: String,
             params: SplitListForStockParams = SplitListForStockParams.none(),
-        ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+        ): CompletableFuture<HttpResponseFor<SplitListForStockResponse>> =
             listForStock(stockId, params, RequestOptions.none())
 
         /** @see listForStock */
         fun listForStock(
             params: SplitListForStockParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<StockSplit>>>
+        ): CompletableFuture<HttpResponseFor<SplitListForStockResponse>>
 
         /** @see listForStock */
         fun listForStock(
             params: SplitListForStockParams
-        ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+        ): CompletableFuture<HttpResponseFor<SplitListForStockResponse>> =
             listForStock(params, RequestOptions.none())
 
         /** @see listForStock */
         fun listForStock(
             stockId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<StockSplit>>> =
+        ): CompletableFuture<HttpResponseFor<SplitListForStockResponse>> =
             listForStock(stockId, SplitListForStockParams.none(), requestOptions)
     }
 }

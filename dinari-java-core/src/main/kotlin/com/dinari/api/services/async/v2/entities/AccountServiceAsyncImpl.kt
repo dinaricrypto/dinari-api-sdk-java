@@ -16,9 +16,10 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepareAsync
-import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.models.v2.entities.accounts.AccountCreateParams
+import com.dinari.api.models.v2.entities.accounts.AccountCreateResponse
 import com.dinari.api.models.v2.entities.accounts.AccountListParams
+import com.dinari.api.models.v2.entities.accounts.AccountListResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -43,14 +44,14 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     override fun create(
         params: AccountCreateParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<Account> =
+    ): CompletableFuture<AccountCreateResponse> =
         // post /api/v2/entities/{entity_id}/accounts
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
     override fun list(
         params: AccountListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<Account>> =
+    ): CompletableFuture<AccountListResponse> =
         // get /api/v2/entities/{entity_id}/accounts
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
@@ -67,12 +68,13 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val createHandler: Handler<Account> = jsonHandler<Account>(clientOptions.jsonMapper)
+        private val createHandler: Handler<AccountCreateResponse> =
+            jsonHandler<AccountCreateResponse>(clientOptions.jsonMapper)
 
         override fun create(
             params: AccountCreateParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<Account>> {
+        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("entityId", params.entityId().getOrNull())
@@ -100,13 +102,13 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 }
         }
 
-        private val listHandler: Handler<List<Account>> =
-            jsonHandler<List<Account>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<AccountListResponse> =
+            jsonHandler<AccountListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: AccountListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<Account>>> {
+        ): CompletableFuture<HttpResponseFor<AccountListResponse>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("entityId", params.entityId().getOrNull())
@@ -126,7 +128,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                             .use { listHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
-                                    it.forEach { it.validate() }
+                                    it.validate()
                                 }
                             }
                     }

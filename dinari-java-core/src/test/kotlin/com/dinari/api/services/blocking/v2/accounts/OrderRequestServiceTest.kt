@@ -58,14 +58,18 @@ internal class OrderRequestServiceTest {
                 OrderRequestListParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .clientOrderId("client_order_id")
+                    .limit(20L)
+                    .next("next")
+                    .order(OrderRequestListParams.Order.ASC)
                     .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .page(1L)
                     .pageSize(1L)
+                    .previous("previous")
                     .build()
             )
 
-        orderRequests.forEach { it.validate() }
+        orderRequests.validate()
     }
 
     @Disabled("Mock server tests are disabled")

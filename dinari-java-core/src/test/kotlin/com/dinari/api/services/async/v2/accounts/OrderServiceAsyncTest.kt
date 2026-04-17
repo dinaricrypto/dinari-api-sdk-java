@@ -3,7 +3,6 @@
 package com.dinari.api.services.async.v2.accounts
 
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
-import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
@@ -50,16 +49,20 @@ internal class OrderServiceAsyncTest {
             orderServiceAsync.list(
                 OrderListParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .chainId(Chain.EIP155_1)
+                    .chainId("chain_id")
                     .clientOrderId("client_order_id")
+                    .limit(20L)
+                    .next("next")
+                    .order(OrderListParams.Order.ASC)
                     .orderTransactionHash("order_transaction_hash")
                     .page(1L)
                     .pageSize(1L)
+                    .previous("previous")
                     .build()
             )
 
         val orders = ordersFuture.get()
-        orders.forEach { it.validate() }
+        orders.validate()
     }
 
     @Disabled("Mock server tests are disabled")
@@ -116,17 +119,21 @@ internal class OrderServiceAsyncTest {
                 .build()
         val orderServiceAsync = client.v2().accounts().orders()
 
-        val fulfillmentsFuture =
+        val responseFuture =
             orderServiceAsync.getFulfillments(
                 OrderGetFulfillmentsParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .limit(20L)
+                    .next("next")
+                    .order(OrderGetFulfillmentsParams.Order.ASC)
                     .page(1L)
                     .pageSize(1L)
+                    .previous("previous")
                     .build()
             )
 
-        val fulfillments = fulfillmentsFuture.get()
-        fulfillments.forEach { it.validate() }
+        val response = responseFuture.get()
+        response.validate()
     }
 }

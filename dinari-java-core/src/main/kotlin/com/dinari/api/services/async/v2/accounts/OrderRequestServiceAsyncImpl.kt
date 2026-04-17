@@ -24,6 +24,7 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketS
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
+import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
 import com.dinari.api.services.async.v2.accounts.orderrequests.Eip155ServiceAsync
 import com.dinari.api.services.async.v2.accounts.orderrequests.Eip155ServiceAsyncImpl
@@ -64,7 +65,7 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
     override fun list(
         params: OrderRequestListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<OrderRequest>> =
+    ): CompletableFuture<OrderRequestListResponse> =
         // get /api/v2/accounts/{account_id}/order_requests
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
@@ -169,13 +170,13 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
                 }
         }
 
-        private val listHandler: Handler<List<OrderRequest>> =
-            jsonHandler<List<OrderRequest>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<OrderRequestListResponse> =
+            jsonHandler<OrderRequestListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: OrderRequestListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<OrderRequest>>> {
+        ): CompletableFuture<HttpResponseFor<OrderRequestListResponse>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -201,7 +202,7 @@ class OrderRequestServiceAsyncImpl internal constructor(private val clientOption
                             .use { listHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
-                                    it.forEach { it.validate() }
+                                    it.validate()
                                 }
                             }
                     }

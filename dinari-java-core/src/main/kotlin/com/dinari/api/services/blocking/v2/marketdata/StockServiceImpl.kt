@@ -53,10 +53,7 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
      */
     override fun splits(): SplitService = splits
 
-    override fun list(
-        params: StockListParams,
-        requestOptions: RequestOptions,
-    ): List<StockListResponse> =
+    override fun list(params: StockListParams, requestOptions: RequestOptions): StockListResponse =
         // get /api/v2/market_data/stocks/
         withRawResponse().list(params, requestOptions).parse()
 
@@ -119,13 +116,13 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
          */
         override fun splits(): SplitService.WithRawResponse = splits
 
-        private val listHandler: Handler<List<StockListResponse>> =
-            jsonHandler<List<StockListResponse>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<StockListResponse> =
+            jsonHandler<StockListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: StockListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<StockListResponse>> {
+        ): HttpResponseFor<StockListResponse> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -140,7 +137,7 @@ class StockServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .use { listHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }

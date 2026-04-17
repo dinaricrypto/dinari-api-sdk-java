@@ -8,6 +8,7 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransfer
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferCreateParams
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferListParams
+import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferListResponse
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferRetrieveParams
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
@@ -92,7 +93,7 @@ interface TokenTransferService {
      * `Account` to another. As such, only `Account`s that are connected to Dinari-managed `Wallet`s
      * can initiate `TokenTransfer`s.
      */
-    fun list(accountId: String): List<TokenTransfer> =
+    fun list(accountId: String): TokenTransferListResponse =
         list(accountId, TokenTransferListParams.none())
 
     /** @see list */
@@ -100,26 +101,27 @@ interface TokenTransferService {
         accountId: String,
         params: TokenTransferListParams = TokenTransferListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<TokenTransfer> = list(params.toBuilder().accountId(accountId).build(), requestOptions)
+    ): TokenTransferListResponse =
+        list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see list */
     fun list(
         accountId: String,
         params: TokenTransferListParams = TokenTransferListParams.none(),
-    ): List<TokenTransfer> = list(accountId, params, RequestOptions.none())
+    ): TokenTransferListResponse = list(accountId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
         params: TokenTransferListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<TokenTransfer>
+    ): TokenTransferListResponse
 
     /** @see list */
-    fun list(params: TokenTransferListParams): List<TokenTransfer> =
+    fun list(params: TokenTransferListParams): TokenTransferListResponse =
         list(params, RequestOptions.none())
 
     /** @see list */
-    fun list(accountId: String, requestOptions: RequestOptions): List<TokenTransfer> =
+    fun list(accountId: String, requestOptions: RequestOptions): TokenTransferListResponse =
         list(accountId, TokenTransferListParams.none(), requestOptions)
 
     /**
@@ -204,7 +206,7 @@ interface TokenTransferService {
          * is otherwise the same as [TokenTransferService.list].
          */
         @MustBeClosed
-        fun list(accountId: String): HttpResponseFor<List<TokenTransfer>> =
+        fun list(accountId: String): HttpResponseFor<TokenTransferListResponse> =
             list(accountId, TokenTransferListParams.none())
 
         /** @see list */
@@ -213,7 +215,7 @@ interface TokenTransferService {
             accountId: String,
             params: TokenTransferListParams = TokenTransferListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<TokenTransfer>> =
+        ): HttpResponseFor<TokenTransferListResponse> =
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see list */
@@ -221,18 +223,19 @@ interface TokenTransferService {
         fun list(
             accountId: String,
             params: TokenTransferListParams = TokenTransferListParams.none(),
-        ): HttpResponseFor<List<TokenTransfer>> = list(accountId, params, RequestOptions.none())
+        ): HttpResponseFor<TokenTransferListResponse> =
+            list(accountId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(
             params: TokenTransferListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<TokenTransfer>>
+        ): HttpResponseFor<TokenTransferListResponse>
 
         /** @see list */
         @MustBeClosed
-        fun list(params: TokenTransferListParams): HttpResponseFor<List<TokenTransfer>> =
+        fun list(params: TokenTransferListParams): HttpResponseFor<TokenTransferListResponse> =
             list(params, RequestOptions.none())
 
         /** @see list */
@@ -240,7 +243,7 @@ interface TokenTransferService {
         fun list(
             accountId: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<TokenTransfer>> =
+        ): HttpResponseFor<TokenTransferListResponse> =
             list(accountId, TokenTransferListParams.none(), requestOptions)
     }
 }

@@ -17,6 +17,7 @@ import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
+import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryResponse
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -52,7 +53,7 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
     override fun query(
         params: OrderFulfillmentQueryParams,
         requestOptions: RequestOptions,
-    ): List<Fulfillment> =
+    ): OrderFulfillmentQueryResponse =
         // get /api/v2/accounts/{account_id}/order_fulfillments
         withRawResponse().query(params, requestOptions).parse()
 
@@ -106,13 +107,13 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
             }
         }
 
-        private val queryHandler: Handler<List<Fulfillment>> =
-            jsonHandler<List<Fulfillment>>(clientOptions.jsonMapper)
+        private val queryHandler: Handler<OrderFulfillmentQueryResponse> =
+            jsonHandler<OrderFulfillmentQueryResponse>(clientOptions.jsonMapper)
 
         override fun query(
             params: OrderFulfillmentQueryParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<Fulfillment>> {
+        ): HttpResponseFor<OrderFulfillmentQueryResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -136,7 +137,7 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
                     .use { queryHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }
