@@ -16,13 +16,14 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
-import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orders.Order
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelResponse
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
+import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsResponse
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
+import com.dinari.api.models.v2.accounts.orders.OrderListResponse
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -52,7 +53,7 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
         // get /api/v2/accounts/{account_id}/orders/{order_id}
         withRawResponse().retrieve(params, requestOptions).parse()
 
-    override fun list(params: OrderListParams, requestOptions: RequestOptions): List<Order> =
+    override fun list(params: OrderListParams, requestOptions: RequestOptions): OrderListResponse =
         // get /api/v2/accounts/{account_id}/orders
         withRawResponse().list(params, requestOptions).parse()
 
@@ -70,7 +71,7 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
     override fun getFulfillments(
         params: OrderGetFulfillmentsParams,
         requestOptions: RequestOptions,
-    ): List<Fulfillment> =
+    ): OrderGetFulfillmentsResponse =
         // get /api/v2/accounts/{account_id}/orders/{order_id}/fulfillments
         withRawResponse().getFulfillments(params, requestOptions).parse()
 
@@ -123,13 +124,13 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
             }
         }
 
-        private val listHandler: Handler<List<Order>> =
-            jsonHandler<List<Order>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<OrderListResponse> =
+            jsonHandler<OrderListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: OrderListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<Order>> {
+        ): HttpResponseFor<OrderListResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -147,7 +148,7 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .use { listHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }
@@ -229,13 +230,13 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
             }
         }
 
-        private val getFulfillmentsHandler: Handler<List<Fulfillment>> =
-            jsonHandler<List<Fulfillment>>(clientOptions.jsonMapper)
+        private val getFulfillmentsHandler: Handler<OrderGetFulfillmentsResponse> =
+            jsonHandler<OrderGetFulfillmentsResponse>(clientOptions.jsonMapper)
 
         override fun getFulfillments(
             params: OrderGetFulfillmentsParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<Fulfillment>> {
+        ): HttpResponseFor<OrderGetFulfillmentsResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("orderId", params.orderId().getOrNull())
@@ -261,7 +262,7 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
                     .use { getFulfillmentsHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }

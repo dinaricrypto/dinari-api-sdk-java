@@ -15,8 +15,12 @@ internal class AccountGetInterestPaymentsParamsTest {
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .endDate(LocalDate.parse("2019-12-27"))
             .startDate(LocalDate.parse("2019-12-27"))
+            .limit(20L)
+            .next("next")
+            .order(AccountGetInterestPaymentsParams.Order.ASC)
             .page(1L)
             .pageSize(1L)
+            .previous("previous")
             .build()
     }
 
@@ -41,8 +45,12 @@ internal class AccountGetInterestPaymentsParamsTest {
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .endDate(LocalDate.parse("2019-12-27"))
                 .startDate(LocalDate.parse("2019-12-27"))
+                .limit(20L)
+                .next("next")
+                .order(AccountGetInterestPaymentsParams.Order.ASC)
                 .page(1L)
                 .pageSize(1L)
+                .previous("previous")
                 .build()
 
         val queryParams = params._queryParams()
@@ -52,8 +60,12 @@ internal class AccountGetInterestPaymentsParamsTest {
                 QueryParams.builder()
                     .put("end_date", "2019-12-27")
                     .put("start_date", "2019-12-27")
+                    .put("limit", "20")
+                    .put("next", "next")
+                    .put("order", "asc")
                     .put("page", "1")
                     .put("page_size", "1")
+                    .put("previous", "previous")
                     .build()
             )
     }

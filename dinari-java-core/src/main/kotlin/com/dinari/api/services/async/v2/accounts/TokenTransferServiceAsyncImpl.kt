@@ -19,6 +19,7 @@ import com.dinari.api.core.prepareAsync
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransfer
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferCreateParams
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferListParams
+import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferListResponse
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferRetrieveParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -58,7 +59,7 @@ class TokenTransferServiceAsyncImpl internal constructor(private val clientOptio
     override fun list(
         params: TokenTransferListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<TokenTransfer>> =
+    ): CompletableFuture<TokenTransferListResponse> =
         // get /api/v2/accounts/{account_id}/token_transfers
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
@@ -155,13 +156,13 @@ class TokenTransferServiceAsyncImpl internal constructor(private val clientOptio
                 }
         }
 
-        private val listHandler: Handler<List<TokenTransfer>> =
-            jsonHandler<List<TokenTransfer>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<TokenTransferListResponse> =
+            jsonHandler<TokenTransferListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: TokenTransferListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<TokenTransfer>>> {
+        ): CompletableFuture<HttpResponseFor<TokenTransferListResponse>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -187,7 +188,7 @@ class TokenTransferServiceAsyncImpl internal constructor(private val clientOptio
                             .use { listHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
-                                    it.forEach { it.validate() }
+                                    it.validate()
                                 }
                             }
                     }

@@ -5,13 +5,14 @@ package com.dinari.api.services.blocking.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
-import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orders.Order
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelResponse
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
+import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsResponse
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
+import com.dinari.api.models.v2.accounts.orders.OrderListResponse
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
@@ -63,30 +64,32 @@ interface OrderService {
      * Get a list of all `Orders` under the `Account`.<br>Optionally `Orders` can be filtered by
      * chain ID, transaction hash, or client order ID.
      */
-    fun list(accountId: String): List<Order> = list(accountId, OrderListParams.none())
+    fun list(accountId: String): OrderListResponse = list(accountId, OrderListParams.none())
 
     /** @see list */
     fun list(
         accountId: String,
         params: OrderListParams = OrderListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Order> = list(params.toBuilder().accountId(accountId).build(), requestOptions)
+    ): OrderListResponse = list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see list */
-    fun list(accountId: String, params: OrderListParams = OrderListParams.none()): List<Order> =
-        list(accountId, params, RequestOptions.none())
+    fun list(
+        accountId: String,
+        params: OrderListParams = OrderListParams.none(),
+    ): OrderListResponse = list(accountId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
         params: OrderListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Order>
+    ): OrderListResponse
 
     /** @see list */
-    fun list(params: OrderListParams): List<Order> = list(params, RequestOptions.none())
+    fun list(params: OrderListParams): OrderListResponse = list(params, RequestOptions.none())
 
     /** @see list */
-    fun list(accountId: String, requestOptions: RequestOptions): List<Order> =
+    fun list(accountId: String, requestOptions: RequestOptions): OrderListResponse =
         list(accountId, OrderListParams.none(), requestOptions)
 
     /**
@@ -154,26 +157,28 @@ interface OrderService {
     ): Order
 
     /** Get `OrderFulfillments` for a specific `Order`. */
-    fun getFulfillments(orderId: String, params: OrderGetFulfillmentsParams): List<Fulfillment> =
-        getFulfillments(orderId, params, RequestOptions.none())
+    fun getFulfillments(
+        orderId: String,
+        params: OrderGetFulfillmentsParams,
+    ): OrderGetFulfillmentsResponse = getFulfillments(orderId, params, RequestOptions.none())
 
     /** @see getFulfillments */
     fun getFulfillments(
         orderId: String,
         params: OrderGetFulfillmentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Fulfillment> =
+    ): OrderGetFulfillmentsResponse =
         getFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
 
     /** @see getFulfillments */
-    fun getFulfillments(params: OrderGetFulfillmentsParams): List<Fulfillment> =
+    fun getFulfillments(params: OrderGetFulfillmentsParams): OrderGetFulfillmentsResponse =
         getFulfillments(params, RequestOptions.none())
 
     /** @see getFulfillments */
     fun getFulfillments(
         params: OrderGetFulfillmentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Fulfillment>
+    ): OrderGetFulfillmentsResponse
 
     /** A view of [OrderService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -219,7 +224,7 @@ interface OrderService {
          * otherwise the same as [OrderService.list].
          */
         @MustBeClosed
-        fun list(accountId: String): HttpResponseFor<List<Order>> =
+        fun list(accountId: String): HttpResponseFor<OrderListResponse> =
             list(accountId, OrderListParams.none())
 
         /** @see list */
@@ -228,7 +233,7 @@ interface OrderService {
             accountId: String,
             params: OrderListParams = OrderListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Order>> =
+        ): HttpResponseFor<OrderListResponse> =
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see list */
@@ -236,23 +241,26 @@ interface OrderService {
         fun list(
             accountId: String,
             params: OrderListParams = OrderListParams.none(),
-        ): HttpResponseFor<List<Order>> = list(accountId, params, RequestOptions.none())
+        ): HttpResponseFor<OrderListResponse> = list(accountId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(
             params: OrderListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Order>>
+        ): HttpResponseFor<OrderListResponse>
 
         /** @see list */
         @MustBeClosed
-        fun list(params: OrderListParams): HttpResponseFor<List<Order>> =
+        fun list(params: OrderListParams): HttpResponseFor<OrderListResponse> =
             list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
-        fun list(accountId: String, requestOptions: RequestOptions): HttpResponseFor<List<Order>> =
+        fun list(
+            accountId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<OrderListResponse> =
             list(accountId, OrderListParams.none(), requestOptions)
 
         /**
@@ -326,7 +334,7 @@ interface OrderService {
         fun getFulfillments(
             orderId: String,
             params: OrderGetFulfillmentsParams,
-        ): HttpResponseFor<List<Fulfillment>> =
+        ): HttpResponseFor<OrderGetFulfillmentsResponse> =
             getFulfillments(orderId, params, RequestOptions.none())
 
         /** @see getFulfillments */
@@ -335,20 +343,21 @@ interface OrderService {
             orderId: String,
             params: OrderGetFulfillmentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Fulfillment>> =
+        ): HttpResponseFor<OrderGetFulfillmentsResponse> =
             getFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
 
         /** @see getFulfillments */
         @MustBeClosed
         fun getFulfillments(
             params: OrderGetFulfillmentsParams
-        ): HttpResponseFor<List<Fulfillment>> = getFulfillments(params, RequestOptions.none())
+        ): HttpResponseFor<OrderGetFulfillmentsResponse> =
+            getFulfillments(params, RequestOptions.none())
 
         /** @see getFulfillments */
         @MustBeClosed
         fun getFulfillments(
             params: OrderGetFulfillmentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Fulfillment>>
+        ): HttpResponseFor<OrderGetFulfillmentsResponse>
     }
 }

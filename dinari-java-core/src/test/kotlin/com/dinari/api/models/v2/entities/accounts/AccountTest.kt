@@ -18,7 +18,7 @@ internal class AccountTest {
                 .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .isActive(true)
-                .jurisdiction(Jurisdiction.BASELINE)
+                .jurisdiction(Account.Jurisdiction.BASELINE)
                 .brokerageAccountId("brokerage_account_id")
                 .build()
 
@@ -26,7 +26,7 @@ internal class AccountTest {
         assertThat(account.createdDt()).isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(account.entityId()).isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(account.isActive()).isEqualTo(true)
-        assertThat(account.jurisdiction()).isEqualTo(Jurisdiction.BASELINE)
+        assertThat(account.jurisdiction()).isEqualTo(Account.Jurisdiction.BASELINE)
         assertThat(account.brokerageAccountId()).contains("brokerage_account_id")
     }
 
@@ -39,7 +39,7 @@ internal class AccountTest {
                 .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .isActive(true)
-                .jurisdiction(Jurisdiction.BASELINE)
+                .jurisdiction(Account.Jurisdiction.BASELINE)
                 .brokerageAccountId("brokerage_account_id")
                 .build()
 

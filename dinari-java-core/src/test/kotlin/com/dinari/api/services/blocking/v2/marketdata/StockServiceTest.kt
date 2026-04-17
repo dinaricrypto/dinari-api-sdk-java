@@ -23,10 +23,18 @@ internal class StockServiceTest {
 
         val stocks =
             stockService.list(
-                StockListParams.builder().page(1L).pageSize(1L).addSymbol("string").build()
+                StockListParams.builder()
+                    .limit(20L)
+                    .next("next")
+                    .order(StockListParams.Order.ASC)
+                    .page(1L)
+                    .pageSize(1L)
+                    .previous("previous")
+                    .addSymbol("string")
+                    .build()
             )
 
-        stocks.forEach { it.validate() }
+        stocks.validate()
     }
 
     @Disabled("Mock server tests are disabled")

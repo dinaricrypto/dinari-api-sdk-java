@@ -5,12 +5,16 @@ package com.dinari.api.services.blocking.v2
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
-import com.dinari.api.models.v2.entities.Entity
 import com.dinari.api.models.v2.entities.EntityCreateParams
+import com.dinari.api.models.v2.entities.EntityCreateResponse
 import com.dinari.api.models.v2.entities.EntityListParams
+import com.dinari.api.models.v2.entities.EntityListResponse
 import com.dinari.api.models.v2.entities.EntityRetrieveByIdParams
+import com.dinari.api.models.v2.entities.EntityRetrieveByIdResponse
 import com.dinari.api.models.v2.entities.EntityRetrieveCurrentParams
+import com.dinari.api.models.v2.entities.EntityRetrieveCurrentResponse
 import com.dinari.api.models.v2.entities.EntityUpdateParams
+import com.dinari.api.models.v2.entities.EntityUpdateResponse
 import com.dinari.api.services.blocking.v2.entities.AccountService
 import com.dinari.api.services.blocking.v2.entities.KycService
 import com.google.errorprone.annotations.MustBeClosed
@@ -62,63 +66,67 @@ interface EntityService {
      * Create a new `Entity` to be managed by your organization. This `Entity` represents an
      * individual customer of your organization.
      */
-    fun create(params: EntityCreateParams): Entity = create(params, RequestOptions.none())
+    fun create(params: EntityCreateParams): EntityCreateResponse =
+        create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
         params: EntityCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Entity
+    ): EntityCreateResponse
 
     /** Update a specific customer `Entity` of your organization. */
-    fun update(entityId: String): Entity = update(entityId, EntityUpdateParams.none())
+    fun update(entityId: String): EntityUpdateResponse = update(entityId, EntityUpdateParams.none())
 
     /** @see update */
     fun update(
         entityId: String,
         params: EntityUpdateParams = EntityUpdateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Entity = update(params.toBuilder().entityId(entityId).build(), requestOptions)
+    ): EntityUpdateResponse = update(params.toBuilder().entityId(entityId).build(), requestOptions)
 
     /** @see update */
-    fun update(entityId: String, params: EntityUpdateParams = EntityUpdateParams.none()): Entity =
-        update(entityId, params, RequestOptions.none())
+    fun update(
+        entityId: String,
+        params: EntityUpdateParams = EntityUpdateParams.none(),
+    ): EntityUpdateResponse = update(entityId, params, RequestOptions.none())
 
     /** @see update */
     fun update(
         params: EntityUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Entity
+    ): EntityUpdateResponse
 
     /** @see update */
-    fun update(params: EntityUpdateParams): Entity = update(params, RequestOptions.none())
+    fun update(params: EntityUpdateParams): EntityUpdateResponse =
+        update(params, RequestOptions.none())
 
     /** @see update */
-    fun update(entityId: String, requestOptions: RequestOptions): Entity =
+    fun update(entityId: String, requestOptions: RequestOptions): EntityUpdateResponse =
         update(entityId, EntityUpdateParams.none(), requestOptions)
 
     /**
      * Get a list of direct `Entities` your organization manages. These `Entities` represent
      * individual customers of your organization.
      */
-    fun list(): List<Entity> = list(EntityListParams.none())
+    fun list(): EntityListResponse = list(EntityListParams.none())
 
     /** @see list */
     fun list(
         params: EntityListParams = EntityListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Entity>
+    ): EntityListResponse
 
     /** @see list */
-    fun list(params: EntityListParams = EntityListParams.none()): List<Entity> =
+    fun list(params: EntityListParams = EntityListParams.none()): EntityListResponse =
         list(params, RequestOptions.none())
 
     /** @see list */
-    fun list(requestOptions: RequestOptions): List<Entity> =
+    fun list(requestOptions: RequestOptions): EntityListResponse =
         list(EntityListParams.none(), requestOptions)
 
     /** Get a specific customer `Entity` of your organization by their ID. */
-    fun retrieveById(entityId: String): Entity =
+    fun retrieveById(entityId: String): EntityRetrieveByIdResponse =
         retrieveById(entityId, EntityRetrieveByIdParams.none())
 
     /** @see retrieveById */
@@ -126,44 +134,46 @@ interface EntityService {
         entityId: String,
         params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Entity = retrieveById(params.toBuilder().entityId(entityId).build(), requestOptions)
+    ): EntityRetrieveByIdResponse =
+        retrieveById(params.toBuilder().entityId(entityId).build(), requestOptions)
 
     /** @see retrieveById */
     fun retrieveById(
         entityId: String,
         params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
-    ): Entity = retrieveById(entityId, params, RequestOptions.none())
+    ): EntityRetrieveByIdResponse = retrieveById(entityId, params, RequestOptions.none())
 
     /** @see retrieveById */
     fun retrieveById(
         params: EntityRetrieveByIdParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Entity
+    ): EntityRetrieveByIdResponse
 
     /** @see retrieveById */
-    fun retrieveById(params: EntityRetrieveByIdParams): Entity =
+    fun retrieveById(params: EntityRetrieveByIdParams): EntityRetrieveByIdResponse =
         retrieveById(params, RequestOptions.none())
 
     /** @see retrieveById */
-    fun retrieveById(entityId: String, requestOptions: RequestOptions): Entity =
+    fun retrieveById(entityId: String, requestOptions: RequestOptions): EntityRetrieveByIdResponse =
         retrieveById(entityId, EntityRetrieveByIdParams.none(), requestOptions)
 
     /** Get the current authenticated `Entity`, which represents your organization. */
-    fun retrieveCurrent(): Entity = retrieveCurrent(EntityRetrieveCurrentParams.none())
+    fun retrieveCurrent(): EntityRetrieveCurrentResponse =
+        retrieveCurrent(EntityRetrieveCurrentParams.none())
 
     /** @see retrieveCurrent */
     fun retrieveCurrent(
         params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Entity
+    ): EntityRetrieveCurrentResponse
 
     /** @see retrieveCurrent */
     fun retrieveCurrent(
         params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none()
-    ): Entity = retrieveCurrent(params, RequestOptions.none())
+    ): EntityRetrieveCurrentResponse = retrieveCurrent(params, RequestOptions.none())
 
     /** @see retrieveCurrent */
-    fun retrieveCurrent(requestOptions: RequestOptions): Entity =
+    fun retrieveCurrent(requestOptions: RequestOptions): EntityRetrieveCurrentResponse =
         retrieveCurrent(EntityRetrieveCurrentParams.none(), requestOptions)
 
     /** A view of [EntityService] that provides access to raw HTTP responses for each method. */
@@ -203,7 +213,7 @@ interface EntityService {
          * [EntityService.create].
          */
         @MustBeClosed
-        fun create(params: EntityCreateParams): HttpResponseFor<Entity> =
+        fun create(params: EntityCreateParams): HttpResponseFor<EntityCreateResponse> =
             create(params, RequestOptions.none())
 
         /** @see create */
@@ -211,14 +221,14 @@ interface EntityService {
         fun create(
             params: EntityCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Entity>
+        ): HttpResponseFor<EntityCreateResponse>
 
         /**
          * Returns a raw HTTP response for `patch /api/v2/entities/{entity_id}`, but is otherwise
          * the same as [EntityService.update].
          */
         @MustBeClosed
-        fun update(entityId: String): HttpResponseFor<Entity> =
+        fun update(entityId: String): HttpResponseFor<EntityUpdateResponse> =
             update(entityId, EntityUpdateParams.none())
 
         /** @see update */
@@ -227,7 +237,7 @@ interface EntityService {
             entityId: String,
             params: EntityUpdateParams = EntityUpdateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Entity> =
+        ): HttpResponseFor<EntityUpdateResponse> =
             update(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see update */
@@ -235,47 +245,51 @@ interface EntityService {
         fun update(
             entityId: String,
             params: EntityUpdateParams = EntityUpdateParams.none(),
-        ): HttpResponseFor<Entity> = update(entityId, params, RequestOptions.none())
+        ): HttpResponseFor<EntityUpdateResponse> = update(entityId, params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
         fun update(
             params: EntityUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Entity>
+        ): HttpResponseFor<EntityUpdateResponse>
 
         /** @see update */
         @MustBeClosed
-        fun update(params: EntityUpdateParams): HttpResponseFor<Entity> =
+        fun update(params: EntityUpdateParams): HttpResponseFor<EntityUpdateResponse> =
             update(params, RequestOptions.none())
 
         /** @see update */
         @MustBeClosed
-        fun update(entityId: String, requestOptions: RequestOptions): HttpResponseFor<Entity> =
+        fun update(
+            entityId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<EntityUpdateResponse> =
             update(entityId, EntityUpdateParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/entities/`, but is otherwise the same as
          * [EntityService.list].
          */
-        @MustBeClosed fun list(): HttpResponseFor<List<Entity>> = list(EntityListParams.none())
+        @MustBeClosed
+        fun list(): HttpResponseFor<EntityListResponse> = list(EntityListParams.none())
 
         /** @see list */
         @MustBeClosed
         fun list(
             params: EntityListParams = EntityListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Entity>>
+        ): HttpResponseFor<EntityListResponse>
 
         /** @see list */
         @MustBeClosed
         fun list(
             params: EntityListParams = EntityListParams.none()
-        ): HttpResponseFor<List<Entity>> = list(params, RequestOptions.none())
+        ): HttpResponseFor<EntityListResponse> = list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
-        fun list(requestOptions: RequestOptions): HttpResponseFor<List<Entity>> =
+        fun list(requestOptions: RequestOptions): HttpResponseFor<EntityListResponse> =
             list(EntityListParams.none(), requestOptions)
 
         /**
@@ -283,7 +297,7 @@ interface EntityService {
          * same as [EntityService.retrieveById].
          */
         @MustBeClosed
-        fun retrieveById(entityId: String): HttpResponseFor<Entity> =
+        fun retrieveById(entityId: String): HttpResponseFor<EntityRetrieveByIdResponse> =
             retrieveById(entityId, EntityRetrieveByIdParams.none())
 
         /** @see retrieveById */
@@ -292,7 +306,7 @@ interface EntityService {
             entityId: String,
             params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Entity> =
+        ): HttpResponseFor<EntityRetrieveByIdResponse> =
             retrieveById(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see retrieveById */
@@ -300,26 +314,28 @@ interface EntityService {
         fun retrieveById(
             entityId: String,
             params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
-        ): HttpResponseFor<Entity> = retrieveById(entityId, params, RequestOptions.none())
+        ): HttpResponseFor<EntityRetrieveByIdResponse> =
+            retrieveById(entityId, params, RequestOptions.none())
 
         /** @see retrieveById */
         @MustBeClosed
         fun retrieveById(
             params: EntityRetrieveByIdParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Entity>
+        ): HttpResponseFor<EntityRetrieveByIdResponse>
 
         /** @see retrieveById */
         @MustBeClosed
-        fun retrieveById(params: EntityRetrieveByIdParams): HttpResponseFor<Entity> =
-            retrieveById(params, RequestOptions.none())
+        fun retrieveById(
+            params: EntityRetrieveByIdParams
+        ): HttpResponseFor<EntityRetrieveByIdResponse> = retrieveById(params, RequestOptions.none())
 
         /** @see retrieveById */
         @MustBeClosed
         fun retrieveById(
             entityId: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<Entity> =
+        ): HttpResponseFor<EntityRetrieveByIdResponse> =
             retrieveById(entityId, EntityRetrieveByIdParams.none(), requestOptions)
 
         /**
@@ -327,7 +343,7 @@ interface EntityService {
          * [EntityService.retrieveCurrent].
          */
         @MustBeClosed
-        fun retrieveCurrent(): HttpResponseFor<Entity> =
+        fun retrieveCurrent(): HttpResponseFor<EntityRetrieveCurrentResponse> =
             retrieveCurrent(EntityRetrieveCurrentParams.none())
 
         /** @see retrieveCurrent */
@@ -335,17 +351,20 @@ interface EntityService {
         fun retrieveCurrent(
             params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Entity>
+        ): HttpResponseFor<EntityRetrieveCurrentResponse>
 
         /** @see retrieveCurrent */
         @MustBeClosed
         fun retrieveCurrent(
             params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none()
-        ): HttpResponseFor<Entity> = retrieveCurrent(params, RequestOptions.none())
+        ): HttpResponseFor<EntityRetrieveCurrentResponse> =
+            retrieveCurrent(params, RequestOptions.none())
 
         /** @see retrieveCurrent */
         @MustBeClosed
-        fun retrieveCurrent(requestOptions: RequestOptions): HttpResponseFor<Entity> =
+        fun retrieveCurrent(
+            requestOptions: RequestOptions
+        ): HttpResponseFor<EntityRetrieveCurrentResponse> =
             retrieveCurrent(EntityRetrieveCurrentParams.none(), requestOptions)
     }
 }

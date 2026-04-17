@@ -8,6 +8,7 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransfer
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferCreateParams
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferListParams
+import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferListResponse
 import com.dinari.api.models.v2.accounts.tokentransfers.TokenTransferRetrieveParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -98,7 +99,7 @@ interface TokenTransferServiceAsync {
      * `Account` to another. As such, only `Account`s that are connected to Dinari-managed `Wallet`s
      * can initiate `TokenTransfer`s.
      */
-    fun list(accountId: String): CompletableFuture<List<TokenTransfer>> =
+    fun list(accountId: String): CompletableFuture<TokenTransferListResponse> =
         list(accountId, TokenTransferListParams.none())
 
     /** @see list */
@@ -106,30 +107,30 @@ interface TokenTransferServiceAsync {
         accountId: String,
         params: TokenTransferListParams = TokenTransferListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<TokenTransfer>> =
+    ): CompletableFuture<TokenTransferListResponse> =
         list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see list */
     fun list(
         accountId: String,
         params: TokenTransferListParams = TokenTransferListParams.none(),
-    ): CompletableFuture<List<TokenTransfer>> = list(accountId, params, RequestOptions.none())
+    ): CompletableFuture<TokenTransferListResponse> = list(accountId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
         params: TokenTransferListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<List<TokenTransfer>>
+    ): CompletableFuture<TokenTransferListResponse>
 
     /** @see list */
-    fun list(params: TokenTransferListParams): CompletableFuture<List<TokenTransfer>> =
+    fun list(params: TokenTransferListParams): CompletableFuture<TokenTransferListResponse> =
         list(params, RequestOptions.none())
 
     /** @see list */
     fun list(
         accountId: String,
         requestOptions: RequestOptions,
-    ): CompletableFuture<List<TokenTransfer>> =
+    ): CompletableFuture<TokenTransferListResponse> =
         list(accountId, TokenTransferListParams.none(), requestOptions)
 
     /**
@@ -211,7 +212,7 @@ interface TokenTransferServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/token_transfers`, but
          * is otherwise the same as [TokenTransferServiceAsync.list].
          */
-        fun list(accountId: String): CompletableFuture<HttpResponseFor<List<TokenTransfer>>> =
+        fun list(accountId: String): CompletableFuture<HttpResponseFor<TokenTransferListResponse>> =
             list(accountId, TokenTransferListParams.none())
 
         /** @see list */
@@ -219,33 +220,33 @@ interface TokenTransferServiceAsync {
             accountId: String,
             params: TokenTransferListParams = TokenTransferListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<TokenTransfer>>> =
+        ): CompletableFuture<HttpResponseFor<TokenTransferListResponse>> =
             list(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see list */
         fun list(
             accountId: String,
             params: TokenTransferListParams = TokenTransferListParams.none(),
-        ): CompletableFuture<HttpResponseFor<List<TokenTransfer>>> =
+        ): CompletableFuture<HttpResponseFor<TokenTransferListResponse>> =
             list(accountId, params, RequestOptions.none())
 
         /** @see list */
         fun list(
             params: TokenTransferListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<List<TokenTransfer>>>
+        ): CompletableFuture<HttpResponseFor<TokenTransferListResponse>>
 
         /** @see list */
         fun list(
             params: TokenTransferListParams
-        ): CompletableFuture<HttpResponseFor<List<TokenTransfer>>> =
+        ): CompletableFuture<HttpResponseFor<TokenTransferListResponse>> =
             list(params, RequestOptions.none())
 
         /** @see list */
         fun list(
             accountId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<List<TokenTransfer>>> =
+        ): CompletableFuture<HttpResponseFor<TokenTransferListResponse>> =
             list(accountId, TokenTransferListParams.none(), requestOptions)
     }
 }

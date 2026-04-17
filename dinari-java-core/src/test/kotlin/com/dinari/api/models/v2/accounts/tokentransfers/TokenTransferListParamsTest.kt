@@ -12,8 +12,12 @@ internal class TokenTransferListParamsTest {
     fun create() {
         TokenTransferListParams.builder()
             .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            .limit(20L)
+            .next("next")
+            .order(TokenTransferListParams.Order.ASC)
             .page(1L)
             .pageSize(1L)
+            .previous("previous")
             .build()
     }
 
@@ -34,14 +38,27 @@ internal class TokenTransferListParamsTest {
         val params =
             TokenTransferListParams.builder()
                 .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                .limit(20L)
+                .next("next")
+                .order(TokenTransferListParams.Order.ASC)
                 .page(1L)
                 .pageSize(1L)
+                .previous("previous")
                 .build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(QueryParams.builder().put("page", "1").put("page_size", "1").build())
+            .isEqualTo(
+                QueryParams.builder()
+                    .put("limit", "20")
+                    .put("next", "next")
+                    .put("order", "asc")
+                    .put("page", "1")
+                    .put("page_size", "1")
+                    .put("previous", "previous")
+                    .build()
+            )
     }
 
     @Test

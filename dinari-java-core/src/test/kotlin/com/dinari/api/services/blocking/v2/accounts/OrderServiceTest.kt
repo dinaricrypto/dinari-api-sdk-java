@@ -3,7 +3,6 @@
 package com.dinari.api.services.blocking.v2.accounts
 
 import com.dinari.api.client.okhttp.DinariOkHttpClient
-import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
@@ -49,15 +48,19 @@ internal class OrderServiceTest {
             orderService.list(
                 OrderListParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .chainId(Chain.EIP155_1)
+                    .chainId("chain_id")
                     .clientOrderId("client_order_id")
+                    .limit(20L)
+                    .next("next")
+                    .order(OrderListParams.Order.ASC)
                     .orderTransactionHash("order_transaction_hash")
                     .page(1L)
                     .pageSize(1L)
+                    .previous("previous")
                     .build()
             )
 
-        orders.forEach { it.validate() }
+        orders.validate()
     }
 
     @Disabled("Mock server tests are disabled")
@@ -112,16 +115,20 @@ internal class OrderServiceTest {
                 .build()
         val orderService = client.v2().accounts().orders()
 
-        val fulfillments =
+        val response =
             orderService.getFulfillments(
                 OrderGetFulfillmentsParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .limit(20L)
+                    .next("next")
+                    .order(OrderGetFulfillmentsParams.Order.ASC)
                     .page(1L)
                     .pageSize(1L)
+                    .previous("previous")
                     .build()
             )
 
-        fulfillments.forEach { it.validate() }
+        response.validate()
     }
 }

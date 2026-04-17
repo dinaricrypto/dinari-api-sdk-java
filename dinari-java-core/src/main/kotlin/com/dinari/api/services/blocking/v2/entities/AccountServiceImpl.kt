@@ -16,9 +16,10 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
-import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.models.v2.entities.accounts.AccountCreateParams
+import com.dinari.api.models.v2.entities.accounts.AccountCreateResponse
 import com.dinari.api.models.v2.entities.accounts.AccountListParams
+import com.dinari.api.models.v2.entities.accounts.AccountListResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -39,11 +40,17 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AccountService =
         AccountServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
-    override fun create(params: AccountCreateParams, requestOptions: RequestOptions): Account =
+    override fun create(
+        params: AccountCreateParams,
+        requestOptions: RequestOptions,
+    ): AccountCreateResponse =
         // post /api/v2/entities/{entity_id}/accounts
         withRawResponse().create(params, requestOptions).parse()
 
-    override fun list(params: AccountListParams, requestOptions: RequestOptions): List<Account> =
+    override fun list(
+        params: AccountListParams,
+        requestOptions: RequestOptions,
+    ): AccountListResponse =
         // get /api/v2/entities/{entity_id}/accounts
         withRawResponse().list(params, requestOptions).parse()
 
@@ -60,12 +67,13 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val createHandler: Handler<Account> = jsonHandler<Account>(clientOptions.jsonMapper)
+        private val createHandler: Handler<AccountCreateResponse> =
+            jsonHandler<AccountCreateResponse>(clientOptions.jsonMapper)
 
         override fun create(
             params: AccountCreateParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<Account> {
+        ): HttpResponseFor<AccountCreateResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("entityId", params.entityId().getOrNull())
@@ -90,13 +98,13 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
             }
         }
 
-        private val listHandler: Handler<List<Account>> =
-            jsonHandler<List<Account>>(clientOptions.jsonMapper)
+        private val listHandler: Handler<AccountListResponse> =
+            jsonHandler<AccountListResponse>(clientOptions.jsonMapper)
 
         override fun list(
             params: AccountListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<Account>> {
+        ): HttpResponseFor<AccountListResponse> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("entityId", params.entityId().getOrNull())
@@ -114,7 +122,7 @@ class AccountServiceImpl internal constructor(private val clientOptions: ClientO
                     .use { listHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
-                            it.forEach { it.validate() }
+                            it.validate()
                         }
                     }
             }

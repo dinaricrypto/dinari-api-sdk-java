@@ -7,6 +7,7 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
+import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryResponse
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
@@ -57,7 +58,7 @@ interface OrderFulfillmentService {
     ): Fulfillment
 
     /** Query `OrderFulfillments` under the `Account`. */
-    fun query(accountId: String): List<Fulfillment> =
+    fun query(accountId: String): OrderFulfillmentQueryResponse =
         query(accountId, OrderFulfillmentQueryParams.none())
 
     /** @see query */
@@ -65,26 +66,27 @@ interface OrderFulfillmentService {
         accountId: String,
         params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Fulfillment> = query(params.toBuilder().accountId(accountId).build(), requestOptions)
+    ): OrderFulfillmentQueryResponse =
+        query(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see query */
     fun query(
         accountId: String,
         params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
-    ): List<Fulfillment> = query(accountId, params, RequestOptions.none())
+    ): OrderFulfillmentQueryResponse = query(accountId, params, RequestOptions.none())
 
     /** @see query */
     fun query(
         params: OrderFulfillmentQueryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Fulfillment>
+    ): OrderFulfillmentQueryResponse
 
     /** @see query */
-    fun query(params: OrderFulfillmentQueryParams): List<Fulfillment> =
+    fun query(params: OrderFulfillmentQueryParams): OrderFulfillmentQueryResponse =
         query(params, RequestOptions.none())
 
     /** @see query */
-    fun query(accountId: String, requestOptions: RequestOptions): List<Fulfillment> =
+    fun query(accountId: String, requestOptions: RequestOptions): OrderFulfillmentQueryResponse =
         query(accountId, OrderFulfillmentQueryParams.none(), requestOptions)
 
     /**
@@ -143,7 +145,7 @@ interface OrderFulfillmentService {
          * but is otherwise the same as [OrderFulfillmentService.query].
          */
         @MustBeClosed
-        fun query(accountId: String): HttpResponseFor<List<Fulfillment>> =
+        fun query(accountId: String): HttpResponseFor<OrderFulfillmentQueryResponse> =
             query(accountId, OrderFulfillmentQueryParams.none())
 
         /** @see query */
@@ -152,7 +154,7 @@ interface OrderFulfillmentService {
             accountId: String,
             params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Fulfillment>> =
+        ): HttpResponseFor<OrderFulfillmentQueryResponse> =
             query(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see query */
@@ -160,26 +162,28 @@ interface OrderFulfillmentService {
         fun query(
             accountId: String,
             params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
-        ): HttpResponseFor<List<Fulfillment>> = query(accountId, params, RequestOptions.none())
+        ): HttpResponseFor<OrderFulfillmentQueryResponse> =
+            query(accountId, params, RequestOptions.none())
 
         /** @see query */
         @MustBeClosed
         fun query(
             params: OrderFulfillmentQueryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Fulfillment>>
+        ): HttpResponseFor<OrderFulfillmentQueryResponse>
 
         /** @see query */
         @MustBeClosed
-        fun query(params: OrderFulfillmentQueryParams): HttpResponseFor<List<Fulfillment>> =
-            query(params, RequestOptions.none())
+        fun query(
+            params: OrderFulfillmentQueryParams
+        ): HttpResponseFor<OrderFulfillmentQueryResponse> = query(params, RequestOptions.none())
 
         /** @see query */
         @MustBeClosed
         fun query(
             accountId: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<List<Fulfillment>> =
+        ): HttpResponseFor<OrderFulfillmentQueryResponse> =
             query(accountId, OrderFulfillmentQueryParams.none(), requestOptions)
     }
 }

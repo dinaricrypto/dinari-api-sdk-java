@@ -10,20 +10,41 @@ internal class EntityListParamsTest {
 
     @Test
     fun create() {
-        EntityListParams.builder().page(1L).pageSize(1L).referenceId("x").build()
+        EntityListParams.builder()
+            .limit(20L)
+            .next("next")
+            .order(EntityListParams.Order.ASC)
+            .page(1L)
+            .pageSize(1L)
+            .previous("previous")
+            .referenceId("x")
+            .build()
     }
 
     @Test
     fun queryParams() {
-        val params = EntityListParams.builder().page(1L).pageSize(1L).referenceId("x").build()
+        val params =
+            EntityListParams.builder()
+                .limit(20L)
+                .next("next")
+                .order(EntityListParams.Order.ASC)
+                .page(1L)
+                .pageSize(1L)
+                .previous("previous")
+                .referenceId("x")
+                .build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
             .isEqualTo(
                 QueryParams.builder()
+                    .put("limit", "20")
+                    .put("next", "next")
+                    .put("order", "asc")
                     .put("page", "1")
                     .put("page_size", "1")
+                    .put("previous", "previous")
                     .put("reference_id", "x")
                     .build()
             )

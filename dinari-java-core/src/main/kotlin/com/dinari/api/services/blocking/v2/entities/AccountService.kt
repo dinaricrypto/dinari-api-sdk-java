@@ -5,9 +5,10 @@ package com.dinari.api.services.blocking.v2.entities
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
-import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.models.v2.entities.accounts.AccountCreateParams
+import com.dinari.api.models.v2.entities.accounts.AccountCreateResponse
 import com.dinari.api.models.v2.entities.accounts.AccountListParams
+import com.dinari.api.models.v2.entities.accounts.AccountListResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -34,64 +35,66 @@ interface AccountService {
      * Create a new `Account` for a specific `Entity`. This `Entity` represents your organization
      * itself, or an individual customer of your organization.
      */
-    fun create(entityId: String): Account = create(entityId, AccountCreateParams.none())
+    fun create(entityId: String): AccountCreateResponse =
+        create(entityId, AccountCreateParams.none())
 
     /** @see create */
     fun create(
         entityId: String,
         params: AccountCreateParams = AccountCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Account = create(params.toBuilder().entityId(entityId).build(), requestOptions)
+    ): AccountCreateResponse = create(params.toBuilder().entityId(entityId).build(), requestOptions)
 
     /** @see create */
     fun create(
         entityId: String,
         params: AccountCreateParams = AccountCreateParams.none(),
-    ): Account = create(entityId, params, RequestOptions.none())
+    ): AccountCreateResponse = create(entityId, params, RequestOptions.none())
 
     /** @see create */
     fun create(
         params: AccountCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): Account
+    ): AccountCreateResponse
 
     /** @see create */
-    fun create(params: AccountCreateParams): Account = create(params, RequestOptions.none())
+    fun create(params: AccountCreateParams): AccountCreateResponse =
+        create(params, RequestOptions.none())
 
     /** @see create */
-    fun create(entityId: String, requestOptions: RequestOptions): Account =
+    fun create(entityId: String, requestOptions: RequestOptions): AccountCreateResponse =
         create(entityId, AccountCreateParams.none(), requestOptions)
 
     /**
      * Get a list of all `Accounts` that belong to a specific `Entity`. This `Entity` represents
      * your organization itself, or an individual customer of your organization.
      */
-    fun list(entityId: String): List<Account> = list(entityId, AccountListParams.none())
+    fun list(entityId: String): AccountListResponse = list(entityId, AccountListParams.none())
 
     /** @see list */
     fun list(
         entityId: String,
         params: AccountListParams = AccountListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Account> = list(params.toBuilder().entityId(entityId).build(), requestOptions)
+    ): AccountListResponse = list(params.toBuilder().entityId(entityId).build(), requestOptions)
 
     /** @see list */
     fun list(
         entityId: String,
         params: AccountListParams = AccountListParams.none(),
-    ): List<Account> = list(entityId, params, RequestOptions.none())
+    ): AccountListResponse = list(entityId, params, RequestOptions.none())
 
     /** @see list */
     fun list(
         params: AccountListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): List<Account>
+    ): AccountListResponse
 
     /** @see list */
-    fun list(params: AccountListParams): List<Account> = list(params, RequestOptions.none())
+    fun list(params: AccountListParams): AccountListResponse = list(params, RequestOptions.none())
 
     /** @see list */
-    fun list(entityId: String, requestOptions: RequestOptions): List<Account> =
+    fun list(entityId: String, requestOptions: RequestOptions): AccountListResponse =
         list(entityId, AccountListParams.none(), requestOptions)
 
     /** A view of [AccountService] that provides access to raw HTTP responses for each method. */
@@ -109,7 +112,7 @@ interface AccountService {
          * otherwise the same as [AccountService.create].
          */
         @MustBeClosed
-        fun create(entityId: String): HttpResponseFor<Account> =
+        fun create(entityId: String): HttpResponseFor<AccountCreateResponse> =
             create(entityId, AccountCreateParams.none())
 
         /** @see create */
@@ -118,7 +121,7 @@ interface AccountService {
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Account> =
+        ): HttpResponseFor<AccountCreateResponse> =
             create(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see create */
@@ -126,23 +129,26 @@ interface AccountService {
         fun create(
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
-        ): HttpResponseFor<Account> = create(entityId, params, RequestOptions.none())
+        ): HttpResponseFor<AccountCreateResponse> = create(entityId, params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
         fun create(
             params: AccountCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<Account>
+        ): HttpResponseFor<AccountCreateResponse>
 
         /** @see create */
         @MustBeClosed
-        fun create(params: AccountCreateParams): HttpResponseFor<Account> =
+        fun create(params: AccountCreateParams): HttpResponseFor<AccountCreateResponse> =
             create(params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
-        fun create(entityId: String, requestOptions: RequestOptions): HttpResponseFor<Account> =
+        fun create(
+            entityId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<AccountCreateResponse> =
             create(entityId, AccountCreateParams.none(), requestOptions)
 
         /**
@@ -150,7 +156,7 @@ interface AccountService {
          * otherwise the same as [AccountService.list].
          */
         @MustBeClosed
-        fun list(entityId: String): HttpResponseFor<List<Account>> =
+        fun list(entityId: String): HttpResponseFor<AccountListResponse> =
             list(entityId, AccountListParams.none())
 
         /** @see list */
@@ -159,7 +165,7 @@ interface AccountService {
             entityId: String,
             params: AccountListParams = AccountListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Account>> =
+        ): HttpResponseFor<AccountListResponse> =
             list(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see list */
@@ -167,23 +173,26 @@ interface AccountService {
         fun list(
             entityId: String,
             params: AccountListParams = AccountListParams.none(),
-        ): HttpResponseFor<List<Account>> = list(entityId, params, RequestOptions.none())
+        ): HttpResponseFor<AccountListResponse> = list(entityId, params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
         fun list(
             params: AccountListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<List<Account>>
+        ): HttpResponseFor<AccountListResponse>
 
         /** @see list */
         @MustBeClosed
-        fun list(params: AccountListParams): HttpResponseFor<List<Account>> =
+        fun list(params: AccountListParams): HttpResponseFor<AccountListResponse> =
             list(params, RequestOptions.none())
 
         /** @see list */
         @MustBeClosed
-        fun list(entityId: String, requestOptions: RequestOptions): HttpResponseFor<List<Account>> =
+        fun list(
+            entityId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<AccountListResponse> =
             list(entityId, AccountListParams.none(), requestOptions)
     }
 }
