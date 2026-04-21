@@ -17,7 +17,7 @@ internal class Eip155CreatePermitResponseTest {
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .permit(
                     Eip155CreatePermitResponse.Permit.builder()
-                        .putAdditionalProperty("foo", JsonValue.from(null))
+                        .putAdditionalProperty("foo", JsonValue.from("bar"))
                         .build()
                 )
                 .build()
@@ -27,7 +27,7 @@ internal class Eip155CreatePermitResponseTest {
         assertThat(eip155CreatePermitResponse.permit())
             .isEqualTo(
                 Eip155CreatePermitResponse.Permit.builder()
-                    .putAdditionalProperty("foo", JsonValue.from(null))
+                    .putAdditionalProperty("foo", JsonValue.from("bar"))
                     .build()
             )
     }
@@ -40,7 +40,7 @@ internal class Eip155CreatePermitResponseTest {
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .permit(
                     Eip155CreatePermitResponse.Permit.builder()
-                        .putAdditionalProperty("foo", JsonValue.from(null))
+                        .putAdditionalProperty("foo", JsonValue.from("bar"))
                         .build()
                 )
                 .build()
