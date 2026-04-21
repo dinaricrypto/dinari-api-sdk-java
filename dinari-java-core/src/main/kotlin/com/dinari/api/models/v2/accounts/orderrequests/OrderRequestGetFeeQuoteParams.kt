@@ -320,10 +320,7 @@ private constructor(
          * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not
          * provided, the default chain ID (eip155:42161) will be used.
          */
-        fun chainId(chainId: Chain?) = apply { body.chainId(chainId) }
-
-        /** Alias for calling [Builder.chainId] with `chainId.orElse(null)`. */
-        fun chainId(chainId: Optional<Chain>) = chainId(chainId.getOrNull())
+        fun chainId(chainId: Chain) = apply { body.chainId(chainId) }
 
         /**
          * Sets [Builder.chainId] to an arbitrary JSON value.
@@ -922,10 +919,7 @@ private constructor(
              * CAIP-2 chain ID of the blockchain where the `Order Request` will be placed. If not
              * provided, the default chain ID (eip155:42161) will be used.
              */
-            fun chainId(chainId: Chain?) = chainId(JsonField.ofNullable(chainId))
-
-            /** Alias for calling [Builder.chainId] with `chainId.orElse(null)`. */
-            fun chainId(chainId: Optional<Chain>) = chainId(chainId.getOrNull())
+            fun chainId(chainId: Chain) = chainId(JsonField.of(chainId))
 
             /**
              * Sets [Builder.chainId] to an arbitrary JSON value.
