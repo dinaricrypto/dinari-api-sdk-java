@@ -107,10 +107,7 @@ private constructor(
          * specified, defaults to eip155:421614. If the `Account` is linked to a Dinari-managed
          * `Wallet`, only eip155:42161 is allowed.
          */
-        fun chainId(chainId: Chain?) = apply { body.chainId(chainId) }
-
-        /** Alias for calling [Builder.chainId] with `chainId.orElse(null)`. */
-        fun chainId(chainId: Optional<Chain>) = chainId(chainId.getOrNull())
+        fun chainId(chainId: Chain) = apply { body.chainId(chainId) }
 
         /**
          * Sets [Builder.chainId] to an arbitrary JSON value.
@@ -328,10 +325,7 @@ private constructor(
              * specified, defaults to eip155:421614. If the `Account` is linked to a Dinari-managed
              * `Wallet`, only eip155:42161 is allowed.
              */
-            fun chainId(chainId: Chain?) = chainId(JsonField.ofNullable(chainId))
-
-            /** Alias for calling [Builder.chainId] with `chainId.orElse(null)`. */
-            fun chainId(chainId: Optional<Chain>) = chainId(chainId.getOrNull())
+            fun chainId(chainId: Chain) = chainId(JsonField.of(chainId))
 
             /**
              * Sets [Builder.chainId] to an arbitrary JSON value.

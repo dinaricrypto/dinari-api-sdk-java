@@ -460,7 +460,7 @@ private constructor(
             ) : this(data, providerName, jurisdiction, mutableMapOf())
 
             /**
-             * KYC data for an `Entity` in the BASELINE jurisdiction.
+             * KYC data of the `Entity`.
              *
              * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
              *   unexpectedly missing or null (e.g. if the server responded with an unexpected
@@ -556,7 +556,7 @@ private constructor(
                     additionalProperties = baseline.additionalProperties.toMutableMap()
                 }
 
-                /** KYC data for an `Entity` in the BASELINE jurisdiction. */
+                /** KYC data of the `Entity`. */
                 fun data(data: BaselineKycCheckData) = data(JsonField.of(data))
 
                 /**
@@ -850,7 +850,7 @@ private constructor(
             ) : this(data, providerName, jurisdiction, mutableMapOf())
 
             /**
-             * KYC data for an `Entity` in the US jurisdiction.
+             * KYC data of the `Entity`.
              *
              * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
              *   unexpectedly missing or null (e.g. if the server responded with an unexpected
@@ -944,7 +944,7 @@ private constructor(
                     additionalProperties = us.additionalProperties.toMutableMap()
                 }
 
-                /** KYC data for an `Entity` in the US jurisdiction. */
+                /** KYC data of the `Entity`. */
                 fun data(data: UsKycCheckData) = data(JsonField.of(data))
 
                 /**
