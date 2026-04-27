@@ -397,6 +397,14 @@ private constructor(
             }
             (System.getProperty("dinari.apiSecretKey") ?: System.getenv("DINARI_API_SECRET_KEY"))
                 ?.let { apiSecretKey(it) }
+            System.getenv("DINARI_CUSTOM_HEADERS")?.let { customHeadersEnv ->
+                for (line in customHeadersEnv.split("\n")) {
+                    val colon = line.indexOf(':')
+                    if (colon >= 0) {
+                        putHeader(line.substring(0, colon).trim(), line.substring(colon + 1).trim())
+                    }
+                }
+            }
         }
 
         /**
