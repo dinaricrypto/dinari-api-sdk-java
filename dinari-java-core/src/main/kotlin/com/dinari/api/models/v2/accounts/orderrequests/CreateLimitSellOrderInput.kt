@@ -25,6 +25,7 @@ private constructor(
     private val limitPrice: JsonField<Double>,
     private val alloyId: JsonField<String>,
     private val clientOrderId: JsonField<String>,
+    private val fee: JsonField<Double>,
     private val paymentTokenAddress: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
     private val stockId: JsonField<String>,
@@ -43,6 +44,7 @@ private constructor(
         @JsonProperty("client_order_id")
         @ExcludeMissing
         clientOrderId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("fee") @ExcludeMissing fee: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("payment_token_address")
         @ExcludeMissing
         paymentTokenAddress: JsonField<String> = JsonMissing.of(),
@@ -55,6 +57,7 @@ private constructor(
         limitPrice,
         alloyId,
         clientOrderId,
+        fee,
         paymentTokenAddress,
         recipientAccountId,
         stockId,
@@ -95,6 +98,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun clientOrderId(): Optional<String> = clientOrderId.getOptional("client_order_id")
+
+    /**
+     * Optional fee amount associated with `Order` in USD for DFN orders. Must be a positive number
+     * with a precision of up to 6 decimal places.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun fee(): Optional<Double> = fee.getOptional("fee")
 
     /**
      * Address of the payment token to be used for the sell order. If not provided, the default
@@ -157,6 +169,13 @@ private constructor(
     fun _clientOrderId(): JsonField<String> = clientOrderId
 
     /**
+     * Returns the raw JSON value of [fee].
+     *
+     * Unlike [fee], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("fee") @ExcludeMissing fun _fee(): JsonField<Double> = fee
+
+    /**
      * Returns the raw JSON value of [paymentTokenAddress].
      *
      * Unlike [paymentTokenAddress], this method doesn't throw if the JSON field has an unexpected
@@ -216,6 +235,7 @@ private constructor(
         private var limitPrice: JsonField<Double>? = null
         private var alloyId: JsonField<String> = JsonMissing.of()
         private var clientOrderId: JsonField<String> = JsonMissing.of()
+        private var fee: JsonField<Double> = JsonMissing.of()
         private var paymentTokenAddress: JsonField<String> = JsonMissing.of()
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
         private var stockId: JsonField<String> = JsonMissing.of()
@@ -227,6 +247,7 @@ private constructor(
             limitPrice = createLimitSellOrderInput.limitPrice
             alloyId = createLimitSellOrderInput.alloyId
             clientOrderId = createLimitSellOrderInput.clientOrderId
+            fee = createLimitSellOrderInput.fee
             paymentTokenAddress = createLimitSellOrderInput.paymentTokenAddress
             recipientAccountId = createLimitSellOrderInput.recipientAccountId
             stockId = createLimitSellOrderInput.stockId
@@ -300,6 +321,30 @@ private constructor(
         fun clientOrderId(clientOrderId: JsonField<String>) = apply {
             this.clientOrderId = clientOrderId
         }
+
+        /**
+         * Optional fee amount associated with `Order` in USD for DFN orders. Must be a positive
+         * number with a precision of up to 6 decimal places.
+         */
+        fun fee(fee: Double?) = fee(JsonField.ofNullable(fee))
+
+        /**
+         * Alias for [Builder.fee].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun fee(fee: Double) = fee(fee as Double?)
+
+        /** Alias for calling [Builder.fee] with `fee.orElse(null)`. */
+        fun fee(fee: Optional<Double>) = fee(fee.getOrNull())
+
+        /**
+         * Sets [Builder.fee] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.fee] with a well-typed [Double] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun fee(fee: JsonField<Double>) = apply { this.fee = fee }
 
         /**
          * Address of the payment token to be used for the sell order. If not provided, the default
@@ -399,6 +444,7 @@ private constructor(
                 checkRequired("limitPrice", limitPrice),
                 alloyId,
                 clientOrderId,
+                fee,
                 paymentTokenAddress,
                 recipientAccountId,
                 stockId,
@@ -417,6 +463,7 @@ private constructor(
         limitPrice()
         alloyId()
         clientOrderId()
+        fee()
         paymentTokenAddress()
         recipientAccountId()
         stockId()
@@ -442,6 +489,7 @@ private constructor(
             (if (limitPrice.asKnown().isPresent) 1 else 0) +
             (if (alloyId.asKnown().isPresent) 1 else 0) +
             (if (clientOrderId.asKnown().isPresent) 1 else 0) +
+            (if (fee.asKnown().isPresent) 1 else 0) +
             (if (paymentTokenAddress.asKnown().isPresent) 1 else 0) +
             (if (recipientAccountId.asKnown().isPresent) 1 else 0) +
             (if (stockId.asKnown().isPresent) 1 else 0)
@@ -456,6 +504,7 @@ private constructor(
             limitPrice == other.limitPrice &&
             alloyId == other.alloyId &&
             clientOrderId == other.clientOrderId &&
+            fee == other.fee &&
             paymentTokenAddress == other.paymentTokenAddress &&
             recipientAccountId == other.recipientAccountId &&
             stockId == other.stockId &&
@@ -468,6 +517,7 @@ private constructor(
             limitPrice,
             alloyId,
             clientOrderId,
+            fee,
             paymentTokenAddress,
             recipientAccountId,
             stockId,
@@ -478,5 +528,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CreateLimitSellOrderInput{assetQuantity=$assetQuantity, limitPrice=$limitPrice, alloyId=$alloyId, clientOrderId=$clientOrderId, paymentTokenAddress=$paymentTokenAddress, recipientAccountId=$recipientAccountId, stockId=$stockId, additionalProperties=$additionalProperties}"
+        "CreateLimitSellOrderInput{assetQuantity=$assetQuantity, limitPrice=$limitPrice, alloyId=$alloyId, clientOrderId=$clientOrderId, fee=$fee, paymentTokenAddress=$paymentTokenAddress, recipientAccountId=$recipientAccountId, stockId=$stockId, additionalProperties=$additionalProperties}"
 }

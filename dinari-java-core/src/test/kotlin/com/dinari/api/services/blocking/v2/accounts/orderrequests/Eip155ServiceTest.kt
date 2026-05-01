@@ -38,6 +38,7 @@ internal class Eip155ServiceTest {
                     .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .assetTokenQuantity(0.0)
                     .clientOrderId("client_order_id")
+                    .fee(0.0)
                     .limitPrice(0.0)
                     .paymentTokenQuantity(0.0)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
