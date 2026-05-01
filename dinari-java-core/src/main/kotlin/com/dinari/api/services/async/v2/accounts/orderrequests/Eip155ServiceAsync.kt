@@ -42,6 +42,9 @@ interface Eip155ServiceAsync {
      * using Dinari's EVM smart contracts. Once signed, the transactions can be sent to the EVM
      * network to create the order. Note that the fee quote is already included in the transactions,
      * so no additional fee quote lookup is needed.
+     *
+     * Fees for the `Order` can optionally be specified in the `OrderRequest` for DFN orders in USD,
+     * supporting up to 6 decimal places.
      */
     fun createPermit(
         accountId: String,

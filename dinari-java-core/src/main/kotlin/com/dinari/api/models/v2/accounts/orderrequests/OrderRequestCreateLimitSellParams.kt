@@ -14,9 +14,8 @@ import kotlin.jvm.optionals.getOrNull
 /**
  * Create a managed `OrderRequest` to place a limit sell `Order`.
  *
- * Fees for the `Order` are included in the transaction. Refer to our
- * [Fee Quote API](https://docs.dinari.com/reference/createproxiedorderfeequote#/) for fee
- * estimation.
+ * Fees for the `Order` can optionally be specified in the `OrderRequest` for DFN orders in USD,
+ * supporting up to 6 decimal places
  *
  * If an `OrderRequest` with the same `client_order_id` already exists for the given account, the
  * creation call will fail.

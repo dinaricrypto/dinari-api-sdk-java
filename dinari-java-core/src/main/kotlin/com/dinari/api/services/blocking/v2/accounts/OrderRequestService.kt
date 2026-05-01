@@ -101,9 +101,8 @@ interface OrderRequestService {
     /**
      * Create a managed `OrderRequest` to place a limit buy `Order`.
      *
-     * Fees for the `Order` are included in the transaction. Refer to our
-     * [Fee Quote API](https://docs.dinari.com/reference/createproxiedorderfeequote#/) for fee
-     * estimation.
+     * Fees for the `Order` can optionally be specified in the `OrderRequest` for DFN orders in USD,
+     * supporting up to 6 decimal places
      *
      * If an `OrderRequest` with the same `client_order_id` already exists for the given account,
      * the creation call will fail.
@@ -132,9 +131,8 @@ interface OrderRequestService {
     /**
      * Create a managed `OrderRequest` to place a limit sell `Order`.
      *
-     * Fees for the `Order` are included in the transaction. Refer to our
-     * [Fee Quote API](https://docs.dinari.com/reference/createproxiedorderfeequote#/) for fee
-     * estimation.
+     * Fees for the `Order` can optionally be specified in the `OrderRequest` for DFN orders in USD,
+     * supporting up to 6 decimal places
      *
      * If an `OrderRequest` with the same `client_order_id` already exists for the given account,
      * the creation call will fail.
@@ -165,9 +163,8 @@ interface OrderRequestService {
     /**
      * Create a managed `OrderRequest` to place a market buy `Order`.
      *
-     * Fees for the `Order` are included in the transaction. Refer to our
-     * [Fee Quote API](https://docs.dinari.com/reference/createproxiedorderfeequote#/) for fee
-     * estimation.
+     * Fees for the `Order` can optionally be specified in the `OrderRequest` for DFN orders in USD,
+     * supporting up to 6 decimal places
      *
      * If an `OrderRequest` with the same `client_order_id` already exists for the given account,
      * the creation call will fail.
@@ -198,9 +195,8 @@ interface OrderRequestService {
     /**
      * Create a managed `OrderRequest` to place a market sell `Order`.
      *
-     * Fees for the `Order` are included in the transaction. Refer to our
-     * [Fee Quote API](https://docs.dinari.com/reference/createproxiedorderfeequote#/) for fee
-     * estimation.
+     * Fees for the `Order` can optionally be specified in the `OrderRequest` for DFN orders in USD,
+     * supporting up to 6 decimal places
      *
      * If an `OrderRequest` with the same `client_order_id` already exists for the given account,
      * the creation call will fail.
@@ -229,6 +225,8 @@ interface OrderRequestService {
     ): OrderRequest
 
     /**
+     * **DEPRECATED:** This endpoint is deprecated and will be removed on May 14th, 2026.
+     *
      * Get fee quote data for an `Order Request`. This is provided primarily for informational
      * purposes.
      *
