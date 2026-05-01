@@ -24,6 +24,7 @@ private constructor(
     private val paymentAmount: JsonField<Double>,
     private val alloyId: JsonField<String>,
     private val clientOrderId: JsonField<String>,
+    private val fee: JsonField<Double>,
     private val recipientAccountId: JsonField<String>,
     private val stockId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -38,11 +39,20 @@ private constructor(
         @JsonProperty("client_order_id")
         @ExcludeMissing
         clientOrderId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("fee") @ExcludeMissing fee: JsonField<Double> = JsonMissing.of(),
         @JsonProperty("recipient_account_id")
         @ExcludeMissing
         recipientAccountId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("stock_id") @ExcludeMissing stockId: JsonField<String> = JsonMissing.of(),
-    ) : this(paymentAmount, alloyId, clientOrderId, recipientAccountId, stockId, mutableMapOf())
+    ) : this(
+        paymentAmount,
+        alloyId,
+        clientOrderId,
+        fee,
+        recipientAccountId,
+        stockId,
+        mutableMapOf(),
+    )
 
     /**
      * Amount of currency (USD for US equities and ETFs) to pay for the order. Must be a positive
@@ -69,6 +79,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun clientOrderId(): Optional<String> = clientOrderId.getOptional("client_order_id")
+
+    /**
+     * Optional fee amount associated with `Order` in USD for DFN orders. Must be a positive number
+     * with a precision of up to 6 decimal places.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun fee(): Optional<Double> = fee.getOptional("fee")
 
     /**
      * ID of `Account` to receive the `Order`.
@@ -111,6 +130,13 @@ private constructor(
     @JsonProperty("client_order_id")
     @ExcludeMissing
     fun _clientOrderId(): JsonField<String> = clientOrderId
+
+    /**
+     * Returns the raw JSON value of [fee].
+     *
+     * Unlike [fee], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("fee") @ExcludeMissing fun _fee(): JsonField<Double> = fee
 
     /**
      * Returns the raw JSON value of [recipientAccountId].
@@ -160,6 +186,7 @@ private constructor(
         private var paymentAmount: JsonField<Double>? = null
         private var alloyId: JsonField<String> = JsonMissing.of()
         private var clientOrderId: JsonField<String> = JsonMissing.of()
+        private var fee: JsonField<Double> = JsonMissing.of()
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
         private var stockId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -169,6 +196,7 @@ private constructor(
             paymentAmount = createMarketBuyOrderInput.paymentAmount
             alloyId = createMarketBuyOrderInput.alloyId
             clientOrderId = createMarketBuyOrderInput.clientOrderId
+            fee = createMarketBuyOrderInput.fee
             recipientAccountId = createMarketBuyOrderInput.recipientAccountId
             stockId = createMarketBuyOrderInput.stockId
             additionalProperties = createMarketBuyOrderInput.additionalProperties.toMutableMap()
@@ -226,6 +254,30 @@ private constructor(
         fun clientOrderId(clientOrderId: JsonField<String>) = apply {
             this.clientOrderId = clientOrderId
         }
+
+        /**
+         * Optional fee amount associated with `Order` in USD for DFN orders. Must be a positive
+         * number with a precision of up to 6 decimal places.
+         */
+        fun fee(fee: Double?) = fee(JsonField.ofNullable(fee))
+
+        /**
+         * Alias for [Builder.fee].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun fee(fee: Double) = fee(fee as Double?)
+
+        /** Alias for calling [Builder.fee] with `fee.orElse(null)`. */
+        fun fee(fee: Optional<Double>) = fee(fee.getOrNull())
+
+        /**
+         * Sets [Builder.fee] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.fee] with a well-typed [Double] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun fee(fee: JsonField<Double>) = apply { this.fee = fee }
 
         /** ID of `Account` to receive the `Order`. */
         fun recipientAccountId(recipientAccountId: String?) =
@@ -298,6 +350,7 @@ private constructor(
                 checkRequired("paymentAmount", paymentAmount),
                 alloyId,
                 clientOrderId,
+                fee,
                 recipientAccountId,
                 stockId,
                 additionalProperties.toMutableMap(),
@@ -314,6 +367,7 @@ private constructor(
         paymentAmount()
         alloyId()
         clientOrderId()
+        fee()
         recipientAccountId()
         stockId()
         validated = true
@@ -337,6 +391,7 @@ private constructor(
         (if (paymentAmount.asKnown().isPresent) 1 else 0) +
             (if (alloyId.asKnown().isPresent) 1 else 0) +
             (if (clientOrderId.asKnown().isPresent) 1 else 0) +
+            (if (fee.asKnown().isPresent) 1 else 0) +
             (if (recipientAccountId.asKnown().isPresent) 1 else 0) +
             (if (stockId.asKnown().isPresent) 1 else 0)
 
@@ -349,6 +404,7 @@ private constructor(
             paymentAmount == other.paymentAmount &&
             alloyId == other.alloyId &&
             clientOrderId == other.clientOrderId &&
+            fee == other.fee &&
             recipientAccountId == other.recipientAccountId &&
             stockId == other.stockId &&
             additionalProperties == other.additionalProperties
@@ -359,6 +415,7 @@ private constructor(
             paymentAmount,
             alloyId,
             clientOrderId,
+            fee,
             recipientAccountId,
             stockId,
             additionalProperties,
@@ -368,5 +425,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CreateMarketBuyOrderInput{paymentAmount=$paymentAmount, alloyId=$alloyId, clientOrderId=$clientOrderId, recipientAccountId=$recipientAccountId, stockId=$stockId, additionalProperties=$additionalProperties}"
+        "CreateMarketBuyOrderInput{paymentAmount=$paymentAmount, alloyId=$alloyId, clientOrderId=$clientOrderId, fee=$fee, recipientAccountId=$recipientAccountId, stockId=$stockId, additionalProperties=$additionalProperties}"
 }

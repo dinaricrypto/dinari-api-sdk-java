@@ -32,6 +32,9 @@ import kotlin.jvm.optionals.getOrNull
  * Dinari's EVM smart contracts. Once signed, the transactions can be sent to the EVM network to
  * create the order. Note that the fee quote is already included in the transactions, so no
  * additional fee quote lookup is needed.
+ *
+ * Fees for the `Order` can optionally be specified in the `OrderRequest` for DFN orders in USD,
+ * supporting up to 6 decimal places.
  */
 class Eip155CreatePermitParams
 private constructor(
@@ -109,6 +112,15 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun clientOrderId(): Optional<String> = body.clientOrderId()
+
+    /**
+     * Optional fee amount associated with `Order` in USD for DFN orders. Must be a positive number
+     * with a precision of up to 6 decimal places.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun fee(): Optional<Double> = body.fee()
 
     /**
      * Price per asset in the asset's native currency. USD for US equities and ETFs. Required for
@@ -199,6 +211,13 @@ private constructor(
      * Unlike [clientOrderId], this method doesn't throw if the JSON field has an unexpected type.
      */
     fun _clientOrderId(): JsonField<String> = body._clientOrderId()
+
+    /**
+     * Returns the raw JSON value of [fee].
+     *
+     * Unlike [fee], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    fun _fee(): JsonField<Double> = body._fee()
 
     /**
      * Returns the raw JSON value of [limitPrice].
@@ -421,6 +440,30 @@ private constructor(
         fun clientOrderId(clientOrderId: JsonField<String>) = apply {
             body.clientOrderId(clientOrderId)
         }
+
+        /**
+         * Optional fee amount associated with `Order` in USD for DFN orders. Must be a positive
+         * number with a precision of up to 6 decimal places.
+         */
+        fun fee(fee: Double?) = apply { body.fee(fee) }
+
+        /**
+         * Alias for [Builder.fee].
+         *
+         * This unboxed primitive overload exists for backwards compatibility.
+         */
+        fun fee(fee: Double) = fee(fee as Double?)
+
+        /** Alias for calling [Builder.fee] with `fee.orElse(null)`. */
+        fun fee(fee: Optional<Double>) = fee(fee.getOrNull())
+
+        /**
+         * Sets [Builder.fee] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.fee] with a well-typed [Double] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun fee(fee: JsonField<Double>) = apply { body.fee(fee) }
 
         /**
          * Price per asset in the asset's native currency. USD for US equities and ETFs. Required
@@ -675,6 +718,7 @@ private constructor(
         private val alloyId: JsonField<String>,
         private val assetTokenQuantity: JsonField<Double>,
         private val clientOrderId: JsonField<String>,
+        private val fee: JsonField<Double>,
         private val limitPrice: JsonField<Double>,
         private val paymentTokenQuantity: JsonField<Double>,
         private val stockId: JsonField<String>,
@@ -704,6 +748,7 @@ private constructor(
             @JsonProperty("client_order_id")
             @ExcludeMissing
             clientOrderId: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("fee") @ExcludeMissing fee: JsonField<Double> = JsonMissing.of(),
             @JsonProperty("limit_price")
             @ExcludeMissing
             limitPrice: JsonField<Double> = JsonMissing.of(),
@@ -721,6 +766,7 @@ private constructor(
             alloyId,
             assetTokenQuantity,
             clientOrderId,
+            fee,
             limitPrice,
             paymentTokenQuantity,
             stockId,
@@ -796,6 +842,15 @@ private constructor(
          *   server responded with an unexpected value).
          */
         fun clientOrderId(): Optional<String> = clientOrderId.getOptional("client_order_id")
+
+        /**
+         * Optional fee amount associated with `Order` in USD for DFN orders. Must be a positive
+         * number with a precision of up to 6 decimal places.
+         *
+         * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+         *   server responded with an unexpected value).
+         */
+        fun fee(): Optional<Double> = fee.getOptional("fee")
 
         /**
          * Price per asset in the asset's native currency. USD for US equities and ETFs. Required
@@ -901,6 +956,13 @@ private constructor(
         fun _clientOrderId(): JsonField<String> = clientOrderId
 
         /**
+         * Returns the raw JSON value of [fee].
+         *
+         * Unlike [fee], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("fee") @ExcludeMissing fun _fee(): JsonField<Double> = fee
+
+        /**
          * Returns the raw JSON value of [limitPrice].
          *
          * Unlike [limitPrice], this method doesn't throw if the JSON field has an unexpected type.
@@ -973,6 +1035,7 @@ private constructor(
             private var alloyId: JsonField<String> = JsonMissing.of()
             private var assetTokenQuantity: JsonField<Double> = JsonMissing.of()
             private var clientOrderId: JsonField<String> = JsonMissing.of()
+            private var fee: JsonField<Double> = JsonMissing.of()
             private var limitPrice: JsonField<Double> = JsonMissing.of()
             private var paymentTokenQuantity: JsonField<Double> = JsonMissing.of()
             private var stockId: JsonField<String> = JsonMissing.of()
@@ -989,6 +1052,7 @@ private constructor(
                 alloyId = body.alloyId
                 assetTokenQuantity = body.assetTokenQuantity
                 clientOrderId = body.clientOrderId
+                fee = body.fee
                 limitPrice = body.limitPrice
                 paymentTokenQuantity = body.paymentTokenQuantity
                 stockId = body.stockId
@@ -1131,6 +1195,31 @@ private constructor(
             }
 
             /**
+             * Optional fee amount associated with `Order` in USD for DFN orders. Must be a positive
+             * number with a precision of up to 6 decimal places.
+             */
+            fun fee(fee: Double?) = fee(JsonField.ofNullable(fee))
+
+            /**
+             * Alias for [Builder.fee].
+             *
+             * This unboxed primitive overload exists for backwards compatibility.
+             */
+            fun fee(fee: Double) = fee(fee as Double?)
+
+            /** Alias for calling [Builder.fee] with `fee.orElse(null)`. */
+            fun fee(fee: Optional<Double>) = fee(fee.getOrNull())
+
+            /**
+             * Sets [Builder.fee] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.fee] with a well-typed [Double] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun fee(fee: JsonField<Double>) = apply { this.fee = fee }
+
+            /**
              * Price per asset in the asset's native currency. USD for US equities and ETFs.
              * Required for limit `Orders`.
              */
@@ -1260,6 +1349,7 @@ private constructor(
                     alloyId,
                     assetTokenQuantity,
                     clientOrderId,
+                    fee,
                     limitPrice,
                     paymentTokenQuantity,
                     stockId,
@@ -1283,6 +1373,7 @@ private constructor(
             alloyId()
             assetTokenQuantity()
             clientOrderId()
+            fee()
             limitPrice()
             paymentTokenQuantity()
             stockId()
@@ -1314,6 +1405,7 @@ private constructor(
                 (if (alloyId.asKnown().isPresent) 1 else 0) +
                 (if (assetTokenQuantity.asKnown().isPresent) 1 else 0) +
                 (if (clientOrderId.asKnown().isPresent) 1 else 0) +
+                (if (fee.asKnown().isPresent) 1 else 0) +
                 (if (limitPrice.asKnown().isPresent) 1 else 0) +
                 (if (paymentTokenQuantity.asKnown().isPresent) 1 else 0) +
                 (if (stockId.asKnown().isPresent) 1 else 0) +
@@ -1333,6 +1425,7 @@ private constructor(
                 alloyId == other.alloyId &&
                 assetTokenQuantity == other.assetTokenQuantity &&
                 clientOrderId == other.clientOrderId &&
+                fee == other.fee &&
                 limitPrice == other.limitPrice &&
                 paymentTokenQuantity == other.paymentTokenQuantity &&
                 stockId == other.stockId &&
@@ -1350,6 +1443,7 @@ private constructor(
                 alloyId,
                 assetTokenQuantity,
                 clientOrderId,
+                fee,
                 limitPrice,
                 paymentTokenQuantity,
                 stockId,
@@ -1361,7 +1455,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Body{chainId=$chainId, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, paymentToken=$paymentToken, alloyId=$alloyId, assetTokenQuantity=$assetTokenQuantity, clientOrderId=$clientOrderId, limitPrice=$limitPrice, paymentTokenQuantity=$paymentTokenQuantity, stockId=$stockId, tokenId=$tokenId, additionalProperties=$additionalProperties}"
+            "Body{chainId=$chainId, orderSide=$orderSide, orderTif=$orderTif, orderType=$orderType, paymentToken=$paymentToken, alloyId=$alloyId, assetTokenQuantity=$assetTokenQuantity, clientOrderId=$clientOrderId, fee=$fee, limitPrice=$limitPrice, paymentTokenQuantity=$paymentTokenQuantity, stockId=$stockId, tokenId=$tokenId, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
