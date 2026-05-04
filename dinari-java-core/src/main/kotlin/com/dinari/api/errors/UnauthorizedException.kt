@@ -5,12 +5,16 @@ package com.dinari.api.errors
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.checkRequired
 import com.dinari.api.core.http.Headers
+import com.dinari.api.core.jsonMapper
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class UnauthorizedException
 private constructor(private val headers: Headers, private val body: JsonValue, cause: Throwable?) :
-    DinariServiceException("401: $body", cause) {
+    DinariServiceException(
+        "401: ${if (body.isMissing()) "Unknown" else jsonMapper().writeValueAsString(body)}",
+        cause,
+    ) {
 
     override fun statusCode(): Int = 401
 
