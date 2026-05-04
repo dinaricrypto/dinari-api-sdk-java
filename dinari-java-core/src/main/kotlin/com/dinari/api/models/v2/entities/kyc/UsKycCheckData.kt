@@ -612,6 +612,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws DinariInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): UsKycCheckData = apply {
         if (validated) {
             return@apply
@@ -819,6 +827,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): AlpacaCustomerAgreement = apply {
             if (validated) {
                 return@apply
@@ -1267,6 +1284,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): AmlCheck = apply {
             if (validated) {
                 return@apply
@@ -1588,6 +1614,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): DataCitation = apply {
             if (validated) {
                 return@apply
@@ -1908,6 +1943,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Employment = apply {
             if (validated) {
                 return@apply
@@ -2049,6 +2093,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DinariInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
             fun validate(): EmploymentStatus = apply {
                 if (validated) {
                     return@apply
@@ -2349,6 +2403,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): FinancialProfile = apply {
             if (validated) {
                 return@apply
@@ -2497,6 +2560,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DinariInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
             fun validate(): FundingSource = apply {
                 if (validated) {
                     return@apply
@@ -3198,6 +3271,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Identity = apply {
             if (validated) {
                 return@apply
@@ -3343,6 +3425,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DinariInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
             fun validate(): CountryOfTaxResidence = apply {
                 if (validated) {
                     return@apply
@@ -3667,6 +3759,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): KycMetadata = apply {
             if (validated) {
                 return@apply
@@ -3900,6 +4001,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): NonProfessionalTraderAttestation = apply {
             if (validated) {
                 return@apply
@@ -4225,6 +4335,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): RiskDisclosure = apply {
             if (validated) {
                 return@apply
@@ -4544,6 +4663,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): TrustedContact = apply {
             if (validated) {
                 return@apply
@@ -4908,6 +5036,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws DinariInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): UsImmigrationInfo = apply {
             if (validated) {
                 return@apply
@@ -5108,6 +5245,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws DinariInvalidDataException if any value type in this object doesn't match its
+             *   expected type.
+             */
             fun validate(): VisaType = apply {
                 if (validated) {
                     return@apply
