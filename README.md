@@ -420,6 +420,21 @@ DinariClient client = DinariOkHttpClient.builder()
     .build();
 ```
 
+If the proxy responds with `407 Proxy Authentication Required`, supply credentials by also configuring `proxyAuthenticator`:
+
+```java
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.core.http.ProxyAuthenticator;
+
+DinariClient client = DinariOkHttpClient.builder()
+    .fromEnv()
+    .proxy(...)
+    // Or a custom implementation of `ProxyAuthenticator`.
+    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))
+    .build();
+```
+
 ### Connection pooling
 
 To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
