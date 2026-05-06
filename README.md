@@ -314,8 +314,6 @@ The SDK throws custom unchecked exception types:
 
 ## Logging
 
-The SDK uses the standard [OkHttp logging interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor).
-
 Enable logging by setting the `DINARI_LOG` environment variable to `info`:
 
 ```sh
@@ -326,6 +324,19 @@ Or to `debug` for more verbose logging:
 
 ```sh
 export DINARI_LOG=debug
+```
+
+Or configure the client manually using the `logLevel` method:
+
+```java
+import com.dinari.api.client.DinariClient;
+import com.dinari.api.client.okhttp.DinariOkHttpClient;
+import com.dinari.api.core.LogLevel;
+
+DinariClient client = DinariOkHttpClient.builder()
+    .fromEnv()
+    .logLevel(LogLevel.INFO)
+    .build();
 ```
 
 ## ProGuard and R8

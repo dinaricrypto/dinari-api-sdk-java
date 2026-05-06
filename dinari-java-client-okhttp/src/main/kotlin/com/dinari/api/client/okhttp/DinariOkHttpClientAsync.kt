@@ -5,6 +5,7 @@ package com.dinari.api.client.okhttp
 import com.dinari.api.client.DinariClientAsync
 import com.dinari.api.client.DinariClientAsyncImpl
 import com.dinari.api.core.ClientOptions
+import com.dinari.api.core.LogLevel
 import com.dinari.api.core.Sleeper
 import com.dinari.api.core.Timeout
 import com.dinari.api.core.http.Headers
@@ -282,6 +283,15 @@ class DinariOkHttpClientAsync private constructor() {
          * Defaults to 2.
          */
         fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
+
+        /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { clientOptions.logLevel(logLevel) }
 
         /** The API key ID provided on the [Partners Dashboard](https://partners.dinari.com). */
         fun apiKeyId(apiKeyId: String) = apply { clientOptions.apiKeyId(apiKeyId) }
