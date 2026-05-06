@@ -4,6 +4,7 @@ package com.dinari.api.core
 
 import com.dinari.api.core.http.Headers
 import com.dinari.api.core.http.HttpClient
+import com.dinari.api.core.http.LoggingHttpClient
 import com.dinari.api.core.http.PhantomReachableClosingHttpClient
 import com.dinari.api.core.http.QueryParams
 import com.dinari.api.core.http.RetryingHttpClient
@@ -96,6 +97,14 @@ private constructor(
      * Defaults to 2.
      */
     @get:JvmName("maxRetries") val maxRetries: Int,
+    /**
+     * The level at which to log request and response information.
+     *
+     * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+     *
+     * Defaults to [LogLevel.fromEnv].
+     */
+    @get:JvmName("logLevel") val logLevel: LogLevel,
     /** The API key ID provided on the [Partners Dashboard](https://partners.dinari.com). */
     @get:JvmName("apiKeyId") val apiKeyId: String,
     /** API Secret Key that is only shown once at API Key creation. */
@@ -160,6 +169,7 @@ private constructor(
         private var responseValidation: Boolean = false
         private var timeout: Timeout = Timeout.default()
         private var maxRetries: Int = 2
+        private var logLevel: LogLevel = LogLevel.fromEnv()
         private var apiKeyId: String? = null
         private var apiSecretKey: String? = null
 
@@ -176,6 +186,7 @@ private constructor(
             responseValidation = clientOptions.responseValidation
             timeout = clientOptions.timeout
             maxRetries = clientOptions.maxRetries
+            logLevel = clientOptions.logLevel
             apiKeyId = clientOptions.apiKeyId
             apiSecretKey = clientOptions.apiSecretKey
         }
@@ -293,6 +304,15 @@ private constructor(
          */
         fun maxRetries(maxRetries: Int) = apply { this.maxRetries = maxRetries }
 
+        /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { this.logLevel = logLevel }
+
         /** The API key ID provided on the [Partners Dashboard](https://partners.dinari.com). */
         fun apiKeyId(apiKeyId: String) = apply { this.apiKeyId = apiKeyId }
 
@@ -395,6 +415,7 @@ private constructor(
          * System properties take precedence over environment variables.
          */
         fun fromEnv() = apply {
+            logLevel(LogLevel.fromEnv())
             (System.getProperty("dinari.baseUrl") ?: System.getenv("DINARI_BASE_URL"))?.let {
                 baseUrl(it)
             }
@@ -460,7 +481,13 @@ private constructor(
             return ClientOptions(
                 httpClient,
                 RetryingHttpClient.builder()
-                    .httpClient(httpClient)
+                    .httpClient(
+                        LoggingHttpClient.builder()
+                            .httpClient(httpClient)
+                            .clock(clock)
+                            .level(logLevel)
+                            .build()
+                    )
                     .sleeper(sleeper)
                     .clock(clock)
                     .maxRetries(maxRetries)
@@ -475,6 +502,7 @@ private constructor(
                 responseValidation,
                 timeout,
                 maxRetries,
+                logLevel,
                 apiKeyId,
                 apiSecretKey,
             )
