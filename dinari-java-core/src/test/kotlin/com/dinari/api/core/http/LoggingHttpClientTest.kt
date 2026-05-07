@@ -870,7 +870,16 @@ internal class LoggingHttpClientTest {
         httpClient: HttpClient,
         level: LogLevel,
         clock: Clock = clockFrom(Instant.parse("1998-04-21T00:00:00Z")),
-        redactedHeaders: Set<String> = setOf("X-API-Key-Id", "X-API-Secret-Key"),
+        redactedHeaders: Set<String> =
+            setOf(
+                "authorization",
+                "api-key",
+                "x-api-key",
+                "cookie",
+                "set-cookie",
+                "x-api-key-id",
+                "x-api-secret-key",
+            ),
     ): LoggingHttpClient =
         LoggingHttpClient.builder()
             .httpClient(httpClient)

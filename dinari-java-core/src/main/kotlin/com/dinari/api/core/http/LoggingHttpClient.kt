@@ -31,7 +31,8 @@ private constructor(
     /**
      * Sensitive headers to redact from logs.
      *
-     * Defaults to `Set.of("X-API-Key-Id", "X-API-Secret-Key")`.
+     * Defaults to `Set.of("authorization", "api-key", "x-api-key", "cookie", "set-cookie",
+     * "x-api-key-id", "x-api-secret-key")`.
      */
     @get:JvmName("redactedHeaders") val redactedHeaders: SortedSet<String>,
     /**
@@ -192,7 +193,16 @@ private constructor(
     class Builder internal constructor() {
 
         private var httpClient: HttpClient? = null
-        private var redactedHeaders: Set<String> = setOf("X-API-Key-Id", "X-API-Secret-Key")
+        private var redactedHeaders: Set<String> =
+            setOf(
+                "authorization",
+                "api-key",
+                "x-api-key",
+                "cookie",
+                "set-cookie",
+                "x-api-key-id",
+                "x-api-secret-key",
+            )
         private var clock: Clock = Clock.systemUTC()
         private var level: LogLevel? = null
 
@@ -210,7 +220,8 @@ private constructor(
         /**
          * Sensitive headers to redact from logs.
          *
-         * Defaults to `Set.of("X-API-Key-Id", "X-API-Secret-Key")`.
+         * Defaults to `Set.of("authorization", "api-key", "x-api-key", "cookie", "set-cookie",
+         * "x-api-key-id", "x-api-secret-key")`.
          */
         fun redactedHeaders(redactedHeaders: Set<String>) = apply {
             this.redactedHeaders = redactedHeaders
