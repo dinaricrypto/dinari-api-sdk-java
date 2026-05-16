@@ -78,7 +78,7 @@ private constructor(
     )
 
     /**
-     * The ask price.
+     * The price (fair market value) of the asset at the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -94,7 +94,7 @@ private constructor(
     fun stockId(): String = stockId.getRequired("stock_id")
 
     /**
-     * When the Stock Quote was generated.
+     * When the `StockPrice` was generated.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -142,7 +142,7 @@ private constructor(
     fun low(): Optional<Double> = low.getOptional("low")
 
     /**
-     * The most recent close price of the ticker multiplied by weighted outstanding shares.
+     * The market capitalization of the `Stock` calculated at the most recent close price.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -166,7 +166,7 @@ private constructor(
     fun previousClose(): Optional<Double> = previousClose.getOptional("previous_close")
 
     /**
-     * The trading volume from the given time period.
+     * The trading volume in shares from the given time period.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -349,7 +349,7 @@ private constructor(
                     stockRetrieveCurrentPriceResponse.additionalProperties.toMutableMap()
             }
 
-        /** The ask price. */
+        /** The price (fair market value) of the asset at the given time period. */
         fun price(price: Double) = price(JsonField.of(price))
 
         /**
@@ -371,7 +371,7 @@ private constructor(
          */
         fun stockId(stockId: JsonField<String>) = apply { this.stockId = stockId }
 
-        /** When the Stock Quote was generated. */
+        /** When the `StockPrice` was generated. */
         fun timestamp(timestamp: OffsetDateTime) = timestamp(JsonField.of(timestamp))
 
         /**
@@ -493,7 +493,7 @@ private constructor(
          */
         fun low(low: JsonField<Double>) = apply { this.low = low }
 
-        /** The most recent close price of the ticker multiplied by weighted outstanding shares. */
+        /** The market capitalization of the `Stock` calculated at the most recent close price. */
         fun marketCap(marketCap: Long?) = marketCap(JsonField.ofNullable(marketCap))
 
         /**
@@ -561,7 +561,7 @@ private constructor(
             this.previousClose = previousClose
         }
 
-        /** The trading volume from the given time period. */
+        /** The trading volume in shares from the given time period. */
         fun volume(volume: Double?) = volume(JsonField.ofNullable(volume))
 
         /**

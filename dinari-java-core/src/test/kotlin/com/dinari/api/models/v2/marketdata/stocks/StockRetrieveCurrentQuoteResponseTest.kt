@@ -20,6 +20,7 @@ internal class StockRetrieveCurrentQuoteResponseTest {
                 .bidSize(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                ._sv(StockRetrieveCurrentQuoteResponse._Sv.STOCK_QUOTE_V1)
                 .build()
 
         assertThat(stockRetrieveCurrentQuoteResponse.askPrice()).isEqualTo(0.0)
@@ -30,6 +31,8 @@ internal class StockRetrieveCurrentQuoteResponseTest {
             .isEqualTo("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
         assertThat(stockRetrieveCurrentQuoteResponse.timestamp())
             .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+        assertThat(stockRetrieveCurrentQuoteResponse._sv())
+            .contains(StockRetrieveCurrentQuoteResponse._Sv.STOCK_QUOTE_V1)
     }
 
     @Test
@@ -43,6 +46,7 @@ internal class StockRetrieveCurrentQuoteResponseTest {
                 .bidSize(0.0)
                 .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .timestamp(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                ._sv(StockRetrieveCurrentQuoteResponse._Sv.STOCK_QUOTE_V1)
                 .build()
 
         val roundtrippedStockRetrieveCurrentQuoteResponse =
