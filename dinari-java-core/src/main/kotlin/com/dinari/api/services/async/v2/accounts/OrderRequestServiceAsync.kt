@@ -10,8 +10,6 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBu
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
-import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
-import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
@@ -235,42 +233,6 @@ interface OrderRequestServiceAsync {
     ): CompletableFuture<OrderRequest>
 
     /**
-     * **DEPRECATED:** This endpoint is deprecated and will be removed on May 14th, 2026.
-     *
-     * Get fee quote data for an `Order Request`. This is provided primarily for informational
-     * purposes.
-     *
-     * For market buy orders, the notional amount of the order includes the fees. For market and
-     * limit sell orders, fees are deducted from the proceeds of the sale. For limit buy orders, the
-     * fees are added to the total cost of the order.
-     */
-    fun getFeeQuote(
-        accountId: String,
-        params: OrderRequestGetFeeQuoteParams,
-    ): CompletableFuture<OrderRequestGetFeeQuoteResponse> =
-        getFeeQuote(accountId, params, RequestOptions.none())
-
-    /** @see getFeeQuote */
-    fun getFeeQuote(
-        accountId: String,
-        params: OrderRequestGetFeeQuoteParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderRequestGetFeeQuoteResponse> =
-        getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-    /** @see getFeeQuote */
-    fun getFeeQuote(
-        params: OrderRequestGetFeeQuoteParams
-    ): CompletableFuture<OrderRequestGetFeeQuoteResponse> =
-        getFeeQuote(params, RequestOptions.none())
-
-    /** @see getFeeQuote */
-    fun getFeeQuote(
-        params: OrderRequestGetFeeQuoteParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderRequestGetFeeQuoteResponse>
-
-    /**
      * A view of [OrderRequestServiceAsync] that provides access to raw HTTP responses for each
      * method.
      */
@@ -489,36 +451,5 @@ interface OrderRequestServiceAsync {
             params: OrderRequestCreateMarketSellParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<OrderRequest>>
-
-        /**
-         * Returns a raw HTTP response for `post
-         * /api/v2/accounts/{account_id}/order_requests/fee_quote`, but is otherwise the same as
-         * [OrderRequestServiceAsync.getFeeQuote].
-         */
-        fun getFeeQuote(
-            accountId: String,
-            params: OrderRequestGetFeeQuoteParams,
-        ): CompletableFuture<HttpResponseFor<OrderRequestGetFeeQuoteResponse>> =
-            getFeeQuote(accountId, params, RequestOptions.none())
-
-        /** @see getFeeQuote */
-        fun getFeeQuote(
-            accountId: String,
-            params: OrderRequestGetFeeQuoteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderRequestGetFeeQuoteResponse>> =
-            getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-        /** @see getFeeQuote */
-        fun getFeeQuote(
-            params: OrderRequestGetFeeQuoteParams
-        ): CompletableFuture<HttpResponseFor<OrderRequestGetFeeQuoteResponse>> =
-            getFeeQuote(params, RequestOptions.none())
-
-        /** @see getFeeQuote */
-        fun getFeeQuote(
-            params: OrderRequestGetFeeQuoteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderRequestGetFeeQuoteResponse>>
     }
 }
