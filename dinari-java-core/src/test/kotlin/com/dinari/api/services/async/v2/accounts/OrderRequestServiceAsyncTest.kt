@@ -3,7 +3,6 @@
 package com.dinari.api.services.async.v2.accounts
 
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
-import com.dinari.api.models.v2.accounts.Chain
 import com.dinari.api.models.v2.accounts.orderrequests.CreateLimitBuyOrderInput
 import com.dinari.api.models.v2.accounts.orderrequests.CreateLimitSellOrderInput
 import com.dinari.api.models.v2.accounts.orderrequests.CreateMarketBuyOrderInput
@@ -12,11 +11,8 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBu
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
-import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
-import com.dinari.api.models.v2.accounts.orders.OrderSide
-import com.dinari.api.models.v2.accounts.orders.OrderType
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
@@ -200,35 +196,5 @@ internal class OrderRequestServiceAsyncTest {
 
         val orderRequest = orderRequestFuture.get()
         orderRequest.validate()
-    }
-
-    @Disabled("Mock server tests are disabled")
-    @Test
-    fun getFeeQuote() {
-        val client =
-            DinariOkHttpClientAsync.builder()
-                .apiKeyId("My API Key ID")
-                .apiSecretKey("My API Secret Key")
-                .build()
-        val orderRequestServiceAsync = client.v2().accounts().orderRequests()
-
-        val responseFuture =
-            orderRequestServiceAsync.getFeeQuote(
-                OrderRequestGetFeeQuoteParams.builder()
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .orderSide(OrderSide.BUY)
-                    .orderType(OrderType.MARKET)
-                    .alloyId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .assetTokenQuantity(0.0)
-                    .chainId(Chain.EIP155_1)
-                    .limitPrice(0.0)
-                    .paymentTokenAddress("payment_token_address")
-                    .paymentTokenQuantity(0.0)
-                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .build()
-            )
-
-        val response = responseFuture.get()
-        response.validate()
     }
 }

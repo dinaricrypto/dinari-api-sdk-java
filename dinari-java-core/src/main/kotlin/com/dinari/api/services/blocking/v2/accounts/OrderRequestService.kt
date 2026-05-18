@@ -10,8 +10,6 @@ import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitBu
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateLimitSellParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketBuyParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestCreateMarketSellParams
-import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteParams
-import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestGetFeeQuoteResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListParams
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestListResponse
 import com.dinari.api.models.v2.accounts.orderrequests.OrderRequestRetrieveParams
@@ -223,39 +221,6 @@ interface OrderRequestService {
         params: OrderRequestCreateMarketSellParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OrderRequest
-
-    /**
-     * **DEPRECATED:** This endpoint is deprecated and will be removed on May 14th, 2026.
-     *
-     * Get fee quote data for an `Order Request`. This is provided primarily for informational
-     * purposes.
-     *
-     * For market buy orders, the notional amount of the order includes the fees. For market and
-     * limit sell orders, fees are deducted from the proceeds of the sale. For limit buy orders, the
-     * fees are added to the total cost of the order.
-     */
-    fun getFeeQuote(
-        accountId: String,
-        params: OrderRequestGetFeeQuoteParams,
-    ): OrderRequestGetFeeQuoteResponse = getFeeQuote(accountId, params, RequestOptions.none())
-
-    /** @see getFeeQuote */
-    fun getFeeQuote(
-        accountId: String,
-        params: OrderRequestGetFeeQuoteParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderRequestGetFeeQuoteResponse =
-        getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-    /** @see getFeeQuote */
-    fun getFeeQuote(params: OrderRequestGetFeeQuoteParams): OrderRequestGetFeeQuoteResponse =
-        getFeeQuote(params, RequestOptions.none())
-
-    /** @see getFeeQuote */
-    fun getFeeQuote(
-        params: OrderRequestGetFeeQuoteParams,
-        requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderRequestGetFeeQuoteResponse
 
     /**
      * A view of [OrderRequestService] that provides access to raw HTTP responses for each method.
@@ -489,40 +454,5 @@ interface OrderRequestService {
             params: OrderRequestCreateMarketSellParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<OrderRequest>
-
-        /**
-         * Returns a raw HTTP response for `post
-         * /api/v2/accounts/{account_id}/order_requests/fee_quote`, but is otherwise the same as
-         * [OrderRequestService.getFeeQuote].
-         */
-        @MustBeClosed
-        fun getFeeQuote(
-            accountId: String,
-            params: OrderRequestGetFeeQuoteParams,
-        ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> =
-            getFeeQuote(accountId, params, RequestOptions.none())
-
-        /** @see getFeeQuote */
-        @MustBeClosed
-        fun getFeeQuote(
-            accountId: String,
-            params: OrderRequestGetFeeQuoteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> =
-            getFeeQuote(params.toBuilder().accountId(accountId).build(), requestOptions)
-
-        /** @see getFeeQuote */
-        @MustBeClosed
-        fun getFeeQuote(
-            params: OrderRequestGetFeeQuoteParams
-        ): HttpResponseFor<OrderRequestGetFeeQuoteResponse> =
-            getFeeQuote(params, RequestOptions.none())
-
-        /** @see getFeeQuote */
-        @MustBeClosed
-        fun getFeeQuote(
-            params: OrderRequestGetFeeQuoteParams,
-            requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderRequestGetFeeQuoteResponse>
     }
 }
