@@ -4,6 +4,7 @@ package com.dinari.api.services.blocking.v2.marketdata
 
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsParams
 import org.junit.jupiter.api.Disabled
@@ -62,7 +63,14 @@ internal class StockServiceTest {
                 .build()
         val stockService = client.v2().marketData().stocks()
 
-        val response = stockService.retrieveCurrentQuote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val response =
+            stockService.retrieveCurrentQuote(
+                StockRetrieveCurrentQuoteParams.builder()
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .feed(StockRetrieveCurrentQuoteParams.Feed.SIP)
+                    .xApiVersion("X-API-Version")
+                    .build()
+            )
 
         response.validate()
     }
