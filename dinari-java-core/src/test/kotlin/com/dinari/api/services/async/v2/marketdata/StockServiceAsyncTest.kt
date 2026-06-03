@@ -4,6 +4,7 @@ package com.dinari.api.services.async.v2.marketdata
 
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
 import com.dinari.api.models.v2.marketdata.stocks.StockListParams
+import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveCurrentQuoteParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveHistoricalPricesParams
 import com.dinari.api.models.v2.marketdata.stocks.StockRetrieveNewsParams
 import org.junit.jupiter.api.Disabled
@@ -66,7 +67,13 @@ internal class StockServiceAsyncTest {
         val stockServiceAsync = client.v2().marketData().stocks()
 
         val responseFuture =
-            stockServiceAsync.retrieveCurrentQuote("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            stockServiceAsync.retrieveCurrentQuote(
+                StockRetrieveCurrentQuoteParams.builder()
+                    .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .feed(StockRetrieveCurrentQuoteParams.Feed.SIP)
+                    .xApiVersion("X-API-Version")
+                    .build()
+            )
 
         val response = responseFuture.get()
         response.validate()
