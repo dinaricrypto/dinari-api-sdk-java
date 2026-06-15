@@ -79,7 +79,8 @@ private constructor(
     fun orderType(): OrderType = body.orderType()
 
     /**
-     * Address of payment token.
+     * Address of payment token. Required for Accounts outside of US jurisdiction. Accounts inside
+     * US jurisdiction must use USDC.
      *
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -357,7 +358,10 @@ private constructor(
          */
         fun orderType(orderType: JsonField<OrderType>) = apply { body.orderType(orderType) }
 
-        /** Address of payment token. */
+        /**
+         * Address of payment token. Required for Accounts outside of US jurisdiction. Accounts
+         * inside US jurisdiction must use USDC.
+         */
         fun paymentToken(paymentToken: String) = apply { body.paymentToken(paymentToken) }
 
         /**
@@ -807,7 +811,8 @@ private constructor(
         fun orderType(): OrderType = orderType.getRequired("order_type")
 
         /**
-         * Address of payment token.
+         * Address of payment token. Required for Accounts outside of US jurisdiction. Accounts
+         * inside US jurisdiction must use USDC.
          *
          * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
          *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
@@ -1108,7 +1113,10 @@ private constructor(
              */
             fun orderType(orderType: JsonField<OrderType>) = apply { this.orderType = orderType }
 
-            /** Address of payment token. */
+            /**
+             * Address of payment token. Required for Accounts outside of US jurisdiction. Accounts
+             * inside US jurisdiction must use USDC.
+             */
             fun paymentToken(paymentToken: String) = paymentToken(JsonField.of(paymentToken))
 
             /**
