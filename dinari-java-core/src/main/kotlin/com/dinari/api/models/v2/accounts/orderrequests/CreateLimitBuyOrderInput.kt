@@ -26,6 +26,7 @@ private constructor(
     private val alloyId: JsonField<String>,
     private val clientOrderId: JsonField<String>,
     private val fee: JsonField<Double>,
+    private val paymentTokenAddress: JsonField<String>,
     private val recipientAccountId: JsonField<String>,
     private val stockId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -44,6 +45,9 @@ private constructor(
         @ExcludeMissing
         clientOrderId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("fee") @ExcludeMissing fee: JsonField<Double> = JsonMissing.of(),
+        @JsonProperty("payment_token_address")
+        @ExcludeMissing
+        paymentTokenAddress: JsonField<String> = JsonMissing.of(),
         @JsonProperty("recipient_account_id")
         @ExcludeMissing
         recipientAccountId: JsonField<String> = JsonMissing.of(),
@@ -54,6 +58,7 @@ private constructor(
         alloyId,
         clientOrderId,
         fee,
+        paymentTokenAddress,
         recipientAccountId,
         stockId,
         mutableMapOf(),
@@ -102,6 +107,16 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun fee(): Optional<Double> = fee.getOptional("fee")
+
+    /**
+     * Address of the payment token to be used for the payment of the order. If not provided, the
+     * default payment token (USD+) will be used.
+     *
+     * @throws DinariInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun paymentTokenAddress(): Optional<String> =
+        paymentTokenAddress.getOptional("payment_token_address")
 
     /**
      * ID of `Account` to receive the `Order`.
@@ -160,6 +175,16 @@ private constructor(
     @JsonProperty("fee") @ExcludeMissing fun _fee(): JsonField<Double> = fee
 
     /**
+     * Returns the raw JSON value of [paymentTokenAddress].
+     *
+     * Unlike [paymentTokenAddress], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("payment_token_address")
+    @ExcludeMissing
+    fun _paymentTokenAddress(): JsonField<String> = paymentTokenAddress
+
+    /**
      * Returns the raw JSON value of [recipientAccountId].
      *
      * Unlike [recipientAccountId], this method doesn't throw if the JSON field has an unexpected
@@ -210,6 +235,7 @@ private constructor(
         private var alloyId: JsonField<String> = JsonMissing.of()
         private var clientOrderId: JsonField<String> = JsonMissing.of()
         private var fee: JsonField<Double> = JsonMissing.of()
+        private var paymentTokenAddress: JsonField<String> = JsonMissing.of()
         private var recipientAccountId: JsonField<String> = JsonMissing.of()
         private var stockId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -221,6 +247,7 @@ private constructor(
             alloyId = createLimitBuyOrderInput.alloyId
             clientOrderId = createLimitBuyOrderInput.clientOrderId
             fee = createLimitBuyOrderInput.fee
+            paymentTokenAddress = createLimitBuyOrderInput.paymentTokenAddress
             recipientAccountId = createLimitBuyOrderInput.recipientAccountId
             stockId = createLimitBuyOrderInput.stockId
             additionalProperties = createLimitBuyOrderInput.additionalProperties.toMutableMap()
@@ -318,6 +345,30 @@ private constructor(
          */
         fun fee(fee: JsonField<Double>) = apply { this.fee = fee }
 
+        /**
+         * Address of the payment token to be used for the payment of the order. If not provided,
+         * the default payment token (USD+) will be used.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: String?) =
+            paymentTokenAddress(JsonField.ofNullable(paymentTokenAddress))
+
+        /**
+         * Alias for calling [Builder.paymentTokenAddress] with `paymentTokenAddress.orElse(null)`.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: Optional<String>) =
+            paymentTokenAddress(paymentTokenAddress.getOrNull())
+
+        /**
+         * Sets [Builder.paymentTokenAddress] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.paymentTokenAddress] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun paymentTokenAddress(paymentTokenAddress: JsonField<String>) = apply {
+            this.paymentTokenAddress = paymentTokenAddress
+        }
+
         /** ID of `Account` to receive the `Order`. */
         fun recipientAccountId(recipientAccountId: String?) =
             recipientAccountId(JsonField.ofNullable(recipientAccountId))
@@ -392,6 +443,7 @@ private constructor(
                 alloyId,
                 clientOrderId,
                 fee,
+                paymentTokenAddress,
                 recipientAccountId,
                 stockId,
                 additionalProperties.toMutableMap(),
@@ -418,6 +470,7 @@ private constructor(
         alloyId()
         clientOrderId()
         fee()
+        paymentTokenAddress()
         recipientAccountId()
         stockId()
         validated = true
@@ -443,6 +496,7 @@ private constructor(
             (if (alloyId.asKnown().isPresent) 1 else 0) +
             (if (clientOrderId.asKnown().isPresent) 1 else 0) +
             (if (fee.asKnown().isPresent) 1 else 0) +
+            (if (paymentTokenAddress.asKnown().isPresent) 1 else 0) +
             (if (recipientAccountId.asKnown().isPresent) 1 else 0) +
             (if (stockId.asKnown().isPresent) 1 else 0)
 
@@ -457,6 +511,7 @@ private constructor(
             alloyId == other.alloyId &&
             clientOrderId == other.clientOrderId &&
             fee == other.fee &&
+            paymentTokenAddress == other.paymentTokenAddress &&
             recipientAccountId == other.recipientAccountId &&
             stockId == other.stockId &&
             additionalProperties == other.additionalProperties
@@ -469,6 +524,7 @@ private constructor(
             alloyId,
             clientOrderId,
             fee,
+            paymentTokenAddress,
             recipientAccountId,
             stockId,
             additionalProperties,
@@ -478,5 +534,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "CreateLimitBuyOrderInput{assetQuantity=$assetQuantity, limitPrice=$limitPrice, alloyId=$alloyId, clientOrderId=$clientOrderId, fee=$fee, recipientAccountId=$recipientAccountId, stockId=$stockId, additionalProperties=$additionalProperties}"
+        "CreateLimitBuyOrderInput{assetQuantity=$assetQuantity, limitPrice=$limitPrice, alloyId=$alloyId, clientOrderId=$clientOrderId, fee=$fee, paymentTokenAddress=$paymentTokenAddress, recipientAccountId=$recipientAccountId, stockId=$stockId, additionalProperties=$additionalProperties}"
 }
