@@ -64,8 +64,6 @@ internal class EntityServiceTest {
                     .limit(20L)
                     .next("next")
                     .order(EntityListParams.Order.ASC)
-                    .page(1L)
-                    .pageSize(1L)
                     .previous("previous")
                     .referenceId("x")
                     .build()

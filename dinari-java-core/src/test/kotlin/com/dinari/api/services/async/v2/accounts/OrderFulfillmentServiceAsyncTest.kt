@@ -50,8 +50,6 @@ internal class OrderFulfillmentServiceAsyncTest {
                     .next("next")
                     .order(OrderFulfillmentQueryParams.Order.ASC)
                     .addOrderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .page(1L)
-                    .pageSize(1L)
                     .previous("previous")
                     .build()
             )

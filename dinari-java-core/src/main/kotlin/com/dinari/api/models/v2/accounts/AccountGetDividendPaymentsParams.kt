@@ -24,8 +24,6 @@ private constructor(
     private val limit: Long?,
     private val next: String?,
     private val order: Order?,
-    private val page: Long?,
-    private val pageSize: Long?,
     private val previous: String?,
     private val stockId: String?,
     private val additionalHeaders: Headers,
@@ -48,10 +46,6 @@ private constructor(
 
     /** Sort order */
     fun order(): Optional<Order> = Optional.ofNullable(order)
-
-    fun page(): Optional<Long> = Optional.ofNullable(page)
-
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     /** Cursor for previous page */
     fun previous(): Optional<String> = Optional.ofNullable(previous)
@@ -91,8 +85,6 @@ private constructor(
         private var limit: Long? = null
         private var next: String? = null
         private var order: Order? = null
-        private var page: Long? = null
-        private var pageSize: Long? = null
         private var previous: String? = null
         private var stockId: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
@@ -107,8 +99,6 @@ private constructor(
                 limit = accountGetDividendPaymentsParams.limit
                 next = accountGetDividendPaymentsParams.next
                 order = accountGetDividendPaymentsParams.order
-                page = accountGetDividendPaymentsParams.page
-                pageSize = accountGetDividendPaymentsParams.pageSize
                 previous = accountGetDividendPaymentsParams.previous
                 stockId = accountGetDividendPaymentsParams.stockId
                 additionalHeaders = accountGetDividendPaymentsParams.additionalHeaders.toBuilder()
@@ -151,30 +141,6 @@ private constructor(
 
         /** Alias for calling [Builder.order] with `order.orElse(null)`. */
         fun order(order: Optional<Order>) = order(order.getOrNull())
-
-        fun page(page: Long?) = apply { this.page = page }
-
-        /**
-         * Alias for [Builder.page].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun page(page: Long) = page(page as Long?)
-
-        /** Alias for calling [Builder.page] with `page.orElse(null)`. */
-        fun page(page: Optional<Long>) = page(page.getOrNull())
-
-        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
-
-        /**
-         * Alias for [Builder.pageSize].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
-
-        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
-        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /** Cursor for previous page */
         fun previous(previous: String?) = apply { this.previous = previous }
@@ -307,8 +273,6 @@ private constructor(
                 limit,
                 next,
                 order,
-                page,
-                pageSize,
                 previous,
                 stockId,
                 additionalHeaders.build(),
@@ -332,8 +296,6 @@ private constructor(
                 limit?.let { put("limit", it.toString()) }
                 next?.let { put("next", it) }
                 order?.let { put("order", it.toString()) }
-                page?.let { put("page", it.toString()) }
-                pageSize?.let { put("page_size", it.toString()) }
                 previous?.let { put("previous", it) }
                 stockId?.let { put("stock_id", it) }
                 putAll(additionalQueryParams)
@@ -487,8 +449,6 @@ private constructor(
             limit == other.limit &&
             next == other.next &&
             order == other.order &&
-            page == other.page &&
-            pageSize == other.pageSize &&
             previous == other.previous &&
             stockId == other.stockId &&
             additionalHeaders == other.additionalHeaders &&
@@ -503,8 +463,6 @@ private constructor(
             limit,
             next,
             order,
-            page,
-            pageSize,
             previous,
             stockId,
             additionalHeaders,
@@ -512,5 +470,5 @@ private constructor(
         )
 
     override fun toString() =
-        "AccountGetDividendPaymentsParams{accountId=$accountId, endDate=$endDate, startDate=$startDate, limit=$limit, next=$next, order=$order, page=$page, pageSize=$pageSize, previous=$previous, stockId=$stockId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "AccountGetDividendPaymentsParams{accountId=$accountId, endDate=$endDate, startDate=$startDate, limit=$limit, next=$next, order=$order, previous=$previous, stockId=$stockId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

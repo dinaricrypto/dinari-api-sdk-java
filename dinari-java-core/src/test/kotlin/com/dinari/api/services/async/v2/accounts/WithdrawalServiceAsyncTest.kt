@@ -49,8 +49,6 @@ internal class WithdrawalServiceAsyncTest {
                     .limit(20L)
                     .next("next")
                     .order(WithdrawalListParams.Order.ASC)
-                    .page(1L)
-                    .pageSize(1L)
                     .previous("previous")
                     .withdrawalRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()

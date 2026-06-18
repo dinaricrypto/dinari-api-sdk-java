@@ -23,8 +23,6 @@ private constructor(
     private val order: Order?,
     private val orderId: String?,
     private val orderRequestId: String?,
-    private val page: Long?,
-    private val pageSize: Long?,
     private val previous: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -49,10 +47,6 @@ private constructor(
 
     /** Order Request ID for the `OrderRequest` */
     fun orderRequestId(): Optional<String> = Optional.ofNullable(orderRequestId)
-
-    fun page(): Optional<Long> = Optional.ofNullable(page)
-
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     /** Cursor for previous page */
     fun previous(): Optional<String> = Optional.ofNullable(previous)
@@ -83,8 +77,6 @@ private constructor(
         private var order: Order? = null
         private var orderId: String? = null
         private var orderRequestId: String? = null
-        private var page: Long? = null
-        private var pageSize: Long? = null
         private var previous: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -98,8 +90,6 @@ private constructor(
             order = orderRequestListParams.order
             orderId = orderRequestListParams.orderId
             orderRequestId = orderRequestListParams.orderRequestId
-            page = orderRequestListParams.page
-            pageSize = orderRequestListParams.pageSize
             previous = orderRequestListParams.previous
             additionalHeaders = orderRequestListParams.additionalHeaders.toBuilder()
             additionalQueryParams = orderRequestListParams.additionalQueryParams.toBuilder()
@@ -154,30 +144,6 @@ private constructor(
         /** Alias for calling [Builder.orderRequestId] with `orderRequestId.orElse(null)`. */
         fun orderRequestId(orderRequestId: Optional<String>) =
             orderRequestId(orderRequestId.getOrNull())
-
-        fun page(page: Long?) = apply { this.page = page }
-
-        /**
-         * Alias for [Builder.page].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun page(page: Long) = page(page as Long?)
-
-        /** Alias for calling [Builder.page] with `page.orElse(null)`. */
-        fun page(page: Optional<Long>) = page(page.getOrNull())
-
-        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
-
-        /**
-         * Alias for [Builder.pageSize].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
-
-        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
-        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /** Cursor for previous page */
         fun previous(previous: String?) = apply { this.previous = previous }
@@ -297,8 +263,6 @@ private constructor(
                 order,
                 orderId,
                 orderRequestId,
-                page,
-                pageSize,
                 previous,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -322,8 +286,6 @@ private constructor(
                 order?.let { put("order", it.toString()) }
                 orderId?.let { put("order_id", it) }
                 orderRequestId?.let { put("order_request_id", it) }
-                page?.let { put("page", it.toString()) }
-                pageSize?.let { put("page_size", it.toString()) }
                 previous?.let { put("previous", it) }
                 putAll(additionalQueryParams)
             }
@@ -477,8 +439,6 @@ private constructor(
             order == other.order &&
             orderId == other.orderId &&
             orderRequestId == other.orderRequestId &&
-            page == other.page &&
-            pageSize == other.pageSize &&
             previous == other.previous &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
@@ -493,13 +453,11 @@ private constructor(
             order,
             orderId,
             orderRequestId,
-            page,
-            pageSize,
             previous,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "OrderRequestListParams{accountId=$accountId, clientOrderId=$clientOrderId, limit=$limit, next=$next, order=$order, orderId=$orderId, orderRequestId=$orderRequestId, page=$page, pageSize=$pageSize, previous=$previous, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "OrderRequestListParams{accountId=$accountId, clientOrderId=$clientOrderId, limit=$limit, next=$next, order=$order, orderId=$orderId, orderRequestId=$orderRequestId, previous=$previous, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

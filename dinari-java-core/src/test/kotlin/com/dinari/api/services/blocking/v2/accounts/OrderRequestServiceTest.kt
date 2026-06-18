@@ -59,8 +59,6 @@ internal class OrderRequestServiceTest {
                     .order(OrderRequestListParams.Order.ASC)
                     .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .page(1L)
-                    .pageSize(1L)
                     .previous("previous")
                     .build()
             )
