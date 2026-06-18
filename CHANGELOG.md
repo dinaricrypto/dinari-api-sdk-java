@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.14.0 (2026-06-18)
+
+Full Changelog: [v0.13.0...v0.14.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.13.0...v0.14.0)
+
+### Features
+
+* **api:** api update ([ba0a72e](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/ba0a72e163ccf45510200439730ef7e673b5b6d0))
+* **api:** api update ([250c708](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/250c708186964544b178bbd804843c1f916c4beb))
+* **api:** api update ([4ed0d92](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/4ed0d92fe8fdda338e77ed7b3c684f49a48b0734))
+* **api:** api update ([6d305d1](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/6d305d1cf9cea416b78cdd2ee073dec9e4c536b1))
+* **api:** api update ([14febb3](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/14febb338689c099a46f3a020b4725454a91c664))
+* **api:** api update ([1b1e953](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/1b1e95366db49295bc03ed3eebf1d0c9c349c01c))
+* **api:** api update ([ccf4dca](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/ccf4dca52e60bc045fd0506156311cd173b7d540))
+* **api:** api update ([222f1d2](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/222f1d21072df63635f4bd01e1848459d4e8e1e9))
+* **api:** api update ([24ba716](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/24ba71691f709414075a4b7b215a56987fce0607))
+* **api:** api update ([e08e202](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/e08e202f1b6faafbed414cb9b8610404122daa17))
+* **api:** v20260617-0199ffd version sync ([fdda8a0](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/fdda8a084842f7f3e40628fcbf67cd6c17a91ffc))
+* **client:** improve logging ([4da3f98](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/4da3f98fa814fc8cbb69886ea92924196700379c))
+* **client:** more robust error parsing ([aa9cda2](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/aa9cda2d2b7588b59d3d0f77d642e75552e23e12))
+* **client:** support proxy authentication ([5120741](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/51207411b1879ba70e270490bb14ade5677bd728))
+* support setting headers via env ([a7c1cfd](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/a7c1cfd5d234ce408714634130f25df79da3d178))
+
+
+### Performance Improvements
+
+* **client:** create one json mapper ([1d86e1b](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/1d86e1b9b1de18edb673fe6aaa969b31da02306d))
+
+
+### Chores
+
+* redact api-key headers in debug logs ([124bf69](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/124bf696288d7ef18f9cad3cd5e86f8a0907e9dc))
+* remove duplicated dokka setup ([59aafbd](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/59aafbd2a6aa7a7d9f42cd3a24fc978e653b48e8))
+
+
+### Documentation
+
+* clarify forwards compat behavior ([314650a](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/314650a6ce90b6f6384c409df004ce8d512501d6))
+
 ## 0.13.0 (2026-03-26)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.12.0...v0.13.0)
