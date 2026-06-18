@@ -18,8 +18,6 @@ internal class OrderRequestListParamsTest {
             .order(OrderRequestListParams.Order.ASC)
             .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .page(1L)
-            .pageSize(1L)
             .previous("previous")
             .build()
     }
@@ -47,8 +45,6 @@ internal class OrderRequestListParamsTest {
                 .order(OrderRequestListParams.Order.ASC)
                 .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .page(1L)
-                .pageSize(1L)
                 .previous("previous")
                 .build()
 
@@ -63,8 +59,6 @@ internal class OrderRequestListParamsTest {
                     .put("order", "asc")
                     .put("order_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("order_request_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .put("page", "1")
-                    .put("page_size", "1")
                     .put("previous", "previous")
                     .build()
             )

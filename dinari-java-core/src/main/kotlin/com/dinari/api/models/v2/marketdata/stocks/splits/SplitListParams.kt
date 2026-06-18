@@ -28,8 +28,6 @@ private constructor(
     private val limit: Long?,
     private val next: String?,
     private val order: Order?,
-    private val page: Long?,
-    private val pageSize: Long?,
     private val previous: String?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -43,10 +41,6 @@ private constructor(
 
     /** Sort order */
     fun order(): Optional<Order> = Optional.ofNullable(order)
-
-    fun page(): Optional<Long> = Optional.ofNullable(page)
-
-    fun pageSize(): Optional<Long> = Optional.ofNullable(pageSize)
 
     /** Cursor for previous page */
     fun previous(): Optional<String> = Optional.ofNullable(previous)
@@ -73,8 +67,6 @@ private constructor(
         private var limit: Long? = null
         private var next: String? = null
         private var order: Order? = null
-        private var page: Long? = null
-        private var pageSize: Long? = null
         private var previous: String? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -84,8 +76,6 @@ private constructor(
             limit = splitListParams.limit
             next = splitListParams.next
             order = splitListParams.order
-            page = splitListParams.page
-            pageSize = splitListParams.pageSize
             previous = splitListParams.previous
             additionalHeaders = splitListParams.additionalHeaders.toBuilder()
             additionalQueryParams = splitListParams.additionalQueryParams.toBuilder()
@@ -115,30 +105,6 @@ private constructor(
 
         /** Alias for calling [Builder.order] with `order.orElse(null)`. */
         fun order(order: Optional<Order>) = order(order.getOrNull())
-
-        fun page(page: Long?) = apply { this.page = page }
-
-        /**
-         * Alias for [Builder.page].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun page(page: Long) = page(page as Long?)
-
-        /** Alias for calling [Builder.page] with `page.orElse(null)`. */
-        fun page(page: Optional<Long>) = page(page.getOrNull())
-
-        fun pageSize(pageSize: Long?) = apply { this.pageSize = pageSize }
-
-        /**
-         * Alias for [Builder.pageSize].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun pageSize(pageSize: Long) = pageSize(pageSize as Long?)
-
-        /** Alias for calling [Builder.pageSize] with `pageSize.orElse(null)`. */
-        fun pageSize(pageSize: Optional<Long>) = pageSize(pageSize.getOrNull())
 
         /** Cursor for previous page */
         fun previous(previous: String?) = apply { this.previous = previous }
@@ -254,8 +220,6 @@ private constructor(
                 limit,
                 next,
                 order,
-                page,
-                pageSize,
                 previous,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -270,8 +234,6 @@ private constructor(
                 limit?.let { put("limit", it.toString()) }
                 next?.let { put("next", it) }
                 order?.let { put("order", it.toString()) }
-                page?.let { put("page", it.toString()) }
-                pageSize?.let { put("page_size", it.toString()) }
                 previous?.let { put("previous", it) }
                 putAll(additionalQueryParams)
             }
@@ -421,25 +383,14 @@ private constructor(
             limit == other.limit &&
             next == other.next &&
             order == other.order &&
-            page == other.page &&
-            pageSize == other.pageSize &&
             previous == other.previous &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(
-            limit,
-            next,
-            order,
-            page,
-            pageSize,
-            previous,
-            additionalHeaders,
-            additionalQueryParams,
-        )
+        Objects.hash(limit, next, order, previous, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "SplitListParams{limit=$limit, next=$next, order=$order, page=$page, pageSize=$pageSize, previous=$previous, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "SplitListParams{limit=$limit, next=$next, order=$order, previous=$previous, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

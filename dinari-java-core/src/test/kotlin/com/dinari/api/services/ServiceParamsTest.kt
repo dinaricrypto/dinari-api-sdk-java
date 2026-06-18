@@ -46,8 +46,6 @@ internal class ServiceParamsTest {
                 .limit(20L)
                 .next("next")
                 .order(StockListParams.Order.ASC)
-                .page(1L)
-                .pageSize(1L)
                 .previous("previous")
                 .addSymbol("string")
                 .putAdditionalHeader("Secret-Header", "42")

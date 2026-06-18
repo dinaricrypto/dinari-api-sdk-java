@@ -74,8 +74,6 @@ internal class TokenTransferServiceAsyncTest {
                     .limit(20L)
                     .next("next")
                     .order(TokenTransferListParams.Order.ASC)
-                    .page(1L)
-                    .pageSize(1L)
                     .previous("previous")
                     .build()
             )

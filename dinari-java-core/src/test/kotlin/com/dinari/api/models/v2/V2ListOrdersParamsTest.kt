@@ -18,8 +18,6 @@ internal class V2ListOrdersParamsTest {
             .orderFulfillmentTransactionHash("order_fulfillment_transaction_hash")
             .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
             .orderTransactionHash("order_transaction_hash")
-            .page(1L)
-            .pageSize(1L)
             .previous("previous")
             .build()
     }
@@ -35,8 +33,6 @@ internal class V2ListOrdersParamsTest {
                 .orderFulfillmentTransactionHash("order_fulfillment_transaction_hash")
                 .orderRequestId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                 .orderTransactionHash("order_transaction_hash")
-                .page(1L)
-                .pageSize(1L)
                 .previous("previous")
                 .build()
 
@@ -52,8 +48,6 @@ internal class V2ListOrdersParamsTest {
                     .put("order_fulfillment_transaction_hash", "order_fulfillment_transaction_hash")
                     .put("order_request_id", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .put("order_transaction_hash", "order_transaction_hash")
-                    .put("page", "1")
-                    .put("page_size", "1")
                     .put("previous", "previous")
                     .build()
             )

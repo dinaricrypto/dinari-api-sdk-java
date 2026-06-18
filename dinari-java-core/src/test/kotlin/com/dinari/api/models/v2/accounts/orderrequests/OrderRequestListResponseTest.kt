@@ -2,107 +2,27 @@
 
 package com.dinari.api.models.v2.accounts.orderrequests
 
-import com.dinari.api.core.JsonValue
 import com.dinari.api.core.jsonMapper
-import com.dinari.api.errors.DinariInvalidDataException
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.EnumSource
 
 internal class OrderRequestListResponseTest {
 
     @Test
-    fun ofAccountOrderRequests() {
-        val accountOrderRequests =
-            listOf(
-                OrderRequestListResponse.AccountOrderRequest.builder()
-                    .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .orderSide(OrderRequestListResponse.AccountOrderRequest.OrderSide.BUY)
-                    .orderTif(OrderRequestListResponse.AccountOrderRequest.OrderTif.DAY)
-                    .orderType(OrderRequestListResponse.AccountOrderRequest.OrderType.MARKET)
-                    .status(OrderRequestListResponse.AccountOrderRequest.Status.QUOTED)
-                    .cancelMessage("cancel_message")
-                    .clientOrderId("client_order_id")
-                    .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .rejectMessage("reject_message")
-                    .build()
-            )
-
+    fun create() {
         val orderRequestListResponse =
-            OrderRequestListResponse.ofAccountOrderRequests(accountOrderRequests)
-
-        assertThat(orderRequestListResponse.accountOrderRequests()).contains(accountOrderRequests)
-        assertThat(orderRequestListResponse.paginatedAccountOrderRequest()).isEmpty
-    }
-
-    @Test
-    fun ofAccountOrderRequestsRoundtrip() {
-        val jsonMapper = jsonMapper()
-        val orderRequestListResponse =
-            OrderRequestListResponse.ofAccountOrderRequests(
-                listOf(
-                    OrderRequestListResponse.AccountOrderRequest.builder()
-                        .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .orderSide(OrderRequestListResponse.AccountOrderRequest.OrderSide.BUY)
-                        .orderTif(OrderRequestListResponse.AccountOrderRequest.OrderTif.DAY)
-                        .orderType(OrderRequestListResponse.AccountOrderRequest.OrderType.MARKET)
-                        .status(OrderRequestListResponse.AccountOrderRequest.Status.QUOTED)
-                        .cancelMessage("cancel_message")
-                        .clientOrderId("client_order_id")
-                        .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .rejectMessage("reject_message")
-                        .build()
-                )
-            )
-
-        val roundtrippedOrderRequestListResponse =
-            jsonMapper.readValue(
-                jsonMapper.writeValueAsString(orderRequestListResponse),
-                jacksonTypeRef<OrderRequestListResponse>(),
-            )
-
-        assertThat(roundtrippedOrderRequestListResponse).isEqualTo(orderRequestListResponse)
-    }
-
-    @Test
-    fun ofPaginatedAccountOrderRequest() {
-        val paginatedAccountOrderRequest =
-            OrderRequestListResponse.PaginatedAccountOrderRequestResponse.builder()
+            OrderRequestListResponse.builder()
                 .addData(
-                    OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data.builder()
+                    OrderRequestListResponse.Data.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .orderSide(
-                            OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data
-                                .OrderSide
-                                .BUY
-                        )
-                        .orderTif(
-                            OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data
-                                .OrderTif
-                                .DAY
-                        )
-                        .orderType(
-                            OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data
-                                .OrderType
-                                .MARKET
-                        )
-                        .status(
-                            OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data
-                                .Status
-                                .QUOTED
-                        )
+                        .orderSide(OrderRequestListResponse.Data.OrderSide.BUY)
+                        .orderTif(OrderRequestListResponse.Data.OrderTif.DAY)
+                        .orderType(OrderRequestListResponse.Data.OrderType.MARKET)
+                        .status(OrderRequestListResponse.Data.Status.QUOTED)
                         .cancelMessage("cancel_message")
                         .clientOrderId("client_order_id")
                         .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -111,78 +31,71 @@ internal class OrderRequestListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    OrderRequestListResponse.PaginatedAccountOrderRequestResponse.PaginationMetadata
-                        .builder()
+                    OrderRequestListResponse.PaginationMetadata.builder()
                         .next("next")
                         .previous("previous")
                         .build()
                 )
-                ._sv(
-                    OrderRequestListResponse.PaginatedAccountOrderRequestResponse._Sv
-                        .PAGINATED_ACCOUNT_ORDER_REQUEST_RESPONSE_V1
-                )
+                ._sv(OrderRequestListResponse._Sv.PAGINATED_ACCOUNT_ORDER_REQUEST_RESPONSE_V1)
                 .build()
 
-        val orderRequestListResponse =
-            OrderRequestListResponse.ofPaginatedAccountOrderRequest(paginatedAccountOrderRequest)
-
-        assertThat(orderRequestListResponse.accountOrderRequests()).isEmpty
-        assertThat(orderRequestListResponse.paginatedAccountOrderRequest())
-            .contains(paginatedAccountOrderRequest)
+        assertThat(orderRequestListResponse.data())
+            .containsExactly(
+                OrderRequestListResponse.Data.builder()
+                    .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                    .orderSide(OrderRequestListResponse.Data.OrderSide.BUY)
+                    .orderTif(OrderRequestListResponse.Data.OrderTif.DAY)
+                    .orderType(OrderRequestListResponse.Data.OrderType.MARKET)
+                    .status(OrderRequestListResponse.Data.Status.QUOTED)
+                    .cancelMessage("cancel_message")
+                    .clientOrderId("client_order_id")
+                    .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .rejectMessage("reject_message")
+                    .build()
+            )
+        assertThat(orderRequestListResponse.paginationMetadata())
+            .isEqualTo(
+                OrderRequestListResponse.PaginationMetadata.builder()
+                    .next("next")
+                    .previous("previous")
+                    .build()
+            )
+        assertThat(orderRequestListResponse._sv())
+            .contains(OrderRequestListResponse._Sv.PAGINATED_ACCOUNT_ORDER_REQUEST_RESPONSE_V1)
     }
 
     @Test
-    fun ofPaginatedAccountOrderRequestRoundtrip() {
+    fun roundtrip() {
         val jsonMapper = jsonMapper()
         val orderRequestListResponse =
-            OrderRequestListResponse.ofPaginatedAccountOrderRequest(
-                OrderRequestListResponse.PaginatedAccountOrderRequestResponse.builder()
-                    .addData(
-                        OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data.builder()
-                            .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                            .orderSide(
-                                OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data
-                                    .OrderSide
-                                    .BUY
-                            )
-                            .orderTif(
-                                OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data
-                                    .OrderTif
-                                    .DAY
-                            )
-                            .orderType(
-                                OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data
-                                    .OrderType
-                                    .MARKET
-                            )
-                            .status(
-                                OrderRequestListResponse.PaginatedAccountOrderRequestResponse.Data
-                                    .Status
-                                    .QUOTED
-                            )
-                            .cancelMessage("cancel_message")
-                            .clientOrderId("client_order_id")
-                            .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                            .rejectMessage("reject_message")
-                            .build()
-                    )
-                    .paginationMetadata(
-                        OrderRequestListResponse.PaginatedAccountOrderRequestResponse
-                            .PaginationMetadata
-                            .builder()
-                            .next("next")
-                            .previous("previous")
-                            .build()
-                    )
-                    ._sv(
-                        OrderRequestListResponse.PaginatedAccountOrderRequestResponse._Sv
-                            .PAGINATED_ACCOUNT_ORDER_REQUEST_RESPONSE_V1
-                    )
-                    .build()
-            )
+            OrderRequestListResponse.builder()
+                .addData(
+                    OrderRequestListResponse.Data.builder()
+                        .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
+                        .orderSide(OrderRequestListResponse.Data.OrderSide.BUY)
+                        .orderTif(OrderRequestListResponse.Data.OrderTif.DAY)
+                        .orderType(OrderRequestListResponse.Data.OrderType.MARKET)
+                        .status(OrderRequestListResponse.Data.Status.QUOTED)
+                        .cancelMessage("cancel_message")
+                        .clientOrderId("client_order_id")
+                        .orderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                        .rejectMessage("reject_message")
+                        .build()
+                )
+                .paginationMetadata(
+                    OrderRequestListResponse.PaginationMetadata.builder()
+                        .next("next")
+                        .previous("previous")
+                        .build()
+                )
+                ._sv(OrderRequestListResponse._Sv.PAGINATED_ACCOUNT_ORDER_REQUEST_RESPONSE_V1)
+                .build()
 
         val roundtrippedOrderRequestListResponse =
             jsonMapper.readValue(
@@ -191,22 +104,5 @@ internal class OrderRequestListResponseTest {
             )
 
         assertThat(roundtrippedOrderRequestListResponse).isEqualTo(orderRequestListResponse)
-    }
-
-    enum class IncompatibleJsonShapeTestCase(val value: JsonValue) {
-        BOOLEAN(JsonValue.from(false)),
-        STRING(JsonValue.from("invalid")),
-        INTEGER(JsonValue.from(-1)),
-        FLOAT(JsonValue.from(3.14)),
-    }
-
-    @ParameterizedTest
-    @EnumSource
-    fun incompatibleJsonShapeDeserializesToUnknown(testCase: IncompatibleJsonShapeTestCase) {
-        val orderRequestListResponse =
-            jsonMapper().convertValue(testCase.value, jacksonTypeRef<OrderRequestListResponse>())
-
-        val e = assertThrows<DinariInvalidDataException> { orderRequestListResponse.validate() }
-        assertThat(e).hasMessageStartingWith("Unknown ")
     }
 }
