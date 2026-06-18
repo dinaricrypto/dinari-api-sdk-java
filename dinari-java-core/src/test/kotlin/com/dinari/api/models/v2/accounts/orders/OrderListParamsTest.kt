@@ -18,8 +18,6 @@ internal class OrderListParamsTest {
             .next("next")
             .order(OrderListParams.Order.ASC)
             .orderTransactionHash("order_transaction_hash")
-            .page(1L)
-            .pageSize(1L)
             .previous("previous")
             .build()
     }
@@ -45,8 +43,6 @@ internal class OrderListParamsTest {
                 .next("next")
                 .order(OrderListParams.Order.ASC)
                 .orderTransactionHash("order_transaction_hash")
-                .page(1L)
-                .pageSize(1L)
                 .previous("previous")
                 .build()
 
@@ -61,8 +57,6 @@ internal class OrderListParamsTest {
                     .put("next", "next")
                     .put("order", "asc")
                     .put("order_transaction_hash", "order_transaction_hash")
-                    .put("page", "1")
-                    .put("page_size", "1")
                     .put("previous", "previous")
                     .build()
             )

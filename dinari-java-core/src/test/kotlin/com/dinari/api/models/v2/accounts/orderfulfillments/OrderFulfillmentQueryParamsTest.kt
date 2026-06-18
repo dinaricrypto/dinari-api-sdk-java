@@ -16,8 +16,6 @@ internal class OrderFulfillmentQueryParamsTest {
             .next("next")
             .order(OrderFulfillmentQueryParams.Order.ASC)
             .addOrderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-            .page(1L)
-            .pageSize(1L)
             .previous("previous")
             .build()
     }
@@ -43,8 +41,6 @@ internal class OrderFulfillmentQueryParamsTest {
                 .next("next")
                 .order(OrderFulfillmentQueryParams.Order.ASC)
                 .addOrderId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                .page(1L)
-                .pageSize(1L)
                 .previous("previous")
                 .build()
 
@@ -57,8 +53,6 @@ internal class OrderFulfillmentQueryParamsTest {
                     .put("next", "next")
                     .put("order", "asc")
                     .put("order_ids", "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .put("page", "1")
-                    .put("page_size", "1")
                     .put("previous", "previous")
                     .build()
             )

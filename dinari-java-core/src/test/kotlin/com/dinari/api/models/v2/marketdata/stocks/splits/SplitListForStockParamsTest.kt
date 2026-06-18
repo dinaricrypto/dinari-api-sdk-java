@@ -15,8 +15,6 @@ internal class SplitListForStockParamsTest {
             .limit(20L)
             .next("next")
             .order(SplitListForStockParams.Order.ASC)
-            .page(1L)
-            .pageSize(1L)
             .previous("previous")
             .build()
     }
@@ -41,8 +39,6 @@ internal class SplitListForStockParamsTest {
                 .limit(20L)
                 .next("next")
                 .order(SplitListForStockParams.Order.ASC)
-                .page(1L)
-                .pageSize(1L)
                 .previous("previous")
                 .build()
 
@@ -54,8 +50,6 @@ internal class SplitListForStockParamsTest {
                     .put("limit", "20")
                     .put("next", "next")
                     .put("order", "asc")
-                    .put("page", "1")
-                    .put("page_size", "1")
                     .put("previous", "previous")
                     .build()
             )

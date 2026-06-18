@@ -71,8 +71,6 @@ internal class WithdrawalRequestServiceTest {
                     .limit(20L)
                     .next("next")
                     .order(WithdrawalRequestListParams.Order.ASC)
-                    .page(1L)
-                    .pageSize(1L)
                     .previous("previous")
                     .build()
             )
