@@ -17,8 +17,8 @@ import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
-import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryResponse
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
+import com.dinari.api.models.v2.accounts.orderfulfillments.PaginatedOrderFulfillment
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -53,7 +53,7 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
     override fun query(
         params: OrderFulfillmentQueryParams,
         requestOptions: RequestOptions,
-    ): OrderFulfillmentQueryResponse =
+    ): PaginatedOrderFulfillment =
         // get /api/v2/accounts/{account_id}/order_fulfillments
         withRawResponse().query(params, requestOptions).parse()
 
@@ -107,13 +107,13 @@ class OrderFulfillmentServiceImpl internal constructor(private val clientOptions
             }
         }
 
-        private val queryHandler: Handler<OrderFulfillmentQueryResponse> =
-            jsonHandler<OrderFulfillmentQueryResponse>(clientOptions.jsonMapper)
+        private val queryHandler: Handler<PaginatedOrderFulfillment> =
+            jsonHandler<PaginatedOrderFulfillment>(clientOptions.jsonMapper)
 
         override fun query(
             params: OrderFulfillmentQueryParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<OrderFulfillmentQueryResponse> {
+        ): HttpResponseFor<PaginatedOrderFulfillment> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())

@@ -3,6 +3,7 @@
 package com.dinari.api.models.v2.entities.accounts
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -15,42 +16,34 @@ internal class AccountListResponseTest {
         val accountListResponse =
             AccountListResponse.builder()
                 .addData(
-                    Account.builder()
+                    AccountListResponse.Data.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .isActive(true)
-                        .jurisdiction(Account.Jurisdiction.BASELINE)
+                        .jurisdiction(AccountListResponse.Data.Jurisdiction.BASELINE)
                         .brokerageAccountId("brokerage_account_id")
                         .build()
                 )
                 .paginationMetadata(
-                    AccountListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(AccountListResponse._Sv.PAGINATED_ACCOUNT_RESPONSE_V1)
                 .build()
 
         assertThat(accountListResponse.data())
             .containsExactly(
-                Account.builder()
+                AccountListResponse.Data.builder()
                     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .isActive(true)
-                    .jurisdiction(Account.Jurisdiction.BASELINE)
+                    .jurisdiction(AccountListResponse.Data.Jurisdiction.BASELINE)
                     .brokerageAccountId("brokerage_account_id")
                     .build()
             )
         assertThat(accountListResponse.paginationMetadata())
-            .isEqualTo(
-                AccountListResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(accountListResponse._sv())
             .contains(AccountListResponse._Sv.PAGINATED_ACCOUNT_RESPONSE_V1)
     }
@@ -61,20 +54,17 @@ internal class AccountListResponseTest {
         val accountListResponse =
             AccountListResponse.builder()
                 .addData(
-                    Account.builder()
+                    AccountListResponse.Data.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .isActive(true)
-                        .jurisdiction(Account.Jurisdiction.BASELINE)
+                        .jurisdiction(AccountListResponse.Data.Jurisdiction.BASELINE)
                         .brokerageAccountId("brokerage_account_id")
                         .build()
                 )
                 .paginationMetadata(
-                    AccountListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(AccountListResponse._Sv.PAGINATED_ACCOUNT_RESPONSE_V1)
                 .build()

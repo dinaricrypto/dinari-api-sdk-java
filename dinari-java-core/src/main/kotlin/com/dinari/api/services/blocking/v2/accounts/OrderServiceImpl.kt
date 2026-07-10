@@ -16,12 +16,12 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
+import com.dinari.api.models.v2.accounts.orderfulfillments.PaginatedOrderFulfillment
 import com.dinari.api.models.v2.accounts.orders.Order
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelResponse
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
-import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsResponse
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderListResponse
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
@@ -71,7 +71,7 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
     override fun getFulfillments(
         params: OrderGetFulfillmentsParams,
         requestOptions: RequestOptions,
-    ): OrderGetFulfillmentsResponse =
+    ): PaginatedOrderFulfillment =
         // get /api/v2/accounts/{account_id}/orders/{order_id}/fulfillments
         withRawResponse().getFulfillments(params, requestOptions).parse()
 
@@ -230,13 +230,13 @@ class OrderServiceImpl internal constructor(private val clientOptions: ClientOpt
             }
         }
 
-        private val getFulfillmentsHandler: Handler<OrderGetFulfillmentsResponse> =
-            jsonHandler<OrderGetFulfillmentsResponse>(clientOptions.jsonMapper)
+        private val getFulfillmentsHandler: Handler<PaginatedOrderFulfillment> =
+            jsonHandler<PaginatedOrderFulfillment>(clientOptions.jsonMapper)
 
         override fun getFulfillments(
             params: OrderGetFulfillmentsParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<OrderGetFulfillmentsResponse> {
+        ): HttpResponseFor<PaginatedOrderFulfillment> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("orderId", params.orderId().getOrNull())

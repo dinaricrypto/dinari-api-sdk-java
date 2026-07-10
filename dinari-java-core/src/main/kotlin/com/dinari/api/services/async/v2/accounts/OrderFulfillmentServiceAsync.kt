@@ -7,8 +7,8 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
-import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryResponse
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
+import com.dinari.api.models.v2.accounts.orderfulfillments.PaginatedOrderFulfillment
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
@@ -60,7 +60,7 @@ interface OrderFulfillmentServiceAsync {
     ): CompletableFuture<Fulfillment>
 
     /** Query `OrderFulfillments` under the `Account`. */
-    fun query(accountId: String): CompletableFuture<OrderFulfillmentQueryResponse> =
+    fun query(accountId: String): CompletableFuture<PaginatedOrderFulfillment> =
         query(accountId, OrderFulfillmentQueryParams.none())
 
     /** @see query */
@@ -68,32 +68,31 @@ interface OrderFulfillmentServiceAsync {
         accountId: String,
         params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderFulfillmentQueryResponse> =
+    ): CompletableFuture<PaginatedOrderFulfillment> =
         query(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see query */
     fun query(
         accountId: String,
         params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
-    ): CompletableFuture<OrderFulfillmentQueryResponse> =
+    ): CompletableFuture<PaginatedOrderFulfillment> =
         query(accountId, params, RequestOptions.none())
 
     /** @see query */
     fun query(
         params: OrderFulfillmentQueryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderFulfillmentQueryResponse>
+    ): CompletableFuture<PaginatedOrderFulfillment>
 
     /** @see query */
-    fun query(
-        params: OrderFulfillmentQueryParams
-    ): CompletableFuture<OrderFulfillmentQueryResponse> = query(params, RequestOptions.none())
+    fun query(params: OrderFulfillmentQueryParams): CompletableFuture<PaginatedOrderFulfillment> =
+        query(params, RequestOptions.none())
 
     /** @see query */
     fun query(
         accountId: String,
         requestOptions: RequestOptions,
-    ): CompletableFuture<OrderFulfillmentQueryResponse> =
+    ): CompletableFuture<PaginatedOrderFulfillment> =
         query(accountId, OrderFulfillmentQueryParams.none(), requestOptions)
 
     /**
@@ -150,7 +149,7 @@ interface OrderFulfillmentServiceAsync {
          */
         fun query(
             accountId: String
-        ): CompletableFuture<HttpResponseFor<OrderFulfillmentQueryResponse>> =
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>> =
             query(accountId, OrderFulfillmentQueryParams.none())
 
         /** @see query */
@@ -158,33 +157,33 @@ interface OrderFulfillmentServiceAsync {
             accountId: String,
             params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderFulfillmentQueryResponse>> =
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>> =
             query(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see query */
         fun query(
             accountId: String,
             params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
-        ): CompletableFuture<HttpResponseFor<OrderFulfillmentQueryResponse>> =
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>> =
             query(accountId, params, RequestOptions.none())
 
         /** @see query */
         fun query(
             params: OrderFulfillmentQueryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderFulfillmentQueryResponse>>
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>>
 
         /** @see query */
         fun query(
             params: OrderFulfillmentQueryParams
-        ): CompletableFuture<HttpResponseFor<OrderFulfillmentQueryResponse>> =
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>> =
             query(params, RequestOptions.none())
 
         /** @see query */
         fun query(
             accountId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<OrderFulfillmentQueryResponse>> =
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>> =
             query(accountId, OrderFulfillmentQueryParams.none(), requestOptions)
     }
 }

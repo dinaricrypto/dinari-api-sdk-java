@@ -5,12 +5,12 @@ package com.dinari.api.services.async.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
+import com.dinari.api.models.v2.accounts.orderfulfillments.PaginatedOrderFulfillment
 import com.dinari.api.models.v2.accounts.orders.Order
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelResponse
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
-import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsResponse
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderListResponse
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
@@ -173,7 +173,7 @@ interface OrderServiceAsync {
     fun getFulfillments(
         orderId: String,
         params: OrderGetFulfillmentsParams,
-    ): CompletableFuture<OrderGetFulfillmentsResponse> =
+    ): CompletableFuture<PaginatedOrderFulfillment> =
         getFulfillments(orderId, params, RequestOptions.none())
 
     /** @see getFulfillments */
@@ -181,20 +181,19 @@ interface OrderServiceAsync {
         orderId: String,
         params: OrderGetFulfillmentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderGetFulfillmentsResponse> =
+    ): CompletableFuture<PaginatedOrderFulfillment> =
         getFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
 
     /** @see getFulfillments */
     fun getFulfillments(
         params: OrderGetFulfillmentsParams
-    ): CompletableFuture<OrderGetFulfillmentsResponse> =
-        getFulfillments(params, RequestOptions.none())
+    ): CompletableFuture<PaginatedOrderFulfillment> = getFulfillments(params, RequestOptions.none())
 
     /** @see getFulfillments */
     fun getFulfillments(
         params: OrderGetFulfillmentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<OrderGetFulfillmentsResponse>
+    ): CompletableFuture<PaginatedOrderFulfillment>
 
     /** A view of [OrderServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -342,7 +341,7 @@ interface OrderServiceAsync {
         fun getFulfillments(
             orderId: String,
             params: OrderGetFulfillmentsParams,
-        ): CompletableFuture<HttpResponseFor<OrderGetFulfillmentsResponse>> =
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>> =
             getFulfillments(orderId, params, RequestOptions.none())
 
         /** @see getFulfillments */
@@ -350,19 +349,19 @@ interface OrderServiceAsync {
             orderId: String,
             params: OrderGetFulfillmentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderGetFulfillmentsResponse>> =
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>> =
             getFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
 
         /** @see getFulfillments */
         fun getFulfillments(
             params: OrderGetFulfillmentsParams
-        ): CompletableFuture<HttpResponseFor<OrderGetFulfillmentsResponse>> =
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>> =
             getFulfillments(params, RequestOptions.none())
 
         /** @see getFulfillments */
         fun getFulfillments(
             params: OrderGetFulfillmentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<OrderGetFulfillmentsResponse>>
+        ): CompletableFuture<HttpResponseFor<PaginatedOrderFulfillment>>
     }
 }

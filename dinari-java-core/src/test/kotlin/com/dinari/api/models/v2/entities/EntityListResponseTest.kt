@@ -3,6 +3,7 @@
 package com.dinari.api.models.v2.entities
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -14,9 +15,9 @@ internal class EntityListResponseTest {
         val entityListResponse =
             EntityListResponse.builder()
                 .addData(
-                    Entity.builder()
+                    EntityListResponse.Data.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .entityType(Entity.EntityType.INDIVIDUAL)
+                        .entityType(EntityListResponse.Data.EntityType.INDIVIDUAL)
                         .isKycComplete(true)
                         .name("name")
                         .nationality("nationality")
@@ -24,19 +25,16 @@ internal class EntityListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    EntityListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(EntityListResponse._Sv.PAGINATED_ENTITY_RESPONSE_V1)
                 .build()
 
         assertThat(entityListResponse.data())
             .containsExactly(
-                Entity.builder()
+                EntityListResponse.Data.builder()
                     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .entityType(Entity.EntityType.INDIVIDUAL)
+                    .entityType(EntityListResponse.Data.EntityType.INDIVIDUAL)
                     .isKycComplete(true)
                     .name("name")
                     .nationality("nationality")
@@ -44,12 +42,7 @@ internal class EntityListResponseTest {
                     .build()
             )
         assertThat(entityListResponse.paginationMetadata())
-            .isEqualTo(
-                EntityListResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(entityListResponse._sv())
             .contains(EntityListResponse._Sv.PAGINATED_ENTITY_RESPONSE_V1)
     }
@@ -60,9 +53,9 @@ internal class EntityListResponseTest {
         val entityListResponse =
             EntityListResponse.builder()
                 .addData(
-                    Entity.builder()
+                    EntityListResponse.Data.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .entityType(Entity.EntityType.INDIVIDUAL)
+                        .entityType(EntityListResponse.Data.EntityType.INDIVIDUAL)
                         .isKycComplete(true)
                         .name("name")
                         .nationality("nationality")
@@ -70,10 +63,7 @@ internal class EntityListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    EntityListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(EntityListResponse._Sv.PAGINATED_ENTITY_RESPONSE_V1)
                 .build()

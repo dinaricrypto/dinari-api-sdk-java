@@ -3,6 +3,7 @@
 package com.dinari.api.models.v2.accounts.withdrawalrequests
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -15,44 +16,36 @@ internal class WithdrawalRequestListResponseTest {
         val withdrawalRequestListResponse =
             WithdrawalRequestListResponse.builder()
                 .addData(
-                    WithdrawalRequest.builder()
+                    WithdrawalRequestListResponse.Data.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .paymentTokenAmount(0.0)
                         .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .status(WithdrawalRequest.Status.PENDING)
+                        .status(WithdrawalRequestListResponse.Data.Status.PENDING)
                         .updatedDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
                 )
                 .paginationMetadata(
-                    WithdrawalRequestListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(WithdrawalRequestListResponse._Sv.PAGINATED_WITHDRAWAL_REQUEST_RESPONSE_V1)
                 .build()
 
         assertThat(withdrawalRequestListResponse.data())
             .containsExactly(
-                WithdrawalRequest.builder()
+                WithdrawalRequestListResponse.Data.builder()
                     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .paymentTokenAmount(0.0)
                     .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                    .status(WithdrawalRequest.Status.PENDING)
+                    .status(WithdrawalRequestListResponse.Data.Status.PENDING)
                     .updatedDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .build()
             )
         assertThat(withdrawalRequestListResponse.paginationMetadata())
-            .isEqualTo(
-                WithdrawalRequestListResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(withdrawalRequestListResponse._sv())
             .contains(WithdrawalRequestListResponse._Sv.PAGINATED_WITHDRAWAL_REQUEST_RESPONSE_V1)
     }
@@ -63,21 +56,18 @@ internal class WithdrawalRequestListResponseTest {
         val withdrawalRequestListResponse =
             WithdrawalRequestListResponse.builder()
                 .addData(
-                    WithdrawalRequest.builder()
+                    WithdrawalRequestListResponse.Data.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .paymentTokenAmount(0.0)
                         .recipientAccountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
-                        .status(WithdrawalRequest.Status.PENDING)
+                        .status(WithdrawalRequestListResponse.Data.Status.PENDING)
                         .updatedDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .build()
                 )
                 .paginationMetadata(
-                    WithdrawalRequestListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(WithdrawalRequestListResponse._Sv.PAGINATED_WITHDRAWAL_REQUEST_RESPONSE_V1)
                 .build()

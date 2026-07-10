@@ -15,10 +15,9 @@ import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
+import com.dinari.api.models.v2.marketdata.stocks.splits.PaginatedStockSplit
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListForStockParams
-import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListForStockResponse
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListParams
-import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListResponse
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
@@ -39,14 +38,17 @@ class SplitServiceImpl internal constructor(private val clientOptions: ClientOpt
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): SplitService =
         SplitServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
-    override fun list(params: SplitListParams, requestOptions: RequestOptions): SplitListResponse =
+    override fun list(
+        params: SplitListParams,
+        requestOptions: RequestOptions,
+    ): PaginatedStockSplit =
         // get /api/v2/market_data/stocks/splits
         withRawResponse().list(params, requestOptions).parse()
 
     override fun listForStock(
         params: SplitListForStockParams,
         requestOptions: RequestOptions,
-    ): SplitListForStockResponse =
+    ): PaginatedStockSplit =
         // get /api/v2/market_data/stocks/{stock_id}/splits
         withRawResponse().listForStock(params, requestOptions).parse()
 
@@ -63,13 +65,13 @@ class SplitServiceImpl internal constructor(private val clientOptions: ClientOpt
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val listHandler: Handler<SplitListResponse> =
-            jsonHandler<SplitListResponse>(clientOptions.jsonMapper)
+        private val listHandler: Handler<PaginatedStockSplit> =
+            jsonHandler<PaginatedStockSplit>(clientOptions.jsonMapper)
 
         override fun list(
             params: SplitListParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<SplitListResponse> {
+        ): HttpResponseFor<PaginatedStockSplit> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -90,13 +92,13 @@ class SplitServiceImpl internal constructor(private val clientOptions: ClientOpt
             }
         }
 
-        private val listForStockHandler: Handler<SplitListForStockResponse> =
-            jsonHandler<SplitListForStockResponse>(clientOptions.jsonMapper)
+        private val listForStockHandler: Handler<PaginatedStockSplit> =
+            jsonHandler<PaginatedStockSplit>(clientOptions.jsonMapper)
 
         override fun listForStock(
             params: SplitListForStockParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<SplitListForStockResponse> {
+        ): HttpResponseFor<PaginatedStockSplit> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("stockId", params.stockId().getOrNull())

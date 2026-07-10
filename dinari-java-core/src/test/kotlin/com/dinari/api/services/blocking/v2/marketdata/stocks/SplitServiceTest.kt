@@ -20,7 +20,7 @@ internal class SplitServiceTest {
                 .build()
         val splitService = client.v2().marketData().stocks().splits()
 
-        val splits =
+        val paginatedStockSplit =
             splitService.list(
                 SplitListParams.builder()
                     .limit(20L)
@@ -30,7 +30,7 @@ internal class SplitServiceTest {
                     .build()
             )
 
-        splits.validate()
+        paginatedStockSplit.validate()
     }
 
     @Disabled("Mock server tests are disabled")
@@ -43,7 +43,7 @@ internal class SplitServiceTest {
                 .build()
         val splitService = client.v2().marketData().stocks().splits()
 
-        val response =
+        val paginatedStockSplit =
             splitService.listForStock(
                 SplitListForStockParams.builder()
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -54,6 +54,6 @@ internal class SplitServiceTest {
                     .build()
             )
 
-        response.validate()
+        paginatedStockSplit.validate()
     }
 }

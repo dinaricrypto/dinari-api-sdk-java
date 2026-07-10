@@ -20,7 +20,7 @@ internal class SplitServiceAsyncTest {
                 .build()
         val splitServiceAsync = client.v2().marketData().stocks().splits()
 
-        val splitsFuture =
+        val paginatedStockSplitFuture =
             splitServiceAsync.list(
                 SplitListParams.builder()
                     .limit(20L)
@@ -30,8 +30,8 @@ internal class SplitServiceAsyncTest {
                     .build()
             )
 
-        val splits = splitsFuture.get()
-        splits.validate()
+        val paginatedStockSplit = paginatedStockSplitFuture.get()
+        paginatedStockSplit.validate()
     }
 
     @Disabled("Mock server tests are disabled")
@@ -44,7 +44,7 @@ internal class SplitServiceAsyncTest {
                 .build()
         val splitServiceAsync = client.v2().marketData().stocks().splits()
 
-        val responseFuture =
+        val paginatedStockSplitFuture =
             splitServiceAsync.listForStock(
                 SplitListForStockParams.builder()
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -55,7 +55,7 @@ internal class SplitServiceAsyncTest {
                     .build()
             )
 
-        val response = responseFuture.get()
-        response.validate()
+        val paginatedStockSplit = paginatedStockSplitFuture.get()
+        paginatedStockSplit.validate()
     }
 }

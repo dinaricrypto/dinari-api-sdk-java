@@ -3,19 +3,20 @@
 package com.dinari.api.models.v2.accounts.orderfulfillments
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class OrderFulfillmentQueryResponseTest {
+internal class PaginatedOrderFulfillmentTest {
 
     @Test
     fun create() {
-        val orderFulfillmentQueryResponse =
-            OrderFulfillmentQueryResponse.builder()
+        val paginatedOrderFulfillment =
+            PaginatedOrderFulfillment.builder()
                 .addData(
-                    OrderFulfillmentQueryResponse.Data.builder()
+                    PaginatedOrderFulfillment.Data.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .assetTokenFilled(0.0)
                         .assetTokenSpent(0.0)
@@ -31,20 +32,14 @@ internal class OrderFulfillmentQueryResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    OrderFulfillmentQueryResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
-                ._sv(
-                    OrderFulfillmentQueryResponse._Sv
-                        .PAGINATED_ACCOUNT_ORDER_FULFILLMENT_RESPONSE_V1
-                )
+                ._sv(PaginatedOrderFulfillment._Sv.PAGINATED_ACCOUNT_ORDER_FULFILLMENT_RESPONSE_V1)
                 .build()
 
-        assertThat(orderFulfillmentQueryResponse.data())
+        assertThat(paginatedOrderFulfillment.data())
             .containsExactly(
-                OrderFulfillmentQueryResponse.Data.builder()
+                PaginatedOrderFulfillment.Data.builder()
                     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .assetTokenFilled(0.0)
                     .assetTokenSpent(0.0)
@@ -59,26 +54,19 @@ internal class OrderFulfillmentQueryResponseTest {
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .build()
             )
-        assertThat(orderFulfillmentQueryResponse.paginationMetadata())
-            .isEqualTo(
-                OrderFulfillmentQueryResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
-        assertThat(orderFulfillmentQueryResponse._sv())
-            .contains(
-                OrderFulfillmentQueryResponse._Sv.PAGINATED_ACCOUNT_ORDER_FULFILLMENT_RESPONSE_V1
-            )
+        assertThat(paginatedOrderFulfillment.paginationMetadata())
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
+        assertThat(paginatedOrderFulfillment._sv())
+            .contains(PaginatedOrderFulfillment._Sv.PAGINATED_ACCOUNT_ORDER_FULFILLMENT_RESPONSE_V1)
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val orderFulfillmentQueryResponse =
-            OrderFulfillmentQueryResponse.builder()
+        val paginatedOrderFulfillment =
+            PaginatedOrderFulfillment.builder()
                 .addData(
-                    OrderFulfillmentQueryResponse.Data.builder()
+                    PaginatedOrderFulfillment.Data.builder()
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .assetTokenFilled(0.0)
                         .assetTokenSpent(0.0)
@@ -94,24 +82,17 @@ internal class OrderFulfillmentQueryResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    OrderFulfillmentQueryResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
-                ._sv(
-                    OrderFulfillmentQueryResponse._Sv
-                        .PAGINATED_ACCOUNT_ORDER_FULFILLMENT_RESPONSE_V1
-                )
+                ._sv(PaginatedOrderFulfillment._Sv.PAGINATED_ACCOUNT_ORDER_FULFILLMENT_RESPONSE_V1)
                 .build()
 
-        val roundtrippedOrderFulfillmentQueryResponse =
+        val roundtrippedPaginatedOrderFulfillment =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(orderFulfillmentQueryResponse),
-                jacksonTypeRef<OrderFulfillmentQueryResponse>(),
+                jsonMapper.writeValueAsString(paginatedOrderFulfillment),
+                jacksonTypeRef<PaginatedOrderFulfillment>(),
             )
 
-        assertThat(roundtrippedOrderFulfillmentQueryResponse)
-            .isEqualTo(orderFulfillmentQueryResponse)
+        assertThat(roundtrippedPaginatedOrderFulfillment).isEqualTo(paginatedOrderFulfillment)
     }
 }
