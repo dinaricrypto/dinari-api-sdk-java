@@ -7,7 +7,6 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.AccountDeactivateParams
-import com.dinari.api.models.v2.accounts.AccountDeactivateResponse
 import com.dinari.api.models.v2.accounts.AccountGetCashBalancesParams
 import com.dinari.api.models.v2.accounts.AccountGetCashBalancesResponse
 import com.dinari.api.models.v2.accounts.AccountGetDividendPaymentsParams
@@ -18,7 +17,7 @@ import com.dinari.api.models.v2.accounts.AccountGetPortfolioParams
 import com.dinari.api.models.v2.accounts.AccountGetPortfolioResponse
 import com.dinari.api.models.v2.accounts.AccountMintSandboxTokensParams
 import com.dinari.api.models.v2.accounts.AccountRetrieveParams
-import com.dinari.api.models.v2.accounts.AccountRetrieveResponse
+import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.services.async.v2.accounts.ActivityServiceAsync
 import com.dinari.api.services.async.v2.accounts.OrderFulfillmentServiceAsync
 import com.dinari.api.services.async.v2.accounts.OrderRequestServiceAsync
@@ -130,7 +129,7 @@ interface AccountServiceAsync {
     fun activities(): ActivityServiceAsync
 
     /** Get a specific `Account` by its ID. */
-    fun retrieve(accountId: String): CompletableFuture<AccountRetrieveResponse> =
+    fun retrieve(accountId: String): CompletableFuture<Account> =
         retrieve(accountId, AccountRetrieveParams.none())
 
     /** @see retrieve */
@@ -138,35 +137,31 @@ interface AccountServiceAsync {
         accountId: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AccountRetrieveResponse> =
+    ): CompletableFuture<Account> =
         retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         accountId: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
-    ): CompletableFuture<AccountRetrieveResponse> =
-        retrieve(accountId, params, RequestOptions.none())
+    ): CompletableFuture<Account> = retrieve(accountId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: AccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AccountRetrieveResponse>
+    ): CompletableFuture<Account>
 
     /** @see retrieve */
-    fun retrieve(params: AccountRetrieveParams): CompletableFuture<AccountRetrieveResponse> =
+    fun retrieve(params: AccountRetrieveParams): CompletableFuture<Account> =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
-    fun retrieve(
-        accountId: String,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<AccountRetrieveResponse> =
+    fun retrieve(accountId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
         retrieve(accountId, AccountRetrieveParams.none(), requestOptions)
 
     /** Set the `Account` to be inactive. Inactive accounts cannot be used for trading. */
-    fun deactivate(accountId: String): CompletableFuture<AccountDeactivateResponse> =
+    fun deactivate(accountId: String): CompletableFuture<Account> =
         deactivate(accountId, AccountDeactivateParams.none())
 
     /** @see deactivate */
@@ -174,31 +169,27 @@ interface AccountServiceAsync {
         accountId: String,
         params: AccountDeactivateParams = AccountDeactivateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AccountDeactivateResponse> =
+    ): CompletableFuture<Account> =
         deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see deactivate */
     fun deactivate(
         accountId: String,
         params: AccountDeactivateParams = AccountDeactivateParams.none(),
-    ): CompletableFuture<AccountDeactivateResponse> =
-        deactivate(accountId, params, RequestOptions.none())
+    ): CompletableFuture<Account> = deactivate(accountId, params, RequestOptions.none())
 
     /** @see deactivate */
     fun deactivate(
         params: AccountDeactivateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AccountDeactivateResponse>
+    ): CompletableFuture<Account>
 
     /** @see deactivate */
-    fun deactivate(params: AccountDeactivateParams): CompletableFuture<AccountDeactivateResponse> =
+    fun deactivate(params: AccountDeactivateParams): CompletableFuture<Account> =
         deactivate(params, RequestOptions.none())
 
     /** @see deactivate */
-    fun deactivate(
-        accountId: String,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<AccountDeactivateResponse> =
+    fun deactivate(accountId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
         deactivate(accountId, AccountDeactivateParams.none(), requestOptions)
 
     /** Get the cash balances of the `Account`, including stablecoins and other cash equivalents. */
@@ -478,9 +469,7 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}`, but is otherwise the
          * same as [AccountServiceAsync.retrieve].
          */
-        fun retrieve(
-            accountId: String
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveResponse>> =
+        fun retrieve(accountId: String): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(accountId, AccountRetrieveParams.none())
 
         /** @see retrieve */
@@ -488,42 +477,38 @@ interface AccountServiceAsync {
             accountId: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see retrieve */
         fun retrieve(
             accountId: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(accountId, params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             params: AccountRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveResponse>>
+        ): CompletableFuture<HttpResponseFor<Account>>
 
         /** @see retrieve */
-        fun retrieve(
-            params: AccountRetrieveParams
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveResponse>> =
+        fun retrieve(params: AccountRetrieveParams): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         fun retrieve(
             accountId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveResponse>> =
+        ): CompletableFuture<HttpResponseFor<Account>> =
             retrieve(accountId, AccountRetrieveParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `post /api/v2/accounts/{account_id}/deactivate`, but is
          * otherwise the same as [AccountServiceAsync.deactivate].
          */
-        fun deactivate(
-            accountId: String
-        ): CompletableFuture<HttpResponseFor<AccountDeactivateResponse>> =
+        fun deactivate(accountId: String): CompletableFuture<HttpResponseFor<Account>> =
             deactivate(accountId, AccountDeactivateParams.none())
 
         /** @see deactivate */
@@ -531,33 +516,32 @@ interface AccountServiceAsync {
             accountId: String,
             params: AccountDeactivateParams = AccountDeactivateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AccountDeactivateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Account>> =
             deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see deactivate */
         fun deactivate(
             accountId: String,
             params: AccountDeactivateParams = AccountDeactivateParams.none(),
-        ): CompletableFuture<HttpResponseFor<AccountDeactivateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Account>> =
             deactivate(accountId, params, RequestOptions.none())
 
         /** @see deactivate */
         fun deactivate(
             params: AccountDeactivateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AccountDeactivateResponse>>
+        ): CompletableFuture<HttpResponseFor<Account>>
 
         /** @see deactivate */
         fun deactivate(
             params: AccountDeactivateParams
-        ): CompletableFuture<HttpResponseFor<AccountDeactivateResponse>> =
-            deactivate(params, RequestOptions.none())
+        ): CompletableFuture<HttpResponseFor<Account>> = deactivate(params, RequestOptions.none())
 
         /** @see deactivate */
         fun deactivate(
             accountId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<AccountDeactivateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Account>> =
             deactivate(accountId, AccountDeactivateParams.none(), requestOptions)
 
         /**

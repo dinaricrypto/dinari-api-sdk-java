@@ -3,7 +3,9 @@
 package com.dinari.api.services.blocking.v2.entities
 
 import com.dinari.api.client.okhttp.DinariOkHttpClient
+import com.dinari.api.models.v2.entities.accounts.Jurisdiction
 import com.dinari.api.models.v2.entities.kyc.BaselineKycCheckData
+import com.dinari.api.models.v2.entities.kyc.KycCreateManagedCheckParams
 import com.dinari.api.models.v2.entities.kyc.KycSubmitParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
@@ -36,7 +38,13 @@ internal class KycServiceTest {
                 .build()
         val kycService = client.v2().entities().kyc()
 
-        val response = kycService.createManagedCheck("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val response =
+            kycService.createManagedCheck(
+                KycCreateManagedCheckParams.builder()
+                    .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .jurisdiction(Jurisdiction.BASELINE)
+                    .build()
+            )
 
         response.validate()
     }

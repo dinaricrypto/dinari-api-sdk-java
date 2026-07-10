@@ -2,13 +2,13 @@
 
 package com.dinari.api.models.v2.accounts.withdrawals
 
-import com.dinari.api.core.Enum
 import com.dinari.api.core.ExcludeMissing
 import com.dinari.api.core.JsonField
 import com.dinari.api.core.JsonMissing
 import com.dinari.api.core.JsonValue
 import com.dinari.api.core.checkRequired
 import com.dinari.api.errors.DinariInvalidDataException
+import com.dinari.api.models.v2.BrokerageOrderStatus
 import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
@@ -31,7 +31,7 @@ private constructor(
     private val paymentTokenAddress: JsonField<String>,
     private val paymentTokenAmount: JsonField<Double>,
     private val recipientAccountId: JsonField<String>,
-    private val status: JsonField<Status>,
+    private val status: JsonField<BrokerageOrderStatus>,
     private val transactionDt: JsonField<OffsetDateTime>,
     private val transactionHash: JsonField<String>,
     private val withdrawalRequestId: JsonField<String>,
@@ -52,7 +52,9 @@ private constructor(
         @JsonProperty("recipient_account_id")
         @ExcludeMissing
         recipientAccountId: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("status") @ExcludeMissing status: JsonField<Status> = JsonMissing.of(),
+        @JsonProperty("status")
+        @ExcludeMissing
+        status: JsonField<BrokerageOrderStatus> = JsonMissing.of(),
         @JsonProperty("transaction_dt")
         @ExcludeMissing
         transactionDt: JsonField<OffsetDateTime> = JsonMissing.of(),
@@ -131,7 +133,7 @@ private constructor(
      * @throws DinariInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun status(): Status = status.getRequired("status")
+    fun status(): BrokerageOrderStatus = status.getRequired("status")
 
     /**
      * Datetime at which the `Withdrawal` was transacted. ISO 8601 timestamp.
@@ -213,7 +215,7 @@ private constructor(
      *
      * Unlike [status], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<Status> = status
+    @JsonProperty("status") @ExcludeMissing fun _status(): JsonField<BrokerageOrderStatus> = status
 
     /**
      * Returns the raw JSON value of [transactionDt].
@@ -286,7 +288,7 @@ private constructor(
         private var paymentTokenAddress: JsonField<String>? = null
         private var paymentTokenAmount: JsonField<Double>? = null
         private var recipientAccountId: JsonField<String>? = null
-        private var status: JsonField<Status>? = null
+        private var status: JsonField<BrokerageOrderStatus>? = null
         private var transactionDt: JsonField<OffsetDateTime>? = null
         private var transactionHash: JsonField<String>? = null
         private var withdrawalRequestId: JsonField<String>? = null
@@ -390,15 +392,16 @@ private constructor(
         }
 
         /** Status of the `Withdrawal`. */
-        fun status(status: Status) = status(JsonField.of(status))
+        fun status(status: BrokerageOrderStatus) = status(JsonField.of(status))
 
         /**
          * Sets [Builder.status] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.status] with a well-typed [Status] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.status] with a well-typed [BrokerageOrderStatus] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun status(status: JsonField<Status>) = apply { this.status = status }
+        fun status(status: JsonField<BrokerageOrderStatus>) = apply { this.status = status }
 
         /** Datetime at which the `Withdrawal` was transacted. ISO 8601 timestamp. */
         fun transactionDt(transactionDt: OffsetDateTime) =
@@ -554,201 +557,6 @@ private constructor(
             (if (transactionDt.asKnown().isPresent) 1 else 0) +
             (if (transactionHash.asKnown().isPresent) 1 else 0) +
             (if (withdrawalRequestId.asKnown().isPresent) 1 else 0)
-
-    /** Status of the `Withdrawal`. */
-    class Status @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
-
-        /**
-         * Returns this class instance's raw value.
-         *
-         * This is usually only useful if this instance was deserialized from data that doesn't
-         * match any known member, and you want to know that value. For example, if the SDK is on an
-         * older version than the API, then the API may respond with new members that the SDK is
-         * unaware of.
-         */
-        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
-
-        companion object {
-
-            @JvmField val PENDING_SUBMIT = of("PENDING_SUBMIT")
-
-            @JvmField val PENDING_CANCEL = of("PENDING_CANCEL")
-
-            @JvmField val PENDING_ESCROW = of("PENDING_ESCROW")
-
-            @JvmField val PENDING_FILL = of("PENDING_FILL")
-
-            @JvmField val ESCROWED = of("ESCROWED")
-
-            @JvmField val SUBMITTED = of("SUBMITTED")
-
-            @JvmField val CANCELLED = of("CANCELLED")
-
-            @JvmField val PARTIALLY_FILLED = of("PARTIALLY_FILLED")
-
-            @JvmField val FILLED = of("FILLED")
-
-            @JvmField val REJECTED = of("REJECTED")
-
-            @JvmField val REQUIRING_CONTACT = of("REQUIRING_CONTACT")
-
-            @JvmField val ERROR = of("ERROR")
-
-            @JvmStatic fun of(value: String) = Status(JsonField.of(value))
-        }
-
-        /** An enum containing [Status]'s known values. */
-        enum class Known {
-            PENDING_SUBMIT,
-            PENDING_CANCEL,
-            PENDING_ESCROW,
-            PENDING_FILL,
-            ESCROWED,
-            SUBMITTED,
-            CANCELLED,
-            PARTIALLY_FILLED,
-            FILLED,
-            REJECTED,
-            REQUIRING_CONTACT,
-            ERROR,
-        }
-
-        /**
-         * An enum containing [Status]'s known values, as well as an [_UNKNOWN] member.
-         *
-         * An instance of [Status] can contain an unknown value in a couple of cases:
-         * - It was deserialized from data that doesn't match any known member. For example, if the
-         *   SDK is on an older version than the API, then the API may respond with new members that
-         *   the SDK is unaware of.
-         * - It was constructed with an arbitrary value using the [of] method.
-         */
-        enum class Value {
-            PENDING_SUBMIT,
-            PENDING_CANCEL,
-            PENDING_ESCROW,
-            PENDING_FILL,
-            ESCROWED,
-            SUBMITTED,
-            CANCELLED,
-            PARTIALLY_FILLED,
-            FILLED,
-            REJECTED,
-            REQUIRING_CONTACT,
-            ERROR,
-            /** An enum member indicating that [Status] was instantiated with an unknown value. */
-            _UNKNOWN,
-        }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
-         * if the class was instantiated with an unknown value.
-         *
-         * Use the [known] method instead if you're certain the value is always known or if you want
-         * to throw for the unknown case.
-         */
-        fun value(): Value =
-            when (this) {
-                PENDING_SUBMIT -> Value.PENDING_SUBMIT
-                PENDING_CANCEL -> Value.PENDING_CANCEL
-                PENDING_ESCROW -> Value.PENDING_ESCROW
-                PENDING_FILL -> Value.PENDING_FILL
-                ESCROWED -> Value.ESCROWED
-                SUBMITTED -> Value.SUBMITTED
-                CANCELLED -> Value.CANCELLED
-                PARTIALLY_FILLED -> Value.PARTIALLY_FILLED
-                FILLED -> Value.FILLED
-                REJECTED -> Value.REJECTED
-                REQUIRING_CONTACT -> Value.REQUIRING_CONTACT
-                ERROR -> Value.ERROR
-                else -> Value._UNKNOWN
-            }
-
-        /**
-         * Returns an enum member corresponding to this class instance's value.
-         *
-         * Use the [value] method instead if you're uncertain the value is always known and don't
-         * want to throw for the unknown case.
-         *
-         * @throws DinariInvalidDataException if this class instance's value is a not a known
-         *   member.
-         */
-        fun known(): Known =
-            when (this) {
-                PENDING_SUBMIT -> Known.PENDING_SUBMIT
-                PENDING_CANCEL -> Known.PENDING_CANCEL
-                PENDING_ESCROW -> Known.PENDING_ESCROW
-                PENDING_FILL -> Known.PENDING_FILL
-                ESCROWED -> Known.ESCROWED
-                SUBMITTED -> Known.SUBMITTED
-                CANCELLED -> Known.CANCELLED
-                PARTIALLY_FILLED -> Known.PARTIALLY_FILLED
-                FILLED -> Known.FILLED
-                REJECTED -> Known.REJECTED
-                REQUIRING_CONTACT -> Known.REQUIRING_CONTACT
-                ERROR -> Known.ERROR
-                else -> throw DinariInvalidDataException("Unknown Status: $value")
-            }
-
-        /**
-         * Returns this class instance's primitive wire representation.
-         *
-         * This differs from the [toString] method because that method is primarily for debugging
-         * and generally doesn't throw.
-         *
-         * @throws DinariInvalidDataException if this class instance's value does not have the
-         *   expected primitive type.
-         */
-        fun asString(): String =
-            _value().asString().orElseThrow { DinariInvalidDataException("Value is not a String") }
-
-        private var validated: Boolean = false
-
-        /**
-         * Validates that the types of all values in this object match their expected types
-         * recursively.
-         *
-         * This method is _not_ forwards compatible with new types from the API for existing fields.
-         *
-         * @throws DinariInvalidDataException if any value type in this object doesn't match its
-         *   expected type.
-         */
-        fun validate(): Status = apply {
-            if (validated) {
-                return@apply
-            }
-
-            known()
-            validated = true
-        }
-
-        fun isValid(): Boolean =
-            try {
-                validate()
-                true
-            } catch (e: DinariInvalidDataException) {
-                false
-            }
-
-        /**
-         * Returns a score indicating how many valid values are contained in this object
-         * recursively.
-         *
-         * Used for best match union deserialization.
-         */
-        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
-
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-
-            return other is Status && value == other.value
-        }
-
-        override fun hashCode() = value.hashCode()
-
-        override fun toString() = value.toString()
-    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {

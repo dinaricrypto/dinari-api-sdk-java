@@ -5,8 +5,8 @@ package com.dinari.api.services.async.v2.entities
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
+import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.models.v2.entities.accounts.AccountCreateParams
-import com.dinari.api.models.v2.entities.accounts.AccountCreateResponse
 import com.dinari.api.models.v2.entities.accounts.AccountListParams
 import com.dinari.api.models.v2.entities.accounts.AccountListResponse
 import java.util.concurrent.CompletableFuture
@@ -35,7 +35,7 @@ interface AccountServiceAsync {
      * Create a new `Account` for a specific `Entity`. This `Entity` represents your organization
      * itself, or an individual customer of your organization.
      */
-    fun create(entityId: String): CompletableFuture<AccountCreateResponse> =
+    fun create(entityId: String): CompletableFuture<Account> =
         create(entityId, AccountCreateParams.none())
 
     /** @see create */
@@ -43,30 +43,27 @@ interface AccountServiceAsync {
         entityId: String,
         params: AccountCreateParams = AccountCreateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AccountCreateResponse> =
+    ): CompletableFuture<Account> =
         create(params.toBuilder().entityId(entityId).build(), requestOptions)
 
     /** @see create */
     fun create(
         entityId: String,
         params: AccountCreateParams = AccountCreateParams.none(),
-    ): CompletableFuture<AccountCreateResponse> = create(entityId, params, RequestOptions.none())
+    ): CompletableFuture<Account> = create(entityId, params, RequestOptions.none())
 
     /** @see create */
     fun create(
         params: AccountCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<AccountCreateResponse>
+    ): CompletableFuture<Account>
 
     /** @see create */
-    fun create(params: AccountCreateParams): CompletableFuture<AccountCreateResponse> =
+    fun create(params: AccountCreateParams): CompletableFuture<Account> =
         create(params, RequestOptions.none())
 
     /** @see create */
-    fun create(
-        entityId: String,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<AccountCreateResponse> =
+    fun create(entityId: String, requestOptions: RequestOptions): CompletableFuture<Account> =
         create(entityId, AccountCreateParams.none(), requestOptions)
 
     /**
@@ -125,7 +122,7 @@ interface AccountServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/entities/{entity_id}/accounts`, but is
          * otherwise the same as [AccountServiceAsync.create].
          */
-        fun create(entityId: String): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
+        fun create(entityId: String): CompletableFuture<HttpResponseFor<Account>> =
             create(entityId, AccountCreateParams.none())
 
         /** @see create */
@@ -133,33 +130,31 @@ interface AccountServiceAsync {
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Account>> =
             create(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see create */
         fun create(
             entityId: String,
             params: AccountCreateParams = AccountCreateParams.none(),
-        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Account>> =
             create(entityId, params, RequestOptions.none())
 
         /** @see create */
         fun create(
             params: AccountCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>>
+        ): CompletableFuture<HttpResponseFor<Account>>
 
         /** @see create */
-        fun create(
-            params: AccountCreateParams
-        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
+        fun create(params: AccountCreateParams): CompletableFuture<HttpResponseFor<Account>> =
             create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
             entityId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Account>> =
             create(entityId, AccountCreateParams.none(), requestOptions)
 
         /**

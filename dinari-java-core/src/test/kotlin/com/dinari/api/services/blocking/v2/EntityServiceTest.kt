@@ -82,9 +82,9 @@ internal class EntityServiceTest {
                 .build()
         val entityService = client.v2().entities()
 
-        val response = entityService.retrieveById("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+        val entity = entityService.retrieveById("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
 
-        response.validate()
+        entity.validate()
     }
 
     @Disabled("Mock server tests are disabled")
@@ -97,8 +97,8 @@ internal class EntityServiceTest {
                 .build()
         val entityService = client.v2().entities()
 
-        val response = entityService.retrieveCurrent()
+        val entity = entityService.retrieveCurrent()
 
-        response.validate()
+        entity.validate()
     }
 }

@@ -23,10 +23,7 @@ internal class AlloyListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    AlloyListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(AlloyListResponse._Sv.PAGINATED_ALLOY_RESPONSE_V1)
                 .build()
@@ -42,12 +39,7 @@ internal class AlloyListResponseTest {
                     .build()
             )
         assertThat(alloyListResponse.paginationMetadata())
-            .isEqualTo(
-                AlloyListResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(alloyListResponse._sv())
             .contains(AlloyListResponse._Sv.PAGINATED_ALLOY_RESPONSE_V1)
     }
@@ -67,10 +59,7 @@ internal class AlloyListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    AlloyListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(AlloyListResponse._Sv.PAGINATED_ALLOY_RESPONSE_V1)
                 .build()

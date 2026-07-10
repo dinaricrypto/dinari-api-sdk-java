@@ -5,16 +5,13 @@ package com.dinari.api.services.async.v2
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
+import com.dinari.api.models.v2.entities.Entity
 import com.dinari.api.models.v2.entities.EntityCreateParams
-import com.dinari.api.models.v2.entities.EntityCreateResponse
 import com.dinari.api.models.v2.entities.EntityListParams
 import com.dinari.api.models.v2.entities.EntityListResponse
 import com.dinari.api.models.v2.entities.EntityRetrieveByIdParams
-import com.dinari.api.models.v2.entities.EntityRetrieveByIdResponse
 import com.dinari.api.models.v2.entities.EntityRetrieveCurrentParams
-import com.dinari.api.models.v2.entities.EntityRetrieveCurrentResponse
 import com.dinari.api.models.v2.entities.EntityUpdateParams
-import com.dinari.api.models.v2.entities.EntityUpdateResponse
 import com.dinari.api.services.async.v2.entities.AccountServiceAsync
 import com.dinari.api.services.async.v2.entities.KycServiceAsync
 import java.util.concurrent.CompletableFuture
@@ -66,17 +63,17 @@ interface EntityServiceAsync {
      * Create a new `Entity` to be managed by your organization. This `Entity` represents an
      * individual customer of your organization.
      */
-    fun create(params: EntityCreateParams): CompletableFuture<EntityCreateResponse> =
+    fun create(params: EntityCreateParams): CompletableFuture<Entity> =
         create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
         params: EntityCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<EntityCreateResponse>
+    ): CompletableFuture<Entity>
 
     /** Update a specific customer `Entity` of your organization. */
-    fun update(entityId: String): CompletableFuture<EntityUpdateResponse> =
+    fun update(entityId: String): CompletableFuture<Entity> =
         update(entityId, EntityUpdateParams.none())
 
     /** @see update */
@@ -84,30 +81,27 @@ interface EntityServiceAsync {
         entityId: String,
         params: EntityUpdateParams = EntityUpdateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<EntityUpdateResponse> =
+    ): CompletableFuture<Entity> =
         update(params.toBuilder().entityId(entityId).build(), requestOptions)
 
     /** @see update */
     fun update(
         entityId: String,
         params: EntityUpdateParams = EntityUpdateParams.none(),
-    ): CompletableFuture<EntityUpdateResponse> = update(entityId, params, RequestOptions.none())
+    ): CompletableFuture<Entity> = update(entityId, params, RequestOptions.none())
 
     /** @see update */
     fun update(
         params: EntityUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<EntityUpdateResponse>
+    ): CompletableFuture<Entity>
 
     /** @see update */
-    fun update(params: EntityUpdateParams): CompletableFuture<EntityUpdateResponse> =
+    fun update(params: EntityUpdateParams): CompletableFuture<Entity> =
         update(params, RequestOptions.none())
 
     /** @see update */
-    fun update(
-        entityId: String,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<EntityUpdateResponse> =
+    fun update(entityId: String, requestOptions: RequestOptions): CompletableFuture<Entity> =
         update(entityId, EntityUpdateParams.none(), requestOptions)
 
     /**
@@ -132,7 +126,7 @@ interface EntityServiceAsync {
         list(EntityListParams.none(), requestOptions)
 
     /** Get a specific customer `Entity` of your organization by their ID. */
-    fun retrieveById(entityId: String): CompletableFuture<EntityRetrieveByIdResponse> =
+    fun retrieveById(entityId: String): CompletableFuture<Entity> =
         retrieveById(entityId, EntityRetrieveByIdParams.none())
 
     /** @see retrieveById */
@@ -140,54 +134,46 @@ interface EntityServiceAsync {
         entityId: String,
         params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<EntityRetrieveByIdResponse> =
+    ): CompletableFuture<Entity> =
         retrieveById(params.toBuilder().entityId(entityId).build(), requestOptions)
 
     /** @see retrieveById */
     fun retrieveById(
         entityId: String,
         params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
-    ): CompletableFuture<EntityRetrieveByIdResponse> =
-        retrieveById(entityId, params, RequestOptions.none())
+    ): CompletableFuture<Entity> = retrieveById(entityId, params, RequestOptions.none())
 
     /** @see retrieveById */
     fun retrieveById(
         params: EntityRetrieveByIdParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<EntityRetrieveByIdResponse>
+    ): CompletableFuture<Entity>
 
     /** @see retrieveById */
-    fun retrieveById(
-        params: EntityRetrieveByIdParams
-    ): CompletableFuture<EntityRetrieveByIdResponse> = retrieveById(params, RequestOptions.none())
+    fun retrieveById(params: EntityRetrieveByIdParams): CompletableFuture<Entity> =
+        retrieveById(params, RequestOptions.none())
 
     /** @see retrieveById */
-    fun retrieveById(
-        entityId: String,
-        requestOptions: RequestOptions,
-    ): CompletableFuture<EntityRetrieveByIdResponse> =
+    fun retrieveById(entityId: String, requestOptions: RequestOptions): CompletableFuture<Entity> =
         retrieveById(entityId, EntityRetrieveByIdParams.none(), requestOptions)
 
     /** Get the current authenticated `Entity`, which represents your organization. */
-    fun retrieveCurrent(): CompletableFuture<EntityRetrieveCurrentResponse> =
+    fun retrieveCurrent(): CompletableFuture<Entity> =
         retrieveCurrent(EntityRetrieveCurrentParams.none())
 
     /** @see retrieveCurrent */
     fun retrieveCurrent(
         params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): CompletableFuture<EntityRetrieveCurrentResponse>
+    ): CompletableFuture<Entity>
 
     /** @see retrieveCurrent */
     fun retrieveCurrent(
         params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none()
-    ): CompletableFuture<EntityRetrieveCurrentResponse> =
-        retrieveCurrent(params, RequestOptions.none())
+    ): CompletableFuture<Entity> = retrieveCurrent(params, RequestOptions.none())
 
     /** @see retrieveCurrent */
-    fun retrieveCurrent(
-        requestOptions: RequestOptions
-    ): CompletableFuture<EntityRetrieveCurrentResponse> =
+    fun retrieveCurrent(requestOptions: RequestOptions): CompletableFuture<Entity> =
         retrieveCurrent(EntityRetrieveCurrentParams.none(), requestOptions)
 
     /**
@@ -230,22 +216,20 @@ interface EntityServiceAsync {
          * Returns a raw HTTP response for `post /api/v2/entities/`, but is otherwise the same as
          * [EntityServiceAsync.create].
          */
-        fun create(
-            params: EntityCreateParams
-        ): CompletableFuture<HttpResponseFor<EntityCreateResponse>> =
+        fun create(params: EntityCreateParams): CompletableFuture<HttpResponseFor<Entity>> =
             create(params, RequestOptions.none())
 
         /** @see create */
         fun create(
             params: EntityCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<EntityCreateResponse>>
+        ): CompletableFuture<HttpResponseFor<Entity>>
 
         /**
          * Returns a raw HTTP response for `patch /api/v2/entities/{entity_id}`, but is otherwise
          * the same as [EntityServiceAsync.update].
          */
-        fun update(entityId: String): CompletableFuture<HttpResponseFor<EntityUpdateResponse>> =
+        fun update(entityId: String): CompletableFuture<HttpResponseFor<Entity>> =
             update(entityId, EntityUpdateParams.none())
 
         /** @see update */
@@ -253,33 +237,31 @@ interface EntityServiceAsync {
             entityId: String,
             params: EntityUpdateParams = EntityUpdateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<EntityUpdateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Entity>> =
             update(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see update */
         fun update(
             entityId: String,
             params: EntityUpdateParams = EntityUpdateParams.none(),
-        ): CompletableFuture<HttpResponseFor<EntityUpdateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Entity>> =
             update(entityId, params, RequestOptions.none())
 
         /** @see update */
         fun update(
             params: EntityUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<EntityUpdateResponse>>
+        ): CompletableFuture<HttpResponseFor<Entity>>
 
         /** @see update */
-        fun update(
-            params: EntityUpdateParams
-        ): CompletableFuture<HttpResponseFor<EntityUpdateResponse>> =
+        fun update(params: EntityUpdateParams): CompletableFuture<HttpResponseFor<Entity>> =
             update(params, RequestOptions.none())
 
         /** @see update */
         fun update(
             entityId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<EntityUpdateResponse>> =
+        ): CompletableFuture<HttpResponseFor<Entity>> =
             update(entityId, EntityUpdateParams.none(), requestOptions)
 
         /**
@@ -311,9 +293,7 @@ interface EntityServiceAsync {
          * Returns a raw HTTP response for `get /api/v2/entities/{entity_id}`, but is otherwise the
          * same as [EntityServiceAsync.retrieveById].
          */
-        fun retrieveById(
-            entityId: String
-        ): CompletableFuture<HttpResponseFor<EntityRetrieveByIdResponse>> =
+        fun retrieveById(entityId: String): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveById(entityId, EntityRetrieveByIdParams.none())
 
         /** @see retrieveById */
@@ -321,58 +301,57 @@ interface EntityServiceAsync {
             entityId: String,
             params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<EntityRetrieveByIdResponse>> =
+        ): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveById(params.toBuilder().entityId(entityId).build(), requestOptions)
 
         /** @see retrieveById */
         fun retrieveById(
             entityId: String,
             params: EntityRetrieveByIdParams = EntityRetrieveByIdParams.none(),
-        ): CompletableFuture<HttpResponseFor<EntityRetrieveByIdResponse>> =
+        ): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveById(entityId, params, RequestOptions.none())
 
         /** @see retrieveById */
         fun retrieveById(
             params: EntityRetrieveByIdParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<EntityRetrieveByIdResponse>>
+        ): CompletableFuture<HttpResponseFor<Entity>>
 
         /** @see retrieveById */
         fun retrieveById(
             params: EntityRetrieveByIdParams
-        ): CompletableFuture<HttpResponseFor<EntityRetrieveByIdResponse>> =
-            retrieveById(params, RequestOptions.none())
+        ): CompletableFuture<HttpResponseFor<Entity>> = retrieveById(params, RequestOptions.none())
 
         /** @see retrieveById */
         fun retrieveById(
             entityId: String,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<EntityRetrieveByIdResponse>> =
+        ): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveById(entityId, EntityRetrieveByIdParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `get /api/v2/entities/me`, but is otherwise the same as
          * [EntityServiceAsync.retrieveCurrent].
          */
-        fun retrieveCurrent(): CompletableFuture<HttpResponseFor<EntityRetrieveCurrentResponse>> =
+        fun retrieveCurrent(): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveCurrent(EntityRetrieveCurrentParams.none())
 
         /** @see retrieveCurrent */
         fun retrieveCurrent(
             params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): CompletableFuture<HttpResponseFor<EntityRetrieveCurrentResponse>>
+        ): CompletableFuture<HttpResponseFor<Entity>>
 
         /** @see retrieveCurrent */
         fun retrieveCurrent(
             params: EntityRetrieveCurrentParams = EntityRetrieveCurrentParams.none()
-        ): CompletableFuture<HttpResponseFor<EntityRetrieveCurrentResponse>> =
+        ): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveCurrent(params, RequestOptions.none())
 
         /** @see retrieveCurrent */
         fun retrieveCurrent(
             requestOptions: RequestOptions
-        ): CompletableFuture<HttpResponseFor<EntityRetrieveCurrentResponse>> =
+        ): CompletableFuture<HttpResponseFor<Entity>> =
             retrieveCurrent(EntityRetrieveCurrentParams.none(), requestOptions)
     }
 }

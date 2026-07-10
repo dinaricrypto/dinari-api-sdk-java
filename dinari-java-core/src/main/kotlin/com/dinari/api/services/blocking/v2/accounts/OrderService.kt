@@ -5,12 +5,12 @@ package com.dinari.api.services.blocking.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
+import com.dinari.api.models.v2.accounts.orderfulfillments.PaginatedOrderFulfillment
 import com.dinari.api.models.v2.accounts.orders.Order
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderBatchCancelResponse
 import com.dinari.api.models.v2.accounts.orders.OrderCancelParams
 import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsParams
-import com.dinari.api.models.v2.accounts.orders.OrderGetFulfillmentsResponse
 import com.dinari.api.models.v2.accounts.orders.OrderListParams
 import com.dinari.api.models.v2.accounts.orders.OrderListResponse
 import com.dinari.api.models.v2.accounts.orders.OrderRetrieveParams
@@ -160,25 +160,25 @@ interface OrderService {
     fun getFulfillments(
         orderId: String,
         params: OrderGetFulfillmentsParams,
-    ): OrderGetFulfillmentsResponse = getFulfillments(orderId, params, RequestOptions.none())
+    ): PaginatedOrderFulfillment = getFulfillments(orderId, params, RequestOptions.none())
 
     /** @see getFulfillments */
     fun getFulfillments(
         orderId: String,
         params: OrderGetFulfillmentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderGetFulfillmentsResponse =
+    ): PaginatedOrderFulfillment =
         getFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
 
     /** @see getFulfillments */
-    fun getFulfillments(params: OrderGetFulfillmentsParams): OrderGetFulfillmentsResponse =
+    fun getFulfillments(params: OrderGetFulfillmentsParams): PaginatedOrderFulfillment =
         getFulfillments(params, RequestOptions.none())
 
     /** @see getFulfillments */
     fun getFulfillments(
         params: OrderGetFulfillmentsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderGetFulfillmentsResponse
+    ): PaginatedOrderFulfillment
 
     /** A view of [OrderService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -334,7 +334,7 @@ interface OrderService {
         fun getFulfillments(
             orderId: String,
             params: OrderGetFulfillmentsParams,
-        ): HttpResponseFor<OrderGetFulfillmentsResponse> =
+        ): HttpResponseFor<PaginatedOrderFulfillment> =
             getFulfillments(orderId, params, RequestOptions.none())
 
         /** @see getFulfillments */
@@ -343,14 +343,14 @@ interface OrderService {
             orderId: String,
             params: OrderGetFulfillmentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderGetFulfillmentsResponse> =
+        ): HttpResponseFor<PaginatedOrderFulfillment> =
             getFulfillments(params.toBuilder().orderId(orderId).build(), requestOptions)
 
         /** @see getFulfillments */
         @MustBeClosed
         fun getFulfillments(
             params: OrderGetFulfillmentsParams
-        ): HttpResponseFor<OrderGetFulfillmentsResponse> =
+        ): HttpResponseFor<PaginatedOrderFulfillment> =
             getFulfillments(params, RequestOptions.none())
 
         /** @see getFulfillments */
@@ -358,6 +358,6 @@ interface OrderService {
         fun getFulfillments(
             params: OrderGetFulfillmentsParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderGetFulfillmentsResponse>
+        ): HttpResponseFor<PaginatedOrderFulfillment>
     }
 }

@@ -42,7 +42,7 @@ internal class OrderFulfillmentServiceAsyncTest {
                 .build()
         val orderFulfillmentServiceAsync = client.v2().accounts().orderFulfillments()
 
-        val responseFuture =
+        val paginatedOrderFulfillmentFuture =
             orderFulfillmentServiceAsync.query(
                 OrderFulfillmentQueryParams.builder()
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
@@ -54,7 +54,7 @@ internal class OrderFulfillmentServiceAsyncTest {
                     .build()
             )
 
-        val response = responseFuture.get()
-        response.validate()
+        val paginatedOrderFulfillment = paginatedOrderFulfillmentFuture.get()
+        paginatedOrderFulfillment.validate()
     }
 }
