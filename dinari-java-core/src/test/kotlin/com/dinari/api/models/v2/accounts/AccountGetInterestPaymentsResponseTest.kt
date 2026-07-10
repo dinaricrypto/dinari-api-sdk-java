@@ -3,6 +3,7 @@
 package com.dinari.api.models.v2.accounts
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
@@ -22,10 +23,7 @@ internal class AccountGetInterestPaymentsResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    AccountGetInterestPaymentsResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(AccountGetInterestPaymentsResponse._Sv.PAGINATED_INTEREST_PAYMENT_RESPONSE_V1)
                 .build()
@@ -39,12 +37,7 @@ internal class AccountGetInterestPaymentsResponseTest {
                     .build()
             )
         assertThat(accountGetInterestPaymentsResponse.paginationMetadata())
-            .isEqualTo(
-                AccountGetInterestPaymentsResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(accountGetInterestPaymentsResponse._sv())
             .contains(AccountGetInterestPaymentsResponse._Sv.PAGINATED_INTEREST_PAYMENT_RESPONSE_V1)
     }
@@ -62,10 +55,7 @@ internal class AccountGetInterestPaymentsResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    AccountGetInterestPaymentsResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(AccountGetInterestPaymentsResponse._Sv.PAGINATED_INTEREST_PAYMENT_RESPONSE_V1)
                 .build()

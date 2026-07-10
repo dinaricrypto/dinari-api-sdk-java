@@ -16,8 +16,8 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepareAsync
+import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.models.v2.entities.accounts.AccountCreateParams
-import com.dinari.api.models.v2.entities.accounts.AccountCreateResponse
 import com.dinari.api.models.v2.entities.accounts.AccountListParams
 import com.dinari.api.models.v2.entities.accounts.AccountListResponse
 import java.util.concurrent.CompletableFuture
@@ -44,7 +44,7 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     override fun create(
         params: AccountCreateParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<AccountCreateResponse> =
+    ): CompletableFuture<Account> =
         // post /api/v2/entities/{entity_id}/accounts
         withRawResponse().create(params, requestOptions).thenApply { it.parse() }
 
@@ -68,13 +68,12 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val createHandler: Handler<AccountCreateResponse> =
-            jsonHandler<AccountCreateResponse>(clientOptions.jsonMapper)
+        private val createHandler: Handler<Account> = jsonHandler<Account>(clientOptions.jsonMapper)
 
         override fun create(
             params: AccountCreateParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<AccountCreateResponse>> {
+        ): CompletableFuture<HttpResponseFor<Account>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("entityId", params.entityId().getOrNull())

@@ -4,10 +4,11 @@ package com.dinari.api.proguard
 
 import com.dinari.api.client.okhttp.DinariOkHttpClient
 import com.dinari.api.core.jsonMapper
-import com.dinari.api.models.v2.entities.accounts.Jurisdiction
+import com.dinari.api.models.v2.BrokerageOrderStatus
 import com.dinari.api.models.v2.entities.kyc.BaselineKycCheckData
 import com.dinari.api.models.v2.entities.kyc.KycInfo
 import com.dinari.api.models.v2.entities.kyc.KycStatus
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.dinari.api.models.v2.marketdata.stocks.StockListResponse
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
@@ -82,10 +83,7 @@ internal class ProGuardCompatibilityTest {
                         .build()
                 )
                 .paginationMetadata(
-                    StockListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(StockListResponse._Sv.PAGINATED_STOCK_RESPONSE_V1)
                 .build()
@@ -136,16 +134,16 @@ internal class ProGuardCompatibilityTest {
     }
 
     @Test
-    fun jurisdictionRoundtrip() {
+    fun brokerageOrderStatusRoundtrip() {
         val jsonMapper = jsonMapper()
-        val jurisdiction = Jurisdiction.BASELINE
+        val brokerageOrderStatus = BrokerageOrderStatus.PENDING_SUBMIT
 
-        val roundtrippedJurisdiction =
+        val roundtrippedBrokerageOrderStatus =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(jurisdiction),
-                jacksonTypeRef<Jurisdiction>(),
+                jsonMapper.writeValueAsString(brokerageOrderStatus),
+                jacksonTypeRef<BrokerageOrderStatus>(),
             )
 
-        assertThat(roundtrippedJurisdiction).isEqualTo(jurisdiction)
+        assertThat(roundtrippedBrokerageOrderStatus).isEqualTo(brokerageOrderStatus)
     }
 }

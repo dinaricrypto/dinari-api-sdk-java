@@ -3,6 +3,7 @@
 package com.dinari.api.models.v2.accounts.tokentransfers
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -29,10 +30,7 @@ internal class TokenTransferListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    TokenTransferListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(TokenTransferListResponse._Sv.PAGINATED_TOKEN_TRANSFER_RESPONSE_V1)
                 .build()
@@ -53,12 +51,7 @@ internal class TokenTransferListResponseTest {
                     .build()
             )
         assertThat(tokenTransferListResponse.paginationMetadata())
-            .isEqualTo(
-                TokenTransferListResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(tokenTransferListResponse._sv())
             .contains(TokenTransferListResponse._Sv.PAGINATED_TOKEN_TRANSFER_RESPONSE_V1)
     }
@@ -83,10 +76,7 @@ internal class TokenTransferListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    TokenTransferListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(TokenTransferListResponse._Sv.PAGINATED_TOKEN_TRANSFER_RESPONSE_V1)
                 .build()

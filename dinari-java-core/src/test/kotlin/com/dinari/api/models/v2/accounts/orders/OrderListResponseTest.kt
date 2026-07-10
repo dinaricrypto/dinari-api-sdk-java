@@ -3,6 +3,11 @@
 package com.dinari.api.models.v2.accounts.orders
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.BrokerageOrderStatus
+import com.dinari.api.models.v2.OrderSide
+import com.dinari.api.models.v2.OrderTif
+import com.dinari.api.models.v2.OrderType
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -20,12 +25,12 @@ internal class OrderListResponseTest {
                         .chainId("chain_id")
                         .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .orderContractAddress("order_contract_address")
-                        .orderSide(OrderListResponse.Data.OrderSide.BUY)
-                        .orderTif(OrderListResponse.Data.OrderTif.DAY)
+                        .orderSide(OrderSide.BUY)
+                        .orderTif(OrderTif.DAY)
                         .orderTransactionHash("0xeaF12bD1DfFd")
-                        .orderType(OrderListResponse.Data.OrderType.MARKET)
+                        .orderType(OrderType.MARKET)
                         .paymentToken("payment_token")
-                        .status(OrderListResponse.Data.Status.PENDING_SUBMIT)
+                        .status(BrokerageOrderStatus.PENDING_SUBMIT)
                         .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .assetToken("asset_token")
                         .assetTokenQuantity(0.0)
@@ -38,10 +43,7 @@ internal class OrderListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    OrderListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(OrderListResponse._Sv.PAGINATED_ACCOUNT_ORDER_RESPONSE_V1)
                 .build()
@@ -53,12 +55,12 @@ internal class OrderListResponseTest {
                     .chainId("chain_id")
                     .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .orderContractAddress("order_contract_address")
-                    .orderSide(OrderListResponse.Data.OrderSide.BUY)
-                    .orderTif(OrderListResponse.Data.OrderTif.DAY)
+                    .orderSide(OrderSide.BUY)
+                    .orderTif(OrderTif.DAY)
                     .orderTransactionHash("0xeaF12bD1DfFd")
-                    .orderType(OrderListResponse.Data.OrderType.MARKET)
+                    .orderType(OrderType.MARKET)
                     .paymentToken("payment_token")
-                    .status(OrderListResponse.Data.Status.PENDING_SUBMIT)
+                    .status(BrokerageOrderStatus.PENDING_SUBMIT)
                     .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .assetToken("asset_token")
                     .assetTokenQuantity(0.0)
@@ -71,12 +73,7 @@ internal class OrderListResponseTest {
                     .build()
             )
         assertThat(orderListResponse.paginationMetadata())
-            .isEqualTo(
-                OrderListResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(orderListResponse._sv())
             .contains(OrderListResponse._Sv.PAGINATED_ACCOUNT_ORDER_RESPONSE_V1)
     }
@@ -92,12 +89,12 @@ internal class OrderListResponseTest {
                         .chainId("chain_id")
                         .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .orderContractAddress("order_contract_address")
-                        .orderSide(OrderListResponse.Data.OrderSide.BUY)
-                        .orderTif(OrderListResponse.Data.OrderTif.DAY)
+                        .orderSide(OrderSide.BUY)
+                        .orderTif(OrderTif.DAY)
                         .orderTransactionHash("0xeaF12bD1DfFd")
-                        .orderType(OrderListResponse.Data.OrderType.MARKET)
+                        .orderType(OrderType.MARKET)
                         .paymentToken("payment_token")
-                        .status(OrderListResponse.Data.Status.PENDING_SUBMIT)
+                        .status(BrokerageOrderStatus.PENDING_SUBMIT)
                         .stockId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .assetToken("asset_token")
                         .assetTokenQuantity(0.0)
@@ -110,10 +107,7 @@ internal class OrderListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    OrderListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(OrderListResponse._Sv.PAGINATED_ACCOUNT_ORDER_RESPONSE_V1)
                 .build()

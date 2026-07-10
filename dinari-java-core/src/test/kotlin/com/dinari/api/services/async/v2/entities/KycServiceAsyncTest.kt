@@ -3,7 +3,9 @@
 package com.dinari.api.services.async.v2.entities
 
 import com.dinari.api.client.okhttp.DinariOkHttpClientAsync
+import com.dinari.api.models.v2.entities.accounts.Jurisdiction
 import com.dinari.api.models.v2.entities.kyc.BaselineKycCheckData
+import com.dinari.api.models.v2.entities.kyc.KycCreateManagedCheckParams
 import com.dinari.api.models.v2.entities.kyc.KycSubmitParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
@@ -38,7 +40,12 @@ internal class KycServiceAsyncTest {
         val kycServiceAsync = client.v2().entities().kyc()
 
         val responseFuture =
-            kycServiceAsync.createManagedCheck("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+            kycServiceAsync.createManagedCheck(
+                KycCreateManagedCheckParams.builder()
+                    .entityId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
+                    .jurisdiction(Jurisdiction.BASELINE)
+                    .build()
+            )
 
         val response = responseFuture.get()
         response.validate()

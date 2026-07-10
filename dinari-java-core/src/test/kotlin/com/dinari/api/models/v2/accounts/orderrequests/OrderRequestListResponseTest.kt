@@ -3,6 +3,10 @@
 package com.dinari.api.models.v2.accounts.orderrequests
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.OrderSide
+import com.dinari.api.models.v2.OrderTif
+import com.dinari.api.models.v2.OrderType
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
@@ -19,9 +23,9 @@ internal class OrderRequestListResponseTest {
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .orderSide(OrderRequestListResponse.Data.OrderSide.BUY)
-                        .orderTif(OrderRequestListResponse.Data.OrderTif.DAY)
-                        .orderType(OrderRequestListResponse.Data.OrderType.MARKET)
+                        .orderSide(OrderSide.BUY)
+                        .orderTif(OrderTif.DAY)
+                        .orderType(OrderType.MARKET)
                         .status(OrderRequestListResponse.Data.Status.QUOTED)
                         .cancelMessage("cancel_message")
                         .clientOrderId("client_order_id")
@@ -31,10 +35,7 @@ internal class OrderRequestListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    OrderRequestListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(OrderRequestListResponse._Sv.PAGINATED_ACCOUNT_ORDER_REQUEST_RESPONSE_V1)
                 .build()
@@ -45,9 +46,9 @@ internal class OrderRequestListResponseTest {
                     .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                     .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                    .orderSide(OrderRequestListResponse.Data.OrderSide.BUY)
-                    .orderTif(OrderRequestListResponse.Data.OrderTif.DAY)
-                    .orderType(OrderRequestListResponse.Data.OrderType.MARKET)
+                    .orderSide(OrderSide.BUY)
+                    .orderTif(OrderTif.DAY)
+                    .orderType(OrderType.MARKET)
                     .status(OrderRequestListResponse.Data.Status.QUOTED)
                     .cancelMessage("cancel_message")
                     .clientOrderId("client_order_id")
@@ -57,12 +58,7 @@ internal class OrderRequestListResponseTest {
                     .build()
             )
         assertThat(orderRequestListResponse.paginationMetadata())
-            .isEqualTo(
-                OrderRequestListResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(orderRequestListResponse._sv())
             .contains(OrderRequestListResponse._Sv.PAGINATED_ACCOUNT_ORDER_REQUEST_RESPONSE_V1)
     }
@@ -77,9 +73,9 @@ internal class OrderRequestListResponseTest {
                         .id("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .accountId("182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")
                         .createdDt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
-                        .orderSide(OrderRequestListResponse.Data.OrderSide.BUY)
-                        .orderTif(OrderRequestListResponse.Data.OrderTif.DAY)
-                        .orderType(OrderRequestListResponse.Data.OrderType.MARKET)
+                        .orderSide(OrderSide.BUY)
+                        .orderTif(OrderTif.DAY)
+                        .orderType(OrderType.MARKET)
                         .status(OrderRequestListResponse.Data.Status.QUOTED)
                         .cancelMessage("cancel_message")
                         .clientOrderId("client_order_id")
@@ -89,10 +85,7 @@ internal class OrderRequestListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    OrderRequestListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(OrderRequestListResponse._Sv.PAGINATED_ACCOUNT_ORDER_REQUEST_RESPONSE_V1)
                 .build()

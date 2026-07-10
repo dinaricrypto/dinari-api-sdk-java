@@ -16,16 +16,13 @@ import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepare
+import com.dinari.api.models.v2.entities.Entity
 import com.dinari.api.models.v2.entities.EntityCreateParams
-import com.dinari.api.models.v2.entities.EntityCreateResponse
 import com.dinari.api.models.v2.entities.EntityListParams
 import com.dinari.api.models.v2.entities.EntityListResponse
 import com.dinari.api.models.v2.entities.EntityRetrieveByIdParams
-import com.dinari.api.models.v2.entities.EntityRetrieveByIdResponse
 import com.dinari.api.models.v2.entities.EntityRetrieveCurrentParams
-import com.dinari.api.models.v2.entities.EntityRetrieveCurrentResponse
 import com.dinari.api.models.v2.entities.EntityUpdateParams
-import com.dinari.api.models.v2.entities.EntityUpdateResponse
 import com.dinari.api.services.blocking.v2.entities.AccountService
 import com.dinari.api.services.blocking.v2.entities.AccountServiceImpl
 import com.dinari.api.services.blocking.v2.entities.KycService
@@ -77,17 +74,11 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
      */
     override fun kyc(): KycService = kyc
 
-    override fun create(
-        params: EntityCreateParams,
-        requestOptions: RequestOptions,
-    ): EntityCreateResponse =
+    override fun create(params: EntityCreateParams, requestOptions: RequestOptions): Entity =
         // post /api/v2/entities/
         withRawResponse().create(params, requestOptions).parse()
 
-    override fun update(
-        params: EntityUpdateParams,
-        requestOptions: RequestOptions,
-    ): EntityUpdateResponse =
+    override fun update(params: EntityUpdateParams, requestOptions: RequestOptions): Entity =
         // patch /api/v2/entities/{entity_id}
         withRawResponse().update(params, requestOptions).parse()
 
@@ -101,14 +92,14 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
     override fun retrieveById(
         params: EntityRetrieveByIdParams,
         requestOptions: RequestOptions,
-    ): EntityRetrieveByIdResponse =
+    ): Entity =
         // get /api/v2/entities/{entity_id}
         withRawResponse().retrieveById(params, requestOptions).parse()
 
     override fun retrieveCurrent(
         params: EntityRetrieveCurrentParams,
         requestOptions: RequestOptions,
-    ): EntityRetrieveCurrentResponse =
+    ): Entity =
         // get /api/v2/entities/me
         withRawResponse().retrieveCurrent(params, requestOptions).parse()
 
@@ -155,13 +146,12 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
          */
         override fun kyc(): KycService.WithRawResponse = kyc
 
-        private val createHandler: Handler<EntityCreateResponse> =
-            jsonHandler<EntityCreateResponse>(clientOptions.jsonMapper)
+        private val createHandler: Handler<Entity> = jsonHandler<Entity>(clientOptions.jsonMapper)
 
         override fun create(
             params: EntityCreateParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<EntityCreateResponse> {
+        ): HttpResponseFor<Entity> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
@@ -183,13 +173,12 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
             }
         }
 
-        private val updateHandler: Handler<EntityUpdateResponse> =
-            jsonHandler<EntityUpdateResponse>(clientOptions.jsonMapper)
+        private val updateHandler: Handler<Entity> = jsonHandler<Entity>(clientOptions.jsonMapper)
 
         override fun update(
             params: EntityUpdateParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<EntityUpdateResponse> {
+        ): HttpResponseFor<Entity> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("entityId", params.entityId().getOrNull())
@@ -241,13 +230,13 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
             }
         }
 
-        private val retrieveByIdHandler: Handler<EntityRetrieveByIdResponse> =
-            jsonHandler<EntityRetrieveByIdResponse>(clientOptions.jsonMapper)
+        private val retrieveByIdHandler: Handler<Entity> =
+            jsonHandler<Entity>(clientOptions.jsonMapper)
 
         override fun retrieveById(
             params: EntityRetrieveByIdParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<EntityRetrieveByIdResponse> {
+        ): HttpResponseFor<Entity> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("entityId", params.entityId().getOrNull())
@@ -271,13 +260,13 @@ class EntityServiceImpl internal constructor(private val clientOptions: ClientOp
             }
         }
 
-        private val retrieveCurrentHandler: Handler<EntityRetrieveCurrentResponse> =
-            jsonHandler<EntityRetrieveCurrentResponse>(clientOptions.jsonMapper)
+        private val retrieveCurrentHandler: Handler<Entity> =
+            jsonHandler<Entity>(clientOptions.jsonMapper)
 
         override fun retrieveCurrent(
             params: EntityRetrieveCurrentParams,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<EntityRetrieveCurrentResponse> {
+        ): HttpResponseFor<Entity> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)

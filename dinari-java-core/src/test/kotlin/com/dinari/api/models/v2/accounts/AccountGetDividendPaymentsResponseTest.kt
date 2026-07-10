@@ -3,6 +3,7 @@
 package com.dinari.api.models.v2.accounts
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
@@ -23,10 +24,7 @@ internal class AccountGetDividendPaymentsResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    AccountGetDividendPaymentsResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(AccountGetDividendPaymentsResponse._Sv.PAGINATED_DIVIDEND_PAYMENT_RESPONSE_V1)
                 .build()
@@ -41,12 +39,7 @@ internal class AccountGetDividendPaymentsResponseTest {
                     .build()
             )
         assertThat(accountGetDividendPaymentsResponse.paginationMetadata())
-            .isEqualTo(
-                AccountGetDividendPaymentsResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(accountGetDividendPaymentsResponse._sv())
             .contains(AccountGetDividendPaymentsResponse._Sv.PAGINATED_DIVIDEND_PAYMENT_RESPONSE_V1)
     }
@@ -65,10 +58,7 @@ internal class AccountGetDividendPaymentsResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    AccountGetDividendPaymentsResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(AccountGetDividendPaymentsResponse._Sv.PAGINATED_DIVIDEND_PAYMENT_RESPONSE_V1)
                 .build()

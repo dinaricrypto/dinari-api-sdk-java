@@ -5,12 +5,11 @@ package com.dinari.api.services.blocking.v2.accounts
 import com.dinari.api.core.ClientOptions
 import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
+import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequest
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestCreateParams
-import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestCreateResponse
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestListParams
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestListResponse
 import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestRetrieveParams
-import com.dinari.api.models.v2.accounts.withdrawalrequests.WithdrawalRequestRetrieveResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -46,56 +45,52 @@ interface WithdrawalRequestService {
      *
      * The recipient `Account` must belong to the same `Entity` as the managed `Account`.
      */
-    fun create(
-        accountId: String,
-        params: WithdrawalRequestCreateParams,
-    ): WithdrawalRequestCreateResponse = create(accountId, params, RequestOptions.none())
+    fun create(accountId: String, params: WithdrawalRequestCreateParams): WithdrawalRequest =
+        create(accountId, params, RequestOptions.none())
 
     /** @see create */
     fun create(
         accountId: String,
         params: WithdrawalRequestCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): WithdrawalRequestCreateResponse =
-        create(params.toBuilder().accountId(accountId).build(), requestOptions)
+    ): WithdrawalRequest = create(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see create */
-    fun create(params: WithdrawalRequestCreateParams): WithdrawalRequestCreateResponse =
+    fun create(params: WithdrawalRequestCreateParams): WithdrawalRequest =
         create(params, RequestOptions.none())
 
     /** @see create */
     fun create(
         params: WithdrawalRequestCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): WithdrawalRequestCreateResponse
+    ): WithdrawalRequest
 
     /** Get a specific `WithdrawalRequest` by its ID. */
     fun retrieve(
         withdrawalRequestId: String,
         params: WithdrawalRequestRetrieveParams,
-    ): WithdrawalRequestRetrieveResponse =
-        retrieve(withdrawalRequestId, params, RequestOptions.none())
+    ): WithdrawalRequest = retrieve(withdrawalRequestId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         withdrawalRequestId: String,
         params: WithdrawalRequestRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): WithdrawalRequestRetrieveResponse =
+    ): WithdrawalRequest =
         retrieve(
             params.toBuilder().withdrawalRequestId(withdrawalRequestId).build(),
             requestOptions,
         )
 
     /** @see retrieve */
-    fun retrieve(params: WithdrawalRequestRetrieveParams): WithdrawalRequestRetrieveResponse =
+    fun retrieve(params: WithdrawalRequestRetrieveParams): WithdrawalRequest =
         retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: WithdrawalRequestRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): WithdrawalRequestRetrieveResponse
+    ): WithdrawalRequest
 
     /** List `WithdrawalRequests` under the `Account`, sorted by most recent. */
     fun list(accountId: String): WithdrawalRequestListResponse =
@@ -152,8 +147,7 @@ interface WithdrawalRequestService {
         fun create(
             accountId: String,
             params: WithdrawalRequestCreateParams,
-        ): HttpResponseFor<WithdrawalRequestCreateResponse> =
-            create(accountId, params, RequestOptions.none())
+        ): HttpResponseFor<WithdrawalRequest> = create(accountId, params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
@@ -161,21 +155,20 @@ interface WithdrawalRequestService {
             accountId: String,
             params: WithdrawalRequestCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<WithdrawalRequestCreateResponse> =
+        ): HttpResponseFor<WithdrawalRequest> =
             create(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see create */
         @MustBeClosed
-        fun create(
-            params: WithdrawalRequestCreateParams
-        ): HttpResponseFor<WithdrawalRequestCreateResponse> = create(params, RequestOptions.none())
+        fun create(params: WithdrawalRequestCreateParams): HttpResponseFor<WithdrawalRequest> =
+            create(params, RequestOptions.none())
 
         /** @see create */
         @MustBeClosed
         fun create(
             params: WithdrawalRequestCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<WithdrawalRequestCreateResponse>
+        ): HttpResponseFor<WithdrawalRequest>
 
         /**
          * Returns a raw HTTP response for `get
@@ -186,7 +179,7 @@ interface WithdrawalRequestService {
         fun retrieve(
             withdrawalRequestId: String,
             params: WithdrawalRequestRetrieveParams,
-        ): HttpResponseFor<WithdrawalRequestRetrieveResponse> =
+        ): HttpResponseFor<WithdrawalRequest> =
             retrieve(withdrawalRequestId, params, RequestOptions.none())
 
         /** @see retrieve */
@@ -195,7 +188,7 @@ interface WithdrawalRequestService {
             withdrawalRequestId: String,
             params: WithdrawalRequestRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<WithdrawalRequestRetrieveResponse> =
+        ): HttpResponseFor<WithdrawalRequest> =
             retrieve(
                 params.toBuilder().withdrawalRequestId(withdrawalRequestId).build(),
                 requestOptions,
@@ -203,9 +196,7 @@ interface WithdrawalRequestService {
 
         /** @see retrieve */
         @MustBeClosed
-        fun retrieve(
-            params: WithdrawalRequestRetrieveParams
-        ): HttpResponseFor<WithdrawalRequestRetrieveResponse> =
+        fun retrieve(params: WithdrawalRequestRetrieveParams): HttpResponseFor<WithdrawalRequest> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
@@ -213,7 +204,7 @@ interface WithdrawalRequestService {
         fun retrieve(
             params: WithdrawalRequestRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<WithdrawalRequestRetrieveResponse>
+        ): HttpResponseFor<WithdrawalRequest>
 
         /**
          * Returns a raw HTTP response for `get /api/v2/accounts/{account_id}/withdrawal_requests`,

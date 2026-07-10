@@ -7,8 +7,8 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.orderfulfillments.Fulfillment
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryParams
-import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentQueryResponse
 import com.dinari.api.models.v2.accounts.orderfulfillments.OrderFulfillmentRetrieveParams
+import com.dinari.api.models.v2.accounts.orderfulfillments.PaginatedOrderFulfillment
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
 
@@ -58,7 +58,7 @@ interface OrderFulfillmentService {
     ): Fulfillment
 
     /** Query `OrderFulfillments` under the `Account`. */
-    fun query(accountId: String): OrderFulfillmentQueryResponse =
+    fun query(accountId: String): PaginatedOrderFulfillment =
         query(accountId, OrderFulfillmentQueryParams.none())
 
     /** @see query */
@@ -66,27 +66,27 @@ interface OrderFulfillmentService {
         accountId: String,
         params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderFulfillmentQueryResponse =
+    ): PaginatedOrderFulfillment =
         query(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see query */
     fun query(
         accountId: String,
         params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
-    ): OrderFulfillmentQueryResponse = query(accountId, params, RequestOptions.none())
+    ): PaginatedOrderFulfillment = query(accountId, params, RequestOptions.none())
 
     /** @see query */
     fun query(
         params: OrderFulfillmentQueryParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): OrderFulfillmentQueryResponse
+    ): PaginatedOrderFulfillment
 
     /** @see query */
-    fun query(params: OrderFulfillmentQueryParams): OrderFulfillmentQueryResponse =
+    fun query(params: OrderFulfillmentQueryParams): PaginatedOrderFulfillment =
         query(params, RequestOptions.none())
 
     /** @see query */
-    fun query(accountId: String, requestOptions: RequestOptions): OrderFulfillmentQueryResponse =
+    fun query(accountId: String, requestOptions: RequestOptions): PaginatedOrderFulfillment =
         query(accountId, OrderFulfillmentQueryParams.none(), requestOptions)
 
     /**
@@ -145,7 +145,7 @@ interface OrderFulfillmentService {
          * but is otherwise the same as [OrderFulfillmentService.query].
          */
         @MustBeClosed
-        fun query(accountId: String): HttpResponseFor<OrderFulfillmentQueryResponse> =
+        fun query(accountId: String): HttpResponseFor<PaginatedOrderFulfillment> =
             query(accountId, OrderFulfillmentQueryParams.none())
 
         /** @see query */
@@ -154,7 +154,7 @@ interface OrderFulfillmentService {
             accountId: String,
             params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderFulfillmentQueryResponse> =
+        ): HttpResponseFor<PaginatedOrderFulfillment> =
             query(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see query */
@@ -162,7 +162,7 @@ interface OrderFulfillmentService {
         fun query(
             accountId: String,
             params: OrderFulfillmentQueryParams = OrderFulfillmentQueryParams.none(),
-        ): HttpResponseFor<OrderFulfillmentQueryResponse> =
+        ): HttpResponseFor<PaginatedOrderFulfillment> =
             query(accountId, params, RequestOptions.none())
 
         /** @see query */
@@ -170,20 +170,19 @@ interface OrderFulfillmentService {
         fun query(
             params: OrderFulfillmentQueryParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<OrderFulfillmentQueryResponse>
+        ): HttpResponseFor<PaginatedOrderFulfillment>
 
         /** @see query */
         @MustBeClosed
-        fun query(
-            params: OrderFulfillmentQueryParams
-        ): HttpResponseFor<OrderFulfillmentQueryResponse> = query(params, RequestOptions.none())
+        fun query(params: OrderFulfillmentQueryParams): HttpResponseFor<PaginatedOrderFulfillment> =
+            query(params, RequestOptions.none())
 
         /** @see query */
         @MustBeClosed
         fun query(
             accountId: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<OrderFulfillmentQueryResponse> =
+        ): HttpResponseFor<PaginatedOrderFulfillment> =
             query(accountId, OrderFulfillmentQueryParams.none(), requestOptions)
     }
 }

@@ -7,7 +7,6 @@ import com.dinari.api.core.RequestOptions
 import com.dinari.api.core.http.HttpResponse
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.models.v2.accounts.AccountDeactivateParams
-import com.dinari.api.models.v2.accounts.AccountDeactivateResponse
 import com.dinari.api.models.v2.accounts.AccountGetCashBalancesParams
 import com.dinari.api.models.v2.accounts.AccountGetCashBalancesResponse
 import com.dinari.api.models.v2.accounts.AccountGetDividendPaymentsParams
@@ -18,7 +17,7 @@ import com.dinari.api.models.v2.accounts.AccountGetPortfolioParams
 import com.dinari.api.models.v2.accounts.AccountGetPortfolioResponse
 import com.dinari.api.models.v2.accounts.AccountMintSandboxTokensParams
 import com.dinari.api.models.v2.accounts.AccountRetrieveParams
-import com.dinari.api.models.v2.accounts.AccountRetrieveResponse
+import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.services.blocking.v2.accounts.ActivityService
 import com.dinari.api.services.blocking.v2.accounts.OrderFulfillmentService
 import com.dinari.api.services.blocking.v2.accounts.OrderRequestService
@@ -130,39 +129,36 @@ interface AccountService {
     fun activities(): ActivityService
 
     /** Get a specific `Account` by its ID. */
-    fun retrieve(accountId: String): AccountRetrieveResponse =
-        retrieve(accountId, AccountRetrieveParams.none())
+    fun retrieve(accountId: String): Account = retrieve(accountId, AccountRetrieveParams.none())
 
     /** @see retrieve */
     fun retrieve(
         accountId: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): AccountRetrieveResponse =
-        retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
+    ): Account = retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see retrieve */
     fun retrieve(
         accountId: String,
         params: AccountRetrieveParams = AccountRetrieveParams.none(),
-    ): AccountRetrieveResponse = retrieve(accountId, params, RequestOptions.none())
+    ): Account = retrieve(accountId, params, RequestOptions.none())
 
     /** @see retrieve */
     fun retrieve(
         params: AccountRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): AccountRetrieveResponse
+    ): Account
 
     /** @see retrieve */
-    fun retrieve(params: AccountRetrieveParams): AccountRetrieveResponse =
-        retrieve(params, RequestOptions.none())
+    fun retrieve(params: AccountRetrieveParams): Account = retrieve(params, RequestOptions.none())
 
     /** @see retrieve */
-    fun retrieve(accountId: String, requestOptions: RequestOptions): AccountRetrieveResponse =
+    fun retrieve(accountId: String, requestOptions: RequestOptions): Account =
         retrieve(accountId, AccountRetrieveParams.none(), requestOptions)
 
     /** Set the `Account` to be inactive. Inactive accounts cannot be used for trading. */
-    fun deactivate(accountId: String): AccountDeactivateResponse =
+    fun deactivate(accountId: String): Account =
         deactivate(accountId, AccountDeactivateParams.none())
 
     /** @see deactivate */
@@ -170,27 +166,26 @@ interface AccountService {
         accountId: String,
         params: AccountDeactivateParams = AccountDeactivateParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): AccountDeactivateResponse =
-        deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
+    ): Account = deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
 
     /** @see deactivate */
     fun deactivate(
         accountId: String,
         params: AccountDeactivateParams = AccountDeactivateParams.none(),
-    ): AccountDeactivateResponse = deactivate(accountId, params, RequestOptions.none())
+    ): Account = deactivate(accountId, params, RequestOptions.none())
 
     /** @see deactivate */
     fun deactivate(
         params: AccountDeactivateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
-    ): AccountDeactivateResponse
+    ): Account
 
     /** @see deactivate */
-    fun deactivate(params: AccountDeactivateParams): AccountDeactivateResponse =
+    fun deactivate(params: AccountDeactivateParams): Account =
         deactivate(params, RequestOptions.none())
 
     /** @see deactivate */
-    fun deactivate(accountId: String, requestOptions: RequestOptions): AccountDeactivateResponse =
+    fun deactivate(accountId: String, requestOptions: RequestOptions): Account =
         deactivate(accountId, AccountDeactivateParams.none(), requestOptions)
 
     /** Get the cash balances of the `Account`, including stablecoins and other cash equivalents. */
@@ -456,7 +451,7 @@ interface AccountService {
          * same as [AccountService.retrieve].
          */
         @MustBeClosed
-        fun retrieve(accountId: String): HttpResponseFor<AccountRetrieveResponse> =
+        fun retrieve(accountId: String): HttpResponseFor<Account> =
             retrieve(accountId, AccountRetrieveParams.none())
 
         /** @see retrieve */
@@ -465,7 +460,7 @@ interface AccountService {
             accountId: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<AccountRetrieveResponse> =
+        ): HttpResponseFor<Account> =
             retrieve(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see retrieve */
@@ -473,27 +468,23 @@ interface AccountService {
         fun retrieve(
             accountId: String,
             params: AccountRetrieveParams = AccountRetrieveParams.none(),
-        ): HttpResponseFor<AccountRetrieveResponse> =
-            retrieve(accountId, params, RequestOptions.none())
+        ): HttpResponseFor<Account> = retrieve(accountId, params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: AccountRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<AccountRetrieveResponse>
+        ): HttpResponseFor<Account>
 
         /** @see retrieve */
         @MustBeClosed
-        fun retrieve(params: AccountRetrieveParams): HttpResponseFor<AccountRetrieveResponse> =
+        fun retrieve(params: AccountRetrieveParams): HttpResponseFor<Account> =
             retrieve(params, RequestOptions.none())
 
         /** @see retrieve */
         @MustBeClosed
-        fun retrieve(
-            accountId: String,
-            requestOptions: RequestOptions,
-        ): HttpResponseFor<AccountRetrieveResponse> =
+        fun retrieve(accountId: String, requestOptions: RequestOptions): HttpResponseFor<Account> =
             retrieve(accountId, AccountRetrieveParams.none(), requestOptions)
 
         /**
@@ -501,7 +492,7 @@ interface AccountService {
          * otherwise the same as [AccountService.deactivate].
          */
         @MustBeClosed
-        fun deactivate(accountId: String): HttpResponseFor<AccountDeactivateResponse> =
+        fun deactivate(accountId: String): HttpResponseFor<Account> =
             deactivate(accountId, AccountDeactivateParams.none())
 
         /** @see deactivate */
@@ -510,7 +501,7 @@ interface AccountService {
             accountId: String,
             params: AccountDeactivateParams = AccountDeactivateParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<AccountDeactivateResponse> =
+        ): HttpResponseFor<Account> =
             deactivate(params.toBuilder().accountId(accountId).build(), requestOptions)
 
         /** @see deactivate */
@@ -518,28 +509,26 @@ interface AccountService {
         fun deactivate(
             accountId: String,
             params: AccountDeactivateParams = AccountDeactivateParams.none(),
-        ): HttpResponseFor<AccountDeactivateResponse> =
-            deactivate(accountId, params, RequestOptions.none())
+        ): HttpResponseFor<Account> = deactivate(accountId, params, RequestOptions.none())
 
         /** @see deactivate */
         @MustBeClosed
         fun deactivate(
             params: AccountDeactivateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
-        ): HttpResponseFor<AccountDeactivateResponse>
+        ): HttpResponseFor<Account>
 
         /** @see deactivate */
         @MustBeClosed
-        fun deactivate(
-            params: AccountDeactivateParams
-        ): HttpResponseFor<AccountDeactivateResponse> = deactivate(params, RequestOptions.none())
+        fun deactivate(params: AccountDeactivateParams): HttpResponseFor<Account> =
+            deactivate(params, RequestOptions.none())
 
         /** @see deactivate */
         @MustBeClosed
         fun deactivate(
             accountId: String,
             requestOptions: RequestOptions,
-        ): HttpResponseFor<AccountDeactivateResponse> =
+        ): HttpResponseFor<Account> =
             deactivate(accountId, AccountDeactivateParams.none(), requestOptions)
 
         /**

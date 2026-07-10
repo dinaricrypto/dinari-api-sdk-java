@@ -18,7 +18,6 @@ import com.dinari.api.core.http.json
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepareAsync
 import com.dinari.api.models.v2.accounts.AccountDeactivateParams
-import com.dinari.api.models.v2.accounts.AccountDeactivateResponse
 import com.dinari.api.models.v2.accounts.AccountGetCashBalancesParams
 import com.dinari.api.models.v2.accounts.AccountGetCashBalancesResponse
 import com.dinari.api.models.v2.accounts.AccountGetDividendPaymentsParams
@@ -29,7 +28,7 @@ import com.dinari.api.models.v2.accounts.AccountGetPortfolioParams
 import com.dinari.api.models.v2.accounts.AccountGetPortfolioResponse
 import com.dinari.api.models.v2.accounts.AccountMintSandboxTokensParams
 import com.dinari.api.models.v2.accounts.AccountRetrieveParams
-import com.dinari.api.models.v2.accounts.AccountRetrieveResponse
+import com.dinari.api.models.v2.entities.accounts.Account
 import com.dinari.api.services.async.v2.accounts.ActivityServiceAsync
 import com.dinari.api.services.async.v2.accounts.ActivityServiceAsyncImpl
 import com.dinari.api.services.async.v2.accounts.OrderFulfillmentServiceAsync
@@ -176,14 +175,14 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
     override fun retrieve(
         params: AccountRetrieveParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<AccountRetrieveResponse> =
+    ): CompletableFuture<Account> =
         // get /api/v2/accounts/{account_id}
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
     override fun deactivate(
         params: AccountDeactivateParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<AccountDeactivateResponse> =
+    ): CompletableFuture<Account> =
         // post /api/v2/accounts/{account_id}/deactivate
         withRawResponse().deactivate(params, requestOptions).thenApply { it.parse() }
 
@@ -353,13 +352,13 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
          */
         override fun activities(): ActivityServiceAsync.WithRawResponse = activities
 
-        private val retrieveHandler: Handler<AccountRetrieveResponse> =
-            jsonHandler<AccountRetrieveResponse>(clientOptions.jsonMapper)
+        private val retrieveHandler: Handler<Account> =
+            jsonHandler<Account>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AccountRetrieveParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<AccountRetrieveResponse>> {
+        ): CompletableFuture<HttpResponseFor<Account>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())
@@ -386,13 +385,13 @@ class AccountServiceAsyncImpl internal constructor(private val clientOptions: Cl
                 }
         }
 
-        private val deactivateHandler: Handler<AccountDeactivateResponse> =
-            jsonHandler<AccountDeactivateResponse>(clientOptions.jsonMapper)
+        private val deactivateHandler: Handler<Account> =
+            jsonHandler<Account>(clientOptions.jsonMapper)
 
         override fun deactivate(
             params: AccountDeactivateParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<AccountDeactivateResponse>> {
+        ): CompletableFuture<HttpResponseFor<Account>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("accountId", params.accountId().getOrNull())

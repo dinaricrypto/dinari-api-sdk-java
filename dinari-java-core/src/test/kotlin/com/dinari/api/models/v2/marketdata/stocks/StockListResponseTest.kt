@@ -3,6 +3,7 @@
 package com.dinari.api.models.v2.marketdata.stocks
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -30,10 +31,7 @@ internal class StockListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    StockListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(StockListResponse._Sv.PAGINATED_STOCK_RESPONSE_V1)
                 .build()
@@ -56,12 +54,7 @@ internal class StockListResponseTest {
                     .build()
             )
         assertThat(stockListResponse.paginationMetadata())
-            .isEqualTo(
-                StockListResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
         assertThat(stockListResponse._sv())
             .contains(StockListResponse._Sv.PAGINATED_STOCK_RESPONSE_V1)
     }
@@ -88,10 +81,7 @@ internal class StockListResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    StockListResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
                 ._sv(StockListResponse._Sv.PAGINATED_STOCK_RESPONSE_V1)
                 .build()

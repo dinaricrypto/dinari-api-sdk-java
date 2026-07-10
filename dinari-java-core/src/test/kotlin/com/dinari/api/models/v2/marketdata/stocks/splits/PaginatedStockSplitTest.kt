@@ -3,17 +3,18 @@
 package com.dinari.api.models.v2.marketdata.stocks.splits
 
 import com.dinari.api.core.jsonMapper
+import com.dinari.api.models.v2.marketdata.alloys.PaginationMetadata
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class SplitListForStockResponseTest {
+internal class PaginatedStockSplitTest {
 
     @Test
     fun create() {
-        val splitListForStockResponse =
-            SplitListForStockResponse.builder()
+        val paginatedStockSplit =
+            PaginatedStockSplit.builder()
                 .addData(
                     StockSplit.builder()
                         .id("8e3ad59e-a4fa-48ab-9cc2-0a296aa670a6")
@@ -27,15 +28,12 @@ internal class SplitListForStockResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    SplitListForStockResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
-                ._sv(SplitListForStockResponse._Sv.PAGINATED_STOCK_SPLIT_RESPONSE_V1)
+                ._sv(PaginatedStockSplit._Sv.PAGINATED_STOCK_SPLIT_RESPONSE_V1)
                 .build()
 
-        assertThat(splitListForStockResponse.data())
+        assertThat(paginatedStockSplit.data())
             .containsExactly(
                 StockSplit.builder()
                     .id("8e3ad59e-a4fa-48ab-9cc2-0a296aa670a6")
@@ -48,22 +46,17 @@ internal class SplitListForStockResponseTest {
                     .stockId("60cc8f91-21d0-4975-bb81-3d737fc2f923")
                     .build()
             )
-        assertThat(splitListForStockResponse.paginationMetadata())
-            .isEqualTo(
-                SplitListForStockResponse.PaginationMetadata.builder()
-                    .next("next")
-                    .previous("previous")
-                    .build()
-            )
-        assertThat(splitListForStockResponse._sv())
-            .contains(SplitListForStockResponse._Sv.PAGINATED_STOCK_SPLIT_RESPONSE_V1)
+        assertThat(paginatedStockSplit.paginationMetadata())
+            .isEqualTo(PaginationMetadata.builder().next("next").previous("previous").build())
+        assertThat(paginatedStockSplit._sv())
+            .contains(PaginatedStockSplit._Sv.PAGINATED_STOCK_SPLIT_RESPONSE_V1)
     }
 
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()
-        val splitListForStockResponse =
-            SplitListForStockResponse.builder()
+        val paginatedStockSplit =
+            PaginatedStockSplit.builder()
                 .addData(
                     StockSplit.builder()
                         .id("8e3ad59e-a4fa-48ab-9cc2-0a296aa670a6")
@@ -77,20 +70,17 @@ internal class SplitListForStockResponseTest {
                         .build()
                 )
                 .paginationMetadata(
-                    SplitListForStockResponse.PaginationMetadata.builder()
-                        .next("next")
-                        .previous("previous")
-                        .build()
+                    PaginationMetadata.builder().next("next").previous("previous").build()
                 )
-                ._sv(SplitListForStockResponse._Sv.PAGINATED_STOCK_SPLIT_RESPONSE_V1)
+                ._sv(PaginatedStockSplit._Sv.PAGINATED_STOCK_SPLIT_RESPONSE_V1)
                 .build()
 
-        val roundtrippedSplitListForStockResponse =
+        val roundtrippedPaginatedStockSplit =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(splitListForStockResponse),
-                jacksonTypeRef<SplitListForStockResponse>(),
+                jsonMapper.writeValueAsString(paginatedStockSplit),
+                jacksonTypeRef<PaginatedStockSplit>(),
             )
 
-        assertThat(roundtrippedSplitListForStockResponse).isEqualTo(splitListForStockResponse)
+        assertThat(roundtrippedPaginatedStockSplit).isEqualTo(paginatedStockSplit)
     }
 }

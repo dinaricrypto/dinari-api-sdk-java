@@ -15,10 +15,9 @@ import com.dinari.api.core.http.HttpResponse.Handler
 import com.dinari.api.core.http.HttpResponseFor
 import com.dinari.api.core.http.parseable
 import com.dinari.api.core.prepareAsync
+import com.dinari.api.models.v2.marketdata.stocks.splits.PaginatedStockSplit
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListForStockParams
-import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListForStockResponse
 import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListParams
-import com.dinari.api.models.v2.marketdata.stocks.splits.SplitListResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
@@ -43,14 +42,14 @@ class SplitServiceAsyncImpl internal constructor(private val clientOptions: Clie
     override fun list(
         params: SplitListParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<SplitListResponse> =
+    ): CompletableFuture<PaginatedStockSplit> =
         // get /api/v2/market_data/stocks/splits
         withRawResponse().list(params, requestOptions).thenApply { it.parse() }
 
     override fun listForStock(
         params: SplitListForStockParams,
         requestOptions: RequestOptions,
-    ): CompletableFuture<SplitListForStockResponse> =
+    ): CompletableFuture<PaginatedStockSplit> =
         // get /api/v2/market_data/stocks/{stock_id}/splits
         withRawResponse().listForStock(params, requestOptions).thenApply { it.parse() }
 
@@ -67,13 +66,13 @@ class SplitServiceAsyncImpl internal constructor(private val clientOptions: Clie
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
 
-        private val listHandler: Handler<SplitListResponse> =
-            jsonHandler<SplitListResponse>(clientOptions.jsonMapper)
+        private val listHandler: Handler<PaginatedStockSplit> =
+            jsonHandler<PaginatedStockSplit>(clientOptions.jsonMapper)
 
         override fun list(
             params: SplitListParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<SplitListResponse>> {
+        ): CompletableFuture<HttpResponseFor<PaginatedStockSplit>> {
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
@@ -97,13 +96,13 @@ class SplitServiceAsyncImpl internal constructor(private val clientOptions: Clie
                 }
         }
 
-        private val listForStockHandler: Handler<SplitListForStockResponse> =
-            jsonHandler<SplitListForStockResponse>(clientOptions.jsonMapper)
+        private val listForStockHandler: Handler<PaginatedStockSplit> =
+            jsonHandler<PaginatedStockSplit>(clientOptions.jsonMapper)
 
         override fun listForStock(
             params: SplitListForStockParams,
             requestOptions: RequestOptions,
-        ): CompletableFuture<HttpResponseFor<SplitListForStockResponse>> {
+        ): CompletableFuture<HttpResponseFor<PaginatedStockSplit>> {
             // We check here instead of in the params builder because this can be specified
             // positionally or in the params class.
             checkRequired("stockId", params.stockId().getOrNull())
