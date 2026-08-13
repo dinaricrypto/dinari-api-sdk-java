@@ -3,7 +3,7 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java/0.15.0)
-[![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/0.15.0/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.15.0)
+[![javadoc](https://javadoc.io/badge2/com.dinari.api/dinari-java/javadoc.svg)](https://javadoc.io/doc/com.dinari.api/dinari-java/0.15.0)
 
 <!-- x-release-please-end -->
 
