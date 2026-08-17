@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.16.0 (2026-08-17)
+
+Full Changelog: [v0.15.0...v0.16.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.15.0...v0.16.0)
+
+### Features
+
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([9cc7c96](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/9cc7c9600f6bf3a4b12d0b3cfb3b4bb116ac44e2))
+
+
+### Bug Fixes
+
+* **docs:** link the javadoc badge so the version stays current after release ([f4de84a](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/f4de84abca5fadda456e0ae14eebe26fbb63b641))
+
+
+### Chores
+
+* **internal:** codegen related update ([c32a248](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/c32a2483992c5bf5f8ebb25ddaf2b0c9fa055076))
+* **internal:** codegen related update ([3b55e54](https://github.com/dinaricrypto/dinari-api-sdk-java/commit/3b55e54ecd73c5ef6372a250cce1baa7d69613b3))
+
 ## 0.15.0 (2026-07-10)
 
 Full Changelog: [v0.14.0...v0.15.0](https://github.com/dinaricrypto/dinari-api-sdk-java/compare/v0.14.0...v0.15.0)
