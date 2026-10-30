@@ -1,0 +1,18 @@
+{
+  "cliVersion": "5.168.1",
+  "generatorName": "fernapi/fern-java-sdk",
+  "generatorVersion": "4.21.1",
+  "generatorConfig": {
+    "package-prefix": "com.dinari.api",
+    "client-class-name": "DinariClient",
+    "inline-path-parameters": true,
+    "enable-forward-compatible-enums": true,
+    "use-nullable-annotation": true
+  },
+  "originGitCommit": "db2eef07e8d2e2e6c2c564ab7354cb0541b720a8",
+  "originGitCommitIsDirty": true,
+  "invokedBy": "ci",
+  "requestedVersion": "1.0.0",
+  "ciProvider": "github",
+  "sdkVersion": "1.0.0"
+}
