@@ -80,7 +80,6 @@ public final class GetAccountCashRequest {
     public static final class Builder implements AccountIdStage, _FinalStage {
         private String accountId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -101,6 +100,14 @@ public final class GetAccountCashRequest {
         @java.lang.Override
         public GetAccountCashRequest build() {
             return new GetAccountCashRequest(accountId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

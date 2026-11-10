@@ -677,7 +677,6 @@ public final class EntityOrder {
 
         private Optional<String> assetToken = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -1216,6 +1215,34 @@ public final class EntityOrder {
                     orderRequestId,
                     clientOrderId,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("status")
+                    || key.equalsIgnoreCase("chain_id")
+                    || key.equalsIgnoreCase("order_contract_address")
+                    || key.equalsIgnoreCase("order_transaction_hash")
+                    || key.equalsIgnoreCase("order_side")
+                    || key.equalsIgnoreCase("order_type")
+                    || key.equalsIgnoreCase("order_tif")
+                    || key.equalsIgnoreCase("payment_token")
+                    || key.equalsIgnoreCase("stock_id")
+                    || key.equalsIgnoreCase("created_dt")
+                    || key.equalsIgnoreCase("asset_token")
+                    || key.equalsIgnoreCase("asset_token_quantity")
+                    || key.equalsIgnoreCase("payment_token_quantity")
+                    || key.equalsIgnoreCase("limit_price")
+                    || key.equalsIgnoreCase("fee")
+                    || key.equalsIgnoreCase("cancel_transaction_hash")
+                    || key.equalsIgnoreCase("entity_id")
+                    || key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("order_request_id")
+                    || key.equalsIgnoreCase("client_order_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

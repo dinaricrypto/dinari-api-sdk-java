@@ -122,7 +122,6 @@ public final class CreateEntityInput {
 
         private Optional<String> referenceId = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -184,6 +183,14 @@ public final class CreateEntityInput {
         @java.lang.Override
         public CreateEntityInput build() {
             return new CreateEntityInput(name, referenceId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("name") || key.equalsIgnoreCase("reference_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

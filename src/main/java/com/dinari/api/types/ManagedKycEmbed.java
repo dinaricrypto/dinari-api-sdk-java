@@ -107,7 +107,6 @@ public final class ManagedKycEmbed {
 
         private OffsetDateTime expirationDt;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -144,6 +143,14 @@ public final class ManagedKycEmbed {
         @java.lang.Override
         public ManagedKycEmbed build() {
             return new ManagedKycEmbed(embedUrl, expirationDt, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("embed_url") || key.equalsIgnoreCase("expiration_dt")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

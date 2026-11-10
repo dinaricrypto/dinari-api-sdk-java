@@ -108,7 +108,6 @@ public final class AlpacaCustomerAgreementInfoV1 {
 
         private String ipAddress;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -145,6 +144,14 @@ public final class AlpacaCustomerAgreementInfoV1 {
         @java.lang.Override
         public AlpacaCustomerAgreementInfoV1 build() {
             return new AlpacaCustomerAgreementInfoV1(signedAt, ipAddress, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("signed_at") || key.equalsIgnoreCase("ip_address")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

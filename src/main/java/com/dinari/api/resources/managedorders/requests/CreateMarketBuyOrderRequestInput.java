@@ -317,7 +317,6 @@ public final class CreateMarketBuyOrderRequestInput {
 
         private Optional<String> paymentTokenAddress = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -582,6 +581,21 @@ public final class CreateMarketBuyOrderRequestInput {
                     clientOrderId,
                     fee,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("payment_amount")
+                    || key.equalsIgnoreCase("payment_token_address")
+                    || key.equalsIgnoreCase("stock_id")
+                    || key.equalsIgnoreCase("alloy_id")
+                    || key.equalsIgnoreCase("recipient_account_id")
+                    || key.equalsIgnoreCase("client_order_id")
+                    || key.equalsIgnoreCase("fee")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

@@ -182,7 +182,6 @@ public final class Eip155Transaction {
 
         private Map<String, Object> abi = new LinkedHashMap<>();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -303,6 +302,18 @@ public final class Eip155Transaction {
         @java.lang.Override
         public Eip155Transaction build() {
             return new Eip155Transaction(contractAddress, data, abi, args, value, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("contract_address")
+                    || key.equalsIgnoreCase("data")
+                    || key.equalsIgnoreCase("abi")
+                    || key.equalsIgnoreCase("args")
+                    || key.equalsIgnoreCase("value")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

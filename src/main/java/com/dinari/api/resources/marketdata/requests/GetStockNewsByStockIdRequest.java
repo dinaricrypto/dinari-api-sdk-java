@@ -103,7 +103,6 @@ public final class GetStockNewsByStockIdRequest {
 
         private Optional<Integer> limit = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -145,6 +144,14 @@ public final class GetStockNewsByStockIdRequest {
         @java.lang.Override
         public GetStockNewsByStockIdRequest build() {
             return new GetStockNewsByStockIdRequest(stockId, limit, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("stock_id") || key.equalsIgnoreCase("limit")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

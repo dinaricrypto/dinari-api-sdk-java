@@ -125,7 +125,6 @@ public final class GetAccountWalletConnectionNonceRequest {
 
         private WalletChainId chainId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -170,6 +169,16 @@ public final class GetAccountWalletConnectionNonceRequest {
         @java.lang.Override
         public GetAccountWalletConnectionNonceRequest build() {
             return new GetAccountWalletConnectionNonceRequest(accountId, walletAddress, chainId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("wallet_address")
+                    || key.equalsIgnoreCase("chain_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

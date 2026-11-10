@@ -4,6 +4,7 @@
 package com.dinari.api.resources.entities;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.entities.requests.CreateEntityInput;
 import com.dinari.api.resources.entities.requests.GetEntitiesRequest;
@@ -34,21 +35,44 @@ public class AsyncEntitiesClient {
      * Get a list of direct <code>Entities</code> your organization manages. These <code>Entities</code> represent individual customers of your organization.
      */
     public CompletableFuture<GetEntitiesResponse> getEntities() {
-        return this.rawClient.getEntities().thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntitiesResponse>> rawFuture = this.rawClient.getEntities();
+        CompletableFuture<GetEntitiesResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of direct <code>Entities</code> your organization manages. These <code>Entities</code> represent individual customers of your organization.
      */
     public CompletableFuture<GetEntitiesResponse> getEntities(RequestOptions requestOptions) {
-        return this.rawClient.getEntities(requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntitiesResponse>> rawFuture =
+                this.rawClient.getEntities(requestOptions);
+        CompletableFuture<GetEntitiesResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of direct <code>Entities</code> your organization manages. These <code>Entities</code> represent individual customers of your organization.
      */
     public CompletableFuture<GetEntitiesResponse> getEntities(GetEntitiesRequest request) {
-        return this.rawClient.getEntities(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntitiesResponse>> rawFuture =
+                this.rawClient.getEntities(request);
+        CompletableFuture<GetEntitiesResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -56,62 +80,130 @@ public class AsyncEntitiesClient {
      */
     public CompletableFuture<GetEntitiesResponse> getEntities(
             GetEntitiesRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getEntities(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntitiesResponse>> rawFuture =
+                this.rawClient.getEntities(request, requestOptions);
+        CompletableFuture<GetEntitiesResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Create a new <code>Entity</code> to be managed by your organization. This <code>Entity</code> represents an individual customer of your organization.
      */
     public CompletableFuture<Entity1> createEntities(CreateEntityInput request) {
-        return this.rawClient.createEntities(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Entity1>> rawFuture = this.rawClient.createEntities(request);
+        CompletableFuture<Entity1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Create a new <code>Entity</code> to be managed by your organization. This <code>Entity</code> represents an individual customer of your organization.
      */
     public CompletableFuture<Entity1> createEntities(CreateEntityInput request, RequestOptions requestOptions) {
-        return this.rawClient.createEntities(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Entity1>> rawFuture =
+                this.rawClient.createEntities(request, requestOptions);
+        CompletableFuture<Entity1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get the current authenticated <code>Entity</code>, which represents your organization.
      */
     public CompletableFuture<Entity1> getCurrentEntity() {
-        return this.rawClient.getCurrentEntity().thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Entity1>> rawFuture = this.rawClient.getCurrentEntity();
+        CompletableFuture<Entity1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get the current authenticated <code>Entity</code>, which represents your organization.
      */
     public CompletableFuture<Entity1> getCurrentEntity(RequestOptions requestOptions) {
-        return this.rawClient.getCurrentEntity(requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Entity1>> rawFuture =
+                this.rawClient.getCurrentEntity(requestOptions);
+        CompletableFuture<Entity1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a specific customer <code>Entity</code> of your organization by their ID.
      */
     public CompletableFuture<Entity1> getEntityById(GetEntityByIdRequest request) {
-        return this.rawClient.getEntityById(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Entity1>> rawFuture = this.rawClient.getEntityById(request);
+        CompletableFuture<Entity1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a specific customer <code>Entity</code> of your organization by their ID.
      */
     public CompletableFuture<Entity1> getEntityById(GetEntityByIdRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getEntityById(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Entity1>> rawFuture =
+                this.rawClient.getEntityById(request, requestOptions);
+        CompletableFuture<Entity1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Update a specific customer <code>Entity</code> of your organization.
      */
     public CompletableFuture<Entity1> updateEntityById(PatchEntityInput request) {
-        return this.rawClient.updateEntityById(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Entity1>> rawFuture = this.rawClient.updateEntityById(request);
+        CompletableFuture<Entity1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Update a specific customer <code>Entity</code> of your organization.
      */
     public CompletableFuture<Entity1> updateEntityById(PatchEntityInput request, RequestOptions requestOptions) {
-        return this.rawClient.updateEntityById(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Entity1>> rawFuture =
+                this.rawClient.updateEntityById(request, requestOptions);
+        CompletableFuture<Entity1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

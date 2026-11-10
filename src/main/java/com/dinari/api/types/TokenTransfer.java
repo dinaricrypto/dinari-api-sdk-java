@@ -323,7 +323,6 @@ public final class TokenTransfer {
 
         private Optional<String> transactionHash = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -492,6 +491,23 @@ public final class TokenTransfer {
                     updatedDt,
                     transactionHash,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("sender_account_id")
+                    || key.equalsIgnoreCase("recipient_account_id")
+                    || key.equalsIgnoreCase("chain_id")
+                    || key.equalsIgnoreCase("token_address")
+                    || key.equalsIgnoreCase("quantity")
+                    || key.equalsIgnoreCase("status")
+                    || key.equalsIgnoreCase("created_dt")
+                    || key.equalsIgnoreCase("updated_dt")
+                    || key.equalsIgnoreCase("transaction_hash")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

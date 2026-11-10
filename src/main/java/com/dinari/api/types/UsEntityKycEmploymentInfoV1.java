@@ -192,7 +192,6 @@ public final class UsEntityKycEmploymentInfoV1 {
 
         private Optional<String> employerName = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -329,6 +328,17 @@ public final class UsEntityKycEmploymentInfoV1 {
         public UsEntityKycEmploymentInfoV1 build() {
             return new UsEntityKycEmploymentInfoV1(
                     employmentStatus, employerName, employerAddress, employmentPosition, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("employment_status")
+                    || key.equalsIgnoreCase("employer_name")
+                    || key.equalsIgnoreCase("employer_address")
+                    || key.equalsIgnoreCase("employment_position")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

@@ -271,7 +271,6 @@ public final class GetAccountWithdrawalsRequest {
 
         private Optional<String> withdrawalRequestId = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -474,6 +473,21 @@ public final class GetAccountWithdrawalsRequest {
         public GetAccountWithdrawalsRequest build() {
             return new GetAccountWithdrawalsRequest(
                     accountId, withdrawalRequestId, page, pageSize, limit, order, next, previous, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("withdrawal_request_id")
+                    || key.equalsIgnoreCase("page")
+                    || key.equalsIgnoreCase("page_size")
+                    || key.equalsIgnoreCase("limit")
+                    || key.equalsIgnoreCase("order")
+                    || key.equalsIgnoreCase("next")
+                    || key.equalsIgnoreCase("previous")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

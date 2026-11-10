@@ -230,7 +230,6 @@ public final class GetEntityAccountsRequest {
 
         private Optional<Integer> page = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -396,6 +395,20 @@ public final class GetEntityAccountsRequest {
         public GetEntityAccountsRequest build() {
             return new GetEntityAccountsRequest(
                     entityId, page, pageSize, limit, order, next, previous, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("entity_id")
+                    || key.equalsIgnoreCase("page")
+                    || key.equalsIgnoreCase("page_size")
+                    || key.equalsIgnoreCase("limit")
+                    || key.equalsIgnoreCase("order")
+                    || key.equalsIgnoreCase("next")
+                    || key.equalsIgnoreCase("previous")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

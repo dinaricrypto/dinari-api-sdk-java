@@ -151,7 +151,6 @@ public final class GetAccountPortfolioRequest {
 
         private Optional<Integer> page = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -246,6 +245,16 @@ public final class GetAccountPortfolioRequest {
         @java.lang.Override
         public GetAccountPortfolioRequest build() {
             return new GetAccountPortfolioRequest(accountId, page, pageSize, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("page")
+                    || key.equalsIgnoreCase("page_size")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

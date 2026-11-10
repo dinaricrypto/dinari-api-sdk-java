@@ -97,7 +97,6 @@ public final class CreateEip155PermitTransactionRequest {
 
         private Eip155OrderRequestPermitTransaction body;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -126,6 +125,14 @@ public final class CreateEip155PermitTransactionRequest {
         @java.lang.Override
         public CreateEip155PermitTransactionRequest build() {
             return new CreateEip155PermitTransactionRequest(accountId, body, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id") || key.equalsIgnoreCase("body")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

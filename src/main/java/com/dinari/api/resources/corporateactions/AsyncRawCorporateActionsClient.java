@@ -8,6 +8,7 @@ import com.dinari.api.core.DinariClientApiException;
 import com.dinari.api.core.DinariClientException;
 import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.ObjectMappers;
+import com.dinari.api.core.PathSegments;
 import com.dinari.api.core.QueryStringMapper;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.core.RetryInterceptor;
@@ -141,7 +142,8 @@ public class AsyncRawCorporateActionsClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<GetStockSplitsResponse>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -179,6 +181,11 @@ public class AsyncRawCorporateActionsClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -208,7 +215,7 @@ public class AsyncRawCorporateActionsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/stocks")
-                .addPathSegment(request.getStockId())
+                .addPathSegment(PathSegments.validate(request.getStockId()))
                 .addPathSegments("splits");
         if (request.getPage().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -259,7 +266,8 @@ public class AsyncRawCorporateActionsClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<GetStockSplitsByIdResponse>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -298,6 +306,11 @@ public class AsyncRawCorporateActionsClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -319,7 +332,7 @@ public class AsyncRawCorporateActionsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/stocks")
-                .addPathSegment(request.getStockId())
+                .addPathSegment(PathSegments.validate(request.getStockId()))
                 .addPathSegments("dividends");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -347,7 +360,8 @@ public class AsyncRawCorporateActionsClient {
         }
         CompletableFuture<DinariClientHttpResponse<List<StockDividendAnnouncementDetail>>> future =
                 new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -375,6 +389,11 @@ public class AsyncRawCorporateActionsClient {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
+            }
+        });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
             }
         });
         return future;

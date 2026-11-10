@@ -387,7 +387,6 @@ public final class ExtendedMarketHours {
 
         private Optional<OffsetDateTime> nextSessionOvernightOpenTimeDt = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -702,6 +701,24 @@ public final class ExtendedMarketHours {
                     currentSessionPreMarketOpenTimeDt,
                     currentSessionAfterHoursCloseTimeDt,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("is_market_open")
+                    || key.equalsIgnoreCase("next_session_open_dt")
+                    || key.equalsIgnoreCase("next_session_close_dt")
+                    || key.equalsIgnoreCase("next_session_overnight_open_time_dt")
+                    || key.equalsIgnoreCase("next_session_pre_market_open_time_dt")
+                    || key.equalsIgnoreCase("next_session_after_hours_close_time_dt")
+                    || key.equalsIgnoreCase("current_session_open_dt")
+                    || key.equalsIgnoreCase("current_session_close_dt")
+                    || key.equalsIgnoreCase("current_session_overnight_open_time_dt")
+                    || key.equalsIgnoreCase("current_session_pre_market_open_time_dt")
+                    || key.equalsIgnoreCase("current_session_after_hours_close_time_dt")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

@@ -177,7 +177,6 @@ public final class DshareBalance {
 
         private String stockId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -250,6 +249,18 @@ public final class DshareBalance {
         @java.lang.Override
         public DshareBalance build() {
             return new DshareBalance(chainId, tokenAddress, amount, symbol, stockId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("chain_id")
+                    || key.equalsIgnoreCase("token_address")
+                    || key.equalsIgnoreCase("amount")
+                    || key.equalsIgnoreCase("symbol")
+                    || key.equalsIgnoreCase("stock_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

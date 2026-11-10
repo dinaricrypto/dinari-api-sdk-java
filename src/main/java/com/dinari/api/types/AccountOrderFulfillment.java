@@ -391,7 +391,6 @@ public final class AccountOrderFulfillment {
 
         private Optional<String> stockId = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -636,6 +635,25 @@ public final class AccountOrderFulfillment {
                     alloyId,
                     paymentTokenFee,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("order_id")
+                    || key.equalsIgnoreCase("chain_id")
+                    || key.equalsIgnoreCase("transaction_hash")
+                    || key.equalsIgnoreCase("transaction_dt")
+                    || key.equalsIgnoreCase("asset_token_filled")
+                    || key.equalsIgnoreCase("payment_token_spent")
+                    || key.equalsIgnoreCase("asset_token_spent")
+                    || key.equalsIgnoreCase("payment_token_filled")
+                    || key.equalsIgnoreCase("stock_id")
+                    || key.equalsIgnoreCase("alloy_id")
+                    || key.equalsIgnoreCase("payment_token_fee")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

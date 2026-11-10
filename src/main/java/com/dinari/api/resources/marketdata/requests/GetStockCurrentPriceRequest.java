@@ -80,7 +80,6 @@ public final class GetStockCurrentPriceRequest {
     public static final class Builder implements StockIdStage, _FinalStage {
         private String stockId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -101,6 +100,14 @@ public final class GetStockCurrentPriceRequest {
         @java.lang.Override
         public GetStockCurrentPriceRequest build() {
             return new GetStockCurrentPriceRequest(stockId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("stock_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

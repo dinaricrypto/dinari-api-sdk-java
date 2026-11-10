@@ -438,7 +438,6 @@ public final class UsKycIdentityDataV1 {
 
         private Optional<String> middleName = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -712,6 +711,27 @@ public final class UsKycIdentityDataV1 {
                     unit,
                     state,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("given_name")
+                    || key.equalsIgnoreCase("family_name")
+                    || key.equalsIgnoreCase("email_address")
+                    || key.equalsIgnoreCase("phone_number")
+                    || key.equalsIgnoreCase("street_address")
+                    || key.equalsIgnoreCase("city")
+                    || key.equalsIgnoreCase("country_of_tax_residence")
+                    || key.equalsIgnoreCase("postal_code")
+                    || key.equalsIgnoreCase("date_of_birth")
+                    || key.equalsIgnoreCase("tax_id")
+                    || key.equalsIgnoreCase("country_of_citizenship")
+                    || key.equalsIgnoreCase("middle_name")
+                    || key.equalsIgnoreCase("unit")
+                    || key.equalsIgnoreCase("state")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

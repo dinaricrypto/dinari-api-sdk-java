@@ -80,7 +80,6 @@ public final class GetEntityKycRequest {
     public static final class Builder implements EntityIdStage, _FinalStage {
         private String entityId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -101,6 +100,14 @@ public final class GetEntityKycRequest {
         @java.lang.Override
         public GetEntityKycRequest build() {
             return new GetEntityKycRequest(entityId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("entity_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

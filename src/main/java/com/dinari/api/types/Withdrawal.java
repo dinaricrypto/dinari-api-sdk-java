@@ -308,7 +308,6 @@ public final class Withdrawal {
 
         private OffsetDateTime transactionDt;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -454,6 +453,23 @@ public final class Withdrawal {
                     transactionHash,
                     transactionDt,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("chain_id")
+                    || key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("recipient_account_id")
+                    || key.equalsIgnoreCase("payment_token_amount")
+                    || key.equalsIgnoreCase("payment_token_address")
+                    || key.equalsIgnoreCase("withdrawal_request_id")
+                    || key.equalsIgnoreCase("status")
+                    || key.equalsIgnoreCase("transaction_hash")
+                    || key.equalsIgnoreCase("transaction_dt")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

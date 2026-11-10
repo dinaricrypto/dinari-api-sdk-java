@@ -100,7 +100,6 @@ public final class BaseOpenApiBodyError {
 
         private Optional<String> bodyError = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -162,6 +161,14 @@ public final class BaseOpenApiBodyError {
 
         public BaseOpenApiBodyError build() {
             return new BaseOpenApiBodyError(fieldErrors, bodyError, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("field_errors") || key.equalsIgnoreCase("body_error")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         public Builder additionalProperty(String key, Object value) {

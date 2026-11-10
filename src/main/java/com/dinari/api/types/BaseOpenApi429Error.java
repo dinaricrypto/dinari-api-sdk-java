@@ -156,7 +156,6 @@ public final class BaseOpenApi429Error {
 
         private Optional<String> status = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -244,6 +243,17 @@ public final class BaseOpenApi429Error {
         @java.lang.Override
         public BaseOpenApi429Error build() {
             return new BaseOpenApi429Error(status, message, errorId, error, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("status")
+                    || key.equalsIgnoreCase("message")
+                    || key.equalsIgnoreCase("error_id")
+                    || key.equalsIgnoreCase("error")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

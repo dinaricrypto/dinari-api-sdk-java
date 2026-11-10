@@ -103,7 +103,6 @@ public final class UsEntityKycCitationInfoV1 {
 
         private List<String> taxIdSources = new ArrayList<>();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -190,6 +189,16 @@ public final class UsEntityKycCitationInfoV1 {
         public UsEntityKycCitationInfoV1 build() {
             return new UsEntityKycCitationInfoV1(
                     addressSources, dateOfBirthSources, taxIdSources, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("address_sources")
+                    || key.equalsIgnoreCase("date_of_birth_sources")
+                    || key.equalsIgnoreCase("tax_id_sources")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         public Builder additionalProperty(String key, Object value) {

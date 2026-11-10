@@ -94,7 +94,6 @@ public final class GetEntityKycDocumentRequest {
 
         private String kycId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -123,6 +122,14 @@ public final class GetEntityKycDocumentRequest {
         @java.lang.Override
         public GetEntityKycDocumentRequest build() {
             return new GetEntityKycDocumentRequest(entityId, kycId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("entity_id") || key.equalsIgnoreCase("kyc_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

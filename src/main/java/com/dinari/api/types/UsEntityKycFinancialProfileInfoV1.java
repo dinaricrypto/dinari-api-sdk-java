@@ -136,7 +136,6 @@ public final class UsEntityKycFinancialProfileInfoV1 {
 
         private List<FundingSource> fundingSources = new ArrayList<>();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -210,6 +209,16 @@ public final class UsEntityKycFinancialProfileInfoV1 {
         public UsEntityKycFinancialProfileInfoV1 build() {
             return new UsEntityKycFinancialProfileInfoV1(
                     fundingSources, liquidNetWorthMin, liquidNetWorthMax, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("funding_sources")
+                    || key.equalsIgnoreCase("liquid_net_worth_min")
+                    || key.equalsIgnoreCase("liquid_net_worth_max")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

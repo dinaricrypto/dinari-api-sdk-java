@@ -3,12 +3,14 @@
  */
 package com.dinari.api.resources.kyc;
 
+import com.dinari.api.core.BodyProperties;
 import com.dinari.api.core.ClientOptions;
 import com.dinari.api.core.DinariClientApiException;
 import com.dinari.api.core.DinariClientException;
 import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.MediaTypes;
 import com.dinari.api.core.ObjectMappers;
+import com.dinari.api.core.PathSegments;
 import com.dinari.api.core.QueryStringMapper;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.core.RetryInterceptor;
@@ -68,7 +70,7 @@ public class AsyncRawKycClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/entities")
-                .addPathSegment(request.getEntityId())
+                .addPathSegment(PathSegments.validate(request.getEntityId()))
                 .addPathSegments("kyc");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -95,7 +97,8 @@ public class AsyncRawKycClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<Kyc>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -122,6 +125,11 @@ public class AsyncRawKycClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -142,7 +150,7 @@ public class AsyncRawKycClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/entities")
-                .addPathSegment(request.getEntityId())
+                .addPathSegment(PathSegments.validate(request.getEntityId()))
                 .addPathSegments("kyc");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -152,7 +160,9 @@ public class AsyncRawKycClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request.getBody()), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request.getBody(), requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -177,7 +187,8 @@ public class AsyncRawKycClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<Kyc>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -214,6 +225,11 @@ public class AsyncRawKycClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -233,9 +249,9 @@ public class AsyncRawKycClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/entities")
-                .addPathSegment(request.getEntityId())
+                .addPathSegment(PathSegments.validate(request.getEntityId()))
                 .addPathSegments("kyc")
-                .addPathSegment(request.getKycId())
+                .addPathSegment(PathSegments.validate(request.getKycId()))
                 .addPathSegments("document");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -262,7 +278,8 @@ public class AsyncRawKycClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<List<KycDocument>>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -291,6 +308,11 @@ public class AsyncRawKycClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -310,9 +332,9 @@ public class AsyncRawKycClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/entities")
-                .addPathSegment(request.getEntityId())
+                .addPathSegment(PathSegments.validate(request.getEntityId()))
                 .addPathSegments("kyc")
-                .addPathSegment(request.getKycId())
+                .addPathSegment(PathSegments.validate(request.getKycId()))
                 .addPathSegments("document");
         QueryStringMapper.addQueryParameter(httpUrl, "document_type", request.getDocumentType(), false);
         if (requestOptions != null) {
@@ -349,7 +371,8 @@ public class AsyncRawKycClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<KycDocument>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -386,6 +409,11 @@ public class AsyncRawKycClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -409,7 +437,7 @@ public class AsyncRawKycClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/entities")
-                .addPathSegment(request.getEntityId())
+                .addPathSegment(PathSegments.validate(request.getEntityId()))
                 .addPathSegments("kyc")
                 .addPathSegments("url");
         if (requestOptions != null) {
@@ -420,7 +448,9 @@ public class AsyncRawKycClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request, requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -445,7 +475,8 @@ public class AsyncRawKycClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<ManagedKycEmbed>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -481,6 +512,11 @@ public class AsyncRawKycClient {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
+            }
+        });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
             }
         });
         return future;

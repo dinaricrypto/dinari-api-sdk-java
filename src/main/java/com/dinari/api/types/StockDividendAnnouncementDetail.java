@@ -240,7 +240,6 @@ public final class StockDividendAnnouncementDetail {
 
         private Optional<String> ticker = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -446,6 +445,20 @@ public final class StockDividendAnnouncementDetail {
                     recordDate,
                     ticker,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("cash_amount")
+                    || key.equalsIgnoreCase("currency")
+                    || key.equalsIgnoreCase("dividend_type")
+                    || key.equalsIgnoreCase("ex_dividend_date")
+                    || key.equalsIgnoreCase("pay_date")
+                    || key.equalsIgnoreCase("record_date")
+                    || key.equalsIgnoreCase("ticker")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         public Builder additionalProperty(String key, Object value) {

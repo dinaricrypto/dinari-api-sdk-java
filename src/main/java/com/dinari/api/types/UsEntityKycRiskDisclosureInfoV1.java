@@ -162,7 +162,6 @@ public final class UsEntityKycRiskDisclosureInfoV1 {
 
         private boolean immediateFamilyExposed;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -228,6 +227,17 @@ public final class UsEntityKycRiskDisclosureInfoV1 {
                     isPoliticallyExposed,
                     immediateFamilyExposed,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("is_control_person")
+                    || key.equalsIgnoreCase("is_affiliated_exchange_or_finra")
+                    || key.equalsIgnoreCase("is_politically_exposed")
+                    || key.equalsIgnoreCase("immediate_family_exposed")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

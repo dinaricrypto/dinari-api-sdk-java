@@ -155,7 +155,6 @@ public final class Wallet {
 
         private WalletChainId chainId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -216,6 +215,17 @@ public final class Wallet {
         @java.lang.Override
         public Wallet build() {
             return new Wallet(address, isManagedWallet, isAmlFlagged, chainId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("address")
+                    || key.equalsIgnoreCase("is_managed_wallet")
+                    || key.equalsIgnoreCase("is_aml_flagged")
+                    || key.equalsIgnoreCase("chain_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

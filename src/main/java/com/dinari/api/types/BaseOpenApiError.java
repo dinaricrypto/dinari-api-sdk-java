@@ -156,7 +156,6 @@ public final class BaseOpenApiError {
 
         private Optional<Object> error = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -226,6 +225,17 @@ public final class BaseOpenApiError {
         @java.lang.Override
         public BaseOpenApiError build() {
             return new BaseOpenApiError(status, message, errorId, error, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("status")
+                    || key.equalsIgnoreCase("message")
+                    || key.equalsIgnoreCase("error_id")
+                    || key.equalsIgnoreCase("error")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

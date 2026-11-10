@@ -2623,7 +2623,7 @@ Upload KYC-related documentation for partners that are provisioned to provide th
 
 ```java
 client.kyc().createEntityKycDocument(
-    null,
+    new File("path/to/file"),
     CreateKycDocumentFileInput
         .builder()
         .entityId("entity_id")

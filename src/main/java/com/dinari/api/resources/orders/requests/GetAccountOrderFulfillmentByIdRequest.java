@@ -96,7 +96,6 @@ public final class GetAccountOrderFulfillmentByIdRequest {
 
         private String orderFulfillmentId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -125,6 +124,14 @@ public final class GetAccountOrderFulfillmentByIdRequest {
         @java.lang.Override
         public GetAccountOrderFulfillmentByIdRequest build() {
             return new GetAccountOrderFulfillmentByIdRequest(accountId, orderFulfillmentId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id") || key.equalsIgnoreCase("order_fulfillment_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

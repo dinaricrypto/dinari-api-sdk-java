@@ -95,7 +95,6 @@ public final class CreateEntityKycRequest {
 
         private CreateKycInput body;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -124,6 +123,14 @@ public final class CreateEntityKycRequest {
         @java.lang.Override
         public CreateEntityKycRequest build() {
             return new CreateEntityKycRequest(entityId, body, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("entity_id") || key.equalsIgnoreCase("body")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

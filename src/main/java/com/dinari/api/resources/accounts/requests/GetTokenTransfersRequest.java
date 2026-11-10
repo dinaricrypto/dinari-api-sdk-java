@@ -230,7 +230,6 @@ public final class GetTokenTransfersRequest {
 
         private Optional<Integer> page = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -396,6 +395,20 @@ public final class GetTokenTransfersRequest {
         public GetTokenTransfersRequest build() {
             return new GetTokenTransfersRequest(
                     accountId, page, pageSize, limit, order, next, previous, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("page")
+                    || key.equalsIgnoreCase("page_size")
+                    || key.equalsIgnoreCase("limit")
+                    || key.equalsIgnoreCase("order")
+                    || key.equalsIgnoreCase("next")
+                    || key.equalsIgnoreCase("previous")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

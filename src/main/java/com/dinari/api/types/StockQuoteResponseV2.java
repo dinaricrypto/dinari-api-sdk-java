@@ -285,7 +285,6 @@ public final class StockQuoteResponseV2 {
 
         private Optional<String> askExchange = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -453,6 +452,21 @@ public final class StockQuoteResponseV2 {
                     askExchange,
                     bidExchange,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("stock_id")
+                    || key.equalsIgnoreCase("ask_price")
+                    || key.equalsIgnoreCase("ask_size")
+                    || key.equalsIgnoreCase("bid_price")
+                    || key.equalsIgnoreCase("bid_size")
+                    || key.equalsIgnoreCase("timestamp")
+                    || key.equalsIgnoreCase("ask_exchange")
+                    || key.equalsIgnoreCase("bid_exchange")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override
