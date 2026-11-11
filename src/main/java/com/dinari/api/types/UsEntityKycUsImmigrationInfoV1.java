@@ -208,7 +208,6 @@ public final class UsEntityKycUsImmigrationInfoV1 {
 
         private Optional<UsVisaType> visaType = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -346,6 +345,18 @@ public final class UsEntityKycUsImmigrationInfoV1 {
                     visaExpirationDate,
                     departureFromUsDate,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("is_permanent_resident")
+                    || key.equalsIgnoreCase("country_of_birth")
+                    || key.equalsIgnoreCase("visa_type")
+                    || key.equalsIgnoreCase("visa_expiration_date")
+                    || key.equalsIgnoreCase("departure_from_us_date")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

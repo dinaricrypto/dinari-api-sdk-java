@@ -3,12 +3,14 @@
  */
 package com.dinari.api.resources.orderrequests;
 
+import com.dinari.api.core.BodyProperties;
 import com.dinari.api.core.ClientOptions;
 import com.dinari.api.core.DinariClientApiException;
 import com.dinari.api.core.DinariClientException;
 import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.MediaTypes;
 import com.dinari.api.core.ObjectMappers;
+import com.dinari.api.core.PathSegments;
 import com.dinari.api.core.QueryStringMapper;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.core.RetryInterceptor;
@@ -61,7 +63,7 @@ public class AsyncRawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests");
         if (request.getOrderRequestId().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -124,7 +126,8 @@ public class AsyncRawOrderRequestsClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<GetListOrderRequestsResponse>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -163,6 +166,11 @@ public class AsyncRawOrderRequestsClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -182,9 +190,9 @@ public class AsyncRawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests")
-                .addPathSegment(request.getOrderRequestId());
+                .addPathSegment(PathSegments.validate(request.getOrderRequestId()));
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
                 httpUrl.addQueryParameter(_key, _value);
@@ -210,7 +218,8 @@ public class AsyncRawOrderRequestsClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<OrderRequest>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -235,6 +244,11 @@ public class AsyncRawOrderRequestsClient {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
+            }
+        });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
             }
         });
         return future;
@@ -264,7 +278,7 @@ public class AsyncRawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests/eip155")
                 .addPathSegments("permit");
         if (requestOptions != null) {
@@ -275,7 +289,9 @@ public class AsyncRawOrderRequestsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request, requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -300,7 +316,8 @@ public class AsyncRawOrderRequestsClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<Eip155OrderRequestPermit>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -338,6 +355,11 @@ public class AsyncRawOrderRequestsClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -359,7 +381,7 @@ public class AsyncRawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests")
                 .addPathSegments("eip155");
         if (requestOptions != null) {
@@ -370,7 +392,9 @@ public class AsyncRawOrderRequestsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request.getBody()), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request.getBody(), requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -395,7 +419,8 @@ public class AsyncRawOrderRequestsClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<Eip155OrderRequest>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -433,6 +458,11 @@ public class AsyncRawOrderRequestsClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -456,7 +486,7 @@ public class AsyncRawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests/eip155")
                 .addPathSegments("permit_transaction");
         if (requestOptions != null) {
@@ -467,7 +497,9 @@ public class AsyncRawOrderRequestsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request.getBody()), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request.getBody(), requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -492,7 +524,8 @@ public class AsyncRawOrderRequestsClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<Eip155Transaction>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -528,6 +561,11 @@ public class AsyncRawOrderRequestsClient {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
+            }
+        });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
             }
         });
         return future;

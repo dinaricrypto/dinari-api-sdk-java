@@ -154,7 +154,6 @@ public final class KycDocument {
 
         private String url;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -215,6 +214,17 @@ public final class KycDocument {
         @java.lang.Override
         public KycDocument build() {
             return new KycDocument(id, documentType, filename, url, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("document_type")
+                    || key.equalsIgnoreCase("filename")
+                    || key.equalsIgnoreCase("url")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

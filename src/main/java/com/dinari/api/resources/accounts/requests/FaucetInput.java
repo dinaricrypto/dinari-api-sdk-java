@@ -103,7 +103,6 @@ public final class FaucetInput {
 
         private Optional<ChainId> chainId = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -145,6 +144,14 @@ public final class FaucetInput {
         @java.lang.Override
         public FaucetInput build() {
             return new FaucetInput(accountId, chainId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id") || key.equalsIgnoreCase("chain_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

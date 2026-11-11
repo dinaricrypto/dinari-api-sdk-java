@@ -109,7 +109,6 @@ public final class UsNonProfessionalTraderAttestationV1 {
 
         private OffsetDateTime attestationDt;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -147,6 +146,14 @@ public final class UsNonProfessionalTraderAttestationV1 {
         public UsNonProfessionalTraderAttestationV1 build() {
             return new UsNonProfessionalTraderAttestationV1(
                     isNonProfessionalTrader, attestationDt, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("is_non_professional_trader") || key.equalsIgnoreCase("attestation_dt")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

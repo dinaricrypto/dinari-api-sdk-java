@@ -188,7 +188,6 @@ public final class GetEntitiesRequest {
 
         private Optional<String> previous = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -332,6 +331,20 @@ public final class GetEntitiesRequest {
         public GetEntitiesRequest build() {
             return new GetEntitiesRequest(
                     referenceId, page, pageSize, limit, order, next, previous, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("reference_id")
+                    || key.equalsIgnoreCase("page")
+                    || key.equalsIgnoreCase("page_size")
+                    || key.equalsIgnoreCase("limit")
+                    || key.equalsIgnoreCase("order")
+                    || key.equalsIgnoreCase("next")
+                    || key.equalsIgnoreCase("previous")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         public Builder additionalProperty(String key, Object value) {

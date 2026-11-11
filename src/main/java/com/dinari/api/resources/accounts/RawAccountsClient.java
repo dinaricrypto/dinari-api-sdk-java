@@ -3,12 +3,14 @@
  */
 package com.dinari.api.resources.accounts;
 
+import com.dinari.api.core.BodyProperties;
 import com.dinari.api.core.ClientOptions;
 import com.dinari.api.core.DinariClientApiException;
 import com.dinari.api.core.DinariClientException;
 import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.MediaTypes;
 import com.dinari.api.core.ObjectMappers;
+import com.dinari.api.core.PathSegments;
 import com.dinari.api.core.QueryStringMapper;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.core.RetryInterceptor;
@@ -69,7 +71,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/entities")
-                .addPathSegment(request.getEntityId())
+                .addPathSegment(PathSegments.validate(request.getEntityId()))
                 .addPathSegments("accounts");
         if (request.getPage().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -161,7 +163,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/entities")
-                .addPathSegment(request.getEntityId())
+                .addPathSegment(PathSegments.validate(request.getEntityId()))
                 .addPathSegments("accounts");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -171,7 +173,9 @@ public class RawAccountsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request, requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -235,7 +239,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId());
+                .addPathSegment(PathSegments.validate(request.getAccountId()));
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
                 httpUrl.addQueryParameter(_key, _value);
@@ -292,7 +296,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("deactivate");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -301,7 +305,11 @@ public class RawAccountsClient {
         }
         Request.Builder _requestBuilder = new Request.Builder()
                 .url(httpUrl.build())
-                .method("POST", RequestBody.create("", null))
+                .method(
+                        "POST",
+                        BodyProperties.toRequestBody(
+                                requestOptions != null ? requestOptions.getBodyProperties() : null,
+                                RequestBody.create("", null)))
                 .headers(Headers.of(clientOptions.headers(requestOptions)))
                 .addHeader("Accept", "application/json");
         Request okhttpRequest = _requestBuilder.build();
@@ -350,7 +358,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("portfolio");
         if (request.getPage().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -425,7 +433,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("cash");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -488,7 +496,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("interest_payments");
         QueryStringMapper.addQueryParameter(httpUrl, "start_date", request.getStartDate(), false);
         QueryStringMapper.addQueryParameter(httpUrl, "end_date", request.getEndDate(), false);
@@ -584,7 +592,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("dividend_payments");
         QueryStringMapper.addQueryParameter(httpUrl, "start_date", request.getStartDate(), false);
         QueryStringMapper.addQueryParameter(httpUrl, "end_date", request.getEndDate(), false);
@@ -684,7 +692,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("faucet");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -694,7 +702,9 @@ public class RawAccountsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request, requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -760,7 +770,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("activities")
                 .addPathSegments("brokerage");
         if (request.getPageSize().isPresent()) {
@@ -839,7 +849,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("token_transfers");
         if (request.getPage().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -935,7 +945,7 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("token_transfers");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -945,7 +955,9 @@ public class RawAccountsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request, requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -1014,9 +1026,9 @@ public class RawAccountsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("token_transfers")
-                .addPathSegment(request.getTransferId());
+                .addPathSegment(PathSegments.validate(request.getTransferId()));
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
                 httpUrl.addQueryParameter(_key, _value);

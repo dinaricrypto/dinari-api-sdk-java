@@ -283,7 +283,6 @@ public final class GetAccountInterestPaymentsRequest {
 
         private Optional<Integer> page = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -473,6 +472,22 @@ public final class GetAccountInterestPaymentsRequest {
         public GetAccountInterestPaymentsRequest build() {
             return new GetAccountInterestPaymentsRequest(
                     accountId, startDate, endDate, page, pageSize, limit, order, next, previous, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("start_date")
+                    || key.equalsIgnoreCase("end_date")
+                    || key.equalsIgnoreCase("page")
+                    || key.equalsIgnoreCase("page_size")
+                    || key.equalsIgnoreCase("limit")
+                    || key.equalsIgnoreCase("order")
+                    || key.equalsIgnoreCase("next")
+                    || key.equalsIgnoreCase("previous")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

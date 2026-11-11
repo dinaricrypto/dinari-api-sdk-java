@@ -104,7 +104,6 @@ public final class CreateManagedKycInput {
 
         private Optional<Jurisdiction> jurisdiction = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -146,6 +145,14 @@ public final class CreateManagedKycInput {
         @java.lang.Override
         public CreateManagedKycInput build() {
             return new CreateManagedKycInput(entityId, jurisdiction, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("entity_id") || key.equalsIgnoreCase("jurisdiction")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

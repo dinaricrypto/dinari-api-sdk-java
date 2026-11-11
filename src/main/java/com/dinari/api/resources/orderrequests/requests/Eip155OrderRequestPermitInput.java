@@ -486,7 +486,6 @@ public final class Eip155OrderRequestPermitInput {
 
         private Optional<Double> paymentTokenQuantity = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -878,6 +877,27 @@ public final class Eip155OrderRequestPermitInput {
                     clientOrderId,
                     fee,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("chain_id")
+                    || key.equalsIgnoreCase("order_tif")
+                    || key.equalsIgnoreCase("order_side")
+                    || key.equalsIgnoreCase("order_type")
+                    || key.equalsIgnoreCase("payment_token")
+                    || key.equalsIgnoreCase("payment_token_quantity")
+                    || key.equalsIgnoreCase("asset_token_quantity")
+                    || key.equalsIgnoreCase("limit_price")
+                    || key.equalsIgnoreCase("stock_id")
+                    || key.equalsIgnoreCase("token_id")
+                    || key.equalsIgnoreCase("alloy_id")
+                    || key.equalsIgnoreCase("client_order_id")
+                    || key.equalsIgnoreCase("fee")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

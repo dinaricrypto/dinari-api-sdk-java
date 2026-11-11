@@ -3,12 +3,14 @@
  */
 package com.dinari.api.resources.entities;
 
+import com.dinari.api.core.BodyProperties;
 import com.dinari.api.core.ClientOptions;
 import com.dinari.api.core.DinariClientApiException;
 import com.dinari.api.core.DinariClientException;
 import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.MediaTypes;
 import com.dinari.api.core.ObjectMappers;
+import com.dinari.api.core.PathSegments;
 import com.dinari.api.core.QueryStringMapper;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.core.RetryInterceptor;
@@ -123,7 +125,8 @@ public class AsyncRawEntitiesClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<GetEntitiesResponse>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -161,6 +164,11 @@ public class AsyncRawEntitiesClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -187,7 +195,9 @@ public class AsyncRawEntitiesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request, requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -212,7 +222,8 @@ public class AsyncRawEntitiesClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<Entity1>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -247,6 +258,11 @@ public class AsyncRawEntitiesClient {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
+            }
+        });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
             }
         });
         return future;
@@ -291,7 +307,8 @@ public class AsyncRawEntitiesClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<Entity1>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -318,6 +335,11 @@ public class AsyncRawEntitiesClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -336,7 +358,7 @@ public class AsyncRawEntitiesClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/entities")
-                .addPathSegment(request.getEntityId());
+                .addPathSegment(PathSegments.validate(request.getEntityId()));
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
                 httpUrl.addQueryParameter(_key, _value);
@@ -362,7 +384,8 @@ public class AsyncRawEntitiesClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<Entity1>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -389,6 +412,11 @@ public class AsyncRawEntitiesClient {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
             }
         });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
+            }
+        });
         return future;
     }
 
@@ -407,7 +435,7 @@ public class AsyncRawEntitiesClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/entities")
-                .addPathSegment(request.getEntityId());
+                .addPathSegment(PathSegments.validate(request.getEntityId()));
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
                 httpUrl.addQueryParameter(_key, _value);
@@ -416,7 +444,9 @@ public class AsyncRawEntitiesClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request, requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -441,7 +471,8 @@ public class AsyncRawEntitiesClient {
                     .build();
         }
         CompletableFuture<DinariClientHttpResponse<Entity1>> future = new CompletableFuture<>();
-        client.newCall(okhttpRequest).enqueue(new Callback() {
+        RetryInterceptor.AsyncCall okhttpCall = RetryInterceptor.newAsyncCall(client, okhttpRequest);
+        okhttpCall.enqueue(new Callback() {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try (ResponseBody responseBody = response.body()) {
@@ -476,6 +507,11 @@ public class AsyncRawEntitiesClient {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
                 future.completeExceptionally(new DinariClientException("Network error executing HTTP request", e));
+            }
+        });
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                okhttpCall.cancel();
             }
         });
         return future;

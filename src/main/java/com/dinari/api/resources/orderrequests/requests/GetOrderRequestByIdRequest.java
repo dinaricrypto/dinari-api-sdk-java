@@ -95,7 +95,6 @@ public final class GetOrderRequestByIdRequest {
 
         private String orderRequestId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -124,6 +123,14 @@ public final class GetOrderRequestByIdRequest {
         @java.lang.Override
         public GetOrderRequestByIdRequest build() {
             return new GetOrderRequestByIdRequest(accountId, orderRequestId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id") || key.equalsIgnoreCase("order_request_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

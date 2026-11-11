@@ -4,6 +4,7 @@
 package com.dinari.api.resources.corporateactions;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.corporateactions.requests.GetStockDividendsByStockIdRequest;
 import com.dinari.api.resources.corporateactions.requests.GetStockSplitsByIdRequest;
@@ -40,7 +41,14 @@ public class AsyncCorporateActionsClient {
      * becomes <code>COMPLETE</code> as trading resumes on the <code>ex_date</code> with new split-adjusted prices.</p>
      */
     public CompletableFuture<GetStockSplitsResponse> getStockSplits() {
-        return this.rawClient.getStockSplits().thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStockSplitsResponse>> rawFuture = this.rawClient.getStockSplits();
+        CompletableFuture<GetStockSplitsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -52,7 +60,15 @@ public class AsyncCorporateActionsClient {
      * becomes <code>COMPLETE</code> as trading resumes on the <code>ex_date</code> with new split-adjusted prices.</p>
      */
     public CompletableFuture<GetStockSplitsResponse> getStockSplits(RequestOptions requestOptions) {
-        return this.rawClient.getStockSplits(requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStockSplitsResponse>> rawFuture =
+                this.rawClient.getStockSplits(requestOptions);
+        CompletableFuture<GetStockSplitsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -64,7 +80,15 @@ public class AsyncCorporateActionsClient {
      * becomes <code>COMPLETE</code> as trading resumes on the <code>ex_date</code> with new split-adjusted prices.</p>
      */
     public CompletableFuture<GetStockSplitsResponse> getStockSplits(GetStockSplitsRequest request) {
-        return this.rawClient.getStockSplits(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStockSplitsResponse>> rawFuture =
+                this.rawClient.getStockSplits(request);
+        CompletableFuture<GetStockSplitsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -77,7 +101,15 @@ public class AsyncCorporateActionsClient {
      */
     public CompletableFuture<GetStockSplitsResponse> getStockSplits(
             GetStockSplitsRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getStockSplits(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStockSplitsResponse>> rawFuture =
+                this.rawClient.getStockSplits(request, requestOptions);
+        CompletableFuture<GetStockSplitsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -89,7 +121,15 @@ public class AsyncCorporateActionsClient {
      * becomes <code>COMPLETE</code> as trading resumes on the <code>ex_date</code> with new split-adjusted prices.</p>
      */
     public CompletableFuture<GetStockSplitsByIdResponse> getStockSplitsById(GetStockSplitsByIdRequest request) {
-        return this.rawClient.getStockSplitsById(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStockSplitsByIdResponse>> rawFuture =
+                this.rawClient.getStockSplitsById(request);
+        CompletableFuture<GetStockSplitsByIdResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -102,7 +142,15 @@ public class AsyncCorporateActionsClient {
      */
     public CompletableFuture<GetStockSplitsByIdResponse> getStockSplitsById(
             GetStockSplitsByIdRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getStockSplitsById(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStockSplitsByIdResponse>> rawFuture =
+                this.rawClient.getStockSplitsById(request, requestOptions);
+        CompletableFuture<GetStockSplitsByIdResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -111,7 +159,16 @@ public class AsyncCorporateActionsClient {
      */
     public CompletableFuture<List<StockDividendAnnouncementDetail>> getStockDividendsByStockId(
             GetStockDividendsByStockIdRequest request) {
-        return this.rawClient.getStockDividendsByStockId(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<StockDividendAnnouncementDetail>>> rawFuture =
+                this.rawClient.getStockDividendsByStockId(request);
+        CompletableFuture<List<StockDividendAnnouncementDetail>> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -120,8 +177,15 @@ public class AsyncCorporateActionsClient {
      */
     public CompletableFuture<List<StockDividendAnnouncementDetail>> getStockDividendsByStockId(
             GetStockDividendsByStockIdRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getStockDividendsByStockId(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<StockDividendAnnouncementDetail>>> rawFuture =
+                this.rawClient.getStockDividendsByStockId(request, requestOptions);
+        CompletableFuture<List<StockDividendAnnouncementDetail>> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

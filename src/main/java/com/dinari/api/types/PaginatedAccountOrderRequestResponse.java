@@ -137,7 +137,6 @@ public final class PaginatedAccountOrderRequestResponse {
 
         private Optional<PaginatedAccountOrderRequestResponseSv> sv = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -219,6 +218,16 @@ public final class PaginatedAccountOrderRequestResponse {
         @java.lang.Override
         public PaginatedAccountOrderRequestResponse build() {
             return new PaginatedAccountOrderRequestResponse(sv, data, paginationMetadata, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("_sv")
+                    || key.equalsIgnoreCase("data")
+                    || key.equalsIgnoreCase("pagination_metadata")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

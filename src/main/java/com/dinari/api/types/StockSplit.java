@@ -271,7 +271,6 @@ public final class StockSplit {
 
         private StockSplitStatus1 status;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -387,6 +386,21 @@ public final class StockSplit {
         public StockSplit build() {
             return new StockSplit(
                     id, stockId, splitFrom, splitTo, recordDate, payableDate, exDate, status, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("stock_id")
+                    || key.equalsIgnoreCase("split_from")
+                    || key.equalsIgnoreCase("split_to")
+                    || key.equalsIgnoreCase("record_date")
+                    || key.equalsIgnoreCase("payable_date")
+                    || key.equalsIgnoreCase("ex_date")
+                    || key.equalsIgnoreCase("status")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

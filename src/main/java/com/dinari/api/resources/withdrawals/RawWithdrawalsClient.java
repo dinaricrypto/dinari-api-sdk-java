@@ -3,12 +3,14 @@
  */
 package com.dinari.api.resources.withdrawals;
 
+import com.dinari.api.core.BodyProperties;
 import com.dinari.api.core.ClientOptions;
 import com.dinari.api.core.DinariClientApiException;
 import com.dinari.api.core.DinariClientException;
 import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.MediaTypes;
 import com.dinari.api.core.ObjectMappers;
+import com.dinari.api.core.PathSegments;
 import com.dinari.api.core.QueryStringMapper;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.core.RetryInterceptor;
@@ -56,7 +58,7 @@ public class RawWithdrawalsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("withdrawal_requests");
         if (request.getPage().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -152,7 +154,7 @@ public class RawWithdrawalsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("withdrawal_requests");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -162,7 +164,9 @@ public class RawWithdrawalsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request, requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -228,9 +232,9 @@ public class RawWithdrawalsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("withdrawal_requests")
-                .addPathSegment(request.getWithdrawalRequestId());
+                .addPathSegment(PathSegments.validate(request.getWithdrawalRequestId()));
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
                 httpUrl.addQueryParameter(_key, _value);
@@ -288,7 +292,7 @@ public class RawWithdrawalsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("withdrawals");
         if (request.getWithdrawalRequestId().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -387,9 +391,9 @@ public class RawWithdrawalsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("withdrawals")
-                .addPathSegment(request.getWithdrawalId());
+                .addPathSegment(PathSegments.validate(request.getWithdrawalId()));
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
                 httpUrl.addQueryParameter(_key, _value);

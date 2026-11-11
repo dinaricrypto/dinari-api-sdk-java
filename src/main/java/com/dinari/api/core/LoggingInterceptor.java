@@ -6,6 +6,7 @@ package com.dinari.api.core;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -36,7 +37,9 @@ public final class LoggingInterceptor implements Interceptor {
             "x-csrf-token",
             "x-xsrf-token",
             "x-session-token",
-            "x-access-token"));
+            "x-access-token",
+            "x-api-key-id",
+            "x-api-secret-key"));
 
     private final Logger logger;
 
@@ -58,7 +61,7 @@ public final class LoggingInterceptor implements Interceptor {
                     sb.append(", ");
                 }
                 sb.append(name).append("=");
-                if (SENSITIVE_HEADERS.contains(name.toLowerCase())) {
+                if (SENSITIVE_HEADERS.contains(name.toLowerCase(Locale.ROOT))) {
                     sb.append("[REDACTED]");
                 } else {
                     sb.append(request.header(name));
@@ -83,7 +86,7 @@ public final class LoggingInterceptor implements Interceptor {
                     sb.append(", ");
                 }
                 sb.append(name).append("=");
-                if (SENSITIVE_HEADERS.contains(name.toLowerCase())) {
+                if (SENSITIVE_HEADERS.contains(name.toLowerCase(Locale.ROOT))) {
                     sb.append("[REDACTED]");
                 } else {
                     sb.append(response.header(name));

@@ -154,7 +154,6 @@ public final class GetBrokerageAccountActivitiesRequest {
 
         private Optional<Integer> pageSize = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -249,6 +248,16 @@ public final class GetBrokerageAccountActivitiesRequest {
         @java.lang.Override
         public GetBrokerageAccountActivitiesRequest build() {
             return new GetBrokerageAccountActivitiesRequest(accountId, pageSize, pageToken, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("page_size")
+                    || key.equalsIgnoreCase("page_token")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

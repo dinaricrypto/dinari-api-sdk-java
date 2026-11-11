@@ -148,7 +148,6 @@ public final class PaginationMetadataSchema {
 
         private Optional<Integer> nextPage = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -244,6 +243,20 @@ public final class PaginationMetadataSchema {
         public PaginationMetadataSchema build() {
             return new PaginationMetadataSchema(
                     total, totalPages, firstPage, lastPage, page, previousPage, nextPage, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("total")
+                    || key.equalsIgnoreCase("total_pages")
+                    || key.equalsIgnoreCase("first_page")
+                    || key.equalsIgnoreCase("last_page")
+                    || key.equalsIgnoreCase("page")
+                    || key.equalsIgnoreCase("previous_page")
+                    || key.equalsIgnoreCase("next_page")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         public Builder additionalProperty(String key, Object value) {

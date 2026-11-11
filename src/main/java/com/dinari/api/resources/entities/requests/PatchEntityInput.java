@@ -116,7 +116,6 @@ public final class PatchEntityInput {
 
         private Optional<String> referenceId = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -174,6 +173,14 @@ public final class PatchEntityInput {
         @java.lang.Override
         public PatchEntityInput build() {
             return new PatchEntityInput(entityId, referenceId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("entity_id") || key.equalsIgnoreCase("reference_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

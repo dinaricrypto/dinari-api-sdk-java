@@ -4,6 +4,7 @@
 package com.dinari.api.resources.withdrawals;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.withdrawals.requests.CreateWithdrawalRequestInput;
 import com.dinari.api.resources.withdrawals.requests.GetAccountWithdrawalRequest;
@@ -38,7 +39,16 @@ public class AsyncWithdrawalsClient {
      */
     public CompletableFuture<GetAccountWithdrawalRequestsResponse> getAccountWithdrawalRequests(
             GetAccountWithdrawalRequestsRequest request) {
-        return this.rawClient.getAccountWithdrawalRequests(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountWithdrawalRequestsResponse>> rawFuture =
+                this.rawClient.getAccountWithdrawalRequests(request);
+        CompletableFuture<GetAccountWithdrawalRequestsResponse> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -46,9 +56,16 @@ public class AsyncWithdrawalsClient {
      */
     public CompletableFuture<GetAccountWithdrawalRequestsResponse> getAccountWithdrawalRequests(
             GetAccountWithdrawalRequestsRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getAccountWithdrawalRequests(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountWithdrawalRequestsResponse>> rawFuture =
+                this.rawClient.getAccountWithdrawalRequests(request, requestOptions);
+        CompletableFuture<GetAccountWithdrawalRequestsResponse> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -56,7 +73,15 @@ public class AsyncWithdrawalsClient {
      * <p>The recipient <code>Account</code> must belong to the same <code>Entity</code> as the managed <code>Account</code>.</p>
      */
     public CompletableFuture<WithdrawalRequest1> createAccountWithdrawalRequests(CreateWithdrawalRequestInput request) {
-        return this.rawClient.createAccountWithdrawalRequests(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<WithdrawalRequest1>> rawFuture =
+                this.rawClient.createAccountWithdrawalRequests(request);
+        CompletableFuture<WithdrawalRequest1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -65,9 +90,15 @@ public class AsyncWithdrawalsClient {
      */
     public CompletableFuture<WithdrawalRequest1> createAccountWithdrawalRequests(
             CreateWithdrawalRequestInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createAccountWithdrawalRequests(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<WithdrawalRequest1>> rawFuture =
+                this.rawClient.createAccountWithdrawalRequests(request, requestOptions);
+        CompletableFuture<WithdrawalRequest1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -75,7 +106,15 @@ public class AsyncWithdrawalsClient {
      */
     public CompletableFuture<WithdrawalRequest1> getAccountWithdrawalRequest(
             GetAccountWithdrawalRequestRequest request) {
-        return this.rawClient.getAccountWithdrawalRequest(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<WithdrawalRequest1>> rawFuture =
+                this.rawClient.getAccountWithdrawalRequest(request);
+        CompletableFuture<WithdrawalRequest1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -83,9 +122,15 @@ public class AsyncWithdrawalsClient {
      */
     public CompletableFuture<WithdrawalRequest1> getAccountWithdrawalRequest(
             GetAccountWithdrawalRequestRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getAccountWithdrawalRequest(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<WithdrawalRequest1>> rawFuture =
+                this.rawClient.getAccountWithdrawalRequest(request, requestOptions);
+        CompletableFuture<WithdrawalRequest1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -93,7 +138,15 @@ public class AsyncWithdrawalsClient {
      */
     public CompletableFuture<GetAccountWithdrawalsResponse> getAccountWithdrawals(
             GetAccountWithdrawalsRequest request) {
-        return this.rawClient.getAccountWithdrawals(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountWithdrawalsResponse>> rawFuture =
+                this.rawClient.getAccountWithdrawals(request);
+        CompletableFuture<GetAccountWithdrawalsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -101,14 +154,30 @@ public class AsyncWithdrawalsClient {
      */
     public CompletableFuture<GetAccountWithdrawalsResponse> getAccountWithdrawals(
             GetAccountWithdrawalsRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getAccountWithdrawals(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountWithdrawalsResponse>> rawFuture =
+                this.rawClient.getAccountWithdrawals(request, requestOptions);
+        CompletableFuture<GetAccountWithdrawalsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a specific <code>Withdrawal</code> by its ID.
      */
     public CompletableFuture<Withdrawal1> getAccountWithdrawal(GetAccountWithdrawalRequest request) {
-        return this.rawClient.getAccountWithdrawal(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Withdrawal1>> rawFuture =
+                this.rawClient.getAccountWithdrawal(request);
+        CompletableFuture<Withdrawal1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -116,6 +185,14 @@ public class AsyncWithdrawalsClient {
      */
     public CompletableFuture<Withdrawal1> getAccountWithdrawal(
             GetAccountWithdrawalRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getAccountWithdrawal(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Withdrawal1>> rawFuture =
+                this.rawClient.getAccountWithdrawal(request, requestOptions);
+        CompletableFuture<Withdrawal1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

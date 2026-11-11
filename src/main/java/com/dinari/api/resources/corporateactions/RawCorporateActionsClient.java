@@ -8,6 +8,7 @@ import com.dinari.api.core.DinariClientApiException;
 import com.dinari.api.core.DinariClientException;
 import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.ObjectMappers;
+import com.dinari.api.core.PathSegments;
 import com.dinari.api.core.QueryStringMapper;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.core.RetryInterceptor;
@@ -186,7 +187,7 @@ public class RawCorporateActionsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/stocks")
-                .addPathSegment(request.getStockId())
+                .addPathSegment(PathSegments.validate(request.getStockId()))
                 .addPathSegments("splits");
         if (request.getPage().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -281,7 +282,7 @@ public class RawCorporateActionsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/stocks")
-                .addPathSegment(request.getStockId())
+                .addPathSegment(PathSegments.validate(request.getStockId()))
                 .addPathSegments("dividends");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {

@@ -127,7 +127,6 @@ public final class InterestPayment {
 
         private String currency;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -176,6 +175,16 @@ public final class InterestPayment {
         @java.lang.Override
         public InterestPayment build() {
             return new InterestPayment(paymentDate, amount, currency, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("payment_date")
+                    || key.equalsIgnoreCase("amount")
+                    || key.equalsIgnoreCase("currency")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

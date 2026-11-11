@@ -176,7 +176,6 @@ public final class GetStockCurrentQuotesRouteV2Request {
 
         private Optional<String> apiVersion = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -285,6 +284,14 @@ public final class GetStockCurrentQuotesRouteV2Request {
         @java.lang.Override
         public GetStockCurrentQuotesRouteV2Request build() {
             return new GetStockCurrentQuotesRouteV2Request(stockId, apiVersion, feed, entityId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("stock_id") || key.equalsIgnoreCase("feed") || key.equalsIgnoreCase("entity_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

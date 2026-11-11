@@ -1,13 +1,25 @@
+buildscript {
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        if (JavaVersion.current().isJava11Compatible()) {
+            classpath 'cl.franciscosolis:SonatypeCentralUpload:1.0.3'
+        }
+    }
+}
+
 plugins {
     id 'java-library'
     id 'maven-publish'
     id 'com.diffplug.spotless' version '6.11.0'
+    id 'signing'
 }
 
 repositories {
     mavenCentral()
     maven {
-        url 'https://s01.oss.sonatype.org/content/repositories/releases/'
+        url 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
     }
 }
 
@@ -60,6 +72,10 @@ javadocJar {
     archiveBaseName = "dinari-java"
 }
 
+signing {
+    sign(publishing.publications)
+}
+
 test {
     useJUnitPlatform()
     testLogging {
@@ -75,10 +91,19 @@ publishing {
             version = '1.0.0'
             from components.java
             pom {
+                name = 'dinari'
+                description = 'The official SDK of dinari'
+                url = 'https://buildwithfern.com'
                 licenses {
                     license {
                         name = 'The MIT License (MIT)'
                         url = 'https://mit-license.org/'
+                    }
+                }
+                developers {
+                    developer {
+                        name = 'dinari'
+                        email = 'developers@dinari.com'
                     }
                 }
                 scm {
@@ -89,14 +114,33 @@ publishing {
             }
         }
     }
-    repositories {
-        maven {
-            url "$System.env.MAVEN_PUBLISH_REGISTRY_URL"
-            credentials {
-                username "$System.env.MAVEN_USERNAME"
-                password "$System.env.MAVEN_PASSWORD"
-            }
-        }
-    }
 }
 
+if (JavaVersion.current().isJava11Compatible()) {
+    apply plugin: 'cl.franciscosolis.sonatype-central-upload'
+
+    sonatypeCentralUpload {
+        username = "$System.env.MAVEN_USERNAME"
+        password = "$System.env.MAVEN_PASSWORD"
+
+        archives = files(
+            "$buildDir/libs/dinari-java-" + version + ".jar",
+            "$buildDir/libs/dinari-java-" + version + "-sources.jar",
+            "$buildDir/libs/dinari-java-" + version + "-javadoc.jar"
+        )
+
+        pom = file("$buildDir/publications/maven/pom-default.xml")
+        signingKey = "$System.env.MAVEN_SIGNATURE_SECRET_KEY"
+        signingKeyPassphrase = "$System.env.MAVEN_SIGNATURE_PASSWORD"
+    }
+
+    sonatypeCentralUpload.dependsOn build
+}
+
+signing {
+    def signingKeyId = "$System.env.MAVEN_SIGNATURE_KID"
+    def signingKey = "$System.env.MAVEN_SIGNATURE_SECRET_KEY"
+    def signingPassword = "$System.env.MAVEN_SIGNATURE_PASSWORD"
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    sign publishing.publications.maven
+}

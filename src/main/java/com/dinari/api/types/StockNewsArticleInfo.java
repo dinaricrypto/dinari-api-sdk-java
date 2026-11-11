@@ -217,7 +217,6 @@ public final class StockNewsArticleInfo {
 
         private Optional<String> ampUrl = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -328,6 +327,19 @@ public final class StockNewsArticleInfo {
         public StockNewsArticleInfo build() {
             return new StockNewsArticleInfo(
                     articleUrl, description, imageUrl, publishedDt, publisher, ampUrl, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("article_url")
+                    || key.equalsIgnoreCase("description")
+                    || key.equalsIgnoreCase("image_url")
+                    || key.equalsIgnoreCase("published_dt")
+                    || key.equalsIgnoreCase("publisher")
+                    || key.equalsIgnoreCase("amp_url")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override
