@@ -4,6 +4,7 @@
 package com.dinari.api.resources.accounts;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.accounts.requests.CreateAccountDeactivationRequest;
 import com.dinari.api.resources.accounts.requests.CreateAccountInput;
@@ -50,7 +51,15 @@ public class AsyncAccountsClient {
      * Get a list of all <code>Accounts</code> that belong to a specific <code>Entity</code>. This <code>Entity</code> represents your organization itself, or an individual customer of your organization.
      */
     public CompletableFuture<GetEntityAccountsResponse> getEntityAccounts(GetEntityAccountsRequest request) {
-        return this.rawClient.getEntityAccounts(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntityAccountsResponse>> rawFuture =
+                this.rawClient.getEntityAccounts(request);
+        CompletableFuture<GetEntityAccountsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -58,42 +67,88 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<GetEntityAccountsResponse> getEntityAccounts(
             GetEntityAccountsRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getEntityAccounts(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntityAccountsResponse>> rawFuture =
+                this.rawClient.getEntityAccounts(request, requestOptions);
+        CompletableFuture<GetEntityAccountsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Create a new <code>Account</code> for a specific <code>Entity</code>. This <code>Entity</code> represents your organization itself, or an individual customer of your organization.
      */
     public CompletableFuture<Account1> createEntityAccounts(CreateAccountInput request) {
-        return this.rawClient.createEntityAccounts(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Account1>> rawFuture = this.rawClient.createEntityAccounts(request);
+        CompletableFuture<Account1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Create a new <code>Account</code> for a specific <code>Entity</code>. This <code>Entity</code> represents your organization itself, or an individual customer of your organization.
      */
     public CompletableFuture<Account1> createEntityAccounts(CreateAccountInput request, RequestOptions requestOptions) {
-        return this.rawClient.createEntityAccounts(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Account1>> rawFuture =
+                this.rawClient.createEntityAccounts(request, requestOptions);
+        CompletableFuture<Account1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a specific <code>Account</code> by its ID.
      */
     public CompletableFuture<Account1> getAccount(GetAccountRequest request) {
-        return this.rawClient.getAccount(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Account1>> rawFuture = this.rawClient.getAccount(request);
+        CompletableFuture<Account1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a specific <code>Account</code> by its ID.
      */
     public CompletableFuture<Account1> getAccount(GetAccountRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getAccount(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Account1>> rawFuture =
+                this.rawClient.getAccount(request, requestOptions);
+        CompletableFuture<Account1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Set the <code>Account</code> to be inactive. Inactive accounts cannot be used for trading.
      */
     public CompletableFuture<Account1> createAccountDeactivation(CreateAccountDeactivationRequest request) {
-        return this.rawClient.createAccountDeactivation(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Account1>> rawFuture =
+                this.rawClient.createAccountDeactivation(request);
+        CompletableFuture<Account1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -101,14 +156,29 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<Account1> createAccountDeactivation(
             CreateAccountDeactivationRequest request, RequestOptions requestOptions) {
-        return this.rawClient.createAccountDeactivation(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Account1>> rawFuture =
+                this.rawClient.createAccountDeactivation(request, requestOptions);
+        CompletableFuture<Account1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get the portfolio of the <code>Account</code>, excluding cash equivalents such as stablecoins.
      */
     public CompletableFuture<Portfolio> getAccountPortfolio(GetAccountPortfolioRequest request) {
-        return this.rawClient.getAccountPortfolio(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Portfolio>> rawFuture = this.rawClient.getAccountPortfolio(request);
+        CompletableFuture<Portfolio> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -116,14 +186,30 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<Portfolio> getAccountPortfolio(
             GetAccountPortfolioRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getAccountPortfolio(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Portfolio>> rawFuture =
+                this.rawClient.getAccountPortfolio(request, requestOptions);
+        CompletableFuture<Portfolio> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get the cash balances of the <code>Account</code>, including stablecoins and other cash equivalents.
      */
     public CompletableFuture<List<PaymentTokenBalance>> getAccountCash(GetAccountCashRequest request) {
-        return this.rawClient.getAccountCash(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<PaymentTokenBalance>>> rawFuture =
+                this.rawClient.getAccountCash(request);
+        CompletableFuture<List<PaymentTokenBalance>> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -131,7 +217,15 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<List<PaymentTokenBalance>> getAccountCash(
             GetAccountCashRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getAccountCash(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<PaymentTokenBalance>>> rawFuture =
+                this.rawClient.getAccountCash(request, requestOptions);
+        CompletableFuture<List<PaymentTokenBalance>> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -140,7 +234,15 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<GetAccountInterestPaymentsResponse> getAccountInterestPayments(
             GetAccountInterestPaymentsRequest request) {
-        return this.rawClient.getAccountInterestPayments(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountInterestPaymentsResponse>> rawFuture =
+                this.rawClient.getAccountInterestPayments(request);
+        CompletableFuture<GetAccountInterestPaymentsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -149,9 +251,15 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<GetAccountInterestPaymentsResponse> getAccountInterestPayments(
             GetAccountInterestPaymentsRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getAccountInterestPayments(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountInterestPaymentsResponse>> rawFuture =
+                this.rawClient.getAccountInterestPayments(request, requestOptions);
+        CompletableFuture<GetAccountInterestPaymentsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -159,7 +267,15 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<GetAccountDividendPaymentsResponse> getAccountDividendPayments(
             GetAccountDividendPaymentsRequest request) {
-        return this.rawClient.getAccountDividendPayments(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountDividendPaymentsResponse>> rawFuture =
+                this.rawClient.getAccountDividendPayments(request);
+        CompletableFuture<GetAccountDividendPaymentsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -167,9 +283,15 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<GetAccountDividendPaymentsResponse> getAccountDividendPayments(
             GetAccountDividendPaymentsRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getAccountDividendPayments(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountDividendPaymentsResponse>> rawFuture =
+                this.rawClient.getAccountDividendPayments(request, requestOptions);
+        CompletableFuture<GetAccountDividendPaymentsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -177,7 +299,14 @@ public class AsyncAccountsClient {
      * <p>This feature is only supported in sandbox mode.</p>
      */
     public CompletableFuture<Void> createAccountFaucet(FaucetInput request) {
-        return this.rawClient.createAccountFaucet(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Void>> rawFuture = this.rawClient.createAccountFaucet(request);
+        CompletableFuture<Void> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -185,7 +314,15 @@ public class AsyncAccountsClient {
      * <p>This feature is only supported in sandbox mode.</p>
      */
     public CompletableFuture<Void> createAccountFaucet(FaucetInput request, RequestOptions requestOptions) {
-        return this.rawClient.createAccountFaucet(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Void>> rawFuture =
+                this.rawClient.createAccountFaucet(request, requestOptions);
+        CompletableFuture<Void> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -193,7 +330,15 @@ public class AsyncAccountsClient {
      * <p><strong>⚠️ ALPHA: This endpoint is in early development and subject to breaking changes.</strong></p>
      */
     public CompletableFuture<Void> getBrokerageAccountActivities(GetBrokerageAccountActivitiesRequest request) {
-        return this.rawClient.getBrokerageAccountActivities(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Void>> rawFuture =
+                this.rawClient.getBrokerageAccountActivities(request);
+        CompletableFuture<Void> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -202,9 +347,15 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<Void> getBrokerageAccountActivities(
             GetBrokerageAccountActivitiesRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getBrokerageAccountActivities(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Void>> rawFuture =
+                this.rawClient.getBrokerageAccountActivities(request, requestOptions);
+        CompletableFuture<Void> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -213,7 +364,15 @@ public class AsyncAccountsClient {
      * As such, only <code>Account</code>s that are connected to Dinari-managed <code>Wallet</code>s can initiate <code>TokenTransfer</code>s.</p>
      */
     public CompletableFuture<GetTokenTransfersResponse> getTokenTransfers(GetTokenTransfersRequest request) {
-        return this.rawClient.getTokenTransfers(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetTokenTransfersResponse>> rawFuture =
+                this.rawClient.getTokenTransfers(request);
+        CompletableFuture<GetTokenTransfersResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -223,7 +382,15 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<GetTokenTransfersResponse> getTokenTransfers(
             GetTokenTransfersRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getTokenTransfers(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetTokenTransfersResponse>> rawFuture =
+                this.rawClient.getTokenTransfers(request, requestOptions);
+        CompletableFuture<GetTokenTransfersResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -232,7 +399,15 @@ public class AsyncAccountsClient {
      * As such, only <code>Account</code>s that are connected to Dinari-managed <code>Wallet</code>s can initiate <code>TokenTransfer</code>s.</p>
      */
     public CompletableFuture<TokenTransfer> createTokenTransfers(CreateManagedTokenTransferInput request) {
-        return this.rawClient.createTokenTransfers(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<TokenTransfer>> rawFuture =
+                this.rawClient.createTokenTransfers(request);
+        CompletableFuture<TokenTransfer> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -242,7 +417,15 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<TokenTransfer> createTokenTransfers(
             CreateManagedTokenTransferInput request, RequestOptions requestOptions) {
-        return this.rawClient.createTokenTransfers(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<TokenTransfer>> rawFuture =
+                this.rawClient.createTokenTransfers(request, requestOptions);
+        CompletableFuture<TokenTransfer> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -251,7 +434,14 @@ public class AsyncAccountsClient {
      * As such, only <code>Account</code>s that are connected to Dinari-managed <code>Wallet</code>s can initiate <code>TokenTransfer</code>s.</p>
      */
     public CompletableFuture<TokenTransfer> getTokenTransfer(GetTokenTransferRequest request) {
-        return this.rawClient.getTokenTransfer(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<TokenTransfer>> rawFuture = this.rawClient.getTokenTransfer(request);
+        CompletableFuture<TokenTransfer> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -261,6 +451,14 @@ public class AsyncAccountsClient {
      */
     public CompletableFuture<TokenTransfer> getTokenTransfer(
             GetTokenTransferRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getTokenTransfer(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<TokenTransfer>> rawFuture =
+                this.rawClient.getTokenTransfer(request, requestOptions);
+        CompletableFuture<TokenTransfer> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

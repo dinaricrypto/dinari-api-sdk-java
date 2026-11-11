@@ -515,7 +515,6 @@ public final class StockPrice {
 
         private Optional<Integer> marketCap = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -986,6 +985,27 @@ public final class StockPrice {
                     volume,
                     last,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("stock_id")
+                    || key.equalsIgnoreCase("price")
+                    || key.equalsIgnoreCase("timestamp")
+                    || key.equalsIgnoreCase("market_cap")
+                    || key.equalsIgnoreCase("weighted_shares_outstanding")
+                    || key.equalsIgnoreCase("change")
+                    || key.equalsIgnoreCase("change_percent")
+                    || key.equalsIgnoreCase("previous_close")
+                    || key.equalsIgnoreCase("close")
+                    || key.equalsIgnoreCase("high")
+                    || key.equalsIgnoreCase("low")
+                    || key.equalsIgnoreCase("open")
+                    || key.equalsIgnoreCase("volume")
+                    || key.equalsIgnoreCase("last")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

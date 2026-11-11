@@ -127,7 +127,6 @@ public final class CreateWithdrawalRequestInput {
 
         private double paymentTokenQuantity;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -173,6 +172,16 @@ public final class CreateWithdrawalRequestInput {
         public CreateWithdrawalRequestInput build() {
             return new CreateWithdrawalRequestInput(
                     accountId, recipientAccountId, paymentTokenQuantity, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("recipient_account_id")
+                    || key.equalsIgnoreCase("payment_token_quantity")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

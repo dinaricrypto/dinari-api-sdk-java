@@ -155,7 +155,6 @@ public final class PaymentTokenBalance {
 
         private String symbol;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -216,6 +215,17 @@ public final class PaymentTokenBalance {
         @java.lang.Override
         public PaymentTokenBalance build() {
             return new PaymentTokenBalance(chainId, tokenAddress, amount, symbol, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("chain_id")
+                    || key.equalsIgnoreCase("token_address")
+                    || key.equalsIgnoreCase("amount")
+                    || key.equalsIgnoreCase("symbol")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

@@ -116,7 +116,6 @@ public final class CreateKycDocumentFileInput {
 
         private KycDocumentType documentType;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -157,6 +156,16 @@ public final class CreateKycDocumentFileInput {
         @java.lang.Override
         public CreateKycDocumentFileInput build() {
             return new CreateKycDocumentFileInput(entityId, kycId, documentType, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("entity_id")
+                    || key.equalsIgnoreCase("kyc_id")
+                    || key.equalsIgnoreCase("document_type")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

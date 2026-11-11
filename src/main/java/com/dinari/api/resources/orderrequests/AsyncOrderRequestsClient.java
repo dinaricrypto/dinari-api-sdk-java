@@ -4,6 +4,7 @@
 package com.dinari.api.resources.orderrequests;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.orderrequests.requests.CreateEip155OrderRequestPermitTransactionRequest;
 import com.dinari.api.resources.orderrequests.requests.CreateEip155PermitTransactionRequest;
@@ -38,7 +39,15 @@ public class AsyncOrderRequestsClient {
      * Lists <code>OrderRequests</code>.<br>Optionally <code>OrderRequests</code> can be filtered by certain parameters.
      */
     public CompletableFuture<GetListOrderRequestsResponse> getListOrderRequests(GetListOrderRequestsRequest request) {
-        return this.rawClient.getListOrderRequests(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetListOrderRequestsResponse>> rawFuture =
+                this.rawClient.getListOrderRequests(request);
+        CompletableFuture<GetListOrderRequestsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -46,14 +55,30 @@ public class AsyncOrderRequestsClient {
      */
     public CompletableFuture<GetListOrderRequestsResponse> getListOrderRequests(
             GetListOrderRequestsRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getListOrderRequests(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetListOrderRequestsResponse>> rawFuture =
+                this.rawClient.getListOrderRequests(request, requestOptions);
+        CompletableFuture<GetListOrderRequestsResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a specific <code>OrderRequest</code> by its ID.
      */
     public CompletableFuture<OrderRequest> getOrderRequestById(GetOrderRequestByIdRequest request) {
-        return this.rawClient.getOrderRequestById(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.getOrderRequestById(request);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -61,7 +86,15 @@ public class AsyncOrderRequestsClient {
      */
     public CompletableFuture<OrderRequest> getOrderRequestById(
             GetOrderRequestByIdRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getOrderRequestById(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.getOrderRequestById(request, requestOptions);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -73,7 +106,15 @@ public class AsyncOrderRequestsClient {
      */
     public CompletableFuture<Eip155OrderRequestPermit> createEip155OrderRequestPermit(
             Eip155OrderRequestPermitInput request) {
-        return this.rawClient.createEip155OrderRequestPermit(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Eip155OrderRequestPermit>> rawFuture =
+                this.rawClient.createEip155OrderRequestPermit(request);
+        CompletableFuture<Eip155OrderRequestPermit> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -85,9 +126,15 @@ public class AsyncOrderRequestsClient {
      */
     public CompletableFuture<Eip155OrderRequestPermit> createEip155OrderRequestPermit(
             Eip155OrderRequestPermitInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createEip155OrderRequestPermit(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Eip155OrderRequestPermit>> rawFuture =
+                this.rawClient.createEip155OrderRequestPermit(request, requestOptions);
+        CompletableFuture<Eip155OrderRequestPermit> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -96,7 +143,15 @@ public class AsyncOrderRequestsClient {
      */
     public CompletableFuture<Eip155OrderRequest> createEip155OrderRequestPermitTransaction(
             CreateEip155OrderRequestPermitTransactionRequest request) {
-        return this.rawClient.createEip155OrderRequestPermitTransaction(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Eip155OrderRequest>> rawFuture =
+                this.rawClient.createEip155OrderRequestPermitTransaction(request);
+        CompletableFuture<Eip155OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -105,9 +160,15 @@ public class AsyncOrderRequestsClient {
      */
     public CompletableFuture<Eip155OrderRequest> createEip155OrderRequestPermitTransaction(
             CreateEip155OrderRequestPermitTransactionRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createEip155OrderRequestPermitTransaction(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Eip155OrderRequest>> rawFuture =
+                this.rawClient.createEip155OrderRequestPermitTransaction(request, requestOptions);
+        CompletableFuture<Eip155OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -117,7 +178,15 @@ public class AsyncOrderRequestsClient {
      */
     public CompletableFuture<Eip155Transaction> createEip155PermitTransaction(
             CreateEip155PermitTransactionRequest request) {
-        return this.rawClient.createEip155PermitTransaction(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Eip155Transaction>> rawFuture =
+                this.rawClient.createEip155PermitTransaction(request);
+        CompletableFuture<Eip155Transaction> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -127,8 +196,14 @@ public class AsyncOrderRequestsClient {
      */
     public CompletableFuture<Eip155Transaction> createEip155PermitTransaction(
             CreateEip155PermitTransactionRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createEip155PermitTransaction(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Eip155Transaction>> rawFuture =
+                this.rawClient.createEip155PermitTransaction(request, requestOptions);
+        CompletableFuture<Eip155Transaction> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

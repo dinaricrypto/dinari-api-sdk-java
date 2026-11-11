@@ -480,7 +480,6 @@ public final class BaselineKycCheckDataV0 {
 
         private Optional<String> firstName = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -913,6 +912,26 @@ public final class BaselineKycCheckDataV0 {
                     addressSubdivision,
                     addressPostalCode,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("country_code")
+                    || key.equalsIgnoreCase("last_name")
+                    || key.equalsIgnoreCase("address_country_code")
+                    || key.equalsIgnoreCase("first_name")
+                    || key.equalsIgnoreCase("middle_name")
+                    || key.equalsIgnoreCase("email")
+                    || key.equalsIgnoreCase("tax_id_number")
+                    || key.equalsIgnoreCase("birth_date")
+                    || key.equalsIgnoreCase("address_street_1")
+                    || key.equalsIgnoreCase("address_street_2")
+                    || key.equalsIgnoreCase("address_city")
+                    || key.equalsIgnoreCase("address_subdivision")
+                    || key.equalsIgnoreCase("address_postal_code")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

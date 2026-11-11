@@ -187,7 +187,6 @@ public final class AlloyV1 {
 
         private Optional<AlloyV1Sv> sv = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -269,6 +268,18 @@ public final class AlloyV1 {
         @java.lang.Override
         public AlloyV1 build() {
             return new AlloyV1(sv, id, name, symbol, isTradable, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("_sv")
+                    || key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("name")
+                    || key.equalsIgnoreCase("symbol")
+                    || key.equalsIgnoreCase("is_tradable")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

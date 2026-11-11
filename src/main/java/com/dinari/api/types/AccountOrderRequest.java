@@ -431,7 +431,6 @@ public final class AccountOrderRequest {
 
         private Optional<String> recipientAccountId = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -736,6 +735,25 @@ public final class AccountOrderRequest {
                     cancelMessage,
                     rejectMessage,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("status")
+                    || key.equalsIgnoreCase("created_dt")
+                    || key.equalsIgnoreCase("order_side")
+                    || key.equalsIgnoreCase("order_type")
+                    || key.equalsIgnoreCase("order_tif")
+                    || key.equalsIgnoreCase("recipient_account_id")
+                    || key.equalsIgnoreCase("order_id")
+                    || key.equalsIgnoreCase("client_order_id")
+                    || key.equalsIgnoreCase("cancel_message")
+                    || key.equalsIgnoreCase("reject_message")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

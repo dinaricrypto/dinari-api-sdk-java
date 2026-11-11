@@ -105,7 +105,6 @@ public final class BatchCancelOrderInput {
 
         private List<String> orderIds = new ArrayList<>();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -162,6 +161,14 @@ public final class BatchCancelOrderInput {
         @java.lang.Override
         public BatchCancelOrderInput build() {
             return new BatchCancelOrderInput(accountId, orderIds, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id") || key.equalsIgnoreCase("order_ids")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

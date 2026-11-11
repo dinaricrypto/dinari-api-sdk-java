@@ -4,6 +4,7 @@
 package com.dinari.api.resources.marketdata;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.marketdata.requests.GetAlloyCurrentPriceRequest;
 import com.dinari.api.resources.marketdata.requests.GetAlloyPriceChartRequest;
@@ -46,21 +47,44 @@ public class AsyncMarketDataClient {
      * Returns available <code>Alloys</code> with cursor-based pagination.
      */
     public CompletableFuture<PaginatedAlloyResponseV1> getAlloys() {
-        return this.rawClient.getAlloys().thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<PaginatedAlloyResponseV1>> rawFuture = this.rawClient.getAlloys();
+        CompletableFuture<PaginatedAlloyResponseV1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Returns available <code>Alloys</code> with cursor-based pagination.
      */
     public CompletableFuture<PaginatedAlloyResponseV1> getAlloys(RequestOptions requestOptions) {
-        return this.rawClient.getAlloys(requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<PaginatedAlloyResponseV1>> rawFuture =
+                this.rawClient.getAlloys(requestOptions);
+        CompletableFuture<PaginatedAlloyResponseV1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Returns available <code>Alloys</code> with cursor-based pagination.
      */
     public CompletableFuture<PaginatedAlloyResponseV1> getAlloys(GetAlloysRequest request) {
-        return this.rawClient.getAlloys(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<PaginatedAlloyResponseV1>> rawFuture =
+                this.rawClient.getAlloys(request);
+        CompletableFuture<PaginatedAlloyResponseV1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -68,14 +92,30 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<PaginatedAlloyResponseV1> getAlloys(
             GetAlloysRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getAlloys(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<PaginatedAlloyResponseV1>> rawFuture =
+                this.rawClient.getAlloys(request, requestOptions);
+        CompletableFuture<PaginatedAlloyResponseV1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get the current price for a specified <code>Alloy</code>.
      */
     public CompletableFuture<AlloyPriceV1> getAlloyCurrentPrice(GetAlloyCurrentPriceRequest request) {
-        return this.rawClient.getAlloyCurrentPrice(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<AlloyPriceV1>> rawFuture =
+                this.rawClient.getAlloyCurrentPrice(request);
+        CompletableFuture<AlloyPriceV1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -83,7 +123,15 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<AlloyPriceV1> getAlloyCurrentPrice(
             GetAlloyCurrentPriceRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getAlloyCurrentPrice(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<AlloyPriceV1>> rawFuture =
+                this.rawClient.getAlloyCurrentPrice(request, requestOptions);
+        CompletableFuture<AlloyPriceV1> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -91,7 +139,16 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<List<AlloyHistoricalPriceDataPointV1>> getAlloyPriceChart(
             GetAlloyPriceChartRequest request) {
-        return this.rawClient.getAlloyPriceChart(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<AlloyHistoricalPriceDataPointV1>>> rawFuture =
+                this.rawClient.getAlloyPriceChart(request);
+        CompletableFuture<List<AlloyHistoricalPriceDataPointV1>> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -99,42 +156,89 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<List<AlloyHistoricalPriceDataPointV1>> getAlloyPriceChart(
             GetAlloyPriceChartRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getAlloyPriceChart(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<AlloyHistoricalPriceDataPointV1>>> rawFuture =
+                this.rawClient.getAlloyPriceChart(request, requestOptions);
+        CompletableFuture<List<AlloyHistoricalPriceDataPointV1>> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of <code>Stocks</code>.
      */
     public CompletableFuture<GetStocksResponse> getStocks() {
-        return this.rawClient.getStocks().thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStocksResponse>> rawFuture = this.rawClient.getStocks();
+        CompletableFuture<GetStocksResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of <code>Stocks</code>.
      */
     public CompletableFuture<GetStocksResponse> getStocks(RequestOptions requestOptions) {
-        return this.rawClient.getStocks(requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStocksResponse>> rawFuture =
+                this.rawClient.getStocks(requestOptions);
+        CompletableFuture<GetStocksResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of <code>Stocks</code>.
      */
     public CompletableFuture<GetStocksResponse> getStocks(GetStocksRequest request) {
-        return this.rawClient.getStocks(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStocksResponse>> rawFuture = this.rawClient.getStocks(request);
+        CompletableFuture<GetStocksResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of <code>Stocks</code>.
      */
     public CompletableFuture<GetStocksResponse> getStocks(GetStocksRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getStocks(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetStocksResponse>> rawFuture =
+                this.rawClient.getStocks(request, requestOptions);
+        CompletableFuture<GetStocksResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get current price for a specified <code>Stock</code>.
      */
     public CompletableFuture<StockPrice> getStockCurrentPrice(GetStockCurrentPriceRequest request) {
-        return this.rawClient.getStockCurrentPrice(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<StockPrice>> rawFuture =
+                this.rawClient.getStockCurrentPrice(request);
+        CompletableFuture<StockPrice> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -142,7 +246,15 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<StockPrice> getStockCurrentPrice(
             GetStockCurrentPriceRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getStockCurrentPrice(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<StockPrice>> rawFuture =
+                this.rawClient.getStockCurrentPrice(request, requestOptions);
+        CompletableFuture<StockPrice> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -150,7 +262,15 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<StockQuoteResponseOneOfSchema> getStockCurrentQuotesRouteV2(
             GetStockCurrentQuotesRouteV2Request request) {
-        return this.rawClient.getStockCurrentQuotesRouteV2(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<StockQuoteResponseOneOfSchema>> rawFuture =
+                this.rawClient.getStockCurrentQuotesRouteV2(request);
+        CompletableFuture<StockQuoteResponseOneOfSchema> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -158,9 +278,15 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<StockQuoteResponseOneOfSchema> getStockCurrentQuotesRouteV2(
             GetStockCurrentQuotesRouteV2Request request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getStockCurrentQuotesRouteV2(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<StockQuoteResponseOneOfSchema>> rawFuture =
+                this.rawClient.getStockCurrentQuotesRouteV2(request, requestOptions);
+        CompletableFuture<StockQuoteResponseOneOfSchema> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -168,7 +294,16 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<List<StocksHistoricalPriceDataPoint>> getStockPriceChart(
             GetStockPriceChartRequest request) {
-        return this.rawClient.getStockPriceChart(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<StocksHistoricalPriceDataPoint>>> rawFuture =
+                this.rawClient.getStockPriceChart(request);
+        CompletableFuture<List<StocksHistoricalPriceDataPoint>> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -176,7 +311,16 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<List<StocksHistoricalPriceDataPoint>> getStockPriceChart(
             GetStockPriceChartRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getStockPriceChart(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<StocksHistoricalPriceDataPoint>>> rawFuture =
+                this.rawClient.getStockPriceChart(request, requestOptions);
+        CompletableFuture<List<StocksHistoricalPriceDataPoint>> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -184,7 +328,15 @@ public class AsyncMarketDataClient {
      * and a link to the original source.
      */
     public CompletableFuture<List<StockNewsArticleInfo>> getStockNewsByStockId(GetStockNewsByStockIdRequest request) {
-        return this.rawClient.getStockNewsByStockId(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<StockNewsArticleInfo>>> rawFuture =
+                this.rawClient.getStockNewsByStockId(request);
+        CompletableFuture<List<StockNewsArticleInfo>> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -193,20 +345,43 @@ public class AsyncMarketDataClient {
      */
     public CompletableFuture<List<StockNewsArticleInfo>> getStockNewsByStockId(
             GetStockNewsByStockIdRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getStockNewsByStockId(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<StockNewsArticleInfo>>> rawFuture =
+                this.rawClient.getStockNewsByStockId(request, requestOptions);
+        CompletableFuture<List<StockNewsArticleInfo>> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get the market hours for the current trading session and next open trading session.
      */
     public CompletableFuture<ExtendedMarketHours> getMarketHours() {
-        return this.rawClient.getMarketHours().thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<ExtendedMarketHours>> rawFuture = this.rawClient.getMarketHours();
+        CompletableFuture<ExtendedMarketHours> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get the market hours for the current trading session and next open trading session.
      */
     public CompletableFuture<ExtendedMarketHours> getMarketHours(RequestOptions requestOptions) {
-        return this.rawClient.getMarketHours(requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<ExtendedMarketHours>> rawFuture =
+                this.rawClient.getMarketHours(requestOptions);
+        CompletableFuture<ExtendedMarketHours> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

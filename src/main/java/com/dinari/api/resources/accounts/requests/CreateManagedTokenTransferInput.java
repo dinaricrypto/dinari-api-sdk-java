@@ -149,7 +149,6 @@ public final class CreateManagedTokenTransferInput {
 
         private double quantity;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -207,6 +206,17 @@ public final class CreateManagedTokenTransferInput {
         public CreateManagedTokenTransferInput build() {
             return new CreateManagedTokenTransferInput(
                     accountId, recipientAccountId, tokenAddress, quantity, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("recipient_account_id")
+                    || key.equalsIgnoreCase("token_address")
+                    || key.equalsIgnoreCase("quantity")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

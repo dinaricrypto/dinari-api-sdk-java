@@ -237,7 +237,6 @@ public final class Entity {
 
         private Optional<String> name = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -397,6 +396,19 @@ public final class Entity {
         @java.lang.Override
         public Entity build() {
             return new Entity(id, isKycComplete, entityType, name, nationality, referenceId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("is_kyc_complete")
+                    || key.equalsIgnoreCase("entity_type")
+                    || key.equalsIgnoreCase("name")
+                    || key.equalsIgnoreCase("nationality")
+                    || key.equalsIgnoreCase("reference_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

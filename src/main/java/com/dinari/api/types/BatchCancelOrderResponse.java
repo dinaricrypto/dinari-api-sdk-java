@@ -88,7 +88,6 @@ public final class BatchCancelOrderResponse {
 
         private List<Order> failedToCancelOrders = new ArrayList<>();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -149,6 +148,14 @@ public final class BatchCancelOrderResponse {
 
         public BatchCancelOrderResponse build() {
             return new BatchCancelOrderResponse(cancelQueuedOrders, failedToCancelOrders, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("cancel_queued_orders") || key.equalsIgnoreCase("failed_to_cancel_orders")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         public Builder additionalProperty(String key, Object value) {

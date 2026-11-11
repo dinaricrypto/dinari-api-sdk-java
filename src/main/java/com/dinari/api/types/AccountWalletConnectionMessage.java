@@ -106,7 +106,6 @@ public final class AccountWalletConnectionMessage {
 
         private String message;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -143,6 +142,14 @@ public final class AccountWalletConnectionMessage {
         @java.lang.Override
         public AccountWalletConnectionMessage build() {
             return new AccountWalletConnectionMessage(nonce, message, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("nonce") || key.equalsIgnoreCase("message")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

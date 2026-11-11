@@ -281,7 +281,6 @@ public final class UsKycCheckDataV1 {
 
         private Optional<UsEntityKycUsImmigrationInfoV1> usImmigrationInfo = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -417,6 +416,24 @@ public final class UsKycCheckDataV1 {
                     nonProfessionalTraderAttestation,
                     usImmigrationInfo,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("identity")
+                    || key.equalsIgnoreCase("financial_profile")
+                    || key.equalsIgnoreCase("employment")
+                    || key.equalsIgnoreCase("risk_disclosure")
+                    || key.equalsIgnoreCase("trusted_contact")
+                    || key.equalsIgnoreCase("alpaca_customer_agreement")
+                    || key.equalsIgnoreCase("kyc_metadata")
+                    || key.equalsIgnoreCase("data_citation")
+                    || key.equalsIgnoreCase("aml_check")
+                    || key.equalsIgnoreCase("non_professional_trader_attestation")
+                    || key.equalsIgnoreCase("us_immigration_info")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

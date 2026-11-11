@@ -155,7 +155,6 @@ public final class DividendPayment {
 
         private String currency;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -216,6 +215,17 @@ public final class DividendPayment {
         @java.lang.Override
         public DividendPayment build() {
             return new DividendPayment(stockId, paymentDate, amount, currency, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("stock_id")
+                    || key.equalsIgnoreCase("payment_date")
+                    || key.equalsIgnoreCase("amount")
+                    || key.equalsIgnoreCase("currency")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

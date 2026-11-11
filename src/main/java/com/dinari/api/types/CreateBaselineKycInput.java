@@ -107,7 +107,6 @@ public final class CreateBaselineKycInput {
 
         private String providerName;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -144,6 +143,14 @@ public final class CreateBaselineKycInput {
         @java.lang.Override
         public CreateBaselineKycInput build() {
             return new CreateBaselineKycInput(data, providerName, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("data") || key.equalsIgnoreCase("provider_name")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override
