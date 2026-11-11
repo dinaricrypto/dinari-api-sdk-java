@@ -2,3 +2,4 @@
 .fern/replay.lock
 .fern/replay.yml
 .gitattributes
+.github/workflows/ci.yml

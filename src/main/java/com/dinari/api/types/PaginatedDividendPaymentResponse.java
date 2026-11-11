@@ -136,7 +136,6 @@ public final class PaginatedDividendPaymentResponse {
 
         private Optional<PaginatedDividendPaymentResponseSv> sv = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -218,6 +217,16 @@ public final class PaginatedDividendPaymentResponse {
         @java.lang.Override
         public PaginatedDividendPaymentResponse build() {
             return new PaginatedDividendPaymentResponse(sv, data, paginationMetadata, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("_sv")
+                    || key.equalsIgnoreCase("data")
+                    || key.equalsIgnoreCase("pagination_metadata")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

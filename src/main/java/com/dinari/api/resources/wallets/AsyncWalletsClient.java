@@ -4,6 +4,7 @@
 package com.dinari.api.resources.wallets;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.wallets.requests.CreateAccountWalletConnectionInput;
 import com.dinari.api.resources.wallets.requests.CreateAccountWalletInternalConnectionInput;
@@ -34,14 +35,29 @@ public class AsyncWalletsClient {
      * Get the wallet connected to the <code>Account</code>.
      */
     public CompletableFuture<Wallet> getWallet(GetWalletRequest request) {
-        return this.rawClient.getWallet(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Wallet>> rawFuture = this.rawClient.getWallet(request);
+        CompletableFuture<Wallet> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get the wallet connected to the <code>Account</code>.
      */
     public CompletableFuture<Wallet> getWallet(GetWalletRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getWallet(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Wallet>> rawFuture =
+                this.rawClient.getWallet(request, requestOptions);
+        CompletableFuture<Wallet> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -49,7 +65,15 @@ public class AsyncWalletsClient {
      */
     public CompletableFuture<AccountWalletConnectionMessage> getAccountWalletConnectionNonce(
             GetAccountWalletConnectionNonceRequest request) {
-        return this.rawClient.getAccountWalletConnectionNonce(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<AccountWalletConnectionMessage>> rawFuture =
+                this.rawClient.getAccountWalletConnectionNonce(request);
+        CompletableFuture<AccountWalletConnectionMessage> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -57,16 +81,30 @@ public class AsyncWalletsClient {
      */
     public CompletableFuture<AccountWalletConnectionMessage> getAccountWalletConnectionNonce(
             GetAccountWalletConnectionNonceRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getAccountWalletConnectionNonce(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<AccountWalletConnectionMessage>> rawFuture =
+                this.rawClient.getAccountWalletConnectionNonce(request, requestOptions);
+        CompletableFuture<AccountWalletConnectionMessage> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Connect a <code>Wallet</code> to the <code>Account</code> after verifying the signature.
      */
     public CompletableFuture<Wallet> createAccountWalletConnection(CreateAccountWalletConnectionInput request) {
-        return this.rawClient.createAccountWalletConnection(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Wallet>> rawFuture =
+                this.rawClient.createAccountWalletConnection(request);
+        CompletableFuture<Wallet> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -74,9 +112,15 @@ public class AsyncWalletsClient {
      */
     public CompletableFuture<Wallet> createAccountWalletConnection(
             CreateAccountWalletConnectionInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createAccountWalletConnection(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Wallet>> rawFuture =
+                this.rawClient.createAccountWalletConnection(request, requestOptions);
+        CompletableFuture<Wallet> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -84,7 +128,15 @@ public class AsyncWalletsClient {
      */
     public CompletableFuture<Wallet> createAccountWalletInternalConnection(
             CreateAccountWalletInternalConnectionInput request) {
-        return this.rawClient.createAccountWalletInternalConnection(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Wallet>> rawFuture =
+                this.rawClient.createAccountWalletInternalConnection(request);
+        CompletableFuture<Wallet> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -92,8 +144,14 @@ public class AsyncWalletsClient {
      */
     public CompletableFuture<Wallet> createAccountWalletInternalConnection(
             CreateAccountWalletInternalConnectionInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createAccountWalletInternalConnection(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Wallet>> rawFuture =
+                this.rawClient.createAccountWalletInternalConnection(request, requestOptions);
+        CompletableFuture<Wallet> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

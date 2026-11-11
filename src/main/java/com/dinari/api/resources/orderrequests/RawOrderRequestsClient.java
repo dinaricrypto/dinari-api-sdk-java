@@ -3,12 +3,14 @@
  */
 package com.dinari.api.resources.orderrequests;
 
+import com.dinari.api.core.BodyProperties;
 import com.dinari.api.core.ClientOptions;
 import com.dinari.api.core.DinariClientApiException;
 import com.dinari.api.core.DinariClientException;
 import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.MediaTypes;
 import com.dinari.api.core.ObjectMappers;
+import com.dinari.api.core.PathSegments;
 import com.dinari.api.core.QueryStringMapper;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.core.RetryInterceptor;
@@ -57,7 +59,7 @@ public class RawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests");
         if (request.getOrderRequestId().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -161,9 +163,9 @@ public class RawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests")
-                .addPathSegment(request.getOrderRequestId());
+                .addPathSegment(PathSegments.validate(request.getOrderRequestId()));
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
                 httpUrl.addQueryParameter(_key, _value);
@@ -229,7 +231,7 @@ public class RawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests/eip155")
                 .addPathSegments("permit");
         if (requestOptions != null) {
@@ -240,7 +242,9 @@ public class RawOrderRequestsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request, requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -309,7 +313,7 @@ public class RawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests")
                 .addPathSegments("eip155");
         if (requestOptions != null) {
@@ -320,7 +324,9 @@ public class RawOrderRequestsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request.getBody()), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request.getBody(), requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }
@@ -390,7 +396,7 @@ public class RawOrderRequestsClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/accounts")
-                .addPathSegment(request.getAccountId())
+                .addPathSegment(PathSegments.validate(request.getAccountId()))
                 .addPathSegments("order_requests/eip155")
                 .addPathSegments("permit_transaction");
         if (requestOptions != null) {
@@ -401,7 +407,9 @@ public class RawOrderRequestsClient {
         RequestBody body;
         try {
             body = RequestBody.create(
-                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(request.getBody()), MediaTypes.APPLICATION_JSON);
+                    ObjectMappers.JSON_MAPPER.writeValueAsBytes(BodyProperties.merge(
+                            request.getBody(), requestOptions != null ? requestOptions.getBodyProperties() : null)),
+                    MediaTypes.APPLICATION_JSON);
         } catch (JsonProcessingException e) {
             throw new DinariClientException("Failed to serialize request", e);
         }

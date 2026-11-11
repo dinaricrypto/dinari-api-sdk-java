@@ -240,7 +240,6 @@ public final class UsEntityAmlCheckInfoV1 {
 
         private List<String> records = new ArrayList<>();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -369,6 +368,20 @@ public final class UsEntityAmlCheckInfoV1 {
                     isMonitoredListsMatch,
                     records,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("ref_id")
+                    || key.equalsIgnoreCase("check_created_at")
+                    || key.equalsIgnoreCase("is_politically_exposed_person_match")
+                    || key.equalsIgnoreCase("is_adverse_media_match")
+                    || key.equalsIgnoreCase("is_sanctions_match")
+                    || key.equalsIgnoreCase("is_monitored_lists_match")
+                    || key.equalsIgnoreCase("records")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

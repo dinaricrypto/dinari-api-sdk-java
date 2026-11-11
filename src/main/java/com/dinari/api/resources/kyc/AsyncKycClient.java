@@ -4,6 +4,7 @@
 package com.dinari.api.resources.kyc;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.kyc.requests.CreateEntityKycRequest;
 import com.dinari.api.resources.kyc.requests.CreateKycDocumentFileInput;
@@ -40,7 +41,14 @@ public class AsyncKycClient {
      * If there are no completed KYC checks, the most recent KYC check information, regardless of status, will be returned.</p>
      */
     public CompletableFuture<Kyc> getEntityKyc(GetEntityKycRequest request) {
-        return this.rawClient.getEntityKyc(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Kyc>> rawFuture = this.rawClient.getEntityKyc(request);
+        CompletableFuture<Kyc> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -49,7 +57,15 @@ public class AsyncKycClient {
      * If there are no completed KYC checks, the most recent KYC check information, regardless of status, will be returned.</p>
      */
     public CompletableFuture<Kyc> getEntityKyc(GetEntityKycRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getEntityKyc(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Kyc>> rawFuture =
+                this.rawClient.getEntityKyc(request, requestOptions);
+        CompletableFuture<Kyc> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -57,7 +73,14 @@ public class AsyncKycClient {
      * <p>This feature is available for everyone in sandbox mode, and for specifically provisioned partners in production.</p>
      */
     public CompletableFuture<Kyc> createEntityKyc(CreateEntityKycRequest request) {
-        return this.rawClient.createEntityKyc(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Kyc>> rawFuture = this.rawClient.createEntityKyc(request);
+        CompletableFuture<Kyc> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -65,14 +88,30 @@ public class AsyncKycClient {
      * <p>This feature is available for everyone in sandbox mode, and for specifically provisioned partners in production.</p>
      */
     public CompletableFuture<Kyc> createEntityKyc(CreateEntityKycRequest request, RequestOptions requestOptions) {
-        return this.rawClient.createEntityKyc(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Kyc>> rawFuture =
+                this.rawClient.createEntityKyc(request, requestOptions);
+        CompletableFuture<Kyc> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get uploaded documents for a KYC check
      */
     public CompletableFuture<List<KycDocument>> getEntityKycDocument(GetEntityKycDocumentRequest request) {
-        return this.rawClient.getEntityKycDocument(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<KycDocument>>> rawFuture =
+                this.rawClient.getEntityKycDocument(request);
+        CompletableFuture<List<KycDocument>> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -80,14 +119,30 @@ public class AsyncKycClient {
      */
     public CompletableFuture<List<KycDocument>> getEntityKycDocument(
             GetEntityKycDocumentRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getEntityKycDocument(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<List<KycDocument>>> rawFuture =
+                this.rawClient.getEntityKycDocument(request, requestOptions);
+        CompletableFuture<List<KycDocument>> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Upload KYC-related documentation for partners that are provisioned to provide their own KYC data.
      */
     public CompletableFuture<KycDocument> createEntityKycDocument(File file, CreateKycDocumentFileInput request) {
-        return this.rawClient.createEntityKycDocument(file, request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<KycDocument>> rawFuture =
+                this.rawClient.createEntityKycDocument(file, request);
+        CompletableFuture<KycDocument> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -95,9 +150,15 @@ public class AsyncKycClient {
      */
     public CompletableFuture<KycDocument> createEntityKycDocument(
             File file, CreateKycDocumentFileInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createEntityKycDocument(file, request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<KycDocument>> rawFuture =
+                this.rawClient.createEntityKycDocument(file, request, requestOptions);
+        CompletableFuture<KycDocument> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -106,7 +167,15 @@ public class AsyncKycClient {
      * Once the customer completes this KYC flow, the KYC check will be created and available in the KYC API.</p>
      */
     public CompletableFuture<ManagedKycEmbed> createManagedEntityKycEmbed(CreateManagedKycInput request) {
-        return this.rawClient.createManagedEntityKycEmbed(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<ManagedKycEmbed>> rawFuture =
+                this.rawClient.createManagedEntityKycEmbed(request);
+        CompletableFuture<ManagedKycEmbed> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -116,8 +185,14 @@ public class AsyncKycClient {
      */
     public CompletableFuture<ManagedKycEmbed> createManagedEntityKycEmbed(
             CreateManagedKycInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createManagedEntityKycEmbed(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<ManagedKycEmbed>> rawFuture =
+                this.rawClient.createManagedEntityKycEmbed(request, requestOptions);
+        CompletableFuture<ManagedKycEmbed> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

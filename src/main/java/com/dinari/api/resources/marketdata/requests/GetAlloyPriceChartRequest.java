@@ -102,7 +102,6 @@ public final class GetAlloyPriceChartRequest {
 
         private GetAlloyPriceChartRequestTimespan timespan;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -135,6 +134,14 @@ public final class GetAlloyPriceChartRequest {
         @java.lang.Override
         public GetAlloyPriceChartRequest build() {
             return new GetAlloyPriceChartRequest(alloyId, timespan, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("alloy_id") || key.equalsIgnoreCase("timespan")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

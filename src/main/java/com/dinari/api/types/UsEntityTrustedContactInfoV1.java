@@ -181,7 +181,6 @@ public final class UsEntityTrustedContactInfoV1 {
 
         private Optional<String> emailAddress = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -293,6 +292,17 @@ public final class UsEntityTrustedContactInfoV1 {
         public UsEntityTrustedContactInfoV1 build() {
             return new UsEntityTrustedContactInfoV1(
                     givenName, familyName, emailAddress, phoneNumber, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("given_name")
+                    || key.equalsIgnoreCase("family_name")
+                    || key.equalsIgnoreCase("email_address")
+                    || key.equalsIgnoreCase("phone_number")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

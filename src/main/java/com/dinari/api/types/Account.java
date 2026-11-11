@@ -217,7 +217,6 @@ public final class Account {
 
         private Optional<String> brokerageAccountId = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -328,6 +327,19 @@ public final class Account {
         public Account build() {
             return new Account(
                     id, entityId, isActive, createdDt, jurisdiction, brokerageAccountId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("entity_id")
+                    || key.equalsIgnoreCase("is_active")
+                    || key.equalsIgnoreCase("created_dt")
+                    || key.equalsIgnoreCase("jurisdiction")
+                    || key.equalsIgnoreCase("brokerage_account_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

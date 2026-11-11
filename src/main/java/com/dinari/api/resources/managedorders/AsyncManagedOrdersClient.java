@@ -4,6 +4,7 @@
 package com.dinari.api.resources.managedorders;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.managedorders.requests.CreateLimitOrderBuyRequestInput;
 import com.dinari.api.resources.managedorders.requests.CreateLimitOrderSellRequestInput;
@@ -36,7 +37,15 @@ public class AsyncManagedOrdersClient {
      */
     public CompletableFuture<OrderRequest> createMarketBuyManagedOrderRequest(
             CreateMarketBuyOrderRequestInput request) {
-        return this.rawClient.createMarketBuyManagedOrderRequest(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.createMarketBuyManagedOrderRequest(request);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -46,9 +55,15 @@ public class AsyncManagedOrdersClient {
      */
     public CompletableFuture<OrderRequest> createMarketBuyManagedOrderRequest(
             CreateMarketBuyOrderRequestInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createMarketBuyManagedOrderRequest(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.createMarketBuyManagedOrderRequest(request, requestOptions);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -58,7 +73,15 @@ public class AsyncManagedOrdersClient {
      */
     public CompletableFuture<OrderRequest> createMarketSellManagedOrderRequest(
             CreateMarketSellOrderRequestInput request) {
-        return this.rawClient.createMarketSellManagedOrderRequest(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.createMarketSellManagedOrderRequest(request);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -68,9 +91,15 @@ public class AsyncManagedOrdersClient {
      */
     public CompletableFuture<OrderRequest> createMarketSellManagedOrderRequest(
             CreateMarketSellOrderRequestInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createMarketSellManagedOrderRequest(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.createMarketSellManagedOrderRequest(request, requestOptions);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -79,7 +108,15 @@ public class AsyncManagedOrdersClient {
      * <p>If an <code>OrderRequest</code> with the same <code>client_order_id</code> already exists for the given account, the creation call will fail.</p>
      */
     public CompletableFuture<OrderRequest> createLimitBuyManagedOrderRequest(CreateLimitOrderBuyRequestInput request) {
-        return this.rawClient.createLimitBuyManagedOrderRequest(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.createLimitBuyManagedOrderRequest(request);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -89,9 +126,15 @@ public class AsyncManagedOrdersClient {
      */
     public CompletableFuture<OrderRequest> createLimitBuyManagedOrderRequest(
             CreateLimitOrderBuyRequestInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createLimitBuyManagedOrderRequest(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.createLimitBuyManagedOrderRequest(request, requestOptions);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -101,7 +144,15 @@ public class AsyncManagedOrdersClient {
      */
     public CompletableFuture<OrderRequest> createLimitSellManagedOrderRequest(
             CreateLimitOrderSellRequestInput request) {
-        return this.rawClient.createLimitSellManagedOrderRequest(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.createLimitSellManagedOrderRequest(request);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -111,8 +162,14 @@ public class AsyncManagedOrdersClient {
      */
     public CompletableFuture<OrderRequest> createLimitSellManagedOrderRequest(
             CreateLimitOrderSellRequestInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createLimitSellManagedOrderRequest(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderRequest>> rawFuture =
+                this.rawClient.createLimitSellManagedOrderRequest(request, requestOptions);
+        CompletableFuture<OrderRequest> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

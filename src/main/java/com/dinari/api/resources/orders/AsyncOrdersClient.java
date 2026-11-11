@@ -4,6 +4,7 @@
 package com.dinari.api.resources.orders;
 
 import com.dinari.api.core.ClientOptions;
+import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.resources.orders.requests.BatchCancelOrderInput;
 import com.dinari.api.resources.orders.requests.CreateOrderCancellationRequest;
@@ -43,21 +44,45 @@ public class AsyncOrdersClient {
      * Get a list of all <code>Orders</code> under the <code>Entity</code>.<br>Optionally <code>Orders</code> can be transaction hash or fulfillment transaction hash.
      */
     public CompletableFuture<GetEntityOrdersResponse> getEntityOrders() {
-        return this.rawClient.getEntityOrders().thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntityOrdersResponse>> rawFuture =
+                this.rawClient.getEntityOrders();
+        CompletableFuture<GetEntityOrdersResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of all <code>Orders</code> under the <code>Entity</code>.<br>Optionally <code>Orders</code> can be transaction hash or fulfillment transaction hash.
      */
     public CompletableFuture<GetEntityOrdersResponse> getEntityOrders(RequestOptions requestOptions) {
-        return this.rawClient.getEntityOrders(requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntityOrdersResponse>> rawFuture =
+                this.rawClient.getEntityOrders(requestOptions);
+        CompletableFuture<GetEntityOrdersResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of all <code>Orders</code> under the <code>Entity</code>.<br>Optionally <code>Orders</code> can be transaction hash or fulfillment transaction hash.
      */
     public CompletableFuture<GetEntityOrdersResponse> getEntityOrders(GetEntityOrdersRequest request) {
-        return this.rawClient.getEntityOrders(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntityOrdersResponse>> rawFuture =
+                this.rawClient.getEntityOrders(request);
+        CompletableFuture<GetEntityOrdersResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -65,35 +90,73 @@ public class AsyncOrdersClient {
      */
     public CompletableFuture<GetEntityOrdersResponse> getEntityOrders(
             GetEntityOrdersRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getEntityOrders(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetEntityOrdersResponse>> rawFuture =
+                this.rawClient.getEntityOrders(request, requestOptions);
+        CompletableFuture<GetEntityOrdersResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of all <code>Orders</code> under the <code>Account</code>.<br>Optionally <code>Orders</code> can be filtered by chain ID, transaction hash, or client order ID.
      */
     public CompletableFuture<GetOrdersResponse> getOrders(GetOrdersRequest request) {
-        return this.rawClient.getOrders(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetOrdersResponse>> rawFuture = this.rawClient.getOrders(request);
+        CompletableFuture<GetOrdersResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a list of all <code>Orders</code> under the <code>Account</code>.<br>Optionally <code>Orders</code> can be filtered by chain ID, transaction hash, or client order ID.
      */
     public CompletableFuture<GetOrdersResponse> getOrders(GetOrdersRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getOrders(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetOrdersResponse>> rawFuture =
+                this.rawClient.getOrders(request, requestOptions);
+        CompletableFuture<GetOrdersResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a specific <code>Order</code> by its ID.
      */
     public CompletableFuture<Order> getOrderById(GetOrderByIdRequest request) {
-        return this.rawClient.getOrderById(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Order>> rawFuture = this.rawClient.getOrderById(request);
+        CompletableFuture<Order> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
      * Get a specific <code>Order</code> by its ID.
      */
     public CompletableFuture<Order> getOrderById(GetOrderByIdRequest request, RequestOptions requestOptions) {
-        return this.rawClient.getOrderById(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Order>> rawFuture =
+                this.rawClient.getOrderById(request, requestOptions);
+        CompletableFuture<Order> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -105,7 +168,14 @@ public class AsyncOrdersClient {
      * <p>Check the status using the &quot;Get Order by ID&quot; endpoint to confirm whether the <code>Order</code> has been cancelled.</p>
      */
     public CompletableFuture<Order> createOrderCancellation(CreateOrderCancellationRequest request) {
-        return this.rawClient.createOrderCancellation(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Order>> rawFuture = this.rawClient.createOrderCancellation(request);
+        CompletableFuture<Order> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -118,7 +188,15 @@ public class AsyncOrdersClient {
      */
     public CompletableFuture<Order> createOrderCancellation(
             CreateOrderCancellationRequest request, RequestOptions requestOptions) {
-        return this.rawClient.createOrderCancellation(request, requestOptions).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<Order>> rawFuture =
+                this.rawClient.createOrderCancellation(request, requestOptions);
+        CompletableFuture<Order> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -131,7 +209,15 @@ public class AsyncOrdersClient {
      * Check the status using the &quot;Get Order by ID&quot; endpoint to confirm whether individual <code>Orders</code> have been cancelled.</p>
      */
     public CompletableFuture<BatchCancelOrderResponse> createBatchOrderCancellation(BatchCancelOrderInput request) {
-        return this.rawClient.createBatchOrderCancellation(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<BatchCancelOrderResponse>> rawFuture =
+                this.rawClient.createBatchOrderCancellation(request);
+        CompletableFuture<BatchCancelOrderResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -145,9 +231,15 @@ public class AsyncOrdersClient {
      */
     public CompletableFuture<BatchCancelOrderResponse> createBatchOrderCancellation(
             BatchCancelOrderInput request, RequestOptions requestOptions) {
-        return this.rawClient
-                .createBatchOrderCancellation(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<BatchCancelOrderResponse>> rawFuture =
+                this.rawClient.createBatchOrderCancellation(request, requestOptions);
+        CompletableFuture<BatchCancelOrderResponse> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -155,7 +247,16 @@ public class AsyncOrdersClient {
      */
     public CompletableFuture<GetAccountAllOrderFulfillmentsResponse> getAccountAllOrderFulfillments(
             GetAccountAllOrderFulfillmentsRequest request) {
-        return this.rawClient.getAccountAllOrderFulfillments(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountAllOrderFulfillmentsResponse>> rawFuture =
+                this.rawClient.getAccountAllOrderFulfillments(request);
+        CompletableFuture<GetAccountAllOrderFulfillmentsResponse> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -163,9 +264,16 @@ public class AsyncOrdersClient {
      */
     public CompletableFuture<GetAccountAllOrderFulfillmentsResponse> getAccountAllOrderFulfillments(
             GetAccountAllOrderFulfillmentsRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getAccountAllOrderFulfillments(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountAllOrderFulfillmentsResponse>> rawFuture =
+                this.rawClient.getAccountAllOrderFulfillments(request, requestOptions);
+        CompletableFuture<GetAccountAllOrderFulfillmentsResponse> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -173,7 +281,16 @@ public class AsyncOrdersClient {
      */
     public CompletableFuture<GetAccountOrderFulfillmentsResponse> getAccountOrderFulfillments(
             GetAccountOrderFulfillmentsRequest request) {
-        return this.rawClient.getAccountOrderFulfillments(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountOrderFulfillmentsResponse>> rawFuture =
+                this.rawClient.getAccountOrderFulfillments(request);
+        CompletableFuture<GetAccountOrderFulfillmentsResponse> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -181,9 +298,16 @@ public class AsyncOrdersClient {
      */
     public CompletableFuture<GetAccountOrderFulfillmentsResponse> getAccountOrderFulfillments(
             GetAccountOrderFulfillmentsRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getAccountOrderFulfillments(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<GetAccountOrderFulfillmentsResponse>> rawFuture =
+                this.rawClient.getAccountOrderFulfillments(request, requestOptions);
+        CompletableFuture<GetAccountOrderFulfillmentsResponse> future =
+                rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -191,7 +315,15 @@ public class AsyncOrdersClient {
      */
     public CompletableFuture<OrderFulfillment> getAccountOrderFulfillmentById(
             GetAccountOrderFulfillmentByIdRequest request) {
-        return this.rawClient.getAccountOrderFulfillmentById(request).thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderFulfillment>> rawFuture =
+                this.rawClient.getAccountOrderFulfillmentById(request);
+        CompletableFuture<OrderFulfillment> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 
     /**
@@ -199,8 +331,14 @@ public class AsyncOrdersClient {
      */
     public CompletableFuture<OrderFulfillment> getAccountOrderFulfillmentById(
             GetAccountOrderFulfillmentByIdRequest request, RequestOptions requestOptions) {
-        return this.rawClient
-                .getAccountOrderFulfillmentById(request, requestOptions)
-                .thenApply(response -> response.body());
+        CompletableFuture<DinariClientHttpResponse<OrderFulfillment>> rawFuture =
+                this.rawClient.getAccountOrderFulfillmentById(request, requestOptions);
+        CompletableFuture<OrderFulfillment> future = rawFuture.thenApply(response -> response.body());
+        future.whenComplete((result_, throwable_) -> {
+            if (future.isCancelled()) {
+                rawFuture.cancel(true);
+            }
+        });
+        return future;
     }
 }

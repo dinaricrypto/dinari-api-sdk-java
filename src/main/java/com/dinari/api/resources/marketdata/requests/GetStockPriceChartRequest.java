@@ -102,7 +102,6 @@ public final class GetStockPriceChartRequest {
 
         private StockTickTimespan1 timespan;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -135,6 +134,14 @@ public final class GetStockPriceChartRequest {
         @java.lang.Override
         public GetStockPriceChartRequest build() {
             return new GetStockPriceChartRequest(stockId, timespan, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("stock_id") || key.equalsIgnoreCase("timespan")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

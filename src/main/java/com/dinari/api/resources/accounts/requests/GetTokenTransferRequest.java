@@ -94,7 +94,6 @@ public final class GetTokenTransferRequest {
 
         private String transferId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -123,6 +122,14 @@ public final class GetTokenTransferRequest {
         @java.lang.Override
         public GetTokenTransferRequest build() {
             return new GetTokenTransferRequest(accountId, transferId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id") || key.equalsIgnoreCase("transfer_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

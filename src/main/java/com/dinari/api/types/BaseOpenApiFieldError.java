@@ -106,7 +106,6 @@ public final class BaseOpenApiFieldError {
 
         private String fieldError;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -143,6 +142,14 @@ public final class BaseOpenApiFieldError {
         @java.lang.Override
         public BaseOpenApiFieldError build() {
             return new BaseOpenApiFieldError(fieldName, fieldError, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("field_name") || key.equalsIgnoreCase("field_error")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

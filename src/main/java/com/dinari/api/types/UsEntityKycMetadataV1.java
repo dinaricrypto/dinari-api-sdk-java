@@ -156,7 +156,6 @@ public final class UsEntityKycMetadataV1 {
 
         private String ipAddress;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -218,6 +217,17 @@ public final class UsEntityKycMetadataV1 {
         public UsEntityKycMetadataV1 build() {
             return new UsEntityKycMetadataV1(
                     refId, checkInitiatedAt, checkCompletedAt, ipAddress, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("ref_id")
+                    || key.equalsIgnoreCase("check_initiated_at")
+                    || key.equalsIgnoreCase("check_completed_at")
+                    || key.equalsIgnoreCase("ip_address")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

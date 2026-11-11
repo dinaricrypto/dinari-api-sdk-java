@@ -108,7 +108,6 @@ public final class Eip155OrderRequestPermitTransaction {
 
         private String permitSignature;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -145,6 +144,14 @@ public final class Eip155OrderRequestPermitTransaction {
         @java.lang.Override
         public Eip155OrderRequestPermitTransaction build() {
             return new Eip155OrderRequestPermitTransaction(orderRequestId, permitSignature, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("order_request_id") || key.equalsIgnoreCase("permit_signature")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

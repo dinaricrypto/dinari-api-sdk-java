@@ -173,7 +173,6 @@ public final class CreateAccountWalletConnectionInput {
 
         private WalletChainId chainId;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -243,6 +242,18 @@ public final class CreateAccountWalletConnectionInput {
         public CreateAccountWalletConnectionInput build() {
             return new CreateAccountWalletConnectionInput(
                     accountId, signature, nonce, walletAddress, chainId, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("signature")
+                    || key.equalsIgnoreCase("nonce")
+                    || key.equalsIgnoreCase("wallet_address")
+                    || key.equalsIgnoreCase("chain_id")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

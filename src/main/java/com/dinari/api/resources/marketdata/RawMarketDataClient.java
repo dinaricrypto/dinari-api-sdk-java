@@ -8,6 +8,7 @@ import com.dinari.api.core.DinariClientApiException;
 import com.dinari.api.core.DinariClientException;
 import com.dinari.api.core.DinariClientHttpResponse;
 import com.dinari.api.core.ObjectMappers;
+import com.dinari.api.core.PathSegments;
 import com.dinari.api.core.QueryStringMapper;
 import com.dinari.api.core.RequestOptions;
 import com.dinari.api.core.RetryInterceptor;
@@ -163,7 +164,7 @@ public class RawMarketDataClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/alloys")
-                .addPathSegment(request.getAlloyId())
+                .addPathSegment(PathSegments.validate(request.getAlloyId()))
                 .addPathSegments("current_price");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -222,7 +223,7 @@ public class RawMarketDataClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/alloys")
-                .addPathSegment(request.getAlloyId())
+                .addPathSegment(PathSegments.validate(request.getAlloyId()))
                 .addPathSegments("historical_prices");
         QueryStringMapper.addQueryParameter(httpUrl, "timespan", request.getTimespan(), false);
         if (requestOptions != null) {
@@ -399,7 +400,7 @@ public class RawMarketDataClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/stocks")
-                .addPathSegment(request.getStockId())
+                .addPathSegment(PathSegments.validate(request.getStockId()))
                 .addPathSegments("current_price");
         if (requestOptions != null) {
             requestOptions.getQueryParameters().forEach((_key, _value) -> {
@@ -458,7 +459,7 @@ public class RawMarketDataClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/stocks")
-                .addPathSegment(request.getStockId())
+                .addPathSegment(PathSegments.validate(request.getStockId()))
                 .addPathSegments("current_quote");
         if (request.getFeed().isPresent()) {
             QueryStringMapper.addQueryParameter(
@@ -538,7 +539,7 @@ public class RawMarketDataClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/stocks")
-                .addPathSegment(request.getStockId())
+                .addPathSegment(PathSegments.validate(request.getStockId()))
                 .addPathSegments("historical_prices");
         QueryStringMapper.addQueryParameter(httpUrl, "timespan", request.getTimespan(), false);
         if (requestOptions != null) {
@@ -611,7 +612,7 @@ public class RawMarketDataClient {
         HttpUrl.Builder httpUrl = HttpUrl.parse(this.clientOptions.environment().getUrl())
                 .newBuilder()
                 .addPathSegments("api/v2/market_data/stocks")
-                .addPathSegment(request.getStockId())
+                .addPathSegment(PathSegments.validate(request.getStockId()))
                 .addPathSegments("news");
         if (request.getLimit().isPresent()) {
             QueryStringMapper.addQueryParameter(

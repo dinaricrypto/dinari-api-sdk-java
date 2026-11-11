@@ -166,7 +166,6 @@ public final class CreateAccountWalletInternalConnectionInput {
 
         private Optional<Boolean> isShared = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -249,6 +248,17 @@ public final class CreateAccountWalletInternalConnectionInput {
         public CreateAccountWalletInternalConnectionInput build() {
             return new CreateAccountWalletInternalConnectionInput(
                     accountId, walletAddress, chainId, isShared, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("account_id")
+                    || key.equalsIgnoreCase("wallet_address")
+                    || key.equalsIgnoreCase("chain_id")
+                    || key.equalsIgnoreCase("is_shared")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

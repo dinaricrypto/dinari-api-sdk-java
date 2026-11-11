@@ -418,7 +418,6 @@ public final class Stock {
 
         private List<String> tokens = new ArrayList<>();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -762,6 +761,25 @@ public final class Stock {
                     description,
                     logoUrl,
                     additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("id")
+                    || key.equalsIgnoreCase("name")
+                    || key.equalsIgnoreCase("symbol")
+                    || key.equalsIgnoreCase("is_fractionable")
+                    || key.equalsIgnoreCase("is_tradable")
+                    || key.equalsIgnoreCase("tokens")
+                    || key.equalsIgnoreCase("composite_figi")
+                    || key.equalsIgnoreCase("cusip")
+                    || key.equalsIgnoreCase("cik")
+                    || key.equalsIgnoreCase("display_name")
+                    || key.equalsIgnoreCase("description")
+                    || key.equalsIgnoreCase("logo_url")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

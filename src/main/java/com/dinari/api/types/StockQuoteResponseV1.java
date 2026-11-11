@@ -206,7 +206,6 @@ public final class StockQuoteResponseV1 {
 
         private OffsetDateTime timestamp;
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -292,6 +291,19 @@ public final class StockQuoteResponseV1 {
         public StockQuoteResponseV1 build() {
             return new StockQuoteResponseV1(
                     stockId, askPrice, askSize, bidPrice, bidSize, timestamp, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("stock_id")
+                    || key.equalsIgnoreCase("ask_price")
+                    || key.equalsIgnoreCase("ask_size")
+                    || key.equalsIgnoreCase("bid_price")
+                    || key.equalsIgnoreCase("bid_size")
+                    || key.equalsIgnoreCase("timestamp")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         @java.lang.Override

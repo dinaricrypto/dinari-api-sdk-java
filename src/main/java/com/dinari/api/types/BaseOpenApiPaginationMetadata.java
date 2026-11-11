@@ -84,7 +84,6 @@ public final class BaseOpenApiPaginationMetadata {
 
         private Optional<String> next = Optional.empty();
 
-        @JsonAnySetter
         private Map<String, Object> additionalProperties = new HashMap<>();
 
         private Builder() {}
@@ -125,6 +124,14 @@ public final class BaseOpenApiPaginationMetadata {
 
         public BaseOpenApiPaginationMetadata build() {
             return new BaseOpenApiPaginationMetadata(previous, next, additionalProperties);
+        }
+
+        @JsonAnySetter
+        private void putAdditionalPropertyFromJson(String key, Object value) {
+            if (key.equalsIgnoreCase("previous") || key.equalsIgnoreCase("next")) {
+                return;
+            }
+            this.additionalProperties.put(key, value);
         }
 
         public Builder additionalProperty(String key, Object value) {
