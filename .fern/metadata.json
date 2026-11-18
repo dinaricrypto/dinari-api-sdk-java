@@ -1,19 +1,20 @@
 {
-  "cliVersion": "5.168.1",
+  "cliVersion": "5.217.1",
   "generatorName": "fernapi/fern-java-sdk",
-  "generatorVersion": "4.37.11",
+  "generatorVersion": "4.38.6",
   "generatorConfig": {
     "publish-to": "central",
     "package-prefix": "com.dinari.api",
     "client-class-name": "DinariClient",
     "inline-path-parameters": true,
     "enable-forward-compatible-enums": true,
-    "use-nullable-annotation": true
+    "use-nullable-annotation": true,
+    "enable-wire-tests": true
   },
-  "originGitCommit": "2c2421ccecb872073fb21dccb27cf84042232cad",
+  "originGitCommit": "15452ec748dcd2d911f95a2936acdd86d149b74f",
   "originGitCommitIsDirty": true,
   "invokedBy": "ci",
-  "requestedVersion": "1.0.0",
+  "requestedVersion": "1.0.1",
   "ciProvider": "github",
-  "sdkVersion": "1.0.0"
+  "sdkVersion": "1.0.1"
 }

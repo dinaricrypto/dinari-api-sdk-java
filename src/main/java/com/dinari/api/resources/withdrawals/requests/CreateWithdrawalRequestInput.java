@@ -6,6 +6,7 @@ package com.dinari.api.resources.withdrawals.requests;
 import com.dinari.api.core.ObjectMappers;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -38,7 +39,7 @@ public final class CreateWithdrawalRequestInput {
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("account_id")
+    @JsonIgnore
     public String getAccountId() {
         return accountId;
     }
@@ -176,9 +177,7 @@ public final class CreateWithdrawalRequestInput {
 
         @JsonAnySetter
         private void putAdditionalPropertyFromJson(String key, Object value) {
-            if (key.equalsIgnoreCase("account_id")
-                    || key.equalsIgnoreCase("recipient_account_id")
-                    || key.equalsIgnoreCase("payment_token_quantity")) {
+            if (key.equalsIgnoreCase("recipient_account_id") || key.equalsIgnoreCase("payment_token_quantity")) {
                 return;
             }
             this.additionalProperties.put(key, value);

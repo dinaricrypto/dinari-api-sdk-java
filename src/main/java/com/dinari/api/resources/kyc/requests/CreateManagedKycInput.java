@@ -7,6 +7,7 @@ import com.dinari.api.core.ObjectMappers;
 import com.dinari.api.types.Jurisdiction;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,7 +36,7 @@ public final class CreateManagedKycInput {
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("entity_id")
+    @JsonIgnore
     public String getEntityId() {
         return entityId;
     }
@@ -149,7 +150,7 @@ public final class CreateManagedKycInput {
 
         @JsonAnySetter
         private void putAdditionalPropertyFromJson(String key, Object value) {
-            if (key.equalsIgnoreCase("entity_id") || key.equalsIgnoreCase("jurisdiction")) {
+            if (key.equalsIgnoreCase("jurisdiction")) {
                 return;
             }
             this.additionalProperties.put(key, value);

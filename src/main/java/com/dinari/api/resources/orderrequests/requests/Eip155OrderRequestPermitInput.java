@@ -91,7 +91,7 @@ public final class Eip155OrderRequestPermitInput {
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("account_id")
+    @JsonIgnore
     public String getAccountId() {
         return accountId;
     }
@@ -881,8 +881,7 @@ public final class Eip155OrderRequestPermitInput {
 
         @JsonAnySetter
         private void putAdditionalPropertyFromJson(String key, Object value) {
-            if (key.equalsIgnoreCase("account_id")
-                    || key.equalsIgnoreCase("chain_id")
+            if (key.equalsIgnoreCase("chain_id")
                     || key.equalsIgnoreCase("order_tif")
                     || key.equalsIgnoreCase("order_side")
                     || key.equalsIgnoreCase("order_type")

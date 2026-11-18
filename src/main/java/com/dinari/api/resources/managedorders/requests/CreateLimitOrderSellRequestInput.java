@@ -67,7 +67,7 @@ public final class CreateLimitOrderSellRequestInput {
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("account_id")
+    @JsonIgnore
     public String getAccountId() {
         return accountId;
     }
@@ -618,8 +618,7 @@ public final class CreateLimitOrderSellRequestInput {
 
         @JsonAnySetter
         private void putAdditionalPropertyFromJson(String key, Object value) {
-            if (key.equalsIgnoreCase("account_id")
-                    || key.equalsIgnoreCase("asset_quantity")
+            if (key.equalsIgnoreCase("asset_quantity")
                     || key.equalsIgnoreCase("limit_price")
                     || key.equalsIgnoreCase("stock_id")
                     || key.equalsIgnoreCase("alloy_id")
