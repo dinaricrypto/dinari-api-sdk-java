@@ -25,12 +25,13 @@ repositories {
 
 dependencies {
     api 'com.squareup.okhttp3:okhttp:5.2.1'
-    api 'com.fasterxml.jackson.core:jackson-databind:2.18.6'
-    api 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.18.6'
-    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.6'
+    api 'com.fasterxml.jackson.core:jackson-databind:2.18.12'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.18.12'
+    api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.12'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:5.2.1'
 }
 
 
@@ -57,7 +58,7 @@ java {
 
 group = 'com.dinari.api'
 
-version = '1.0.0'
+version = '1.0.1'
 
 jar {
     dependsOn(":generatePomFileForMavenPublication")
@@ -88,12 +89,12 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.dinari.api'
             artifactId = 'dinari-java'
-            version = '1.0.0'
+            version = '1.0.1'
             from components.java
             pom {
-                name = 'dinari'
-                description = 'The official SDK of dinari'
-                url = 'https://buildwithfern.com'
+                name = 'Dinari'
+                description = 'Official Java SDK for the Dinari Enterprise API.'
+                url = 'https://docs.dinari.com/docs/quickstart'
                 licenses {
                     license {
                         name = 'The MIT License (MIT)'
@@ -102,8 +103,8 @@ publishing {
                 }
                 developers {
                     developer {
-                        name = 'dinari'
-                        email = 'developers@dinari.com'
+                        name = 'Dinari'
+                        email = 'support@dinari.com'
                     }
                 }
                 scm {

@@ -48,7 +48,7 @@ public final class CreateAccountWalletInternalConnectionInput {
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("account_id")
+    @JsonIgnore
     public String getAccountId() {
         return accountId;
     }
@@ -252,8 +252,7 @@ public final class CreateAccountWalletInternalConnectionInput {
 
         @JsonAnySetter
         private void putAdditionalPropertyFromJson(String key, Object value) {
-            if (key.equalsIgnoreCase("account_id")
-                    || key.equalsIgnoreCase("wallet_address")
+            if (key.equalsIgnoreCase("wallet_address")
                     || key.equalsIgnoreCase("chain_id")
                     || key.equalsIgnoreCase("is_shared")) {
                 return;

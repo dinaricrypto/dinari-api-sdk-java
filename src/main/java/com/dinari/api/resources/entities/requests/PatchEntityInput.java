@@ -36,7 +36,7 @@ public final class PatchEntityInput {
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("entity_id")
+    @JsonIgnore
     public String getEntityId() {
         return entityId;
     }
@@ -177,7 +177,7 @@ public final class PatchEntityInput {
 
         @JsonAnySetter
         private void putAdditionalPropertyFromJson(String key, Object value) {
-            if (key.equalsIgnoreCase("entity_id") || key.equalsIgnoreCase("reference_id")) {
+            if (key.equalsIgnoreCase("reference_id")) {
                 return;
             }
             this.additionalProperties.put(key, value);

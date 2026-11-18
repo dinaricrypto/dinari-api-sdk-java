@@ -1,6 +1,6 @@
 # Dinari Enterprise API Java Library
 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=Dinari%2FJava)
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Fdinaricrypto%2Fdinari-api-sdk-java)
 [![Maven Central](https://img.shields.io/maven-central/v/com.dinari.api/dinari-java)](https://central.sonatype.com/artifact/com.dinari.api/dinari-java)
 
 Official SDK for the Dinari Enterprise API.
@@ -35,7 +35,7 @@ Add the dependency in your `build.gradle` file:
 
 ```groovy
 dependencies {
-  implementation 'com.dinari.api:dinari-java:1.0.0'
+  implementation 'com.dinari.api:dinari-java:1.0.1'
 }
 ```
 
@@ -47,13 +47,13 @@ Add the dependency in your `pom.xml` file:
 <dependency>
   <groupId>com.dinari.api</groupId>
   <artifactId>dinari-java</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
 ## Reference
 
-A full reference for this library is available [here](./reference.md).
+A full reference for this library is available [here](https://github.com/dinaricrypto/dinari-api-sdk-java/blob/HEAD/./reference.md).
 
 ## Usage
 
@@ -151,19 +151,12 @@ retry limit (default: 2). Before defaulting to exponential backoff, the SDK will
 the `Retry-After` header (as either in seconds or as an HTTP date), and then the `X-RateLimit-Reset` header
 (as a Unix timestamp in epoch seconds); failing both of those, it will fall back to exponential backoff.
 
-Which status codes are retried depends on the `retry-status-codes` generator configuration:
+A request is deemed retryable when any of the following HTTP status codes is returned:
 
-**`legacy`** (current default): retries on
 - [408](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408) (Timeout)
 - [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) (Too Many Requests)
 - [5XX](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server_error_responses) (All server errors, including 500)
 
-**`recommended`**: retries on
-- [408](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408) (Timeout)
-- [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) (Too Many Requests)
-- [502](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502) (Bad Gateway)
-- [503](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503) (Service Unavailable)
-- [504](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/504) (Gateway Timeout)
 
 Use the `maxRetries` client option to configure this behavior.
 

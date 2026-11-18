@@ -7,6 +7,7 @@ import com.dinari.api.core.ObjectMappers;
 import com.dinari.api.types.WalletChainId;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -47,7 +48,7 @@ public final class CreateAccountWalletConnectionInput {
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("account_id")
+    @JsonIgnore
     public String getAccountId() {
         return accountId;
     }
@@ -246,8 +247,7 @@ public final class CreateAccountWalletConnectionInput {
 
         @JsonAnySetter
         private void putAdditionalPropertyFromJson(String key, Object value) {
-            if (key.equalsIgnoreCase("account_id")
-                    || key.equalsIgnoreCase("signature")
+            if (key.equalsIgnoreCase("signature")
                     || key.equalsIgnoreCase("nonce")
                     || key.equalsIgnoreCase("wallet_address")
                     || key.equalsIgnoreCase("chain_id")) {

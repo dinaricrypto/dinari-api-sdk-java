@@ -63,7 +63,7 @@ public final class CreateMarketBuyOrderRequestInput {
         this.additionalProperties = additionalProperties;
     }
 
-    @JsonProperty("account_id")
+    @JsonIgnore
     public String getAccountId() {
         return accountId;
     }
@@ -585,8 +585,7 @@ public final class CreateMarketBuyOrderRequestInput {
 
         @JsonAnySetter
         private void putAdditionalPropertyFromJson(String key, Object value) {
-            if (key.equalsIgnoreCase("account_id")
-                    || key.equalsIgnoreCase("payment_amount")
+            if (key.equalsIgnoreCase("payment_amount")
                     || key.equalsIgnoreCase("payment_token_address")
                     || key.equalsIgnoreCase("stock_id")
                     || key.equalsIgnoreCase("alloy_id")
