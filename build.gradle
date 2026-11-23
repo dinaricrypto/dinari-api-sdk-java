@@ -58,7 +58,7 @@ java {
 
 group = 'com.dinari.api'
 
-version = '1.0.1'
+version = '1.0.2'
 
 jar {
     dependsOn(":generatePomFileForMavenPublication")
@@ -89,7 +89,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.dinari.api'
             artifactId = 'dinari-java'
-            version = '1.0.1'
+            version = '1.0.2'
             from components.java
             pom {
                 name = 'Dinari'
