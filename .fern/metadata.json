@@ -11,10 +11,10 @@
     "use-nullable-annotation": true,
     "enable-wire-tests": true
   },
-  "originGitCommit": "15452ec748dcd2d911f95a2936acdd86d149b74f",
+  "originGitCommit": "d11b672e48d35cb14571145e6b644607e9498b37",
   "originGitCommitIsDirty": true,
   "invokedBy": "ci",
-  "requestedVersion": "1.0.1",
+  "requestedVersion": "1.0.2",
   "ciProvider": "github",
-  "sdkVersion": "1.0.1"
+  "sdkVersion": "1.0.2"
 }

@@ -35,7 +35,7 @@ Add the dependency in your `build.gradle` file:
 
 ```groovy
 dependencies {
-  implementation 'com.dinari.api:dinari-java:1.0.1'
+  implementation 'com.dinari.api:dinari-java:1.0.2'
 }
 ```
 
@@ -47,7 +47,7 @@ Add the dependency in your `pom.xml` file:
 <dependency>
   <groupId>com.dinari.api</groupId>
   <artifactId>dinari-java</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
 ```
 

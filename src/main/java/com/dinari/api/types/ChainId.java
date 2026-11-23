@@ -53,6 +53,10 @@ public final class ChainId {
 
     public static final ChainId EIP15598866 = new ChainId(Value.EIP15598866, "eip155:98866");
 
+    public static final ChainId EIP15542431 = new ChainId(Value.EIP15542431, "eip155:42431");
+
+    public static final ChainId EIP1554217 = new ChainId(Value.EIP1554217, "eip155:4217");
+
     public static final ChainId EIP15598867 = new ChainId(Value.EIP15598867, "eip155:98867");
 
     public static final ChainId EIP155202110 = new ChainId(Value.EIP155202110, "eip155:202110");
@@ -134,6 +138,10 @@ public final class ChainId {
                 return visitor.visitEip155421614();
             case EIP15598866:
                 return visitor.visitEip15598866();
+            case EIP15542431:
+                return visitor.visitEip15542431();
+            case EIP1554217:
+                return visitor.visitEip1554217();
             case EIP15598867:
                 return visitor.visitEip15598867();
             case EIP155202110:
@@ -193,6 +201,10 @@ public final class ChainId {
                 return EIP155421614;
             case "eip155:98866":
                 return EIP15598866;
+            case "eip155:42431":
+                return EIP15542431;
+            case "eip155:4217":
+                return EIP1554217;
             case "eip155:98867":
                 return EIP15598867;
             case "eip155:202110":
@@ -223,6 +235,8 @@ public final class ChainId {
 
         EIP1551329,
 
+        EIP1554217,
+
         EIP15511155111,
 
         EIP155421614,
@@ -242,6 +256,8 @@ public final class ChainId {
         EIP1555042002,
 
         EIP1551328,
+
+        EIP15542431,
 
         EIP155202110,
 
@@ -277,6 +293,8 @@ public final class ChainId {
 
         T visitEip1551329();
 
+        T visitEip1554217();
+
         T visitEip15511155111();
 
         T visitEip155421614();
@@ -296,6 +314,8 @@ public final class ChainId {
         T visitEip1555042002();
 
         T visitEip1551328();
+
+        T visitEip15542431();
 
         T visitEip155202110();
 
